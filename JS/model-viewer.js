@@ -45713,11 +45713,11 @@ class GLTFParser {
 
 					var parameters = {
 						uniforms: cloneUniforms({
-							"bumpMap": { type: "t", value: null },
+							// "bumpMap": { type: "t", value: null },
 							"map": { type: "t", value: null },
-							"parallaxScale": { type: "f", value: null },
-							"parallaxMinLayers": { type: "f", value: null },
-							"parallaxMaxLayers": { type: "f", value: null }
+							// "parallaxScale": { type: "f", value: null },
+							// "parallaxMinLayers": { type: "f", value: null },
+							// "parallaxMaxLayers": { type: "f", value: null }
 						}),
 						vertexShader: `
 							varying vec2 vUv;
@@ -45757,7 +45757,7 @@ class GLTFParser {
 
 					// atribuir o material com parallax a mesh
 
-					// mesh.material = material_parallax;
+					mesh.material = material_parallax;
 				}
 
 				parser.assignFinalMaterial( mesh );

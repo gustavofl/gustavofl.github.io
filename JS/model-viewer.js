@@ -45711,49 +45711,49 @@ class GLTFParser {
 
 					// criar o ShaderMaterial com o codigo do parallax
 
-					// var parameters = {
-					// 	uniforms: cloneUniforms({
-					// 		"bumpMap": { type: "t", value: null },
-					// 		"map": { type: "t", value: null },
-					// 		"parallaxScale": { type: "f", value: null },
-					// 		"parallaxMinLayers": { type: "f", value: null },
-					// 		"parallaxMaxLayers": { type: "f", value: null }
-					// 	}),
-					// 	vertexShader: `
-					// 		varying vec2 vUv;
+					var parameters = {
+						uniforms: cloneUniforms({
+							"bumpMap": { type: "t", value: null },
+							"map": { type: "t", value: null },
+							"parallaxScale": { type: "f", value: null },
+							"parallaxMinLayers": { type: "f", value: null },
+							"parallaxMaxLayers": { type: "f", value: null }
+						}),
+						vertexShader: `
+							varying vec2 vUv;
 
-					// 		void main() {
-					// 		vUv = uv;
-					// 		gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-					// 		}
-					// 	`,
-					// 	fragmentShader: `
-					// 		uniform sampler2D map;
-					// 		varying vec2 vUv;
+							void main() {
+							vUv = uv;
+							gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+							}
+						`,
+						fragmentShader: `
+							uniform sampler2D map;
+							varying vec2 vUv;
 
-					// 		void main() {
-					// 		gl_FragColor = texture2D(map, vUv);
-					// 		}
-					// 	`
-					// };
-					// parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
-					// parameters.uniforms['parallaxMinLayers'].value = parallaxConfig.minLayers;
-					// parameters.uniforms['parallaxMaxLayers'].value = parallaxConfig.maxLayers;
+							void main() {
+							gl_FragColor = texture2D(map, vUv);
+							}
+						`
+					};
+					parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
+					parameters.uniforms['parallaxMinLayers'].value = parallaxConfig.minLayers;
+					parameters.uniforms['parallaxMaxLayers'].value = parallaxConfig.maxLayers;
 		
-					// const material_parallax = new ShaderMaterial(parameters);
+					const material_parallax = new ShaderMaterial(parameters);
 					
-					// material_parallax.map = mapTexture;
-					// material_parallax.bumpMap = bumpMapTexture;
+					material_parallax.map = mapTexture;
+					material_parallax.bumpMap = bumpMapTexture;
 		
-					// material_parallax.map.flipY = false;
-					// material_parallax.bumpMap.flipY = false;
+					material_parallax.map.flipY = false;
+					material_parallax.bumpMap.flipY = false;
 		
-					// // material_parallax.map.anisotropy = 4;
-					// // material_parallax.bumpMap.anisotropy = 4;
-					// parameters.uniforms['map'].value = material_parallax.map;
-					// parameters.uniforms['bumpMap'].value = material_parallax.bumpMap;
+					material_parallax.map.anisotropy = 4;
+					material_parallax.bumpMap.anisotropy = 4;
+					parameters.uniforms['map'].value = material_parallax.map;
+					parameters.uniforms['bumpMap'].value = material_parallax.bumpMap;
 		
-					// material_parallax.needsUpdate = true;
+					material_parallax.needsUpdate = true;
 
 					// atribuir o material com parallax a mesh
 

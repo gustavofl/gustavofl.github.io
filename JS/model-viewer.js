@@ -45688,26 +45688,26 @@ class GLTFParser {
 
 					// Carregar a textura com o mapa de altura
 
-					// var mapTexture = new CanvasTexture( mesh.material.map.source.data );
+					var mapTexture = new CanvasTexture( mesh.material.map.source.data );
 
-					// var indice_imagem = json.textures[parallaxConfig.index_texture].source;
+					var indice_imagem = json.textures[parallaxConfig.index_texture].source;
 
-					// const image = json.images[indice_imagem];
+					const image = json.images[indice_imagem];
 		
-					// const bufferView = json.bufferViews[image.bufferView];
-					// const buffer = extensions.KHR_binary_glTF.body;
+					const bufferView = json.bufferViews[image.bufferView];
+					const buffer = extensions.KHR_binary_glTF.body;
 		
-					// const byteOffset = bufferView.byteOffset || 0;
-					// const byteLength = bufferView.byteLength;
-					// const imageData = new Uint8Array(buffer, byteOffset, byteLength);
+					const byteOffset = bufferView.byteOffset || 0;
+					const byteLength = bufferView.byteLength;
+					const imageData = new Uint8Array(buffer, byteOffset, byteLength);
 		
-					// const blob = new Blob([imageData], { type: image.mimeType });
+					const blob = new Blob([imageData], { type: image.mimeType });
 		
-					// const imageUrl = URL.createObjectURL(blob);
+					const imageUrl = URL.createObjectURL(blob);
 		
-					// const textureLoader = new TextureLoader();
-					// const bumpMapTexture = textureLoader.load(imageUrl);
-					// bumpMapTexture.flipY = false;
+					const textureLoader = new TextureLoader();
+					const bumpMapTexture = textureLoader.load(imageUrl);
+					bumpMapTexture.flipY = false;
 
 					// criar o ShaderMaterial com o codigo do parallax
 

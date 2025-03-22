@@ -45719,8 +45719,22 @@ class GLTFParser {
 							"parallaxMinLayers": { type: "f", value: null },
 							"parallaxMaxLayers": { type: "f", value: null }
 						}),
-						vertexShader: "varying vec2 vUv;\nvarying vec3 vViewPosition;\nvarying vec3 vNormal;\nvoid main() {\n\tvUv = uv;\n\tvec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );\n\tvViewPosition = -mvPosition.xyz;\n\tvNormal = normalize( normalMatrix * normal );\n\tgl_Position = projectionMatrix * mvPosition;\n}",
-						fragmentShader: "uniform sampler2D bumpMap;\nuniform sampler2D map;\nuniform float parallaxScale;\nuniform float parallaxMinLayers;\nuniform float parallaxMaxLayers;\nvarying vec2 vUv;\nvarying vec3 vViewPosition;\nvarying vec3 vNormal;\nvec2 parallaxMap( in vec3 V ) {\n\tfloat numLayers = mix( parallaxMaxLayers, parallaxMinLayers, abs( dot( vec3( 0.0, 0.0, 1.0 ), V ) ) );\n\tfloat layerHeight = 1.0 / numLayers;\n\tfloat currentLayerHeight = 1.0;\n\tvec2 dtex = parallaxScale * V.xy / V.z / numLayers;\n\tvec2 currentTextureCoords = vUv + dtex * numLayers;\n\tfloat heightFromTexture = texture2D( bumpMap, currentTextureCoords ).r;\n\tfor ( int i = 0; i == 0; i += 0 ) {\n\t\tif ( heightFromTexture >= currentLayerHeight ) {\n\t\t\tbreak;\n\t\t}\n\t\tcurrentLayerHeight -= layerHeight;\n\t\tcurrentTextureCoords += dtex;\n\n\t\theightFromTexture = texture2D( bumpMap, currentTextureCoords ).r;\n\t}\n\treturn currentTextureCoords;\n}\nvec2 perturbUv( vec3 surfPosition, vec3 surfNormal, vec3 viewPosition ) {\n\tvec2 texDx = dFdx( vUv );\n\tvec2 texDy = dFdy( vUv );\n\tvec3 vSigmaX = dFdx( surfPosition );\n\tvec3 vSigmaY = dFdy( surfPosition );\n\tvec3 vR1 = cross( vSigmaY, surfNormal );\n\tvec3 vR2 = cross( surfNormal, vSigmaX );\n\tfloat fDet = dot( vSigmaX, vR1 );\n\tvec2 vProjVscr = ( 1.0 / fDet ) * vec2( dot( vR1, viewPosition ), dot( vR2, viewPosition ) );\n\tvec3 vProjVtex;\n\tvProjVtex.xy = texDx * vProjVscr.x + texDy * vProjVscr.y;\n\tvProjVtex.z = dot( surfNormal, viewPosition );\n\treturn parallaxMap( vProjVtex );\n}\nvoid main() {\n\tvec2 mapUv = perturbUv( -vViewPosition, normalize( vNormal ), normalize( vViewPosition ) );\n\tgl_FragColor = texture2D( map, mapUv );\n}"
+						vertexShader: `
+							varying vec2 vUv;
+
+							void main() {
+							vUv = uv;
+							gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+							}
+						`,
+						fragmentShader: `
+							uniform sampler2D map;
+							varying vec2 vUv;
+
+							void main() {
+							gl_FragColor = texture2D(map, vUv);
+							}
+						`
 					};
 					parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
 					parameters.uniforms['parallaxMinLayers'].value = parallaxConfig.minLayers;
@@ -45734,12 +45748,12 @@ class GLTFParser {
 					material_parallax.map.flipY = false;
 					material_parallax.bumpMap.flipY = false;
 		
-					material_parallax.map.anisotropy = 4;
-					material_parallax.bumpMap.anisotropy = 4;
+					// material_parallax.map.anisotropy = 4;
+					// material_parallax.bumpMap.anisotropy = 4;
 					parameters.uniforms['map'].value = material_parallax.map;
 					parameters.uniforms['bumpMap'].value = material_parallax.bumpMap;
 		
-					material_parallax.needsUpdate = true;
+					// material_parallax.needsUpdate = true;
 
 					// atribuir o material com parallax a mesh
 

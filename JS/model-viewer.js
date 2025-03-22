@@ -45757,7 +45757,7 @@ class GLTFParser {
 
 					// atribuir o material com parallax a mesh
 
-					mesh.material = material_parallax;
+					// mesh.material = material_parallax;
 				}
 
 				parser.assignFinalMaterial( mesh );

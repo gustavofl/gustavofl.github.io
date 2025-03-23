@@ -45736,22 +45736,22 @@ class GLTFParser {
 							}
 						`
 					};
-					parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
-					parameters.uniforms['parallaxMinLayers'].value = parallaxConfig.minLayers;
-					parameters.uniforms['parallaxMaxLayers'].value = parallaxConfig.maxLayers;
+					// parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
+					// parameters.uniforms['parallaxMinLayers'].value = parallaxConfig.minLayers;
+					// parameters.uniforms['parallaxMaxLayers'].value = parallaxConfig.maxLayers;
 		
 					const material_parallax = new ShaderMaterial(parameters);
 					
 					material_parallax.map = mapTexture;
-					material_parallax.bumpMap = bumpMapTexture;
+					// material_parallax.bumpMap = bumpMapTexture;
 		
 					material_parallax.map.flipY = false;
-					material_parallax.bumpMap.flipY = false;
+					// material_parallax.bumpMap.flipY = false;
 		
 					material_parallax.map.anisotropy = 4;
-					material_parallax.bumpMap.anisotropy = 4;
+					// material_parallax.bumpMap.anisotropy = 4;
 					parameters.uniforms['map'].value = material_parallax.map;
-					parameters.uniforms['bumpMap'].value = material_parallax.bumpMap;
+					// parameters.uniforms['bumpMap'].value = material_parallax.bumpMap;
 		
 					material_parallax.needsUpdate = true;
 

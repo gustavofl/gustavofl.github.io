@@ -1,3 +1,14 @@
+Bugfender.init({
+	appKey: 'akOMxVZb98TxG0lOt8HWKxaEc9D4mqQU',
+	// overrideConsoleMethods: true,
+	// printToConsole: true,
+	// registerErrorHandler: true,
+	// logBrowserEvents: true,
+	// logUIEvents: true,
+	// version: '',
+	// build: '',
+});
+
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -45683,81 +45694,85 @@ class GLTFParser {
 
 				if ( primitive.extensions ) addUnknownExtensionsToUserData( extensions, mesh, primitive );
 
-           		if (mesh.material.userData && mesh.material.userData.parallaxMapping) {
-					var parallaxConfig = mesh.material.userData.parallaxMapping;
+				try {
+					if (mesh.material.userData && mesh.material.userData.parallaxMapping) {
+						var parallaxConfig = mesh.material.userData.parallaxMapping;
 
-					// Carregar a textura com o mapa de altura
+						// Carregar a textura com o mapa de altura
 
-					var mapTexture = new CanvasTexture( mesh.material.map.source.data );
+						var mapTexture = new CanvasTexture( mesh.material.map.source.data );
 
-					var indice_imagem = json.textures[parallaxConfig.index_texture].source;
+						var indice_imagem = json.textures[parallaxConfig.index_texture].source;
 
-					const image = json.images[indice_imagem];
-		
-					const bufferView = json.bufferViews[image.bufferView];
-					const buffer = extensions.KHR_binary_glTF.body;
-		
-					const byteOffset = bufferView.byteOffset || 0;
-					const byteLength = bufferView.byteLength;
-					const imageData = new Uint8Array(buffer, byteOffset, byteLength);
-		
-					const blob = new Blob([imageData], { type: image.mimeType });
-		
-					const imageUrl = URL.createObjectURL(blob);
-		
-					const textureLoader = new TextureLoader();
-					const bumpMapTexture = textureLoader.load(imageUrl);
-					bumpMapTexture.flipY = false;
+						const image = json.images[indice_imagem];
+			
+						const bufferView = json.bufferViews[image.bufferView];
+						const buffer = extensions.KHR_binary_glTF.body;
+			
+						const byteOffset = bufferView.byteOffset || 0;
+						const byteLength = bufferView.byteLength;
+						const imageData = new Uint8Array(buffer, byteOffset, byteLength);
+			
+						const blob = new Blob([imageData], { type: image.mimeType });
+			
+						const imageUrl = URL.createObjectURL(blob);
+			
+						const textureLoader = new TextureLoader();
+						const bumpMapTexture = textureLoader.load(imageUrl);
+						bumpMapTexture.flipY = false;
 
-					// criar o ShaderMaterial com o codigo do parallax
+						// criar o ShaderMaterial com o codigo do parallax
 
-					var parameters = {
-						uniforms: cloneUniforms({
-							// "bumpMap": { type: "t", value: null },
-							"map": { type: "t", value: null },
-							// "parallaxScale": { type: "f", value: null },
-							// "parallaxMinLayers": { type: "f", value: null },
-							// "parallaxMaxLayers": { type: "f", value: null }
-						}),
-						vertexShader: `
-							varying vec2 vUv;
+						var parameters = {
+							uniforms: cloneUniforms({
+								"bumpMap": { type: "t", value: null },
+								"map": { type: "t", value: null },
+								"parallaxScale": { type: "f", value: null },
+								"parallaxMinLayers": { type: "f", value: null },
+								"parallaxMaxLayers": { type: "f", value: null }
+							}),
+							vertexShader: `
+								varying vec2 vUv;
 
-							void main() {
-							vUv = uv;
-							gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-							}
-						`,
-						fragmentShader: `
-							uniform sampler2D map;
-							varying vec2 vUv;
+								void main() {
+								vUv = uv;
+								gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+								}
+							`,
+							fragmentShader: `
+								uniform sampler2D map;
+								varying vec2 vUv;
 
-							void main() {
-							gl_FragColor = texture2D(map, vUv);
-							}
-						`
-					};
-					// parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
-					// parameters.uniforms['parallaxMinLayers'].value = parallaxConfig.minLayers;
-					// parameters.uniforms['parallaxMaxLayers'].value = parallaxConfig.maxLayers;
-		
-					const material_parallax = new ShaderMaterial(parameters);
-					
-					material_parallax.map = mapTexture;
-					// material_parallax.bumpMap = bumpMapTexture;
-		
-					material_parallax.map.flipY = false;
-					// material_parallax.bumpMap.flipY = false;
-		
-					material_parallax.map.anisotropy = 4;
-					// material_parallax.bumpMap.anisotropy = 4;
-					parameters.uniforms['map'].value = material_parallax.map;
-					// parameters.uniforms['bumpMap'].value = material_parallax.bumpMap;
-		
-					material_parallax.needsUpdate = true;
+								void main() {
+								gl_FragColor = texture2D(map, vUv);
+								}
+							`
+						};
+						parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
+						parameters.uniforms['parallaxMinLayers'].value = parallaxConfig.minLayers;
+						parameters.uniforms['parallaxMaxLayers'].value = parallaxConfig.maxLayers;
+			
+						const material_parallax = new ShaderMaterial(parameters);
+						
+						material_parallax.map = mapTexture;
+						material_parallax.bumpMap = bumpMapTexture;
+			
+						material_parallax.map.flipY = false;
+						material_parallax.bumpMap.flipY = false;
+			
+						material_parallax.map.anisotropy = 4;
+						material_parallax.bumpMap.anisotropy = 4;
+						parameters.uniforms['map'].value = material_parallax.map;
+						parameters.uniforms['bumpMap'].value = material_parallax.bumpMap;
+			
+						material_parallax.needsUpdate = true;
 
-					// atribuir o material com parallax a mesh
+						// atribuir o material com parallax a mesh
 
-					mesh.material = material_parallax;
+						mesh.material = material_parallax;
+					}
+				} catch (error) {
+					Bugfender.log(error)
 				}
 
 				parser.assignFinalMaterial( mesh );

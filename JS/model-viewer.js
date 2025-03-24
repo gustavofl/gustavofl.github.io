@@ -9,6 +9,8 @@ Bugfender.init({
 	// build: '',
 });
 
+let IOS_AR = false;
+
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -2642,17 +2644,17 @@ class Vector4 {
 			m31 = te[ 2 ], m32 = te[ 6 ], m33 = te[ 10 ];
 
 		if ( ( Math.abs( m12 - m21 ) < epsilon ) &&
-		     ( Math.abs( m13 - m31 ) < epsilon ) &&
-		     ( Math.abs( m23 - m32 ) < epsilon ) ) {
+			 ( Math.abs( m13 - m31 ) < epsilon ) &&
+			 ( Math.abs( m23 - m32 ) < epsilon ) ) {
 
 			// singularity found
 			// first check for identity matrix which must have +1 for all terms
 			// in leading diagonal and zero in other terms
 
 			if ( ( Math.abs( m12 + m21 ) < epsilon2 ) &&
-			     ( Math.abs( m13 + m31 ) < epsilon2 ) &&
-			     ( Math.abs( m23 + m32 ) < epsilon2 ) &&
-			     ( Math.abs( m11 + m22 + m33 - 3 ) < epsilon2 ) ) {
+				 ( Math.abs( m13 + m31 ) < epsilon2 ) &&
+				 ( Math.abs( m23 + m32 ) < epsilon2 ) &&
+				 ( Math.abs( m11 + m22 + m33 - 3 ) < epsilon2 ) ) {
 
 				// this singularity is identity matrix so angle = 0
 
@@ -31965,8 +31967,8 @@ function WebGLState( gl, extensions ) {
 			setFunc: function ( stencilFunc, stencilRef, stencilMask ) {
 
 				if ( currentStencilFunc !== stencilFunc ||
-				     currentStencilRef !== stencilRef ||
-				     currentStencilFuncMask !== stencilMask ) {
+					 currentStencilRef !== stencilRef ||
+					 currentStencilFuncMask !== stencilMask ) {
 
 					gl.stencilFunc( stencilFunc, stencilRef, stencilMask );
 
@@ -31981,8 +31983,8 @@ function WebGLState( gl, extensions ) {
 			setOp: function ( stencilFail, stencilZFail, stencilZPass ) {
 
 				if ( currentStencilFail !== stencilFail ||
-				     currentStencilZFail !== stencilZFail ||
-				     currentStencilZPass !== stencilZPass ) {
+					 currentStencilZFail !== stencilZFail ||
+					 currentStencilZPass !== stencilZPass ) {
 
 					gl.stencilOp( stencilFail, stencilZFail, stencilZPass );
 
@@ -40233,23 +40235,28 @@ const t$1=globalThis,i$2=t$1.trustedTypes,s=i$2?i$2.createPolicy("lit-html",{cre
 // the appropriate flags. However, just because we have the API does not
 // guarantee that AR will work.
 const HAS_WEBXR_DEVICE_API = navigator.xr != null &&
-    self.XRSession != null && navigator.xr.isSessionSupported != null;
+	self.XRSession != null && navigator.xr.isSessionSupported != null;
 const HAS_WEBXR_HIT_TEST_API = HAS_WEBXR_DEVICE_API &&
-    self.XRSession.prototype.requestHitTestSource != null;
+	self.XRSession.prototype.requestHitTestSource != null;
 const HAS_RESIZE_OBSERVER = self.ResizeObserver != null;
 const HAS_INTERSECTION_OBSERVER = self.IntersectionObserver != null;
 const IS_WEBXR_AR_CANDIDATE = HAS_WEBXR_HIT_TEST_API;
+
+Bugfender.log('HAS_WEBXR_DEVICE_API: ' + HAS_WEBXR_DEVICE_API);
+Bugfender.log('HAS_WEBXR_HIT_TEST_API: ' + HAS_WEBXR_HIT_TEST_API);
+Bugfender.log('IS_WEBXR_AR_CANDIDATE: ' + IS_WEBXR_AR_CANDIDATE);
+
 (() => {
-    const userAgent = navigator.userAgent || navigator.vendor || self.opera;
-    let check = false;
-    // eslint-disable-next-line
-    if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
-        .test(userAgent) ||
-        /1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i
-            .test(userAgent.substr(0, 4))) {
-        check = true;
-    }
-    return check;
+	const userAgent = navigator.userAgent || navigator.vendor || self.opera;
+	let check = false;
+	// eslint-disable-next-line
+	if (/(android|bb\d+|meego).+mobile|avantgo|bada\/|blackberry|blazer|compal|elaine|fennec|hiptop|iemobile|ip(hone|od)|iris|kindle|lge |maemo|midp|mmp|mobile.+firefox|netfront|opera m(ob|in)i|palm( os)?|phone|p(ixi|re)\/|plucker|pocket|psp|series(4|6)0|symbian|treo|up\.(browser|link)|vodafone|wap|windows ce|xda|xiino/i
+		.test(userAgent) ||
+		/1207|6310|6590|3gso|4thp|50[1-6]i|770s|802s|a wa|abac|ac(er|oo|s\-)|ai(ko|rn)|al(av|ca|co)|amoi|an(ex|ny|yw)|aptu|ar(ch|go)|as(te|us)|attw|au(di|\-m|r |s )|avan|be(ck|ll|nq)|bi(lb|rd)|bl(ac|az)|br(e|v)w|bumb|bw\-(n|u)|c55\/|capi|ccwa|cdm\-|cell|chtm|cldc|cmd\-|co(mp|nd)|craw|da(it|ll|ng)|dbte|dc\-s|devi|dica|dmob|do(c|p)o|ds(12|\-d)|el(49|ai)|em(l2|ul)|er(ic|k0)|esl8|ez([4-7]0|os|wa|ze)|fetc|fly(\-|_)|g1 u|g560|gene|gf\-5|g\-mo|go(\.w|od)|gr(ad|un)|haie|hcit|hd\-(m|p|t)|hei\-|hi(pt|ta)|hp( i|ip)|hs\-c|ht(c(\-| |_|a|g|p|s|t)|tp)|hu(aw|tc)|i\-(20|go|ma)|i230|iac( |\-|\/)|ibro|idea|ig01|ikom|im1k|inno|ipaq|iris|ja(t|v)a|jbro|jemu|jigs|kddi|keji|kgt( |\/)|klon|kpt |kwc\-|kyo(c|k)|le(no|xi)|lg( g|\/(k|l|u)|50|54|\-[a-w])|libw|lynx|m1\-w|m3ga|m50\/|ma(te|ui|xo)|mc(01|21|ca)|m\-cr|me(rc|ri)|mi(o8|oa|ts)|mmef|mo(01|02|bi|de|do|t(\-| |o|v)|zz)|mt(50|p1|v )|mwbp|mywa|n10[0-2]|n20[2-3]|n30(0|2)|n50(0|2|5)|n7(0(0|1)|10)|ne((c|m)\-|on|tf|wf|wg|wt)|nok(6|i)|nzph|o2im|op(ti|wv)|oran|owg1|p800|pan(a|d|t)|pdxg|pg(13|\-([1-8]|c))|phil|pire|pl(ay|uc)|pn\-2|po(ck|rt|se)|prox|psio|pt\-g|qa\-a|qc(07|12|21|32|60|\-[2-7]|i\-)|qtek|r380|r600|raks|rim9|ro(ve|zo)|s55\/|sa(ge|ma|mm|ms|ny|va)|sc(01|h\-|oo|p\-)|sdk\/|se(c(\-|0|1)|47|mc|nd|ri)|sgh\-|shar|sie(\-|m)|sk\-0|sl(45|id)|sm(al|ar|b3|it|t5)|so(ft|ny)|sp(01|h\-|v\-|v )|sy(01|mb)|t2(18|50)|t6(00|10|18)|ta(gt|lk)|tcl\-|tdg\-|tel(i|m)|tim\-|t\-mo|to(pl|sh)|ts(70|m\-|m3|m5)|tx\-9|up(\.b|g1|si)|utst|v400|v750|veri|vi(rg|te)|vk(40|5[0-3]|\-v)|vm40|voda|vulc|vx(52|53|60|61|70|80|81|83|85|98)|w3c(\-| )|webc|whit|wi(g |nc|nw)|wmlb|wonu|x700|yas\-|your|zeto|zte\-/i
+			.test(userAgent.substr(0, 4))) {
+		check = true;
+	}
+	return check;
 })();
 const IS_ANDROID = /android/i.test(navigator.userAgent);
 // Prior to iOS 13, detecting iOS Safari was relatively straight-forward.
@@ -40264,30 +40271,40 @@ const IS_ANDROID = /android/i.test(navigator.userAgent);
 // @see https://forums.developer.apple.com/thread/119186
 // @see https://github.com/google/model-viewer/issues/758
 const IS_IOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !self.MSStream) ||
-    (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+	(navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 const IS_FIREFOX = /firefox/i.test(navigator.userAgent);
 const IS_OCULUS = /OculusBrowser/.test(navigator.userAgent);
 const IS_SCENEVIEWER_CANDIDATE = IS_ANDROID && !IS_FIREFOX && !IS_OCULUS;
 const IS_WKWEBVIEW = Boolean(window.webkit && window.webkit.messageHandlers);
+
+Bugfender.log('IS_ANDROID: ' + IS_ANDROID)
+Bugfender.log('IS_IOS: ' + IS_IOS)
+Bugfender.log('IS_FIREFOX: ' + IS_FIREFOX)
+Bugfender.log('IS_OCULUS: ' + IS_OCULUS)
+Bugfender.log('IS_SCENEVIEWER_CANDIDATE: ' + IS_SCENEVIEWER_CANDIDATE)
+
 // If running in iOS Safari proper, and not within a WKWebView component
 // instance, check for ARQL feature support. Otherwise, if running in a
 // WKWebView instance, check for known ARQL compatible iOS browsers, including:
 // Chrome (CriOS), Edge (EdgiOS), Firefox (FxiOS), Google App (GSA), DuckDuckGo
 // (DuckDuckGo). All other iOS browsers / apps will fail by default.
 const IS_AR_QUICKLOOK_CANDIDATE = (() => {
-    if (IS_IOS) {
-        if (!IS_WKWEBVIEW) {
-            const tempAnchor = document.createElement('a');
-            return Boolean(tempAnchor.relList && tempAnchor.relList.supports &&
-                tempAnchor.relList.supports('ar'));
-        }
-        else {
-            return Boolean(/CriOS\/|EdgiOS\/|FxiOS\/|GSA\/|DuckDuckGo\//.test(navigator.userAgent));
-        }
-    }
-    else {
-        return false;
-    }
+	Bugfender.log('IS_IOS: ' + IS_IOS)
+	Bugfender.log('IS_WKWEBVIEW: ' + IS_WKWEBVIEW)
+	Bugfender.log('navigator.userAgent: ' + navigator.userAgent)
+	if (IS_IOS) {
+		if (!IS_WKWEBVIEW) {
+			const tempAnchor = document.createElement('a');
+			return Boolean(tempAnchor.relList && tempAnchor.relList.supports &&
+				tempAnchor.relList.supports('ar'));
+		}
+		else {
+			return Boolean(/CriOS\/|EdgiOS\/|FxiOS\/|GSA\/|DuckDuckGo\//.test(navigator.userAgent));
+		}
+	}
+	else {
+		return false;
+	}
 })();
 
 /* @license
@@ -40306,17 +40323,17 @@ const IS_AR_QUICKLOOK_CANDIDATE = (() => {
  */
 const deserializeUrl = (url) => (!!url && url !== 'null') ? toFullUrl(url) : null;
 const assertIsArCandidate = () => {
-    if (IS_WEBXR_AR_CANDIDATE) {
-        return;
-    }
-    const missingApis = [];
-    if (!HAS_WEBXR_DEVICE_API) {
-        missingApis.push('WebXR Device API');
-    }
-    if (!HAS_WEBXR_HIT_TEST_API) {
-        missingApis.push('WebXR Hit Test API');
-    }
-    throw new Error(`The following APIs are required for AR, but are missing in this browser: ${missingApis.join(', ')}`);
+	if (IS_WEBXR_AR_CANDIDATE) {
+		return;
+	}
+	const missingApis = [];
+	if (!HAS_WEBXR_DEVICE_API) {
+		missingApis.push('WebXR Device API');
+	}
+	if (!HAS_WEBXR_HIT_TEST_API) {
+		missingApis.push('WebXR Hit Test API');
+	}
+	throw new Error(`The following APIs are required for AR, but are missing in this browser: ${missingApis.join(', ')}`);
 };
 /**
  * Converts a partial URL string to a fully qualified URL string.
@@ -40325,8 +40342,8 @@ const assertIsArCandidate = () => {
  * @return {String}
  */
 const toFullUrl = (partialUrl) => {
-    const url = new URL(partialUrl, window.location.toString());
-    return url.toString();
+	const url = new URL(partialUrl, window.location.toString());
+	return url.toString();
 };
 /**
  * Returns a throttled version of a given function that is only invoked at most
@@ -40336,33 +40353,33 @@ const toFullUrl = (partialUrl) => {
  * threshold for cases when immediate invocation is desired.
  */
 const throttle = (fn, ms) => {
-    let timer = null;
-    const throttled = (...args) => {
-        if (timer != null) {
-            return;
-        }
-        fn(...args);
-        timer = self.setTimeout(() => timer = null, ms);
-    };
-    throttled.flush = () => {
-        if (timer != null) {
-            self.clearTimeout(timer);
-            timer = null;
-        }
-    };
-    return throttled;
+	let timer = null;
+	const throttled = (...args) => {
+		if (timer != null) {
+			return;
+		}
+		fn(...args);
+		timer = self.setTimeout(() => timer = null, ms);
+	};
+	throttled.flush = () => {
+		if (timer != null) {
+			self.clearTimeout(timer);
+			timer = null;
+		}
+	};
+	return throttled;
 };
 const debounce = (fn, ms) => {
-    let timer = null;
-    return (...args) => {
-        if (timer != null) {
-            self.clearTimeout(timer);
-        }
-        timer = self.setTimeout(() => {
-            timer = null;
-            fn(...args);
-        }, ms);
-    };
+	let timer = null;
+	return (...args) => {
+		if (timer != null) {
+			self.clearTimeout(timer);
+		}
+		timer = self.setTimeout(() => {
+			timer = null;
+			fn(...args);
+		}, ms);
+	};
 };
 /**
  * @param {Number} value
@@ -40380,12 +40397,12 @@ const clamp = (value, lowerLimit, upperLimit) => Math.max(lowerLimit, Math.min(u
  *     to true
  */
 const isDebugMode = (() => {
-    const debugQueryParameterName = 'model-viewer-debug-mode';
-    const debugQueryParameter = new RegExp(`[?&]${debugQueryParameterName}(&|$)`);
-    return () => (self.ModelViewerElement &&
-        self.ModelViewerElement.debugMode) ||
-        (self.location && self.location.search &&
-            self.location.search.match(debugQueryParameter));
+	const debugQueryParameterName = 'model-viewer-debug-mode';
+	const debugQueryParameter = new RegExp(`[?&]${debugQueryParameterName}(&|$)`);
+	return () => (self.ModelViewerElement &&
+		self.ModelViewerElement.debugMode) ||
+		(self.location && self.location.search &&
+			self.location.search.match(debugQueryParameter));
 })();
 const timePasses = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
 /**
@@ -40394,13 +40411,13 @@ const timePasses = (ms = 0) => new Promise(resolve => setTimeout(resolve, ms));
  * @param {?Function} predicate
  */
 const waitForEvent = (target, eventName, predicate = null) => new Promise(resolve => {
-    function handler(event) {
-        if (!predicate || predicate(event)) {
-            resolve(event);
-            target.removeEventListener(eventName, handler);
-        }
-    }
-    target.addEventListener(eventName, handler);
+	function handler(event) {
+		if (!predicate || predicate(event)) {
+			resolve(event);
+			target.removeEventListener(eventName, handler);
+		}
+	}
+	target.addEventListener(eventName, handler);
 });
 
 /* @license
@@ -40418,9 +40435,9 @@ const waitForEvent = (target, eventName, predicate = null) => new Promise(resolv
  * limitations under the License.
  */
 var __decorate$7 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 const BASE_OPACITY = 0.5;
 const DEFAULT_SHADOW_INTENSITY = 0.0;
@@ -40431,120 +40448,120 @@ const $currentBackground = Symbol('currentBackground');
 const $updateEnvironment = Symbol('updateEnvironment');
 const $cancelEnvironmentUpdate = Symbol('cancelEnvironmentUpdate');
 const EnvironmentMixin = (ModelViewerElement) => {
-    var _a, _b, _c;
-    class EnvironmentModelViewerElement extends ModelViewerElement {
-        constructor() {
-            super(...arguments);
-            this.environmentImage = null;
-            this.skyboxImage = null;
-            this.shadowIntensity = DEFAULT_SHADOW_INTENSITY;
-            this.shadowSoftness = DEFAULT_SHADOW_SOFTNESS;
-            this.exposure = DEFAULT_EXPOSURE;
-            this.toneMapping = 'auto';
-            this.skyboxHeight = '0';
-            this[_a] = null;
-            this[_b] = null;
-            this[_c] = null;
-        }
-        updated(changedProperties) {
-            super.updated(changedProperties);
-            if (changedProperties.has('shadowIntensity')) {
-                this[$scene].setShadowIntensity(this.shadowIntensity * BASE_OPACITY);
-                this[$needsRender]();
-            }
-            if (changedProperties.has('shadowSoftness')) {
-                this[$scene].setShadowSoftness(this.shadowSoftness);
-                this[$needsRender]();
-            }
-            if (changedProperties.has('exposure')) {
-                this[$scene].exposure = this.exposure;
-                this[$needsRender]();
-            }
-            if (changedProperties.has('toneMapping')) {
-                this[$scene].toneMapping = this.toneMapping === 'aces' ?
-                    ACESFilmicToneMapping :
-                    this.toneMapping === 'agx' ? AgXToneMapping :
-                        this.toneMapping === 'reinhard' ? ReinhardToneMapping :
-                            this.toneMapping === 'cineon' ? CineonToneMapping :
-                                this.toneMapping === 'linear' ? LinearToneMapping :
-                                    this.toneMapping === 'none' ? NoToneMapping :
-                                        NeutralToneMapping;
-                this[$needsRender]();
-            }
-            if ((changedProperties.has('environmentImage') ||
-                changedProperties.has('skyboxImage')) &&
-                this[$shouldAttemptPreload]()) {
-                this[$updateEnvironment]();
-            }
-            if (changedProperties.has('skyboxHeight')) {
-                this[$scene].setGroundedSkybox();
-                this[$needsRender]();
-            }
-        }
-        hasBakedShadow() {
-            return this[$scene].bakedShadows.size > 0;
-        }
-        async [(_a = $currentEnvironmentMap, _b = $currentBackground, _c = $cancelEnvironmentUpdate, $updateEnvironment)]() {
-            const { skyboxImage, environmentImage } = this;
-            if (this[$cancelEnvironmentUpdate] != null) {
-                this[$cancelEnvironmentUpdate]();
-                this[$cancelEnvironmentUpdate] = null;
-            }
-            const { textureUtils } = this[$renderer];
-            if (textureUtils == null) {
-                return;
-            }
-            const updateEnvProgress = this[$progressTracker].beginActivity('environment-update');
-            try {
-                const { environmentMap, skybox } = await textureUtils.generateEnvironmentMapAndSkybox(deserializeUrl(skyboxImage), environmentImage, (progress) => updateEnvProgress(clamp(progress, 0, 1)), this.withCredentials);
-                if (this[$currentEnvironmentMap] !== environmentMap) {
-                    this[$currentEnvironmentMap] = environmentMap;
-                    this.dispatchEvent(new CustomEvent('environment-change'));
-                }
-                if (skybox != null) {
-                    // When using the same environment and skybox, use the environment as
-                    // it gives HDR filtering.
-                    this[$currentBackground] =
-                        skybox.name === environmentMap.name ? environmentMap : skybox;
-                }
-                else {
-                    this[$currentBackground] = null;
-                }
-                this[$scene].setEnvironmentAndSkybox(this[$currentEnvironmentMap], this[$currentBackground]);
-            }
-            catch (errorOrPromise) {
-                if (errorOrPromise instanceof Error) {
-                    this[$scene].setEnvironmentAndSkybox(null, null);
-                    throw errorOrPromise;
-                }
-            }
-            finally {
-                updateEnvProgress(1.0);
-            }
-        }
-    }
-    __decorate$7([
-        n$2({ type: String, attribute: 'environment-image' })
-    ], EnvironmentModelViewerElement.prototype, "environmentImage", void 0);
-    __decorate$7([
-        n$2({ type: String, attribute: 'skybox-image' })
-    ], EnvironmentModelViewerElement.prototype, "skyboxImage", void 0);
-    __decorate$7([
-        n$2({ type: Number, attribute: 'shadow-intensity' })
-    ], EnvironmentModelViewerElement.prototype, "shadowIntensity", void 0);
-    __decorate$7([
-        n$2({ type: Number, attribute: 'shadow-softness' })
-    ], EnvironmentModelViewerElement.prototype, "shadowSoftness", void 0);
-    __decorate$7([
-        n$2({ type: Number })
-    ], EnvironmentModelViewerElement.prototype, "exposure", void 0);
-    __decorate$7([
-        n$2({ type: String, attribute: 'tone-mapping' })
-    ], EnvironmentModelViewerElement.prototype, "toneMapping", void 0);
-    __decorate$7([
-        n$2({ type: String, attribute: 'skybox-height' })
-    ], EnvironmentModelViewerElement.prototype, "skyboxHeight", void 0);
-    return EnvironmentModelViewerElement;
+	var _a, _b, _c;
+	class EnvironmentModelViewerElement extends ModelViewerElement {
+		constructor() {
+			super(...arguments);
+			this.environmentImage = null;
+			this.skyboxImage = null;
+			this.shadowIntensity = DEFAULT_SHADOW_INTENSITY;
+			this.shadowSoftness = DEFAULT_SHADOW_SOFTNESS;
+			this.exposure = DEFAULT_EXPOSURE;
+			this.toneMapping = 'auto';
+			this.skyboxHeight = '0';
+			this[_a] = null;
+			this[_b] = null;
+			this[_c] = null;
+		}
+		updated(changedProperties) {
+			super.updated(changedProperties);
+			if (changedProperties.has('shadowIntensity')) {
+				this[$scene].setShadowIntensity(this.shadowIntensity * BASE_OPACITY);
+				this[$needsRender]();
+			}
+			if (changedProperties.has('shadowSoftness')) {
+				this[$scene].setShadowSoftness(this.shadowSoftness);
+				this[$needsRender]();
+			}
+			if (changedProperties.has('exposure')) {
+				this[$scene].exposure = this.exposure;
+				this[$needsRender]();
+			}
+			if (changedProperties.has('toneMapping')) {
+				this[$scene].toneMapping = this.toneMapping === 'aces' ?
+					ACESFilmicToneMapping :
+					this.toneMapping === 'agx' ? AgXToneMapping :
+						this.toneMapping === 'reinhard' ? ReinhardToneMapping :
+							this.toneMapping === 'cineon' ? CineonToneMapping :
+								this.toneMapping === 'linear' ? LinearToneMapping :
+									this.toneMapping === 'none' ? NoToneMapping :
+										NeutralToneMapping;
+				this[$needsRender]();
+			}
+			if ((changedProperties.has('environmentImage') ||
+				changedProperties.has('skyboxImage')) &&
+				this[$shouldAttemptPreload]()) {
+				this[$updateEnvironment]();
+			}
+			if (changedProperties.has('skyboxHeight')) {
+				this[$scene].setGroundedSkybox();
+				this[$needsRender]();
+			}
+		}
+		hasBakedShadow() {
+			return this[$scene].bakedShadows.size > 0;
+		}
+		async [(_a = $currentEnvironmentMap, _b = $currentBackground, _c = $cancelEnvironmentUpdate, $updateEnvironment)]() {
+			const { skyboxImage, environmentImage } = this;
+			if (this[$cancelEnvironmentUpdate] != null) {
+				this[$cancelEnvironmentUpdate]();
+				this[$cancelEnvironmentUpdate] = null;
+			}
+			const { textureUtils } = this[$renderer];
+			if (textureUtils == null) {
+				return;
+			}
+			const updateEnvProgress = this[$progressTracker].beginActivity('environment-update');
+			try {
+				const { environmentMap, skybox } = await textureUtils.generateEnvironmentMapAndSkybox(deserializeUrl(skyboxImage), environmentImage, (progress) => updateEnvProgress(clamp(progress, 0, 1)), this.withCredentials);
+				if (this[$currentEnvironmentMap] !== environmentMap) {
+					this[$currentEnvironmentMap] = environmentMap;
+					this.dispatchEvent(new CustomEvent('environment-change'));
+				}
+				if (skybox != null) {
+					// When using the same environment and skybox, use the environment as
+					// it gives HDR filtering.
+					this[$currentBackground] =
+						skybox.name === environmentMap.name ? environmentMap : skybox;
+				}
+				else {
+					this[$currentBackground] = null;
+				}
+				this[$scene].setEnvironmentAndSkybox(this[$currentEnvironmentMap], this[$currentBackground]);
+			}
+			catch (errorOrPromise) {
+				if (errorOrPromise instanceof Error) {
+					this[$scene].setEnvironmentAndSkybox(null, null);
+					throw errorOrPromise;
+				}
+			}
+			finally {
+				updateEnvProgress(1.0);
+			}
+		}
+	}
+	__decorate$7([
+		n$2({ type: String, attribute: 'environment-image' })
+	], EnvironmentModelViewerElement.prototype, "environmentImage", void 0);
+	__decorate$7([
+		n$2({ type: String, attribute: 'skybox-image' })
+	], EnvironmentModelViewerElement.prototype, "skyboxImage", void 0);
+	__decorate$7([
+		n$2({ type: Number, attribute: 'shadow-intensity' })
+	], EnvironmentModelViewerElement.prototype, "shadowIntensity", void 0);
+	__decorate$7([
+		n$2({ type: Number, attribute: 'shadow-softness' })
+	], EnvironmentModelViewerElement.prototype, "shadowSoftness", void 0);
+	__decorate$7([
+		n$2({ type: Number })
+	], EnvironmentModelViewerElement.prototype, "exposure", void 0);
+	__decorate$7([
+		n$2({ type: String, attribute: 'tone-mapping' })
+	], EnvironmentModelViewerElement.prototype, "toneMapping", void 0);
+	__decorate$7([
+		n$2({ type: String, attribute: 'skybox-height' })
+	], EnvironmentModelViewerElement.prototype, "skyboxHeight", void 0);
+	return EnvironmentModelViewerElement;
 };
 
 /* @license
@@ -40563,22 +40580,22 @@ const EnvironmentMixin = (ModelViewerElement) => {
  */
 var CloseIcon = x$1 `
 <svg xmlns="http://www.w3.org/2000/svg" width="24px" height="24px" viewBox="0 0 24 24" fill="#000000">
-    <!-- NOTE(cdata): This SVG filter is a stop-gap until we can implement
-         support for dynamic re-coloring of UI components -->
-    <defs>
-      <filter id="drop-shadow" x="-100%" y="-100%" width="300%" height="300%">
-        <feGaussianBlur in="SourceAlpha" stdDeviation="1"/>
-        <feOffset dx="0" dy="0" result="offsetblur"/>
-        <feFlood flood-color="#000000"/>
-        <feComposite in2="offsetblur" operator="in"/>
-        <feMerge>
-          <feMergeNode/>
-          <feMergeNode in="SourceGraphic"/>
-        </feMerge>
-      </filter>
-    </defs>
-    <path filter="url(#drop-shadow)" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
-    <path d="M0 0h24v24H0z" fill="none"/>
+	<!-- NOTE(cdata): This SVG filter is a stop-gap until we can implement
+		 support for dynamic re-coloring of UI components -->
+	<defs>
+	  <filter id="drop-shadow" x="-100%" y="-100%" width="300%" height="300%">
+		<feGaussianBlur in="SourceAlpha" stdDeviation="1"/>
+		<feOffset dx="0" dy="0" result="offsetblur"/>
+		<feFlood flood-color="#000000"/>
+		<feComposite in2="offsetblur" operator="in"/>
+		<feMerge>
+		  <feMergeNode/>
+		  <feMergeNode in="SourceGraphic"/>
+		</feMerge>
+	  </filter>
+	</defs>
+	<path filter="url(#drop-shadow)" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+	<path d="M0 0h24v24H0z" fill="none"/>
 </svg>`;
 
 /* @license
@@ -40597,23 +40614,23 @@ var CloseIcon = x$1 `
  */
 var ControlsPrompt = x$1 `
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="36">
-    <defs>
-        <path id="A" d="M.001.232h24.997V36H.001z" />
-    </defs>
-    <g transform="translate(-11 -4)" fill="none" fill-rule="evenodd">
-        <path fill-opacity="0" fill="#fff" d="M0 0h44v44H0z" />
-        <g transform="translate(11 3)">
-            <path d="M8.733 11.165c.04-1.108.766-2.027 1.743-2.307a2.54 2.54 0 0 1 .628-.089c.16 0 .314.017.463.044 1.088.2 1.9 1.092 1.9 2.16v8.88h1.26c2.943-1.39 5-4.45 5-8.025a9.01 9.01 0 0 0-1.9-5.56l-.43-.5c-.765-.838-1.683-1.522-2.712-2-1.057-.49-2.226-.77-3.46-.77s-2.4.278-3.46.77c-1.03.478-1.947 1.162-2.71 2l-.43.5a9.01 9.01 0 0 0-1.9 5.56 9.04 9.04 0 0 0 .094 1.305c.03.21.088.41.13.617l.136.624c.083.286.196.56.305.832l.124.333a8.78 8.78 0 0 0 .509.953l.065.122a8.69 8.69 0 0 0 3.521 3.191l1.11.537v-9.178z" fill-opacity=".5" fill="#e4e4e4" />
-            <path d="M22.94 26.218l-2.76 7.74c-.172.485-.676.8-1.253.8H12.24c-1.606 0-3.092-.68-3.98-1.82-1.592-2.048-3.647-3.822-6.11-5.27-.095-.055-.15-.137-.152-.23-.004-.1.046-.196.193-.297.56-.393 1.234-.6 1.926-.6a3.43 3.43 0 0 1 .691.069l4.922.994V10.972c0-.663.615-1.203 1.37-1.203s1.373.54 1.373 1.203v9.882h2.953c.273 0 .533.073.757.21l6.257 3.874c.027.017.045.042.07.06.41.296.586.77.426 1.22M4.1 16.614c-.024-.04-.042-.083-.065-.122a8.69 8.69 0 0 1-.509-.953c-.048-.107-.08-.223-.124-.333l-.305-.832c-.058-.202-.09-.416-.136-.624l-.13-.617a9.03 9.03 0 0 1-.094-1.305c0-2.107.714-4.04 1.9-5.56l.43-.5c.764-.84 1.682-1.523 2.71-2 1.058-.49 2.226-.77 3.46-.77s2.402.28 3.46.77c1.03.477 1.947 1.16 2.712 2l.428.5a9 9 0 0 1 1.901 5.559c0 3.577-2.056 6.636-5 8.026h-1.26v-8.882c0-1.067-.822-1.96-1.9-2.16-.15-.028-.304-.044-.463-.044-.22 0-.427.037-.628.09-.977.28-1.703 1.198-1.743 2.306v9.178l-1.11-.537C6.18 19.098 4.96 18 4.1 16.614M22.97 24.09l-6.256-3.874c-.102-.063-.218-.098-.33-.144 2.683-1.8 4.354-4.855 4.354-8.243 0-.486-.037-.964-.104-1.43a9.97 9.97 0 0 0-1.57-4.128l-.295-.408-.066-.092a10.05 10.05 0 0 0-.949-1.078c-.342-.334-.708-.643-1.094-.922-1.155-.834-2.492-1.412-3.94-1.65l-.732-.088-.748-.03a9.29 9.29 0 0 0-1.482.119c-1.447.238-2.786.816-3.94 1.65a9.33 9.33 0 0 0-.813.686 9.59 9.59 0 0 0-.845.877l-.385.437-.36.5-.288.468-.418.778-.04.09c-.593 1.28-.93 2.71-.93 4.222 0 3.832 2.182 7.342 5.56 8.938l1.437.68v4.946L5 25.64a4.44 4.44 0 0 0-.888-.086c-.017 0-.034.003-.05.003-.252.004-.503.033-.75.08a5.08 5.08 0 0 0-.237.056c-.193.046-.382.107-.568.18-.075.03-.15.057-.225.1-.25.114-.494.244-.723.405a1.31 1.31 0 0 0-.566 1.122 1.28 1.28 0 0 0 .645 1.051C4 29.925 5.96 31.614 7.473 33.563a5.06 5.06 0 0 0 .434.491c1.086 1.082 2.656 1.713 4.326 1.715h6.697c.748-.001 1.43-.333 1.858-.872.142-.18.256-.38.336-.602l2.757-7.74c.094-.26.13-.53.112-.794s-.088-.52-.203-.76a2.19 2.19 0 0 0-.821-.91" fill-opacity=".6" fill="#000" />
-            <path d="M22.444 24.94l-6.257-3.874a1.45 1.45 0 0 0-.757-.211h-2.953v-9.88c0-.663-.616-1.203-1.373-1.203s-1.37.54-1.37 1.203v16.643l-4.922-.994a3.44 3.44 0 0 0-.692-.069 3.35 3.35 0 0 0-1.925.598c-.147.102-.198.198-.194.298.004.094.058.176.153.23 2.462 1.448 4.517 3.22 6.11 5.27.887 1.14 2.373 1.82 3.98 1.82h6.686c.577 0 1.08-.326 1.253-.8l2.76-7.74c.16-.448-.017-.923-.426-1.22-.025-.02-.043-.043-.07-.06z" fill="#fff" />
-            <g transform="translate(0 .769)">
-                <mask id="B" fill="#fff">
-                    <use xlink:href="#A" />
-                </mask>
-                <path d="M23.993 24.992a1.96 1.96 0 0 1-.111.794l-2.758 7.74c-.08.22-.194.423-.336.602-.427.54-1.11.87-1.857.872h-6.698c-1.67-.002-3.24-.633-4.326-1.715-.154-.154-.3-.318-.434-.49C5.96 30.846 4 29.157 1.646 27.773c-.385-.225-.626-.618-.645-1.05a1.31 1.31 0 0 1 .566-1.122 4.56 4.56 0 0 1 .723-.405l.225-.1a4.3 4.3 0 0 1 .568-.18l.237-.056c.248-.046.5-.075.75-.08.018 0 .034-.003.05-.003.303-.001.597.027.89.086l3.722.752V20.68l-1.436-.68c-3.377-1.596-5.56-5.106-5.56-8.938 0-1.51.336-2.94.93-4.222.015-.03.025-.06.04-.09.127-.267.268-.525.418-.778.093-.16.186-.316.288-.468.063-.095.133-.186.2-.277L3.773 5c.118-.155.26-.29.385-.437.266-.3.544-.604.845-.877a9.33 9.33 0 0 1 .813-.686C6.97 2.167 8.31 1.59 9.757 1.35a9.27 9.27 0 0 1 1.481-.119 8.82 8.82 0 0 1 .748.031c.247.02.49.05.733.088 1.448.238 2.786.816 3.94 1.65.387.28.752.588 1.094.922a9.94 9.94 0 0 1 .949 1.078l.066.092c.102.133.203.268.295.408a9.97 9.97 0 0 1 1.571 4.128c.066.467.103.945.103 1.43 0 3.388-1.67 6.453-4.353 8.243.11.046.227.08.33.144l6.256 3.874c.37.23.645.55.82.9.115.24.185.498.203.76m.697-1.195c-.265-.55-.677-1.007-1.194-1.326l-5.323-3.297c2.255-2.037 3.564-4.97 3.564-8.114 0-2.19-.637-4.304-1.84-6.114-.126-.188-.26-.37-.4-.552-.645-.848-1.402-1.6-2.252-2.204C15.472.91 13.393.232 11.238.232A10.21 10.21 0 0 0 5.23 2.19c-.848.614-1.606 1.356-2.253 2.205-.136.18-.272.363-.398.55C1.374 6.756.737 8.87.737 11.06c0 4.218 2.407 8.08 6.133 9.842l.863.41v3.092l-2.525-.51c-.356-.07-.717-.106-1.076-.106a5.45 5.45 0 0 0-3.14.996c-.653.46-1.022 1.202-.99 1.983a2.28 2.28 0 0 0 1.138 1.872c2.24 1.318 4.106 2.923 5.543 4.772 1.26 1.62 3.333 2.59 5.55 2.592h6.698c1.42-.001 2.68-.86 3.134-2.138l2.76-7.74c.272-.757.224-1.584-.134-2.325" fill-opacity=".05" fill="#000" mask="url(#B)" />
-            </g>
-        </g>
-    </g>
+	<defs>
+		<path id="A" d="M.001.232h24.997V36H.001z" />
+	</defs>
+	<g transform="translate(-11 -4)" fill="none" fill-rule="evenodd">
+		<path fill-opacity="0" fill="#fff" d="M0 0h44v44H0z" />
+		<g transform="translate(11 3)">
+			<path d="M8.733 11.165c.04-1.108.766-2.027 1.743-2.307a2.54 2.54 0 0 1 .628-.089c.16 0 .314.017.463.044 1.088.2 1.9 1.092 1.9 2.16v8.88h1.26c2.943-1.39 5-4.45 5-8.025a9.01 9.01 0 0 0-1.9-5.56l-.43-.5c-.765-.838-1.683-1.522-2.712-2-1.057-.49-2.226-.77-3.46-.77s-2.4.278-3.46.77c-1.03.478-1.947 1.162-2.71 2l-.43.5a9.01 9.01 0 0 0-1.9 5.56 9.04 9.04 0 0 0 .094 1.305c.03.21.088.41.13.617l.136.624c.083.286.196.56.305.832l.124.333a8.78 8.78 0 0 0 .509.953l.065.122a8.69 8.69 0 0 0 3.521 3.191l1.11.537v-9.178z" fill-opacity=".5" fill="#e4e4e4" />
+			<path d="M22.94 26.218l-2.76 7.74c-.172.485-.676.8-1.253.8H12.24c-1.606 0-3.092-.68-3.98-1.82-1.592-2.048-3.647-3.822-6.11-5.27-.095-.055-.15-.137-.152-.23-.004-.1.046-.196.193-.297.56-.393 1.234-.6 1.926-.6a3.43 3.43 0 0 1 .691.069l4.922.994V10.972c0-.663.615-1.203 1.37-1.203s1.373.54 1.373 1.203v9.882h2.953c.273 0 .533.073.757.21l6.257 3.874c.027.017.045.042.07.06.41.296.586.77.426 1.22M4.1 16.614c-.024-.04-.042-.083-.065-.122a8.69 8.69 0 0 1-.509-.953c-.048-.107-.08-.223-.124-.333l-.305-.832c-.058-.202-.09-.416-.136-.624l-.13-.617a9.03 9.03 0 0 1-.094-1.305c0-2.107.714-4.04 1.9-5.56l.43-.5c.764-.84 1.682-1.523 2.71-2 1.058-.49 2.226-.77 3.46-.77s2.402.28 3.46.77c1.03.477 1.947 1.16 2.712 2l.428.5a9 9 0 0 1 1.901 5.559c0 3.577-2.056 6.636-5 8.026h-1.26v-8.882c0-1.067-.822-1.96-1.9-2.16-.15-.028-.304-.044-.463-.044-.22 0-.427.037-.628.09-.977.28-1.703 1.198-1.743 2.306v9.178l-1.11-.537C6.18 19.098 4.96 18 4.1 16.614M22.97 24.09l-6.256-3.874c-.102-.063-.218-.098-.33-.144 2.683-1.8 4.354-4.855 4.354-8.243 0-.486-.037-.964-.104-1.43a9.97 9.97 0 0 0-1.57-4.128l-.295-.408-.066-.092a10.05 10.05 0 0 0-.949-1.078c-.342-.334-.708-.643-1.094-.922-1.155-.834-2.492-1.412-3.94-1.65l-.732-.088-.748-.03a9.29 9.29 0 0 0-1.482.119c-1.447.238-2.786.816-3.94 1.65a9.33 9.33 0 0 0-.813.686 9.59 9.59 0 0 0-.845.877l-.385.437-.36.5-.288.468-.418.778-.04.09c-.593 1.28-.93 2.71-.93 4.222 0 3.832 2.182 7.342 5.56 8.938l1.437.68v4.946L5 25.64a4.44 4.44 0 0 0-.888-.086c-.017 0-.034.003-.05.003-.252.004-.503.033-.75.08a5.08 5.08 0 0 0-.237.056c-.193.046-.382.107-.568.18-.075.03-.15.057-.225.1-.25.114-.494.244-.723.405a1.31 1.31 0 0 0-.566 1.122 1.28 1.28 0 0 0 .645 1.051C4 29.925 5.96 31.614 7.473 33.563a5.06 5.06 0 0 0 .434.491c1.086 1.082 2.656 1.713 4.326 1.715h6.697c.748-.001 1.43-.333 1.858-.872.142-.18.256-.38.336-.602l2.757-7.74c.094-.26.13-.53.112-.794s-.088-.52-.203-.76a2.19 2.19 0 0 0-.821-.91" fill-opacity=".6" fill="#000" />
+			<path d="M22.444 24.94l-6.257-3.874a1.45 1.45 0 0 0-.757-.211h-2.953v-9.88c0-.663-.616-1.203-1.373-1.203s-1.37.54-1.37 1.203v16.643l-4.922-.994a3.44 3.44 0 0 0-.692-.069 3.35 3.35 0 0 0-1.925.598c-.147.102-.198.198-.194.298.004.094.058.176.153.23 2.462 1.448 4.517 3.22 6.11 5.27.887 1.14 2.373 1.82 3.98 1.82h6.686c.577 0 1.08-.326 1.253-.8l2.76-7.74c.16-.448-.017-.923-.426-1.22-.025-.02-.043-.043-.07-.06z" fill="#fff" />
+			<g transform="translate(0 .769)">
+				<mask id="B" fill="#fff">
+					<use xlink:href="#A" />
+				</mask>
+				<path d="M23.993 24.992a1.96 1.96 0 0 1-.111.794l-2.758 7.74c-.08.22-.194.423-.336.602-.427.54-1.11.87-1.857.872h-6.698c-1.67-.002-3.24-.633-4.326-1.715-.154-.154-.3-.318-.434-.49C5.96 30.846 4 29.157 1.646 27.773c-.385-.225-.626-.618-.645-1.05a1.31 1.31 0 0 1 .566-1.122 4.56 4.56 0 0 1 .723-.405l.225-.1a4.3 4.3 0 0 1 .568-.18l.237-.056c.248-.046.5-.075.75-.08.018 0 .034-.003.05-.003.303-.001.597.027.89.086l3.722.752V20.68l-1.436-.68c-3.377-1.596-5.56-5.106-5.56-8.938 0-1.51.336-2.94.93-4.222.015-.03.025-.06.04-.09.127-.267.268-.525.418-.778.093-.16.186-.316.288-.468.063-.095.133-.186.2-.277L3.773 5c.118-.155.26-.29.385-.437.266-.3.544-.604.845-.877a9.33 9.33 0 0 1 .813-.686C6.97 2.167 8.31 1.59 9.757 1.35a9.27 9.27 0 0 1 1.481-.119 8.82 8.82 0 0 1 .748.031c.247.02.49.05.733.088 1.448.238 2.786.816 3.94 1.65.387.28.752.588 1.094.922a9.94 9.94 0 0 1 .949 1.078l.066.092c.102.133.203.268.295.408a9.97 9.97 0 0 1 1.571 4.128c.066.467.103.945.103 1.43 0 3.388-1.67 6.453-4.353 8.243.11.046.227.08.33.144l6.256 3.874c.37.23.645.55.82.9.115.24.185.498.203.76m.697-1.195c-.265-.55-.677-1.007-1.194-1.326l-5.323-3.297c2.255-2.037 3.564-4.97 3.564-8.114 0-2.19-.637-4.304-1.84-6.114-.126-.188-.26-.37-.4-.552-.645-.848-1.402-1.6-2.252-2.204C15.472.91 13.393.232 11.238.232A10.21 10.21 0 0 0 5.23 2.19c-.848.614-1.606 1.356-2.253 2.205-.136.18-.272.363-.398.55C1.374 6.756.737 8.87.737 11.06c0 4.218 2.407 8.08 6.133 9.842l.863.41v3.092l-2.525-.51c-.356-.07-.717-.106-1.076-.106a5.45 5.45 0 0 0-3.14.996c-.653.46-1.022 1.202-.99 1.983a2.28 2.28 0 0 0 1.138 1.872c2.24 1.318 4.106 2.923 5.543 4.772 1.26 1.62 3.333 2.59 5.55 2.592h6.698c1.42-.001 2.68-.86 3.134-2.138l2.76-7.74c.272-.757.224-1.584-.134-2.325" fill-opacity=".05" fill="#000" mask="url(#B)" />
+			</g>
+		</g>
+	</g>
 </svg>`;
 
 /* @license
@@ -40937,87 +40954,87 @@ canvas {
 </style>
 <div class="container">
   <div class="userInput" tabindex="0" role="img"
-      aria-label="3D model">
-      <div class="slot canvas">
-        <slot name="canvas">
-          <canvas></canvas>
-        </slot>
-      </div>
+	  aria-label="3D model">
+	  <div class="slot canvas">
+		<slot name="canvas">
+		  <canvas></canvas>
+		</slot>
+	  </div>
 
   </div>
 
   <!-- NOTE(cdata): We need to wrap slots because browsers without ShadowDOM
-        will have their <slot> elements removed by ShadyCSS -->
+		will have their <slot> elements removed by ShadyCSS -->
   <div class="slot poster">
-    <slot name="poster">
-      <button type="button" id="default-poster" aria-hidden="true" aria-label="Loading 3D model"></button>
-    </slot>
+	<slot name="poster">
+	  <button type="button" id="default-poster" aria-hidden="true" aria-label="Loading 3D model"></button>
+	</slot>
   </div>
 
   <div class="slot ar-button">
-    <slot name="ar-button">
-      <a id="default-ar-button" part="default-ar-button" class="fab"
-          tabindex="2"
-          role="button"
-          href="javascript:void(0);"
-          aria-label="View in your space">
-        ${ARGlyph}
-      </a>
-    </slot>
+	<slot name="ar-button">
+	  <a id="default-ar-button" part="default-ar-button" class="fab"
+		  tabindex="2"
+		  role="button"
+		  href="javascript:void(0);"
+		  aria-label="View in your space">
+		${ARGlyph}
+	  </a>
+	</slot>
   </div>
 
   <div class="slot pan-target">
-    <slot name="pan-target">
-      <div id="default-pan-target">
-      </div>
-    </slot>
+	<slot name="pan-target">
+	  <div id="default-pan-target">
+	  </div>
+	</slot>
   </div>
 
   <div class="slot interaction-prompt cover centered">
-    <div id="prompt" class="animated-container">
-      <slot name="interaction-prompt" aria-hidden="true">
-        ${ControlsPrompt}
-      </slot>
-    </div>
+	<div id="prompt" class="animated-container">
+	  <slot name="interaction-prompt" aria-hidden="true">
+		${ControlsPrompt}
+	  </slot>
+	</div>
   </div>
 
   <div id="finger0" class="animated-container cover">
-    <slot name="finger0" aria-hidden="true">
-    </slot>
+	<slot name="finger0" aria-hidden="true">
+	</slot>
   </div>
   <div id="finger1" class="animated-container cover">
-    <slot name="finger1" aria-hidden="true">
-    </slot>
+	<slot name="finger1" aria-hidden="true">
+	</slot>
   </div>
 
   <div class="slot default">
-    <slot></slot>
+	<slot></slot>
 
-    <div class="slot progress-bar">
-      <slot name="progress-bar">
-        <div id="default-progress-bar" aria-hidden="true">
-          <div class="bar" part="default-progress-bar"></div>
-        </div>
-      </slot>
-    </div>
+	<div class="slot progress-bar">
+	  <slot name="progress-bar">
+		<div id="default-progress-bar" aria-hidden="true">
+		  <div class="bar" part="default-progress-bar"></div>
+		</div>
+	  </slot>
+	</div>
 
-    <div class="slot exit-webxr-ar-button">
-      <slot name="exit-webxr-ar-button">
-        <a id="default-exit-webxr-ar-button" part="default-exit-webxr-ar-button"
-            tabindex="3"
-            aria-label="Exit AR"
-            aria-hidden="true">
-          ${CloseIcon}
-        </a>
-      </slot>
-    </div>
+	<div class="slot exit-webxr-ar-button">
+	  <slot name="exit-webxr-ar-button">
+		<a id="default-exit-webxr-ar-button" part="default-exit-webxr-ar-button"
+			tabindex="3"
+			aria-label="Exit AR"
+			aria-hidden="true">
+		  ${CloseIcon}
+		</a>
+	  </slot>
+	</div>
   </div>
 </div>
 <div class="screen-reader-only" role="region" aria-label="Live announcements">
   <span id="status" role="status"></span>
 </div>`;
 const makeTemplate = (shadowRoot) => {
-    B$1(templateResult, shadowRoot);
+	B$1(templateResult, shadowRoot);
 };
 
 // This file is part of meshoptimizer library and is distributed under the terms of MIT License.
@@ -44069,7 +44086,7 @@ const PATH_PROPERTIES$1 = {
 
 const INTERPOLATION = {
 	CUBICSPLINE: undefined, // We use a custom interpolant (GLTFCubicSplineInterpolation) for CUBICSPLINE tracks. Each
-		                        // keyframe track will be initialized with a default interpolation type, then modified.
+								// keyframe track will be initialized with a default interpolation type, then modified.
 	LINEAR: InterpolateLinear,
 	STEP: InterpolateDiscrete
 };
@@ -45695,7 +45712,9 @@ class GLTFParser {
 				if ( primitive.extensions ) addUnknownExtensionsToUserData( extensions, mesh, primitive );
 
 				try {
-					if (mesh.material.userData && mesh.material.userData.parallaxMapping) {
+					Bugfender.log('IOS_AR: ' + IOS_AR)
+
+					if (!IOS_AR && mesh.material.userData && mesh.material.userData.parallaxMapping) {
 						var parallaxConfig = mesh.material.userData.parallaxMapping;
 
 						// Carregar a textura com o mapa de altura
@@ -45733,22 +45752,78 @@ class GLTFParser {
 							}),
 							vertexShader: `
 								varying vec2 vUv;
-
+								varying vec3 vViewPosition;
+								varying vec3 vNormal;
 								void main() {
-								vUv = uv;
-								gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+									vUv = uv;
+									vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
+									vViewPosition = -mvPosition.xyz;
+									vNormal = normalize( normalMatrix * normal );
+									gl_Position = projectionMatrix * mvPosition;
 								}
 							`,
 							fragmentShader: `
+								uniform sampler2D bumpMap;
 								uniform sampler2D map;
+			
+								uniform float parallaxScale;
+								uniform float parallaxMinLayers;
+								uniform float parallaxMaxLayers;
+			
 								varying vec2 vUv;
-
+								varying vec3 vViewPosition;
+								varying vec3 vNormal;
+			
+								vec2 parallaxMap( in vec3 V ) {
+			
+									// Determine number of layers from angle between V and N
+									float numLayers = mix( parallaxMaxLayers, parallaxMinLayers, abs( dot( vec3( 0.0, 0.0, 1.0 ), V ) ) );
+			
+									float layerHeight = 1.0 / numLayers;
+			
+									float currentLayerHeight = 1.0;
+									vec2 dtex = parallaxScale * V.xy / V.z / numLayers;
+									vec2 currentTextureCoords = vUv + dtex * numLayers;
+									float heightFromTexture = texture2D( bumpMap, currentTextureCoords ).r;
+									
+									for ( int i = 0; i == 0; i += 0 ) {
+										if ( heightFromTexture >= currentLayerHeight ) {
+											break;
+										}
+										currentLayerHeight -= layerHeight;
+										currentTextureCoords += dtex;
+			
+										heightFromTexture = texture2D( bumpMap, currentTextureCoords ).r;
+									}
+									return currentTextureCoords;
+								}
+			
+								vec2 perturbUv( vec3 surfPosition, vec3 surfNormal, vec3 viewPosition ) {
+									vec2 texDx = dFdx( vUv );
+									vec2 texDy = dFdy( vUv );
+									vec3 vSigmaX = dFdx( surfPosition );
+									vec3 vSigmaY = dFdy( surfPosition );
+									vec3 vR1 = cross( vSigmaY, surfNormal );
+									vec3 vR2 = cross( surfNormal, vSigmaX );
+									float fDet = dot( vSigmaX, vR1 );
+									vec2 vProjVscr = ( 1.0 / fDet ) * vec2( dot( vR1, viewPosition ), dot( vR2, viewPosition ) );
+									vec3 vProjVtex;
+									vProjVtex.xy = texDx * vProjVscr.x + texDy * vProjVscr.y;
+									vProjVtex.z = dot( surfNormal, viewPosition );
+									return parallaxMap( vProjVtex );
+								}
+			
 								void main() {
-								gl_FragColor = texture2D(map, vUv);
+									// Perturba as coordenadas UV com base no mapeamento de parallax
+									vec2 mapUv = perturbUv( -vViewPosition, normalize( vNormal ), normalize( vViewPosition ) );
+									
+									// Obtém a cor da textura usando as coordenadas UV perturbadas
+									gl_FragColor = texture2D( map, mapUv );
 								}
 							`
 						};
-						parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
+						// parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale;
+						parameters.uniforms['parallaxScale'].value = -1.0 * parallaxConfig.scale * 10;
 						parameters.uniforms['parallaxMinLayers'].value = parallaxConfig.minLayers;
 						parameters.uniforms['parallaxMaxLayers'].value = parallaxConfig.maxLayers;
 			
@@ -47769,87 +47844,87 @@ const $cache = Symbol('cache');
  * of an item release it, that item is considered evictable.
  */
 class CacheEvictionPolicy {
-    constructor(cache, evictionThreshold = 5) {
-        this[_a$9] = new Map();
-        this[_b$9] = [];
-        this[$cache] = cache;
-        this[$evictionThreshold] = evictionThreshold;
-    }
-    /**
-     * The eviction threshold is the maximum number of items to hold
-     * in cache indefinitely. Items within the threshold (in recently
-     * used order) will continue to be cached even if they have zero
-     * retainers.
-     */
-    set evictionThreshold(value) {
-        this[$evictionThreshold] = value;
-        this[$evict]();
-    }
-    get evictionThreshold() {
-        return this[$evictionThreshold];
-    }
-    /**
-     * A reference to the cache that operates under this policy
-     */
-    get cache() {
-        return this[$cache];
-    }
-    /**
-     * Given an item key, returns the number of retainers of that item
-     */
-    retainerCount(key) {
-        return this[$retainerCount].get(key) || 0;
-    }
-    /**
-     * Resets the internal tracking of cache item retainers. Use only in cases
-     * where it is certain that all retained cache items have been accounted for!
-     */
-    reset() {
-        this[$retainerCount].clear();
-        this[$recentlyUsed] = [];
-    }
-    /**
-     * Mark a given cache item as retained, where the item is represented
-     * by its key. An item can have any number of retainers.
-     */
-    retain(key) {
-        if (!this[$retainerCount].has(key)) {
-            this[$retainerCount].set(key, 0);
-        }
-        this[$retainerCount].set(key, this[$retainerCount].get(key) + 1);
-        const recentlyUsedIndex = this[$recentlyUsed].indexOf(key);
-        if (recentlyUsedIndex !== -1) {
-            this[$recentlyUsed].splice(recentlyUsedIndex, 1);
-        }
-        this[$recentlyUsed].unshift(key);
-        // Evict, in case retaining a new item pushed an evictable item beyond the
-        // eviction threshold
-        this[$evict]();
-    }
-    /**
-     * Mark a given cache item as released by one of its retainers, where the item
-     * is represented by its key. When all retainers of an item have released it,
-     * the item is considered evictable.
-     */
-    release(key) {
-        if (this[$retainerCount].has(key)) {
-            this[$retainerCount].set(key, Math.max(this[$retainerCount].get(key) - 1, 0));
-        }
-        this[$evict]();
-    }
-    [(_a$9 = $retainerCount, _b$9 = $recentlyUsed, $evict)]() {
-        if (this[$recentlyUsed].length < this[$evictionThreshold]) {
-            return;
-        }
-        for (let i = this[$recentlyUsed].length - 1; i >= this[$evictionThreshold]; --i) {
-            const key = this[$recentlyUsed][i];
-            const retainerCount = this[$retainerCount].get(key);
-            if (retainerCount === 0) {
-                this[$cache].delete(key);
-                this[$recentlyUsed].splice(i, 1);
-            }
-        }
-    }
+	constructor(cache, evictionThreshold = 5) {
+		this[_a$9] = new Map();
+		this[_b$9] = [];
+		this[$cache] = cache;
+		this[$evictionThreshold] = evictionThreshold;
+	}
+	/**
+	 * The eviction threshold is the maximum number of items to hold
+	 * in cache indefinitely. Items within the threshold (in recently
+	 * used order) will continue to be cached even if they have zero
+	 * retainers.
+	 */
+	set evictionThreshold(value) {
+		this[$evictionThreshold] = value;
+		this[$evict]();
+	}
+	get evictionThreshold() {
+		return this[$evictionThreshold];
+	}
+	/**
+	 * A reference to the cache that operates under this policy
+	 */
+	get cache() {
+		return this[$cache];
+	}
+	/**
+	 * Given an item key, returns the number of retainers of that item
+	 */
+	retainerCount(key) {
+		return this[$retainerCount].get(key) || 0;
+	}
+	/**
+	 * Resets the internal tracking of cache item retainers. Use only in cases
+	 * where it is certain that all retained cache items have been accounted for!
+	 */
+	reset() {
+		this[$retainerCount].clear();
+		this[$recentlyUsed] = [];
+	}
+	/**
+	 * Mark a given cache item as retained, where the item is represented
+	 * by its key. An item can have any number of retainers.
+	 */
+	retain(key) {
+		if (!this[$retainerCount].has(key)) {
+			this[$retainerCount].set(key, 0);
+		}
+		this[$retainerCount].set(key, this[$retainerCount].get(key) + 1);
+		const recentlyUsedIndex = this[$recentlyUsed].indexOf(key);
+		if (recentlyUsedIndex !== -1) {
+			this[$recentlyUsed].splice(recentlyUsedIndex, 1);
+		}
+		this[$recentlyUsed].unshift(key);
+		// Evict, in case retaining a new item pushed an evictable item beyond the
+		// eviction threshold
+		this[$evict]();
+	}
+	/**
+	 * Mark a given cache item as released by one of its retainers, where the item
+	 * is represented by its key. When all retainers of an item have released it,
+	 * the item is considered evictable.
+	 */
+	release(key) {
+		if (this[$retainerCount].has(key)) {
+			this[$retainerCount].set(key, Math.max(this[$retainerCount].get(key) - 1, 0));
+		}
+		this[$evict]();
+	}
+	[(_a$9 = $retainerCount, _b$9 = $recentlyUsed, $evict)]() {
+		if (this[$recentlyUsed].length < this[$evictionThreshold]) {
+			return;
+		}
+		for (let i = this[$recentlyUsed].length - 1; i >= this[$evictionThreshold]; --i) {
+			const key = this[$recentlyUsed][i];
+			const retainerCount = this[$retainerCount].get(key);
+			if (retainerCount === 0) {
+				this[$cache].delete(key);
+				this[$recentlyUsed].splice(i, 1);
+			}
+		}
+	}
 }
 
 /* @license
@@ -47877,21 +47952,21 @@ class CacheEvictionPolicy {
  * @return {Array<string>}
  */
 const ensureUniqueNames = (variantNames) => {
-    const uniqueNames = [];
-    const knownNames = new Set();
-    for (const name of variantNames) {
-        let uniqueName = name;
-        let suffix = 0;
-        // @TODO: An easy solution.
-        //        O(N^2) in the worst scenario where N is variantNames.length.
-        //        Fix me if needed.
-        while (knownNames.has(uniqueName)) {
-            uniqueName = name + '.' + (++suffix);
-        }
-        knownNames.add(uniqueName);
-        uniqueNames.push(uniqueName);
-    }
-    return uniqueNames;
+	const uniqueNames = [];
+	const knownNames = new Set();
+	for (const name of variantNames) {
+		let uniqueName = name;
+		let suffix = 0;
+		// @TODO: An easy solution.
+		//        O(N^2) in the worst scenario where N is variantNames.length.
+		//        Fix me if needed.
+		while (knownNames.has(uniqueName)) {
+			uniqueName = name + '.' + (++suffix);
+		}
+		knownNames.add(uniqueName);
+		uniqueNames.push(uniqueName);
+	}
+	return uniqueNames;
 };
 /**
  * Convert mappings array to table object to make handling the extension easier.
@@ -47902,59 +47977,59 @@ const ensureUniqueNames = (variantNames) => {
  * @return {Map}
  */
 const mappingsArrayToTable = (extensionDef) => {
-    const table = new Map();
-    for (const mapping of extensionDef.mappings) {
-        for (const variant of mapping.variants) {
-            table.set(variant, { material: null, gltfMaterialIndex: mapping.material });
-        }
-    }
-    return table;
+	const table = new Map();
+	for (const mapping of extensionDef.mappings) {
+		for (const variant of mapping.variants) {
+			table.set(variant, { material: null, gltfMaterialIndex: mapping.material });
+		}
+	}
+	return table;
 };
 class GLTFMaterialsVariantsExtension {
-    constructor(parser) {
-        this.parser = parser;
-        this.name = 'KHR_materials_variants';
-    }
-    // Note that the following properties will be overridden even if they are
-    // pre-defined
-    // - gltf.userData.variants
-    // - mesh.userData.variantMaterials
-    afterRoot(gltf) {
-        const parser = this.parser;
-        const json = parser.json;
-        if (json.extensions === undefined ||
-            json.extensions[this.name] === undefined) {
-            return null;
-        }
-        const extensionDef = json.extensions[this.name];
-        const variantsDef = extensionDef.variants || [];
-        const variants = ensureUniqueNames(variantsDef.map((v) => v.name));
-        for (const scene of gltf.scenes) {
-            // Save the variants data under associated mesh.userData
-            scene.traverse(object => {
-                const mesh = object;
-                if (!mesh.material) {
-                    return;
-                }
-                const association = parser.associations.get(mesh);
-                if (association == null || association.meshes == null ||
-                    association.primitives == null) {
-                    return;
-                }
-                const meshDef = json.meshes[association.meshes];
-                const primitivesDef = meshDef.primitives;
-                const primitiveDef = primitivesDef[association.primitives];
-                const extensionsDef = primitiveDef.extensions;
-                if (!extensionsDef || !extensionsDef[this.name]) {
-                    return;
-                }
-                mesh.userData.variantMaterials =
-                    mappingsArrayToTable(extensionsDef[this.name]);
-            });
-        }
-        gltf.userData.variants = variants;
-        return Promise.resolve();
-    }
+	constructor(parser) {
+		this.parser = parser;
+		this.name = 'KHR_materials_variants';
+	}
+	// Note that the following properties will be overridden even if they are
+	// pre-defined
+	// - gltf.userData.variants
+	// - mesh.userData.variantMaterials
+	afterRoot(gltf) {
+		const parser = this.parser;
+		const json = parser.json;
+		if (json.extensions === undefined ||
+			json.extensions[this.name] === undefined) {
+			return null;
+		}
+		const extensionDef = json.extensions[this.name];
+		const variantsDef = extensionDef.variants || [];
+		const variants = ensureUniqueNames(variantsDef.map((v) => v.name));
+		for (const scene of gltf.scenes) {
+			// Save the variants data under associated mesh.userData
+			scene.traverse(object => {
+				const mesh = object;
+				if (!mesh.material) {
+					return;
+				}
+				const association = parser.associations.get(mesh);
+				if (association == null || association.meshes == null ||
+					association.primitives == null) {
+					return;
+				}
+				const meshDef = json.meshes[association.meshes];
+				const primitivesDef = meshDef.primitives;
+				const primitiveDef = primitivesDef[association.primitives];
+				const extensionsDef = primitiveDef.extensions;
+				if (!extensionsDef || !extensionsDef[this.name]) {
+					return;
+				}
+				mesh.userData.variantMaterials =
+					mappingsArrayToTable(extensionsDef[this.name]);
+			});
+		}
+		gltf.userData.variants = variants;
+		return Promise.resolve();
+	}
 }
 
 /* @license
@@ -47977,24 +48052,24 @@ Texture$1.DEFAULT_ANISOTROPY = 4;
  * A helper to Promise-ify a Three.js GLTFLoader
  */
 const loadWithLoader = (url, loader, progressCallback = () => { }) => {
-    const onProgress = (event) => {
-        const fraction = event.loaded / event.total;
-        progressCallback(Math.max(0, Math.min(1, isFinite(fraction) ? fraction : 1)));
-    };
-    return new Promise((resolve, reject) => {
-        loader.load(url, resolve, onProgress, reject);
-    });
+	const onProgress = (event) => {
+		const fraction = event.loaded / event.total;
+		progressCallback(Math.max(0, Math.min(1, isFinite(fraction) ? fraction : 1)));
+	};
+	return new Promise((resolve, reject) => {
+		loader.load(url, resolve, onProgress, reject);
+	});
 };
 /** Helper to load a script tag. */
 const fetchScript = (src) => {
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        document.body.appendChild(script);
-        script.onload = resolve;
-        script.onerror = reject;
-        script.async = true;
-        script.src = src;
-    });
+	return new Promise((resolve, reject) => {
+		const script = document.createElement('script');
+		document.body.appendChild(script);
+		script.onload = resolve;
+		script.onerror = reject;
+		script.async = true;
+		script.src = src;
+	});
 };
 const cache = new Map();
 const preloaded = new Map();
@@ -48008,128 +48083,128 @@ const $loader = Symbol('loader');
 const $evictionPolicy = Symbol('evictionPolicy');
 const $GLTFInstance = Symbol('GLTFInstance');
 class CachingGLTFLoader extends EventDispatcher {
-    static setDRACODecoderLocation(url) {
-        dracoDecoderLocation = url;
-        dracoLoader.setDecoderPath(url);
-    }
-    static getDRACODecoderLocation() {
-        return dracoDecoderLocation;
-    }
-    static setKTX2TranscoderLocation(url) {
-        ktx2TranscoderLocation = url;
-        ktx2Loader.setTranscoderPath(url);
-    }
-    static getKTX2TranscoderLocation() {
-        return ktx2TranscoderLocation;
-    }
-    static setMeshoptDecoderLocation(url) {
-        if (meshoptDecoderLocation !== url) {
-            meshoptDecoderLocation = url;
-            meshoptDecoder = fetchScript(url)
-                .then(() => MeshoptDecoder.ready)
-                .then(() => MeshoptDecoder);
-        }
-    }
-    static getMeshoptDecoderLocation() {
-        return meshoptDecoderLocation;
-    }
-    static initializeKTX2Loader(renderer) {
-        ktx2Loader.detectSupport(renderer);
-    }
-    static get cache() {
-        return cache;
-    }
-    /** @nocollapse */
-    static clearCache() {
-        cache.forEach((_value, url) => {
-            this.delete(url);
-        });
-        this[$evictionPolicy].reset();
-    }
-    static has(url) {
-        return cache.has(url);
-    }
-    /** @nocollapse */
-    static async delete(url) {
-        if (!this.has(url)) {
-            return;
-        }
-        const gltfLoads = cache.get(url);
-        preloaded.delete(url);
-        cache.delete(url);
-        const gltf = await gltfLoads;
-        // Dispose of the cached glTF's materials and geometries:
-        gltf.dispose();
-    }
-    /**
-     * Returns true if the model that corresponds to the specified url is
-     * available in our local cache.
-     */
-    static hasFinishedLoading(url) {
-        return !!preloaded.get(url);
-    }
-    constructor(GLTFInstance) {
-        super();
-        this[_b$8] = new GLTFLoader().register(parser => new GLTFMaterialsVariantsExtension(parser));
-        this[$GLTFInstance] = GLTFInstance;
-        this[$loader].setDRACOLoader(dracoLoader);
-        this[$loader].setKTX2Loader(ktx2Loader);
-    }
-    get [(_a$8 = $evictionPolicy, _b$8 = $loader, $evictionPolicy)]() {
-        return this.constructor[$evictionPolicy];
-    }
-    /**
-     * Preloads a glTF, populating the cache. Returns a promise that resolves
-     * when the cache is populated.
-     */
-    async preload(url, element, progressCallback = () => { }) {
-        this[$loader].setWithCredentials(element.withCredentials);
-        this.dispatchEvent({ type: 'preload', element: element, src: url });
-        if (!cache.has(url)) {
-            if (meshoptDecoder != null) {
-                this[$loader].setMeshoptDecoder(await meshoptDecoder);
-            }
-            const rawGLTFLoads = loadWithLoader(url, this[$loader], (progress) => {
-                progressCallback(progress * 0.8);
-            });
-            const GLTFInstance = this[$GLTFInstance];
-            const gltfInstanceLoads = rawGLTFLoads
-                .then((rawGLTF) => {
-                return GLTFInstance.prepare(rawGLTF);
-            })
-                .then((preparedGLTF) => {
-                progressCallback(0.9);
-                return new GLTFInstance(preparedGLTF);
-            })
-                .catch((reason => {
-                console.error(reason);
-                return new GLTFInstance();
-            }));
-            cache.set(url, gltfInstanceLoads);
-        }
-        await cache.get(url);
-        preloaded.set(url, true);
-        if (progressCallback) {
-            progressCallback(1.0);
-        }
-    }
-    /**
-     * Loads a glTF from the specified url and resolves a unique clone of the
-     * glTF. If the glTF has already been loaded, makes a clone of the cached
-     * copy.
-     */
-    async load(url, element, progressCallback = () => { }) {
-        await this.preload(url, element, progressCallback);
-        const gltf = await cache.get(url);
-        const clone = await gltf.clone();
-        this[$evictionPolicy].retain(url);
-        // Patch dispose so that we can properly account for instance use
-        // in the caching layer:
-        clone.dispose = () => {
-            this[$evictionPolicy].release(url);
-        };
-        return clone;
-    }
+	static setDRACODecoderLocation(url) {
+		dracoDecoderLocation = url;
+		dracoLoader.setDecoderPath(url);
+	}
+	static getDRACODecoderLocation() {
+		return dracoDecoderLocation;
+	}
+	static setKTX2TranscoderLocation(url) {
+		ktx2TranscoderLocation = url;
+		ktx2Loader.setTranscoderPath(url);
+	}
+	static getKTX2TranscoderLocation() {
+		return ktx2TranscoderLocation;
+	}
+	static setMeshoptDecoderLocation(url) {
+		if (meshoptDecoderLocation !== url) {
+			meshoptDecoderLocation = url;
+			meshoptDecoder = fetchScript(url)
+				.then(() => MeshoptDecoder.ready)
+				.then(() => MeshoptDecoder);
+		}
+	}
+	static getMeshoptDecoderLocation() {
+		return meshoptDecoderLocation;
+	}
+	static initializeKTX2Loader(renderer) {
+		ktx2Loader.detectSupport(renderer);
+	}
+	static get cache() {
+		return cache;
+	}
+	/** @nocollapse */
+	static clearCache() {
+		cache.forEach((_value, url) => {
+			this.delete(url);
+		});
+		this[$evictionPolicy].reset();
+	}
+	static has(url) {
+		return cache.has(url);
+	}
+	/** @nocollapse */
+	static async delete(url) {
+		if (!this.has(url)) {
+			return;
+		}
+		const gltfLoads = cache.get(url);
+		preloaded.delete(url);
+		cache.delete(url);
+		const gltf = await gltfLoads;
+		// Dispose of the cached glTF's materials and geometries:
+		gltf.dispose();
+	}
+	/**
+	 * Returns true if the model that corresponds to the specified url is
+	 * available in our local cache.
+	 */
+	static hasFinishedLoading(url) {
+		return !!preloaded.get(url);
+	}
+	constructor(GLTFInstance) {
+		super();
+		this[_b$8] = new GLTFLoader().register(parser => new GLTFMaterialsVariantsExtension(parser));
+		this[$GLTFInstance] = GLTFInstance;
+		this[$loader].setDRACOLoader(dracoLoader);
+		this[$loader].setKTX2Loader(ktx2Loader);
+	}
+	get [(_a$8 = $evictionPolicy, _b$8 = $loader, $evictionPolicy)]() {
+		return this.constructor[$evictionPolicy];
+	}
+	/**
+	 * Preloads a glTF, populating the cache. Returns a promise that resolves
+	 * when the cache is populated.
+	 */
+	async preload(url, element, progressCallback = () => { }) {
+		this[$loader].setWithCredentials(element.withCredentials);
+		this.dispatchEvent({ type: 'preload', element: element, src: url });
+		if (!cache.has(url)) {
+			if (meshoptDecoder != null) {
+				this[$loader].setMeshoptDecoder(await meshoptDecoder);
+			}
+			const rawGLTFLoads = loadWithLoader(url, this[$loader], (progress) => {
+				progressCallback(progress * 0.8);
+			});
+			const GLTFInstance = this[$GLTFInstance];
+			const gltfInstanceLoads = rawGLTFLoads
+				.then((rawGLTF) => {
+				return GLTFInstance.prepare(rawGLTF);
+			})
+				.then((preparedGLTF) => {
+				progressCallback(0.9);
+				return new GLTFInstance(preparedGLTF);
+			})
+				.catch((reason => {
+				console.error(reason);
+				return new GLTFInstance();
+			}));
+			cache.set(url, gltfInstanceLoads);
+		}
+		await cache.get(url);
+		preloaded.set(url, true);
+		if (progressCallback) {
+			progressCallback(1.0);
+		}
+	}
+	/**
+	 * Loads a glTF from the specified url and resolves a unique clone of the
+	 * glTF. If the glTF has already been loaded, makes a clone of the cached
+	 * copy.
+	 */
+	async load(url, element, progressCallback = () => { }) {
+		await this.preload(url, element, progressCallback);
+		const gltf = await cache.get(url);
+		const clone = await gltf.clone();
+		this[$evictionPolicy].retain(url);
+		// Patch dispose so that we can properly account for instance use
+		// in the caching layer:
+		clone.dispose = () => {
+			this[$evictionPolicy].release(url);
+		};
+		return clone;
+	}
 }
 CachingGLTFLoader[_a$8] = new CacheEvictionPolicy(CachingGLTFLoader);
 
@@ -51333,8 +51408,8 @@ class GLTFMaterialsSpecularExtension {
 	async writeMaterialAsync( material, materialDef ) {
 
 		if ( ! material.isMeshPhysicalMaterial || ( material.specularIntensity === 1.0 &&
-		       material.specularColor.equals( DEFAULT_SPECULAR_COLOR ) &&
-		     ! material.specularIntensityMap && ! material.specularColorMap ) ) return;
+			   material.specularColor.equals( DEFAULT_SPECULAR_COLOR ) &&
+			 ! material.specularIntensityMap && ! material.specularColorMap ) ) return;
 
 		const writer = this.writer;
 		const extensionsUsed = writer.extensionsUsed;
@@ -51527,8 +51602,8 @@ class GLTFMaterialsBumpExtension {
 	async writeMaterialAsync( material, materialDef ) {
 
 		if ( ! material.isMeshStandardMaterial || (
-		       material.bumpScale === 1 &&
-		     ! material.bumpMap ) ) return;
+			   material.bumpScale === 1 &&
+			 ! material.bumpMap ) ) return;
 
 		const writer = this.writer;
 		const extensionsUsed = writer.extensionsUsed;
@@ -51859,117 +51934,117 @@ GLTFExporter.Utils = {
  * @return {boolean}
  */
 const compatibleObject = (object) => {
-    // @TODO: Need properer variantMaterials format validation?
-    return object.material !==
-        undefined && // easier than (!object.isMesh && !object.isLine &&
-        // !object.isPoints)
-        object.userData && // just in case
-        object.userData.variantMaterials &&
-        // Is this line costly?
-        !!Array
-            .from(object.userData.variantMaterials
-            .values())
-            .filter(m => compatibleMaterial(m.material));
+	// @TODO: Need properer variantMaterials format validation?
+	return object.material !==
+		undefined && // easier than (!object.isMesh && !object.isLine &&
+		// !object.isPoints)
+		object.userData && // just in case
+		object.userData.variantMaterials &&
+		// Is this line costly?
+		!!Array
+			.from(object.userData.variantMaterials
+			.values())
+			.filter(m => compatibleMaterial(m.material));
 };
 /**
  * @param material {THREE.Material}
  * @return {boolean}
  */
 const compatibleMaterial = (material) => {
-    // @TODO: support multi materials?
-    return material && material.isMaterial && !Array.isArray(material);
+	// @TODO: support multi materials?
+	return material && material.isMaterial && !Array.isArray(material);
 };
 class GLTFExporterMaterialsVariantsExtension {
-    constructor(writer) {
-        this.writer = writer;
-        this.name = 'KHR_materials_variants';
-        this.variantNames = [];
-    }
-    beforeParse(objects) {
-        // Find all variant names and store them to the table
-        const variantNameSet = new Set();
-        const addVariantNames = (o) => {
-            if (!compatibleObject(o)) {
-                return;
-            }
-            const variantMaterials = o.userData.variantMaterials;
-            const variantDataMap = o.userData.variantData;
-            for (const [variantName, variantData] of variantDataMap) {
-                const variantMaterial = variantMaterials.get(variantData.index);
-                // Ignore unloaded variant materials
-                if (variantMaterial && compatibleMaterial(variantMaterial.material)) {
-                    variantNameSet.add(variantName);
-                }
-            }
-        };
-        if (Array.isArray(objects)) {
-            for (const object of objects) {
-                object.traverse(addVariantNames);
-            }
-        }
-        else {
-            objects.traverse(addVariantNames);
-        }
-        // We may want to sort?
-        variantNameSet.forEach(name => this.variantNames.push(name));
-    }
-    async writeMesh(mesh, meshDef) {
-        if (!compatibleObject(mesh)) {
-            return;
-        }
-        const userData = mesh.userData;
-        const variantMaterials = userData.variantMaterials;
-        const variantDataMap = userData.variantData;
-        const mappingTable = new Map();
-        // Removes gaps in the variant indices list (caused by deleting variants).
-        const reIndexedVariants = new Map();
-        const variants = Array.from(variantDataMap.values()).sort((a, b) => {
-            return a.index - b.index;
-        });
-        for (const [i, variantData] of variants.entries()) {
-            reIndexedVariants.set(variantData.index, i);
-        }
-        for (const variantData of variantDataMap.values()) {
-            const variantInstance = variantMaterials.get(variantData.index);
-            if (!variantInstance || !compatibleMaterial(variantInstance.material)) {
-                continue;
-            }
-            const materialIndex = await this.writer.processMaterialAsync(variantInstance.material);
-            if (!mappingTable.has(materialIndex)) {
-                mappingTable.set(materialIndex, { material: materialIndex, variants: [] });
-            }
-            mappingTable.get(materialIndex).variants.push(reIndexedVariants.get(variantData.index));
-        }
-        const mappingsDef = Array.from(mappingTable.values())
-            .map((m => { return m.variants.sort((a, b) => a - b) && m; }))
-            .sort((a, b) => a.material - b.material);
-        if (mappingsDef.length === 0) {
-            return;
-        }
-        const originalMaterialIndex = compatibleMaterial(userData.originalMaterial) ?
-            await this.writer.processMaterialAsync(userData.originalMaterial) :
-            -1;
-        for (const primitiveDef of meshDef.primitives) {
-            // Override primitiveDef.material with original material.
-            if (originalMaterialIndex >= 0) {
-                primitiveDef.material = originalMaterialIndex;
-            }
-            primitiveDef.extensions = primitiveDef.extensions || {};
-            primitiveDef.extensions[this.name] = { mappings: mappingsDef };
-        }
-    }
-    afterParse() {
-        if (this.variantNames.length === 0) {
-            return;
-        }
-        const root = this.writer.json;
-        root.extensions = root.extensions || {};
-        const variantsDef = this.variantNames.map(n => {
-            return { name: n };
-        });
-        root.extensions[this.name] = { variants: variantsDef };
-        this.writer.extensionsUsed[this.name] = true;
-    }
+	constructor(writer) {
+		this.writer = writer;
+		this.name = 'KHR_materials_variants';
+		this.variantNames = [];
+	}
+	beforeParse(objects) {
+		// Find all variant names and store them to the table
+		const variantNameSet = new Set();
+		const addVariantNames = (o) => {
+			if (!compatibleObject(o)) {
+				return;
+			}
+			const variantMaterials = o.userData.variantMaterials;
+			const variantDataMap = o.userData.variantData;
+			for (const [variantName, variantData] of variantDataMap) {
+				const variantMaterial = variantMaterials.get(variantData.index);
+				// Ignore unloaded variant materials
+				if (variantMaterial && compatibleMaterial(variantMaterial.material)) {
+					variantNameSet.add(variantName);
+				}
+			}
+		};
+		if (Array.isArray(objects)) {
+			for (const object of objects) {
+				object.traverse(addVariantNames);
+			}
+		}
+		else {
+			objects.traverse(addVariantNames);
+		}
+		// We may want to sort?
+		variantNameSet.forEach(name => this.variantNames.push(name));
+	}
+	async writeMesh(mesh, meshDef) {
+		if (!compatibleObject(mesh)) {
+			return;
+		}
+		const userData = mesh.userData;
+		const variantMaterials = userData.variantMaterials;
+		const variantDataMap = userData.variantData;
+		const mappingTable = new Map();
+		// Removes gaps in the variant indices list (caused by deleting variants).
+		const reIndexedVariants = new Map();
+		const variants = Array.from(variantDataMap.values()).sort((a, b) => {
+			return a.index - b.index;
+		});
+		for (const [i, variantData] of variants.entries()) {
+			reIndexedVariants.set(variantData.index, i);
+		}
+		for (const variantData of variantDataMap.values()) {
+			const variantInstance = variantMaterials.get(variantData.index);
+			if (!variantInstance || !compatibleMaterial(variantInstance.material)) {
+				continue;
+			}
+			const materialIndex = await this.writer.processMaterialAsync(variantInstance.material);
+			if (!mappingTable.has(materialIndex)) {
+				mappingTable.set(materialIndex, { material: materialIndex, variants: [] });
+			}
+			mappingTable.get(materialIndex).variants.push(reIndexedVariants.get(variantData.index));
+		}
+		const mappingsDef = Array.from(mappingTable.values())
+			.map((m => { return m.variants.sort((a, b) => a - b) && m; }))
+			.sort((a, b) => a.material - b.material);
+		if (mappingsDef.length === 0) {
+			return;
+		}
+		const originalMaterialIndex = compatibleMaterial(userData.originalMaterial) ?
+			await this.writer.processMaterialAsync(userData.originalMaterial) :
+			-1;
+		for (const primitiveDef of meshDef.primitives) {
+			// Override primitiveDef.material with original material.
+			if (originalMaterialIndex >= 0) {
+				primitiveDef.material = originalMaterialIndex;
+			}
+			primitiveDef.extensions = primitiveDef.extensions || {};
+			primitiveDef.extensions[this.name] = { mappings: mappingsDef };
+		}
+	}
+	afterParse() {
+		if (this.variantNames.length === 0) {
+			return;
+		}
+		const root = this.writer.json;
+		root.extensions = root.extensions || {};
+		const variantsDef = this.variantNames.map(n => {
+			return { name: n };
+		});
+		root.extensions[this.name] = { variants: variantsDef };
+		this.writer.extensionsUsed[this.name] = true;
+	}
 }
 
 class SessionLightProbe {
@@ -52215,47 +52290,47 @@ const DECAY_MILLISECONDS = 50;
  * same convergence for all states.
  */
 class Damper {
-    constructor(decayMilliseconds = DECAY_MILLISECONDS) {
-        this.velocity = 0;
-        this.naturalFrequency = 0;
-        this.setDecayTime(decayMilliseconds);
-    }
-    setDecayTime(decayMilliseconds) {
-        this.naturalFrequency =
-            1 / Math.max(MIN_DECAY_MILLISECONDS, decayMilliseconds);
-    }
-    update(x, xGoal, timeStepMilliseconds, xNormalization) {
-        const nilSpeed = 0.0002 * this.naturalFrequency;
-        if (x == null || xNormalization === 0) {
-            return xGoal;
-        }
-        if (x === xGoal && this.velocity === 0) {
-            return xGoal;
-        }
-        if (timeStepMilliseconds < 0) {
-            return x;
-        }
-        // Exact solution to a critically damped second-order system, where:
-        // acceleration = this.naturalFrequency * this.naturalFrequency * (xGoal
-        // - x) - 2 * this.naturalFrequency * this.velocity;
-        const deltaX = (x - xGoal);
-        const intermediateVelocity = this.velocity + this.naturalFrequency * deltaX;
-        const intermediateX = deltaX + timeStepMilliseconds * intermediateVelocity;
-        const decay = Math.exp(-this.naturalFrequency * timeStepMilliseconds);
-        const newVelocity = (intermediateVelocity - this.naturalFrequency * intermediateX) * decay;
-        const acceleration = -this.naturalFrequency * (newVelocity + intermediateVelocity * decay);
-        if (Math.abs(newVelocity) < nilSpeed * Math.abs(xNormalization) &&
-            acceleration * deltaX >= 0) {
-            // This ensures the controls settle and stop calling this function instead
-            // of asymptotically approaching their goal.
-            this.velocity = 0;
-            return xGoal;
-        }
-        else {
-            this.velocity = newVelocity;
-            return xGoal + intermediateX * decay;
-        }
-    }
+	constructor(decayMilliseconds = DECAY_MILLISECONDS) {
+		this.velocity = 0;
+		this.naturalFrequency = 0;
+		this.setDecayTime(decayMilliseconds);
+	}
+	setDecayTime(decayMilliseconds) {
+		this.naturalFrequency =
+			1 / Math.max(MIN_DECAY_MILLISECONDS, decayMilliseconds);
+	}
+	update(x, xGoal, timeStepMilliseconds, xNormalization) {
+		const nilSpeed = 0.0002 * this.naturalFrequency;
+		if (x == null || xNormalization === 0) {
+			return xGoal;
+		}
+		if (x === xGoal && this.velocity === 0) {
+			return xGoal;
+		}
+		if (timeStepMilliseconds < 0) {
+			return x;
+		}
+		// Exact solution to a critically damped second-order system, where:
+		// acceleration = this.naturalFrequency * this.naturalFrequency * (xGoal
+		// - x) - 2 * this.naturalFrequency * this.velocity;
+		const deltaX = (x - xGoal);
+		const intermediateVelocity = this.velocity + this.naturalFrequency * deltaX;
+		const intermediateX = deltaX + timeStepMilliseconds * intermediateVelocity;
+		const decay = Math.exp(-this.naturalFrequency * timeStepMilliseconds);
+		const newVelocity = (intermediateVelocity - this.naturalFrequency * intermediateX) * decay;
+		const acceleration = -this.naturalFrequency * (newVelocity + intermediateVelocity * decay);
+		if (Math.abs(newVelocity) < nilSpeed * Math.abs(xNormalization) &&
+			acceleration * deltaX >= 0) {
+			// This ensures the controls settle and stop calling this function instead
+			// of asymptotically approaching their goal.
+			this.velocity = 0;
+			return xGoal;
+		}
+		else {
+			this.velocity = newVelocity;
+			return xGoal + intermediateX * decay;
+		}
+	}
 }
 
 /* @license
@@ -52283,12 +52358,12 @@ const vector2$1 = new Vector2();
  * cornerY.
  */
 const addCorner = (vertices, cornerX, cornerY) => {
-    let phi = cornerX > 0 ? (cornerY > 0 ? 0 : -Math.PI / 2) :
-        (cornerY > 0 ? Math.PI / 2 : Math.PI);
-    for (let i = 0; i <= SEGMENTS; ++i) {
-        vertices.push(cornerX + (RADIUS - LINE_WIDTH) * Math.cos(phi), cornerY + (RADIUS - LINE_WIDTH) * Math.sin(phi), 0, cornerX + RADIUS * Math.cos(phi), cornerY + RADIUS * Math.sin(phi), 0);
-        phi += DELTA_PHI;
-    }
+	let phi = cornerX > 0 ? (cornerY > 0 ? 0 : -Math.PI / 2) :
+		(cornerY > 0 ? Math.PI / 2 : Math.PI);
+	for (let i = 0; i <= SEGMENTS; ++i) {
+		vertices.push(cornerX + (RADIUS - LINE_WIDTH) * Math.cos(phi), cornerY + (RADIUS - LINE_WIDTH) * Math.sin(phi), 0, cornerX + RADIUS * Math.cos(phi), cornerY + RADIUS * Math.sin(phi), 0);
+		phi += DELTA_PHI;
+	}
 };
 /**
  * This class is a set of two coincident planes. The first is just a cute box
@@ -52303,134 +52378,134 @@ const addCorner = (vertices, cornerX, cornerY) => {
  * otherwise).
  */
 class PlacementBox extends Mesh {
-    constructor(scene, side) {
-        const geometry = new BufferGeometry();
-        const triangles = [];
-        const vertices = [];
-        const { size, boundingBox } = scene;
-        const x = size.x / 2;
-        const y = (side === 'back' ? size.y : size.z) / 2;
-        addCorner(vertices, x, y);
-        addCorner(vertices, -x, y);
-        addCorner(vertices, -x, -y);
-        addCorner(vertices, x, -y);
-        const numVertices = vertices.length / 3;
-        for (let i = 0; i < numVertices - 2; i += 2) {
-            triangles.push(i, i + 1, i + 3, i, i + 3, i + 2);
-        }
-        const i = numVertices - 2;
-        triangles.push(i, i + 1, 1, i, 1, 0);
-        geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
-        geometry.setIndex(triangles);
-        super(geometry);
-        this.side = side;
-        const material = this.material;
-        material.side = DoubleSide;
-        material.transparent = true;
-        material.opacity = 0;
-        this.goalOpacity = 0;
-        this.opacityDamper = new Damper();
-        this.hitPlane =
-            new Mesh(new PlaneGeometry(2 * (x + RADIUS), 2 * (y + RADIUS)));
-        this.hitPlane.visible = false;
-        this.hitPlane.material.side = DoubleSide;
-        this.add(this.hitPlane);
-        // The box matches the dimensions of the plane (extra radius all around),
-        // but only the top is expanded by radius, not the bottom.
-        this.hitBox = new Mesh(new BoxGeometry(size.x + 2 * RADIUS, size.y + RADIUS, size.z + 2 * RADIUS));
-        this.hitBox.visible = false;
-        this.hitBox.material.side = DoubleSide;
-        this.add(this.hitBox);
-        boundingBox.getCenter(this.position);
-        switch (side) {
-            case 'bottom':
-                this.rotateX(-Math.PI / 2);
-                this.shadowHeight = boundingBox.min.y;
-                this.position.y = this.shadowHeight;
-                break;
-            case 'back':
-                this.shadowHeight = boundingBox.min.z;
-                this.position.z = this.shadowHeight;
-        }
-        scene.target.add(this);
-        this.hitBox.position.y = (size.y + RADIUS) / 2 + boundingBox.min.y;
-        scene.target.add(this.hitBox);
-        this.offsetHeight = 0;
-    }
-    /**
-     * Get the world hit position if the touch coordinates hit the box, and null
-     * otherwise. Pass the scene in to get access to its raycaster.
-     */
-    getHit(scene, screenX, screenY) {
-        vector2$1.set(screenX, -screenY);
-        this.hitPlane.visible = true;
-        const hitResult = scene.positionAndNormalFromPoint(vector2$1, this.hitPlane);
-        this.hitPlane.visible = false;
-        return hitResult == null ? null : hitResult.position;
-    }
-    getExpandedHit(scene, screenX, screenY) {
-        this.hitPlane.scale.set(1000, 1000, 1000);
-        this.hitPlane.updateMatrixWorld();
-        const hitResult = this.getHit(scene, screenX, screenY);
-        this.hitPlane.scale.set(1, 1, 1);
-        return hitResult;
-    }
-    controllerIntersection(scene, controller) {
-        this.hitBox.visible = true;
-        const hitResult = scene.hitFromController(controller, this.hitBox);
-        this.hitBox.visible = false;
-        return hitResult;
-    }
-    /**
-     * Offset the height of the box relative to the bottom of the scene. Positive
-     * is up, so generally only negative values are used.
-     */
-    set offsetHeight(offset) {
-        offset -= 0.001; // push 1 mm below shadow to avoid z-fighting
-        if (this.side === 'back') {
-            this.position.z = this.shadowHeight + offset;
-        }
-        else {
-            this.position.y = this.shadowHeight + offset;
-        }
-    }
-    get offsetHeight() {
-        if (this.side === 'back') {
-            return this.position.z - this.shadowHeight;
-        }
-        else {
-            return this.position.y - this.shadowHeight;
-        }
-    }
-    /**
-     * Set the box's visibility; it will fade in and out.
-     */
-    set show(visible) {
-        this.goalOpacity = visible ? MAX_OPACITY : 0;
-    }
-    /**
-     * Call on each frame with the frame delta to fade the box.
-     */
-    updateOpacity(delta) {
-        const material = this.material;
-        material.opacity =
-            this.opacityDamper.update(material.opacity, this.goalOpacity, delta, 1);
-        this.visible = material.opacity > 0;
-    }
-    /**
-     * Call this to clean up Three's cache when you remove the box.
-     */
-    dispose() {
-        const { geometry, material } = this.hitPlane;
-        geometry.dispose();
-        material.dispose();
-        this.hitBox.geometry.dispose();
-        this.hitBox.material.dispose();
-        this.geometry.dispose();
-        this.material.dispose();
-        this.hitBox.removeFromParent();
-        this.removeFromParent();
-    }
+	constructor(scene, side) {
+		const geometry = new BufferGeometry();
+		const triangles = [];
+		const vertices = [];
+		const { size, boundingBox } = scene;
+		const x = size.x / 2;
+		const y = (side === 'back' ? size.y : size.z) / 2;
+		addCorner(vertices, x, y);
+		addCorner(vertices, -x, y);
+		addCorner(vertices, -x, -y);
+		addCorner(vertices, x, -y);
+		const numVertices = vertices.length / 3;
+		for (let i = 0; i < numVertices - 2; i += 2) {
+			triangles.push(i, i + 1, i + 3, i, i + 3, i + 2);
+		}
+		const i = numVertices - 2;
+		triangles.push(i, i + 1, 1, i, 1, 0);
+		geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
+		geometry.setIndex(triangles);
+		super(geometry);
+		this.side = side;
+		const material = this.material;
+		material.side = DoubleSide;
+		material.transparent = true;
+		material.opacity = 0;
+		this.goalOpacity = 0;
+		this.opacityDamper = new Damper();
+		this.hitPlane =
+			new Mesh(new PlaneGeometry(2 * (x + RADIUS), 2 * (y + RADIUS)));
+		this.hitPlane.visible = false;
+		this.hitPlane.material.side = DoubleSide;
+		this.add(this.hitPlane);
+		// The box matches the dimensions of the plane (extra radius all around),
+		// but only the top is expanded by radius, not the bottom.
+		this.hitBox = new Mesh(new BoxGeometry(size.x + 2 * RADIUS, size.y + RADIUS, size.z + 2 * RADIUS));
+		this.hitBox.visible = false;
+		this.hitBox.material.side = DoubleSide;
+		this.add(this.hitBox);
+		boundingBox.getCenter(this.position);
+		switch (side) {
+			case 'bottom':
+				this.rotateX(-Math.PI / 2);
+				this.shadowHeight = boundingBox.min.y;
+				this.position.y = this.shadowHeight;
+				break;
+			case 'back':
+				this.shadowHeight = boundingBox.min.z;
+				this.position.z = this.shadowHeight;
+		}
+		scene.target.add(this);
+		this.hitBox.position.y = (size.y + RADIUS) / 2 + boundingBox.min.y;
+		scene.target.add(this.hitBox);
+		this.offsetHeight = 0;
+	}
+	/**
+	 * Get the world hit position if the touch coordinates hit the box, and null
+	 * otherwise. Pass the scene in to get access to its raycaster.
+	 */
+	getHit(scene, screenX, screenY) {
+		vector2$1.set(screenX, -screenY);
+		this.hitPlane.visible = true;
+		const hitResult = scene.positionAndNormalFromPoint(vector2$1, this.hitPlane);
+		this.hitPlane.visible = false;
+		return hitResult == null ? null : hitResult.position;
+	}
+	getExpandedHit(scene, screenX, screenY) {
+		this.hitPlane.scale.set(1000, 1000, 1000);
+		this.hitPlane.updateMatrixWorld();
+		const hitResult = this.getHit(scene, screenX, screenY);
+		this.hitPlane.scale.set(1, 1, 1);
+		return hitResult;
+	}
+	controllerIntersection(scene, controller) {
+		this.hitBox.visible = true;
+		const hitResult = scene.hitFromController(controller, this.hitBox);
+		this.hitBox.visible = false;
+		return hitResult;
+	}
+	/**
+	 * Offset the height of the box relative to the bottom of the scene. Positive
+	 * is up, so generally only negative values are used.
+	 */
+	set offsetHeight(offset) {
+		offset -= 0.001; // push 1 mm below shadow to avoid z-fighting
+		if (this.side === 'back') {
+			this.position.z = this.shadowHeight + offset;
+		}
+		else {
+			this.position.y = this.shadowHeight + offset;
+		}
+	}
+	get offsetHeight() {
+		if (this.side === 'back') {
+			return this.position.z - this.shadowHeight;
+		}
+		else {
+			return this.position.y - this.shadowHeight;
+		}
+	}
+	/**
+	 * Set the box's visibility; it will fade in and out.
+	 */
+	set show(visible) {
+		this.goalOpacity = visible ? MAX_OPACITY : 0;
+	}
+	/**
+	 * Call on each frame with the frame delta to fade the box.
+	 */
+	updateOpacity(delta) {
+		const material = this.material;
+		material.opacity =
+			this.opacityDamper.update(material.opacity, this.goalOpacity, delta, 1);
+		this.visible = material.opacity > 0;
+	}
+	/**
+	 * Call this to clean up Three's cache when you remove the box.
+	 */
+	dispose() {
+		const { geometry, material } = this.hitPlane;
+		geometry.dispose();
+		material.dispose();
+		this.hitBox.geometry.dispose();
+		this.hitBox.material.dispose();
+		this.geometry.dispose();
+		this.material.dispose();
+		this.hitBox.removeFromParent();
+		this.removeFromParent();
+	}
 }
 
 /* @license
@@ -52467,31 +52542,31 @@ const numberNode = (value, unit) => ({ type: 'number', number: value, unit });
  * @see https://www.w3.org/TR/css-values-3/
  */
 const parseExpressions = (() => {
-    const cache = {};
-    const MAX_PARSE_ITERATIONS = 1000; // Arbitrarily large
-    return (inputString) => {
-        const cacheKey = inputString;
-        if (cacheKey in cache) {
-            return cache[cacheKey];
-        }
-        const expressions = [];
-        let parseIterations = 0;
-        while (inputString) {
-            if (++parseIterations > MAX_PARSE_ITERATIONS) {
-                // Avoid a potentially infinite loop due to typos:
-                inputString = '';
-                break;
-            }
-            const expressionParseResult = parseExpression(inputString);
-            const expression = expressionParseResult.nodes[0];
-            if (expression == null || expression.terms.length === 0) {
-                break;
-            }
-            expressions.push(expression);
-            inputString = expressionParseResult.remainingInput;
-        }
-        return cache[cacheKey] = expressions;
-    };
+	const cache = {};
+	const MAX_PARSE_ITERATIONS = 1000; // Arbitrarily large
+	return (inputString) => {
+		const cacheKey = inputString;
+		if (cacheKey in cache) {
+			return cache[cacheKey];
+		}
+		const expressions = [];
+		let parseIterations = 0;
+		while (inputString) {
+			if (++parseIterations > MAX_PARSE_ITERATIONS) {
+				// Avoid a potentially infinite loop due to typos:
+				inputString = '';
+				break;
+			}
+			const expressionParseResult = parseExpression(inputString);
+			const expression = expressionParseResult.nodes[0];
+			if (expression == null || expression.terms.length === 0) {
+				break;
+			}
+			expressions.push(expression);
+			inputString = expressionParseResult.remainingInput;
+		}
+		return cache[cacheKey] = expressions;
+	};
 })();
 /**
  * Parse a single expression. For the purposes of our supported syntax, an
@@ -52499,72 +52574,72 @@ const parseExpressions = (() => {
  * next comma, or between the parens of a function invocation.
  */
 const parseExpression = (() => {
-    const IS_IDENT_RE = /^(\-\-|[a-z\u0240-\uffff])/i;
-    const IS_OPERATOR_RE = /^([\*\+\/]|[\-]\s)/i;
-    const IS_EXPRESSION_END_RE = /^[\),]/;
-    const FUNCTION_ARGUMENTS_FIRST_TOKEN = '(';
-    const HEX_FIRST_TOKEN = '#';
-    return (inputString) => {
-        const terms = [];
-        while (inputString.length) {
-            inputString = inputString.trim();
-            if (IS_EXPRESSION_END_RE.test(inputString)) {
-                break;
-            }
-            else if (inputString[0] === FUNCTION_ARGUMENTS_FIRST_TOKEN) {
-                const { nodes, remainingInput } = parseFunctionArguments(inputString);
-                inputString = remainingInput;
-                terms.push({
-                    type: 'function',
-                    name: { type: 'ident', value: 'calc' },
-                    arguments: nodes
-                });
-            }
-            else if (IS_IDENT_RE.test(inputString)) {
-                const identParseResult = parseIdent(inputString);
-                const identNode = identParseResult.nodes[0];
-                inputString = identParseResult.remainingInput;
-                if (inputString[0] === FUNCTION_ARGUMENTS_FIRST_TOKEN) {
-                    const { nodes, remainingInput } = parseFunctionArguments(inputString);
-                    terms.push({ type: 'function', name: identNode, arguments: nodes });
-                    inputString = remainingInput;
-                }
-                else {
-                    terms.push(identNode);
-                }
-            }
-            else if (IS_OPERATOR_RE.test(inputString)) {
-                // Operators are always a single character, so just pluck them out:
-                terms.push({ type: 'operator', value: inputString[0] });
-                inputString = inputString.slice(1);
-            }
-            else {
-                const { nodes, remainingInput } = inputString[0] === HEX_FIRST_TOKEN ?
-                    parseHex(inputString) :
-                    parseNumber(inputString);
-                // The remaining string may not have had any meaningful content. Exit
-                // early if this is the case:
-                if (nodes.length === 0) {
-                    break;
-                }
-                terms.push(nodes[0]);
-                inputString = remainingInput;
-            }
-        }
-        return { nodes: [{ type: 'expression', terms }], remainingInput: inputString };
-    };
+	const IS_IDENT_RE = /^(\-\-|[a-z\u0240-\uffff])/i;
+	const IS_OPERATOR_RE = /^([\*\+\/]|[\-]\s)/i;
+	const IS_EXPRESSION_END_RE = /^[\),]/;
+	const FUNCTION_ARGUMENTS_FIRST_TOKEN = '(';
+	const HEX_FIRST_TOKEN = '#';
+	return (inputString) => {
+		const terms = [];
+		while (inputString.length) {
+			inputString = inputString.trim();
+			if (IS_EXPRESSION_END_RE.test(inputString)) {
+				break;
+			}
+			else if (inputString[0] === FUNCTION_ARGUMENTS_FIRST_TOKEN) {
+				const { nodes, remainingInput } = parseFunctionArguments(inputString);
+				inputString = remainingInput;
+				terms.push({
+					type: 'function',
+					name: { type: 'ident', value: 'calc' },
+					arguments: nodes
+				});
+			}
+			else if (IS_IDENT_RE.test(inputString)) {
+				const identParseResult = parseIdent(inputString);
+				const identNode = identParseResult.nodes[0];
+				inputString = identParseResult.remainingInput;
+				if (inputString[0] === FUNCTION_ARGUMENTS_FIRST_TOKEN) {
+					const { nodes, remainingInput } = parseFunctionArguments(inputString);
+					terms.push({ type: 'function', name: identNode, arguments: nodes });
+					inputString = remainingInput;
+				}
+				else {
+					terms.push(identNode);
+				}
+			}
+			else if (IS_OPERATOR_RE.test(inputString)) {
+				// Operators are always a single character, so just pluck them out:
+				terms.push({ type: 'operator', value: inputString[0] });
+				inputString = inputString.slice(1);
+			}
+			else {
+				const { nodes, remainingInput } = inputString[0] === HEX_FIRST_TOKEN ?
+					parseHex(inputString) :
+					parseNumber(inputString);
+				// The remaining string may not have had any meaningful content. Exit
+				// early if this is the case:
+				if (nodes.length === 0) {
+					break;
+				}
+				terms.push(nodes[0]);
+				inputString = remainingInput;
+			}
+		}
+		return { nodes: [{ type: 'expression', terms }], remainingInput: inputString };
+	};
 })();
 /**
  * An ident is something like a function name or the keyword "auto".
  */
 const parseIdent = (() => {
-    const NOT_IDENT_RE = /[^a-z0-9_\-\u0240-\uffff]/i;
-    return (inputString) => {
-        const match = inputString.match(NOT_IDENT_RE);
-        const ident = match == null ? inputString : inputString.substr(0, match.index);
-        const remainingInput = match == null ? '' : inputString.substr(match.index);
-        return { nodes: [{ type: 'ident', value: ident }], remainingInput };
-    };
+	const NOT_IDENT_RE = /[^a-z0-9_\-\u0240-\uffff]/i;
+	return (inputString) => {
+		const match = inputString.match(NOT_IDENT_RE);
+		const ident = match == null ? inputString : inputString.substr(0, match.index);
+		const remainingInput = match == null ? '' : inputString.substr(match.index);
+		return { nodes: [{ type: 'ident', value: ident }], remainingInput };
+	};
 })();
 /**
  * Parses a number. A number value can be expressed with an integer or
@@ -52572,69 +52647,69 @@ const parseIdent = (() => {
  * require one for our purposes).
  */
 const parseNumber = (() => {
-    // @see https://www.w3.org/TR/css-syntax/#number-token-diagram
-    const VALUE_RE = /[\+\-]?(\d+[\.]\d+|\d+|[\.]\d+)([eE][\+\-]?\d+)?/;
-    const UNIT_RE = /^[a-z%]+/i;
-    const ALLOWED_UNITS = /^(m|mm|cm|rad|deg|[%])$/;
-    return (inputString) => {
-        const valueMatch = inputString.match(VALUE_RE);
-        const value = valueMatch == null ? '0' : valueMatch[0];
-        inputString = value == null ? inputString : inputString.slice(value.length);
-        const unitMatch = inputString.match(UNIT_RE);
-        let unit = unitMatch != null && unitMatch[0] !== '' ? unitMatch[0] : null;
-        const remainingInput = unitMatch == null ? inputString : inputString.slice(unit.length);
-        if (unit != null && !ALLOWED_UNITS.test(unit)) {
-            unit = null;
-        }
-        return {
-            nodes: [{
-                    type: 'number',
-                    number: parseFloat(value) || 0,
-                    unit: unit
-                }],
-            remainingInput
-        };
-    };
+	// @see https://www.w3.org/TR/css-syntax/#number-token-diagram
+	const VALUE_RE = /[\+\-]?(\d+[\.]\d+|\d+|[\.]\d+)([eE][\+\-]?\d+)?/;
+	const UNIT_RE = /^[a-z%]+/i;
+	const ALLOWED_UNITS = /^(m|mm|cm|rad|deg|[%])$/;
+	return (inputString) => {
+		const valueMatch = inputString.match(VALUE_RE);
+		const value = valueMatch == null ? '0' : valueMatch[0];
+		inputString = value == null ? inputString : inputString.slice(value.length);
+		const unitMatch = inputString.match(UNIT_RE);
+		let unit = unitMatch != null && unitMatch[0] !== '' ? unitMatch[0] : null;
+		const remainingInput = unitMatch == null ? inputString : inputString.slice(unit.length);
+		if (unit != null && !ALLOWED_UNITS.test(unit)) {
+			unit = null;
+		}
+		return {
+			nodes: [{
+					type: 'number',
+					number: parseFloat(value) || 0,
+					unit: unit
+				}],
+			remainingInput
+		};
+	};
 })();
 /**
  * Parses a hexadecimal-encoded color in 3, 6 or 8 digit form.
  */
 const parseHex = (() => {
-    // TODO(cdata): right now we don't actually enforce the number of digits
-    const HEX_RE = /^[a-f0-9]*/i;
-    return (inputString) => {
-        inputString = inputString.slice(1).trim();
-        const hexMatch = inputString.match(HEX_RE);
-        const nodes = hexMatch == null ? [] : [{ type: 'hex', value: hexMatch[0] }];
-        return {
-            nodes,
-            remainingInput: hexMatch == null ? inputString :
-                inputString.slice(hexMatch[0].length)
-        };
-    };
+	// TODO(cdata): right now we don't actually enforce the number of digits
+	const HEX_RE = /^[a-f0-9]*/i;
+	return (inputString) => {
+		inputString = inputString.slice(1).trim();
+		const hexMatch = inputString.match(HEX_RE);
+		const nodes = hexMatch == null ? [] : [{ type: 'hex', value: hexMatch[0] }];
+		return {
+			nodes,
+			remainingInput: hexMatch == null ? inputString :
+				inputString.slice(hexMatch[0].length)
+		};
+	};
 })();
 /**
  * Parses arguments passed to a function invocation (e.g., the expressions
  * within a matched set of parens).
  */
 const parseFunctionArguments = (inputString) => {
-    const expressionNodes = [];
-    // Consume the opening paren
-    inputString = inputString.slice(1).trim();
-    while (inputString.length) {
-        const expressionParseResult = parseExpression(inputString);
-        expressionNodes.push(expressionParseResult.nodes[0]);
-        inputString = expressionParseResult.remainingInput.trim();
-        if (inputString[0] === ',') {
-            inputString = inputString.slice(1).trim();
-        }
-        else if (inputString[0] === ')') {
-            // Consume the closing paren and stop parsing
-            inputString = inputString.slice(1);
-            break;
-        }
-    }
-    return { nodes: expressionNodes, remainingInput: inputString };
+	const expressionNodes = [];
+	// Consume the opening paren
+	inputString = inputString.slice(1).trim();
+	while (inputString.length) {
+		const expressionParseResult = parseExpression(inputString);
+		expressionNodes.push(expressionParseResult.nodes[0]);
+		inputString = expressionParseResult.remainingInput.trim();
+		if (inputString[0] === ',') {
+			inputString = inputString.slice(1).trim();
+		}
+		else if (inputString[0] === ')') {
+			// Consume the closing paren and stop parsing
+			inputString = inputString.slice(1);
+			break;
+		}
+	}
+	return { nodes: expressionNodes, remainingInput: inputString };
 };
 const $visitedTypes = Symbol('visitedTypes');
 /**
@@ -52643,30 +52718,30 @@ const $visitedTypes = Symbol('visitedTypes');
  * the user wishes to "visit" during the walk.
  */
 class ASTWalker {
-    constructor(visitedTypes) {
-        this[$visitedTypes] = visitedTypes;
-    }
-    /**
-     * Walk the given set of ASTs, and invoke the provided callback for nodes that
-     * match the filtered set that the ASTWalker was constructed with.
-     */
-    walk(ast, callback) {
-        const remaining = ast.slice();
-        while (remaining.length) {
-            const next = remaining.shift();
-            if (this[$visitedTypes].indexOf(next.type) > -1) {
-                callback(next);
-            }
-            switch (next.type) {
-                case 'expression':
-                    remaining.unshift(...next.terms);
-                    break;
-                case 'function':
-                    remaining.unshift(next.name, ...next.arguments);
-                    break;
-            }
-        }
-    }
+	constructor(visitedTypes) {
+		this[$visitedTypes] = visitedTypes;
+	}
+	/**
+	 * Walk the given set of ASTs, and invoke the provided callback for nodes that
+	 * match the filtered set that the ASTWalker was constructed with.
+	 */
+	walk(ast, callback) {
+		const remaining = ast.slice();
+		while (remaining.length) {
+			const next = remaining.shift();
+			if (this[$visitedTypes].indexOf(next.type) > -1) {
+				callback(next);
+			}
+			switch (next.type) {
+				case 'expression':
+					remaining.unshift(...next.terms);
+					break;
+				case 'function':
+					remaining.unshift(next.name, ...next.arguments);
+					break;
+			}
+		}
+	}
 }
 const ZERO = Object.freeze({ type: 'number', number: 0, unit: null });
 
@@ -52694,18 +52769,18 @@ const ZERO = Object.freeze({ type: 'number', number: 0, unit: null });
  * numberNode number is NaN or Infinity.
  */
 const degreesToRadians = (numberNode, fallbackRadianValue = 0) => {
-    let { number, unit } = numberNode;
-    if (!isFinite(number)) {
-        number = fallbackRadianValue;
-        unit = 'rad';
-    }
-    else if (numberNode.unit === 'rad' || numberNode.unit == null) {
-        return numberNode;
-    }
-    const valueIsDegrees = unit === 'deg' && number != null;
-    const value = valueIsDegrees ? number : 0;
-    const radians = value * Math.PI / 180;
-    return { type: 'number', number: radians, unit: 'rad' };
+	let { number, unit } = numberNode;
+	if (!isFinite(number)) {
+		number = fallbackRadianValue;
+		unit = 'rad';
+	}
+	else if (numberNode.unit === 'rad' || numberNode.unit == null) {
+		return numberNode;
+	}
+	const valueIsDegrees = unit === 'deg' && number != null;
+	const value = valueIsDegrees ? number : 0;
+	const radians = value * Math.PI / 180;
+	return { type: 'number', number: radians, unit: 'rad' };
 };
 /**
  * Converts a given length to meters. Currently supported input units are
@@ -52715,28 +52790,28 @@ const degreesToRadians = (numberNode, fallbackRadianValue = 0) => {
  * numberNode number is NaN or Infinity.
  */
 const lengthToBaseMeters = (numberNode, fallbackMeterValue = 0) => {
-    let { number, unit } = numberNode;
-    if (!isFinite(number)) {
-        number = fallbackMeterValue;
-        unit = 'm';
-    }
-    else if (numberNode.unit === 'm') {
-        return numberNode;
-    }
-    let scale;
-    switch (unit) {
-        default:
-            scale = 1;
-            break;
-        case 'cm':
-            scale = 1 / 100;
-            break;
-        case 'mm':
-            scale = 1 / 1000;
-            break;
-    }
-    const value = scale * number;
-    return { type: 'number', number: value, unit: 'm' };
+	let { number, unit } = numberNode;
+	if (!isFinite(number)) {
+		number = fallbackMeterValue;
+		unit = 'm';
+	}
+	else if (numberNode.unit === 'm') {
+		return numberNode;
+	}
+	let scale;
+	switch (unit) {
+		default:
+			scale = 1;
+			break;
+		case 'cm':
+			scale = 1 / 100;
+			break;
+		case 'mm':
+			scale = 1 / 1000;
+			break;
+	}
+	const value = scale * number;
+	return { type: 'number', number: value, unit: 'm' };
 };
 /**
  * Normalizes the unit of a given input number so that it is expressed in a
@@ -52747,29 +52822,29 @@ const lengthToBaseMeters = (numberNode, fallbackMeterValue = 0) => {
  * valid number or when the unit of the given number cannot be normalized.
  */
 const normalizeUnit = (() => {
-    const identity = (node) => node;
-    const unitNormalizers = {
-        'rad': identity,
-        'deg': degreesToRadians,
-        'm': identity,
-        'mm': lengthToBaseMeters,
-        'cm': lengthToBaseMeters
-    };
-    return (node, fallback = ZERO) => {
-        if (!isFinite(node.number)) {
-            node.number = fallback.number;
-            node.unit = fallback.unit;
-        }
-        const { unit } = node;
-        if (unit == null) {
-            return node;
-        }
-        const normalize = unitNormalizers[unit];
-        if (normalize == null) {
-            return fallback;
-        }
-        return normalize(node);
-    };
+	const identity = (node) => node;
+	const unitNormalizers = {
+		'rad': identity,
+		'deg': degreesToRadians,
+		'm': identity,
+		'mm': lengthToBaseMeters,
+		'cm': lengthToBaseMeters
+	};
+	return (node, fallback = ZERO) => {
+		if (!isFinite(node.number)) {
+			node.number = fallback.number;
+			node.unit = fallback.unit;
+		}
+		const { unit } = node;
+		if (unit == null) {
+			return node;
+		}
+		const normalize = unitNormalizers[unit];
+		if (normalize == null) {
+			return fallback;
+		}
+		return normalize(node);
+	};
 })();
 
 /* @license
@@ -52800,139 +52875,139 @@ const $lastValue = Symbol('lastValue');
  * each evaluation.
  */
 class Evaluator {
-    constructor() {
-        this[_a$6] = null;
-    }
-    /**
-     * An Evaluatable is a NumberNode or an Evaluator that evaluates a NumberNode
-     * as the result of invoking its evaluate method. This is mainly used to
-     * ensure that CSS function nodes are cast to the corresponding Evaluators
-     * that will resolve the result of the function, but is also used to ensure
-     * that a percentage nested at arbitrary depth in the expression will always
-     * be evaluated against the correct basis.
-     */
-    static evaluatableFor(node, basis = ZERO) {
-        if (node instanceof Evaluator) {
-            return node;
-        }
-        if (node.type === 'number') {
-            if (node.unit === '%') {
-                return new PercentageEvaluator(node, basis);
-            }
-            return node;
-        }
-        switch (node.name.value) {
-            case 'calc':
-                return new CalcEvaluator(node, basis);
-            case 'env':
-                return new EnvEvaluator(node);
-        }
-        return ZERO;
-    }
-    /**
-     * If the input is an Evaluator, returns the result of evaluating it.
-     * Otherwise, returns the input.
-     *
-     * This is a helper to aide in resolving a NumberNode without conditionally
-     * checking if the Evaluatable is an Evaluator everywhere.
-     */
-    static evaluate(evaluatable) {
-        if (evaluatable instanceof Evaluator) {
-            return evaluatable.evaluate();
-        }
-        return evaluatable;
-    }
-    /**
-     * If the input is an Evaluator, returns the value of its isConstant property.
-     * Returns true for all other input values.
-     */
-    static isConstant(evaluatable) {
-        if (evaluatable instanceof Evaluator) {
-            return evaluatable.isConstant;
-        }
-        return true;
-    }
-    /**
-     * This method applies a set of structured intrinsic metadata to an evaluated
-     * result from a parsed CSS-like string of expressions. Intrinsics provide
-     * sufficient metadata (e.g., basis values, analogs for keywords) such that
-     * omitted values in the input string can be backfilled, and keywords can be
-     * converted to concrete numbers.
-     *
-     * The result of applying intrinsics is a tuple of NumberNode values whose
-     * units match the units used by the basis of the intrinsics.
-     *
-     * The following is a high-level description of how intrinsics are applied:
-     *
-     *  1. Determine the value of 'auto' for the current term
-     *  2. If there is no corresponding input value for this term, substitute the
-     *     'auto' value.
-     *  3. If the term is an IdentNode, treat it as a keyword and perform the
-     *     appropriate substitution.
-     *  4. If the term is still null, fallback to the 'auto' value
-     *  5. If the term is a percentage, apply it to the basis and return that
-     *     value
-     *  6. Normalize the unit of the term
-     *  7. If the term's unit does not match the basis unit, return the basis
-     *     value
-     *  8. Return the term as is
-     */
-    static applyIntrinsics(evaluated, intrinsics) {
-        const { basis, keywords } = intrinsics;
-        const { auto } = keywords;
-        return basis.map((basisNode, index) => {
-            // Use an auto value if we have it, otherwise the auto value is the basis:
-            const autoSubstituteNode = auto[index] == null ? basisNode : auto[index];
-            // If the evaluated nodes do not have a node at the current
-            // index, fallback to the "auto" substitute right away:
-            let evaluatedNode = evaluated[index] ? evaluated[index] : autoSubstituteNode;
-            // Any ident node is considered a keyword:
-            if (evaluatedNode.type === 'ident') {
-                const keyword = evaluatedNode.value;
-                // Substitute any keywords for concrete values first:
-                if (keyword in keywords) {
-                    evaluatedNode = keywords[keyword][index];
-                }
-            }
-            // If we don't have a NumberNode at this point, fall back to whatever
-            // is specified for auto:
-            if (evaluatedNode == null || evaluatedNode.type === 'ident') {
-                evaluatedNode = autoSubstituteNode;
-            }
-            // For percentages, we always apply the percentage to the basis value:
-            if (evaluatedNode.unit === '%') {
-                return numberNode(evaluatedNode.number / 100 * basisNode.number, basisNode.unit);
-            }
-            // Otherwise, normalize whatever we have:
-            evaluatedNode = normalizeUnit(evaluatedNode, basisNode);
-            // If the normalized units do not match, return the basis as a fallback:
-            if (evaluatedNode.unit !== basisNode.unit) {
-                return basisNode;
-            }
-            // Finally, return the evaluated node with intrinsics applied:
-            return evaluatedNode;
-        });
-    }
-    /**
-     * If true, the Evaluator will only evaluate its AST one time. If false, the
-     * Evaluator will re-evaluate the AST each time that the public evaluate
-     * method is invoked.
-     */
-    get isConstant() {
-        return false;
-    }
-    /**
-     * Evaluate the Evaluator and return the result. If the Evaluator is constant,
-     * the corresponding AST will only be evaluated once, and the result of
-     * evaluating it the first time will be returned on all subsequent
-     * evaluations.
-     */
-    evaluate() {
-        if (!this.isConstant || this[$lastValue] == null) {
-            this[$lastValue] = this[$evaluate]();
-        }
-        return this[$lastValue];
-    }
+	constructor() {
+		this[_a$6] = null;
+	}
+	/**
+	 * An Evaluatable is a NumberNode or an Evaluator that evaluates a NumberNode
+	 * as the result of invoking its evaluate method. This is mainly used to
+	 * ensure that CSS function nodes are cast to the corresponding Evaluators
+	 * that will resolve the result of the function, but is also used to ensure
+	 * that a percentage nested at arbitrary depth in the expression will always
+	 * be evaluated against the correct basis.
+	 */
+	static evaluatableFor(node, basis = ZERO) {
+		if (node instanceof Evaluator) {
+			return node;
+		}
+		if (node.type === 'number') {
+			if (node.unit === '%') {
+				return new PercentageEvaluator(node, basis);
+			}
+			return node;
+		}
+		switch (node.name.value) {
+			case 'calc':
+				return new CalcEvaluator(node, basis);
+			case 'env':
+				return new EnvEvaluator(node);
+		}
+		return ZERO;
+	}
+	/**
+	 * If the input is an Evaluator, returns the result of evaluating it.
+	 * Otherwise, returns the input.
+	 *
+	 * This is a helper to aide in resolving a NumberNode without conditionally
+	 * checking if the Evaluatable is an Evaluator everywhere.
+	 */
+	static evaluate(evaluatable) {
+		if (evaluatable instanceof Evaluator) {
+			return evaluatable.evaluate();
+		}
+		return evaluatable;
+	}
+	/**
+	 * If the input is an Evaluator, returns the value of its isConstant property.
+	 * Returns true for all other input values.
+	 */
+	static isConstant(evaluatable) {
+		if (evaluatable instanceof Evaluator) {
+			return evaluatable.isConstant;
+		}
+		return true;
+	}
+	/**
+	 * This method applies a set of structured intrinsic metadata to an evaluated
+	 * result from a parsed CSS-like string of expressions. Intrinsics provide
+	 * sufficient metadata (e.g., basis values, analogs for keywords) such that
+	 * omitted values in the input string can be backfilled, and keywords can be
+	 * converted to concrete numbers.
+	 *
+	 * The result of applying intrinsics is a tuple of NumberNode values whose
+	 * units match the units used by the basis of the intrinsics.
+	 *
+	 * The following is a high-level description of how intrinsics are applied:
+	 *
+	 *  1. Determine the value of 'auto' for the current term
+	 *  2. If there is no corresponding input value for this term, substitute the
+	 *     'auto' value.
+	 *  3. If the term is an IdentNode, treat it as a keyword and perform the
+	 *     appropriate substitution.
+	 *  4. If the term is still null, fallback to the 'auto' value
+	 *  5. If the term is a percentage, apply it to the basis and return that
+	 *     value
+	 *  6. Normalize the unit of the term
+	 *  7. If the term's unit does not match the basis unit, return the basis
+	 *     value
+	 *  8. Return the term as is
+	 */
+	static applyIntrinsics(evaluated, intrinsics) {
+		const { basis, keywords } = intrinsics;
+		const { auto } = keywords;
+		return basis.map((basisNode, index) => {
+			// Use an auto value if we have it, otherwise the auto value is the basis:
+			const autoSubstituteNode = auto[index] == null ? basisNode : auto[index];
+			// If the evaluated nodes do not have a node at the current
+			// index, fallback to the "auto" substitute right away:
+			let evaluatedNode = evaluated[index] ? evaluated[index] : autoSubstituteNode;
+			// Any ident node is considered a keyword:
+			if (evaluatedNode.type === 'ident') {
+				const keyword = evaluatedNode.value;
+				// Substitute any keywords for concrete values first:
+				if (keyword in keywords) {
+					evaluatedNode = keywords[keyword][index];
+				}
+			}
+			// If we don't have a NumberNode at this point, fall back to whatever
+			// is specified for auto:
+			if (evaluatedNode == null || evaluatedNode.type === 'ident') {
+				evaluatedNode = autoSubstituteNode;
+			}
+			// For percentages, we always apply the percentage to the basis value:
+			if (evaluatedNode.unit === '%') {
+				return numberNode(evaluatedNode.number / 100 * basisNode.number, basisNode.unit);
+			}
+			// Otherwise, normalize whatever we have:
+			evaluatedNode = normalizeUnit(evaluatedNode, basisNode);
+			// If the normalized units do not match, return the basis as a fallback:
+			if (evaluatedNode.unit !== basisNode.unit) {
+				return basisNode;
+			}
+			// Finally, return the evaluated node with intrinsics applied:
+			return evaluatedNode;
+		});
+	}
+	/**
+	 * If true, the Evaluator will only evaluate its AST one time. If false, the
+	 * Evaluator will re-evaluate the AST each time that the public evaluate
+	 * method is invoked.
+	 */
+	get isConstant() {
+		return false;
+	}
+	/**
+	 * Evaluate the Evaluator and return the result. If the Evaluator is constant,
+	 * the corresponding AST will only be evaluated once, and the result of
+	 * evaluating it the first time will be returned on all subsequent
+	 * evaluations.
+	 */
+	evaluate() {
+		if (!this.isConstant || this[$lastValue] == null) {
+			this[$lastValue] = this[$evaluate]();
+		}
+		return this[$lastValue];
+	}
 }
 _a$6 = $lastValue;
 const $percentage = Symbol('percentage');
@@ -52942,17 +53017,17 @@ const $basis = Symbol('basis');
  * The evaluated result is always considered to be constant.
  */
 class PercentageEvaluator extends Evaluator {
-    constructor(percentage, basis) {
-        super();
-        this[$percentage] = percentage;
-        this[$basis] = basis;
-    }
-    get isConstant() {
-        return true;
-    }
-    [$evaluate]() {
-        return numberNode(this[$percentage].number / 100 * this[$basis].number, this[$basis].unit);
-    }
+	constructor(percentage, basis) {
+		super();
+		this[$percentage] = percentage;
+		this[$basis] = basis;
+	}
+	get isConstant() {
+		return true;
+	}
+	[$evaluate]() {
+		return numberNode(this[$percentage].number / 100 * this[$basis].number, this[$basis].unit);
+	}
 }
 const $identNode = Symbol('identNode');
 /**
@@ -52974,32 +53049,32 @@ const $identNode = Symbol('identNode');
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/env
  */
 class EnvEvaluator extends Evaluator {
-    constructor(envFunction) {
-        super();
-        this[_b$6] = null;
-        const identNode = envFunction.arguments.length ? envFunction.arguments[0].terms[0] : null;
-        if (identNode != null && identNode.type === 'ident') {
-            this[$identNode] = identNode;
-        }
-    }
-    get isConstant() {
-        return false;
-    }
-    ;
-    [(_b$6 = $identNode, $evaluate)]() {
-        if (this[$identNode] != null) {
-            switch (this[$identNode].value) {
-                case 'window-scroll-y':
-                    const verticalScrollPosition = window.pageYOffset;
-                    const verticalScrollMax = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
-                    const scrollY = verticalScrollPosition /
-                        (verticalScrollMax - window.innerHeight) ||
-                        0;
-                    return { type: 'number', number: scrollY, unit: null };
-            }
-        }
-        return ZERO;
-    }
+	constructor(envFunction) {
+		super();
+		this[_b$6] = null;
+		const identNode = envFunction.arguments.length ? envFunction.arguments[0].terms[0] : null;
+		if (identNode != null && identNode.type === 'ident') {
+			this[$identNode] = identNode;
+		}
+	}
+	get isConstant() {
+		return false;
+	}
+	;
+	[(_b$6 = $identNode, $evaluate)]() {
+		if (this[$identNode] != null) {
+			switch (this[$identNode].value) {
+				case 'window-scroll-y':
+					const verticalScrollPosition = window.pageYOffset;
+					const verticalScrollMax = Math.max(document.body.scrollHeight, document.body.offsetHeight, document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight);
+					const scrollY = verticalScrollPosition /
+						(verticalScrollMax - window.innerHeight) ||
+						0;
+					return { type: 'number', number: scrollY, unit: null };
+			}
+		}
+		return ZERO;
+	}
 }
 const IS_MULTIPLICATION_RE = /[\*\/]/;
 const $evaluator = Symbol('evaluator');
@@ -53016,51 +53091,51 @@ const $evaluator = Symbol('evaluator');
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/calc
  */
 class CalcEvaluator extends Evaluator {
-    constructor(calcFunction, basis = ZERO) {
-        super();
-        this[_c$4] = null;
-        if (calcFunction.arguments.length !== 1) {
-            return;
-        }
-        const terms = calcFunction.arguments[0].terms.slice();
-        const secondOrderTerms = [];
-        while (terms.length) {
-            const term = terms.shift();
-            if (secondOrderTerms.length > 0) {
-                const previousTerm = secondOrderTerms[secondOrderTerms.length - 1];
-                if (previousTerm.type === 'operator' &&
-                    IS_MULTIPLICATION_RE.test(previousTerm.value)) {
-                    const operator = secondOrderTerms.pop();
-                    const leftValue = secondOrderTerms.pop();
-                    if (leftValue == null) {
-                        return;
-                    }
-                    secondOrderTerms.push(new OperatorEvaluator(operator, Evaluator.evaluatableFor(leftValue, basis), Evaluator.evaluatableFor(term, basis)));
-                    continue;
-                }
-            }
-            secondOrderTerms.push(term.type === 'operator' ? term :
-                Evaluator.evaluatableFor(term, basis));
-        }
-        while (secondOrderTerms.length > 2) {
-            const [left, operator, right] = secondOrderTerms.splice(0, 3);
-            if (operator.type !== 'operator') {
-                return;
-            }
-            secondOrderTerms.unshift(new OperatorEvaluator(operator, Evaluator.evaluatableFor(left, basis), Evaluator.evaluatableFor(right, basis)));
-        }
-        // There should only be one combined evaluator at this point:
-        if (secondOrderTerms.length === 1) {
-            this[$evaluator] = secondOrderTerms[0];
-        }
-    }
-    get isConstant() {
-        return this[$evaluator] == null || Evaluator.isConstant(this[$evaluator]);
-    }
-    [(_c$4 = $evaluator, $evaluate)]() {
-        return this[$evaluator] != null ? Evaluator.evaluate(this[$evaluator]) :
-            ZERO;
-    }
+	constructor(calcFunction, basis = ZERO) {
+		super();
+		this[_c$4] = null;
+		if (calcFunction.arguments.length !== 1) {
+			return;
+		}
+		const terms = calcFunction.arguments[0].terms.slice();
+		const secondOrderTerms = [];
+		while (terms.length) {
+			const term = terms.shift();
+			if (secondOrderTerms.length > 0) {
+				const previousTerm = secondOrderTerms[secondOrderTerms.length - 1];
+				if (previousTerm.type === 'operator' &&
+					IS_MULTIPLICATION_RE.test(previousTerm.value)) {
+					const operator = secondOrderTerms.pop();
+					const leftValue = secondOrderTerms.pop();
+					if (leftValue == null) {
+						return;
+					}
+					secondOrderTerms.push(new OperatorEvaluator(operator, Evaluator.evaluatableFor(leftValue, basis), Evaluator.evaluatableFor(term, basis)));
+					continue;
+				}
+			}
+			secondOrderTerms.push(term.type === 'operator' ? term :
+				Evaluator.evaluatableFor(term, basis));
+		}
+		while (secondOrderTerms.length > 2) {
+			const [left, operator, right] = secondOrderTerms.splice(0, 3);
+			if (operator.type !== 'operator') {
+				return;
+			}
+			secondOrderTerms.unshift(new OperatorEvaluator(operator, Evaluator.evaluatableFor(left, basis), Evaluator.evaluatableFor(right, basis)));
+		}
+		// There should only be one combined evaluator at this point:
+		if (secondOrderTerms.length === 1) {
+			this[$evaluator] = secondOrderTerms[0];
+		}
+	}
+	get isConstant() {
+		return this[$evaluator] == null || Evaluator.isConstant(this[$evaluator]);
+	}
+	[(_c$4 = $evaluator, $evaluate)]() {
+		return this[$evaluator] != null ? Evaluator.evaluate(this[$evaluator]) :
+			ZERO;
+	}
 }
 const $operator = Symbol('operator');
 const $left = Symbol('left');
@@ -53077,49 +53152,49 @@ const $right = Symbol('right');
  * @see https://developer.mozilla.org/en-US/docs/Web/CSS/calc
  */
 class OperatorEvaluator extends Evaluator {
-    constructor(operator, left, right) {
-        super();
-        this[$operator] = operator;
-        this[$left] = left;
-        this[$right] = right;
-    }
-    get isConstant() {
-        return Evaluator.isConstant(this[$left]) &&
-            Evaluator.isConstant(this[$right]);
-    }
-    [$evaluate]() {
-        const leftNode = normalizeUnit(Evaluator.evaluate(this[$left]));
-        const rightNode = normalizeUnit(Evaluator.evaluate(this[$right]));
-        const { number: leftValue, unit: leftUnit } = leftNode;
-        const { number: rightValue, unit: rightUnit } = rightNode;
-        // Disallow operations for mismatched normalized units e.g., m and rad:
-        if (rightUnit != null && leftUnit != null && rightUnit != leftUnit) {
-            return ZERO;
-        }
-        // NOTE(cdata): rules for calc type checking are defined here
-        // https://drafts.csswg.org/css-values-3/#calc-type-checking
-        // This is a simplification and may not hold up once we begin to support
-        // additional unit types:
-        const unit = leftUnit || rightUnit;
-        let value;
-        switch (this[$operator].value) {
-            case '+':
-                value = leftValue + rightValue;
-                break;
-            case '-':
-                value = leftValue - rightValue;
-                break;
-            case '/':
-                value = leftValue / rightValue;
-                break;
-            case '*':
-                value = leftValue * rightValue;
-                break;
-            default:
-                return ZERO;
-        }
-        return { type: 'number', number: value, unit };
-    }
+	constructor(operator, left, right) {
+		super();
+		this[$operator] = operator;
+		this[$left] = left;
+		this[$right] = right;
+	}
+	get isConstant() {
+		return Evaluator.isConstant(this[$left]) &&
+			Evaluator.isConstant(this[$right]);
+	}
+	[$evaluate]() {
+		const leftNode = normalizeUnit(Evaluator.evaluate(this[$left]));
+		const rightNode = normalizeUnit(Evaluator.evaluate(this[$right]));
+		const { number: leftValue, unit: leftUnit } = leftNode;
+		const { number: rightValue, unit: rightUnit } = rightNode;
+		// Disallow operations for mismatched normalized units e.g., m and rad:
+		if (rightUnit != null && leftUnit != null && rightUnit != leftUnit) {
+			return ZERO;
+		}
+		// NOTE(cdata): rules for calc type checking are defined here
+		// https://drafts.csswg.org/css-values-3/#calc-type-checking
+		// This is a simplification and may not hold up once we begin to support
+		// additional unit types:
+		const unit = leftUnit || rightUnit;
+		let value;
+		switch (this[$operator].value) {
+			case '+':
+				value = leftValue + rightValue;
+				break;
+			case '-':
+				value = leftValue - rightValue;
+				break;
+			case '/':
+				value = leftValue / rightValue;
+				break;
+			case '*':
+				value = leftValue * rightValue;
+				break;
+			default:
+				return ZERO;
+		}
+		return { type: 'number', number: value, unit };
+	}
 }
 const $evaluatables = Symbol('evaluatables');
 const $intrinsics = Symbol('intrinsics');
@@ -53135,36 +53210,36 @@ const $intrinsics = Symbol('intrinsics');
  * element representing a length in meters.
  */
 class StyleEvaluator extends Evaluator {
-    constructor(expressions, intrinsics) {
-        super();
-        this[$intrinsics] = intrinsics;
-        const firstExpression = expressions[0];
-        const terms = firstExpression != null ? firstExpression.terms : [];
-        this[$evaluatables] =
-            intrinsics.basis.map((basisNode, index) => {
-                const term = terms[index];
-                if (term == null) {
-                    return { type: 'ident', value: 'auto' };
-                }
-                if (term.type === 'ident') {
-                    return term;
-                }
-                return Evaluator.evaluatableFor(term, basisNode);
-            });
-    }
-    get isConstant() {
-        for (const evaluatable of this[$evaluatables]) {
-            if (!Evaluator.isConstant(evaluatable)) {
-                return false;
-            }
-        }
-        return true;
-    }
-    [$evaluate]() {
-        const evaluated = this[$evaluatables].map(evaluatable => Evaluator.evaluate(evaluatable));
-        return Evaluator.applyIntrinsics(evaluated, this[$intrinsics])
-            .map(numberNode => numberNode.number);
-    }
+	constructor(expressions, intrinsics) {
+		super();
+		this[$intrinsics] = intrinsics;
+		const firstExpression = expressions[0];
+		const terms = firstExpression != null ? firstExpression.terms : [];
+		this[$evaluatables] =
+			intrinsics.basis.map((basisNode, index) => {
+				const term = terms[index];
+				if (term == null) {
+					return { type: 'ident', value: 'auto' };
+				}
+				if (term.type === 'ident') {
+					return term;
+				}
+				return Evaluator.evaluatableFor(term, basisNode);
+			});
+	}
+	get isConstant() {
+		for (const evaluatable of this[$evaluatables]) {
+			if (!Evaluator.isConstant(evaluatable)) {
+				return false;
+			}
+		}
+		return true;
+	}
+	[$evaluate]() {
+		const evaluated = this[$evaluatables].map(evaluatable => Evaluator.evaluate(evaluatable));
+		return Evaluator.applyIntrinsics(evaluated, this[$intrinsics])
+			.map(numberNode => numberNode.number);
+	}
 }
 
 /* @license
@@ -53197,43 +53272,43 @@ const $scrollCallback = Symbol('callback');
  * known to show up in performance analyses) as well as potential memory leaks.
  */
 class ScrollObserver {
-    static [$notifyInstances]() {
-        for (const instance of ScrollObserver[$instances]) {
-            instance[$notify]();
-        }
-    }
-    static [(_a$5 = $instances, $activateListener)]() {
-        window.addEventListener('scroll', this[$notifyInstances], { passive: true });
-    }
-    static [$deactivateListener]() {
-        window.removeEventListener('scroll', this[$notifyInstances]);
-    }
-    constructor(callback) {
-        this[$scrollCallback] = callback;
-    }
-    /**
-     * Listen for scroll events. The configured callback (passed to the
-     * constructor) will be invoked for subsequent global scroll events.
-     */
-    observe() {
-        if (ScrollObserver[$instances].size === 0) {
-            ScrollObserver[$activateListener]();
-        }
-        ScrollObserver[$instances].add(this);
-    }
-    /**
-     * Stop listening for scroll events.
-     */
-    disconnect() {
-        ScrollObserver[$instances].delete(this);
-        if (ScrollObserver[$instances].size === 0) {
-            ScrollObserver[$deactivateListener]();
-        }
-    }
-    [$notify]() {
-        this[$scrollCallback]();
-    }
-    ;
+	static [$notifyInstances]() {
+		for (const instance of ScrollObserver[$instances]) {
+			instance[$notify]();
+		}
+	}
+	static [(_a$5 = $instances, $activateListener)]() {
+		window.addEventListener('scroll', this[$notifyInstances], { passive: true });
+	}
+	static [$deactivateListener]() {
+		window.removeEventListener('scroll', this[$notifyInstances]);
+	}
+	constructor(callback) {
+		this[$scrollCallback] = callback;
+	}
+	/**
+	 * Listen for scroll events. The configured callback (passed to the
+	 * constructor) will be invoked for subsequent global scroll events.
+	 */
+	observe() {
+		if (ScrollObserver[$instances].size === 0) {
+			ScrollObserver[$activateListener]();
+		}
+		ScrollObserver[$instances].add(this);
+	}
+	/**
+	 * Stop listening for scroll events.
+	 */
+	disconnect() {
+		ScrollObserver[$instances].delete(this);
+		if (ScrollObserver[$instances].size === 0) {
+			ScrollObserver[$deactivateListener]();
+		}
+	}
+	[$notify]() {
+		this[$scrollCallback]();
+	}
+	;
 }
 ScrollObserver[_a$5] = new Set();
 const $computeStyleCallback = Symbol('computeStyleCallback');
@@ -53260,58 +53335,58 @@ const $onScroll = Symbol('onScroll');
  * notifies the user at the optimal time to evaluate the computed style.
  */
 class StyleEffector {
-    constructor(callback) {
-        this[_b$5] = {};
-        this[_c$3] = new ASTWalker(['function']);
-        this[_d$2] = () => {
-            this[$computeStyleCallback]({ relatedState: 'window-scroll' });
-        };
-        this[$computeStyleCallback] = callback;
-    }
-    /**
-     * Sets the expressions that govern when the StyleEffector callback will be
-     * invoked.
-     */
-    observeEffectsFor(ast) {
-        const newDependencies = {};
-        const oldDependencies = this[$dependencies];
-        this[$astWalker].walk(ast, functionNode => {
-            const { name } = functionNode;
-            const firstArgument = functionNode.arguments[0];
-            const firstTerm = firstArgument.terms[0];
-            if (name.value !== 'env' || firstTerm == null ||
-                firstTerm.type !== 'ident') {
-                return;
-            }
-            switch (firstTerm.value) {
-                case 'window-scroll-y':
-                    if (newDependencies['window-scroll'] == null) {
-                        const observer = 'window-scroll' in oldDependencies ?
-                            oldDependencies['window-scroll'] :
-                            new ScrollObserver(this[$onScroll]);
-                        observer.observe();
-                        delete oldDependencies['window-scroll'];
-                        newDependencies['window-scroll'] = observer;
-                    }
-                    break;
-            }
-        });
-        for (const environmentState in oldDependencies) {
-            const observer = oldDependencies[environmentState];
-            observer.disconnect();
-        }
-        this[$dependencies] = newDependencies;
-    }
-    /**
-     * Disposes of the StyleEffector by disconnecting all observers of external
-     * effects.
-     */
-    dispose() {
-        for (const environmentState in this[$dependencies]) {
-            const observer = this[$dependencies][environmentState];
-            observer.disconnect();
-        }
-    }
+	constructor(callback) {
+		this[_b$5] = {};
+		this[_c$3] = new ASTWalker(['function']);
+		this[_d$2] = () => {
+			this[$computeStyleCallback]({ relatedState: 'window-scroll' });
+		};
+		this[$computeStyleCallback] = callback;
+	}
+	/**
+	 * Sets the expressions that govern when the StyleEffector callback will be
+	 * invoked.
+	 */
+	observeEffectsFor(ast) {
+		const newDependencies = {};
+		const oldDependencies = this[$dependencies];
+		this[$astWalker].walk(ast, functionNode => {
+			const { name } = functionNode;
+			const firstArgument = functionNode.arguments[0];
+			const firstTerm = firstArgument.terms[0];
+			if (name.value !== 'env' || firstTerm == null ||
+				firstTerm.type !== 'ident') {
+				return;
+			}
+			switch (firstTerm.value) {
+				case 'window-scroll-y':
+					if (newDependencies['window-scroll'] == null) {
+						const observer = 'window-scroll' in oldDependencies ?
+							oldDependencies['window-scroll'] :
+							new ScrollObserver(this[$onScroll]);
+						observer.observe();
+						delete oldDependencies['window-scroll'];
+						newDependencies['window-scroll'] = observer;
+					}
+					break;
+			}
+		});
+		for (const environmentState in oldDependencies) {
+			const observer = oldDependencies[environmentState];
+			observer.disconnect();
+		}
+		this[$dependencies] = newDependencies;
+	}
+	/**
+	 * Disposes of the StyleEffector by disconnecting all observers of external
+	 * effects.
+	 */
+	dispose() {
+		for (const environmentState in this[$dependencies]) {
+			const observer = this[$dependencies][environmentState];
+			observer.disconnect();
+		}
+	}
 }
 _b$5 = $dependencies, _c$3 = $astWalker, _d$2 = $onScroll;
 
@@ -53360,75 +53435,75 @@ _b$5 = $dependencies, _c$3 = $astWalker, _d$2 = $onScroll;
  * static).
  */
 const style = (config) => {
-    const observeEffects = config.observeEffects || false;
-    const getIntrinsics = config.intrinsics instanceof Function ?
-        config.intrinsics :
-        (() => config.intrinsics);
-    return (proto, propertyName) => {
-        const originalUpdated = proto.updated;
-        const originalConnectedCallback = proto.connectedCallback;
-        const originalDisconnectedCallback = proto.disconnectedCallback;
-        const $styleEffector = Symbol(`${propertyName}StyleEffector`);
-        const $styleEvaluator = Symbol(`${propertyName}StyleEvaluator`);
-        const $updateEvaluator = Symbol(`${propertyName}UpdateEvaluator`);
-        const $evaluateAndSync = Symbol(`${propertyName}EvaluateAndSync`);
-        Object.defineProperties(proto, {
-            [$styleEffector]: { value: null, writable: true },
-            [$styleEvaluator]: { value: null, writable: true },
-            [$updateEvaluator]: {
-                value: function () {
-                    const ast = parseExpressions(this[propertyName]);
-                    this[$styleEvaluator] =
-                        new StyleEvaluator(ast, getIntrinsics(this));
-                    if (this[$styleEffector] == null && observeEffects) {
-                        this[$styleEffector] =
-                            new StyleEffector(() => this[$evaluateAndSync]());
-                    }
-                    if (this[$styleEffector] != null) {
-                        this[$styleEffector].observeEffectsFor(ast);
-                    }
-                }
-            },
-            [$evaluateAndSync]: {
-                value: function () {
-                    if (this[$styleEvaluator] == null) {
-                        return;
-                    }
-                    const result = this[$styleEvaluator].evaluate();
-                    // @see https://github.com/microsoft/TypeScript/pull/30769
-                    // @see https://github.com/Microsoft/TypeScript/issues/1863
-                    this[config.updateHandler](result);
-                }
-            },
-            updated: {
-                value: function (changedProperties) {
-                    // Always invoke updates to styles first. This gives a class that
-                    // uses this decorator the opportunity to override the effect, or
-                    // respond to it, in its own implementation of `updated`.
-                    if (changedProperties.has(propertyName)) {
-                        this[$updateEvaluator]();
-                        this[$evaluateAndSync]();
-                    }
-                    originalUpdated.call(this, changedProperties);
-                }
-            },
-            connectedCallback: {
-                value: function () {
-                    originalConnectedCallback.call(this);
-                    this.requestUpdate(propertyName, this[propertyName]);
-                }
-            },
-            disconnectedCallback: {
-                value: function () {
-                    originalDisconnectedCallback.call(this);
-                    if (this[$styleEffector] != null) {
-                        this[$styleEffector].dispose();
-                        this[$styleEffector] = null;
-                    }
-                }
-            }
-        });
-    };
+	const observeEffects = config.observeEffects || false;
+	const getIntrinsics = config.intrinsics instanceof Function ?
+		config.intrinsics :
+		(() => config.intrinsics);
+	return (proto, propertyName) => {
+		const originalUpdated = proto.updated;
+		const originalConnectedCallback = proto.connectedCallback;
+		const originalDisconnectedCallback = proto.disconnectedCallback;
+		const $styleEffector = Symbol(`${propertyName}StyleEffector`);
+		const $styleEvaluator = Symbol(`${propertyName}StyleEvaluator`);
+		const $updateEvaluator = Symbol(`${propertyName}UpdateEvaluator`);
+		const $evaluateAndSync = Symbol(`${propertyName}EvaluateAndSync`);
+		Object.defineProperties(proto, {
+			[$styleEffector]: { value: null, writable: true },
+			[$styleEvaluator]: { value: null, writable: true },
+			[$updateEvaluator]: {
+				value: function () {
+					const ast = parseExpressions(this[propertyName]);
+					this[$styleEvaluator] =
+						new StyleEvaluator(ast, getIntrinsics(this));
+					if (this[$styleEffector] == null && observeEffects) {
+						this[$styleEffector] =
+							new StyleEffector(() => this[$evaluateAndSync]());
+					}
+					if (this[$styleEffector] != null) {
+						this[$styleEffector].observeEffectsFor(ast);
+					}
+				}
+			},
+			[$evaluateAndSync]: {
+				value: function () {
+					if (this[$styleEvaluator] == null) {
+						return;
+					}
+					const result = this[$styleEvaluator].evaluate();
+					// @see https://github.com/microsoft/TypeScript/pull/30769
+					// @see https://github.com/Microsoft/TypeScript/issues/1863
+					this[config.updateHandler](result);
+				}
+			},
+			updated: {
+				value: function (changedProperties) {
+					// Always invoke updates to styles first. This gives a class that
+					// uses this decorator the opportunity to override the effect, or
+					// respond to it, in its own implementation of `updated`.
+					if (changedProperties.has(propertyName)) {
+						this[$updateEvaluator]();
+						this[$evaluateAndSync]();
+					}
+					originalUpdated.call(this, changedProperties);
+				}
+			},
+			connectedCallback: {
+				value: function () {
+					originalConnectedCallback.call(this);
+					this.requestUpdate(propertyName, this[propertyName]);
+				}
+			},
+			disconnectedCallback: {
+				value: function () {
+					originalDisconnectedCallback.call(this);
+					if (this[$styleEffector] != null) {
+						this[$styleEffector].dispose();
+						this[$styleEffector] = null;
+					}
+				}
+			}
+		});
+	};
 };
 
 /* @license
@@ -53458,16 +53533,16 @@ const interpolate = (start, end, ease = easeInOutQuad) => (time) => start + (end
  * allocated a percentage of the total time based on their relative weight.
  */
 const sequence = (tracks, weights) => {
-    const cumulativeSum = ((sum) => (value) => sum += value);
-    const times = weights.map(cumulativeSum(0));
-    return (time) => {
-        time = clamp(time, 0, 1);
-        time *= times[times.length - 1];
-        const i = times.findIndex((val) => val >= time);
-        const start = i < 1 ? 0 : times[i - 1];
-        const end = times[i];
-        return tracks[i]((time - start) / (end - start));
-    };
+	const cumulativeSum = ((sum) => (value) => sum += value);
+	const times = weights.map(cumulativeSum(0));
+	return (time) => {
+		time = clamp(time, 0, 1);
+		time *= times[times.length - 1];
+		const i = times.findIndex((val) => val >= time);
+		const start = i < 1 ? 0 : times[i - 1];
+		const end = times[i];
+		return tracks[i]((time - start) / (end - start));
+	};
 };
 /**
  * Creates a "timeline" TimingFunction out of an initial value and a series of
@@ -53477,19 +53552,19 @@ const sequence = (tracks, weights) => {
  * transition, so interpolated values will be computed for fractional frames.
  */
 const timeline = (path) => {
-    const tracks = [];
-    const weights = [];
-    let lastValue = path.initialValue;
-    for (let i = 0; i < path.keyframes.length; ++i) {
-        const keyframe = path.keyframes[i];
-        const { value, frames } = keyframe;
-        const ease = keyframe.ease || easeInOutQuad;
-        const track = interpolate(lastValue, value, ease);
-        tracks.push(track);
-        weights.push(frames);
-        lastValue = value;
-    }
-    return sequence(tracks, weights);
+	const tracks = [];
+	const weights = [];
+	let lastValue = path.initialValue;
+	for (let i = 0; i < path.keyframes.length; ++i) {
+		const keyframe = path.keyframes[i];
+		const { value, frames } = keyframe;
+		const ease = keyframe.ease || easeInOutQuad;
+		const track = interpolate(lastValue, value, ease);
+		tracks.push(track);
+		weights.push(frames);
+		lastValue = value;
+	}
+	return sequence(tracks, weights);
 };
 
 /* @license
@@ -53507,9 +53582,9 @@ const timeline = (path) => {
  * limitations under the License.
  */
 var __decorate$6 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 // NOTE(cdata): The following "animation" timing functions are deliberately
 // being used in favor of CSS animations. In Safari 12.1 and 13, CSS animations
@@ -53519,24 +53594,24 @@ const PROMPT_ANIMATION_TIME = 5000;
 // For timing purposes, a "frame" is a timing agnostic relative unit of time
 // and a "value" is a target value for the Frame.
 const wiggle = timeline({
-    initialValue: 0,
-    keyframes: [
-        { frames: 5, value: -1 },
-        { frames: 1, value: -1 },
-        { frames: 8, value: 1 },
-        { frames: 1, value: 1 },
-        { frames: 5, value: 0 },
-        { frames: 18, value: 0 }
-    ]
+	initialValue: 0,
+	keyframes: [
+		{ frames: 5, value: -1 },
+		{ frames: 1, value: -1 },
+		{ frames: 8, value: 1 },
+		{ frames: 1, value: 1 },
+		{ frames: 5, value: 0 },
+		{ frames: 18, value: 0 }
+	]
 });
 const fade = timeline({
-    initialValue: 0,
-    keyframes: [
-        { frames: 1, value: 1 },
-        { frames: 5, value: 1 },
-        { frames: 1, value: 0 },
-        { frames: 6, value: 0 }
-    ]
+	initialValue: 0,
+	keyframes: [
+		{ frames: 1, value: 1 },
+		{ frames: 5, value: 1 },
+		{ frames: 1, value: 0 },
+		{ frames: 6, value: 0 }
+	]
 });
 const DEFAULT_FOV_DEG = 30;
 const DEFAULT_MIN_FOV_DEG = 12;
@@ -53549,73 +53624,73 @@ const POLAR_TRIENT_LABELS = ['upper-', '', 'lower-'];
 const DEFAULT_INTERACTION_PROMPT_THRESHOLD = 3000;
 const INTERACTION_PROMPT = '. Use mouse, touch or arrow keys to move.';
 const InteractionPromptStrategy = {
-    AUTO: 'auto'};
+	AUTO: 'auto'};
 const InteractionPromptStyle = {
-    BASIC: 'basic',
-    WIGGLE: 'wiggle'
+	BASIC: 'basic',
+	WIGGLE: 'wiggle'
 };
 const TouchAction = {
-    NONE: 'none'
+	NONE: 'none'
 };
 const fieldOfViewIntrinsics = () => {
-    return {
-        basis: [degreesToRadians(numberNode(DEFAULT_FOV_DEG, 'deg'))],
-        keywords: { auto: [null] }
-    };
+	return {
+		basis: [degreesToRadians(numberNode(DEFAULT_FOV_DEG, 'deg'))],
+		keywords: { auto: [null] }
+	};
 };
 const minFieldOfViewIntrinsics = () => {
-    return {
-        basis: [degreesToRadians(numberNode(DEFAULT_MIN_FOV_DEG, 'deg'))],
-        keywords: { auto: [null] }
-    };
+	return {
+		basis: [degreesToRadians(numberNode(DEFAULT_MIN_FOV_DEG, 'deg'))],
+		keywords: { auto: [null] }
+	};
 };
 const cameraOrbitIntrinsics = (() => {
-    const defaultTerms = parseExpressions(DEFAULT_CAMERA_ORBIT)[0]
-        .terms;
-    const theta = normalizeUnit(defaultTerms[0]);
-    const phi = normalizeUnit(defaultTerms[1]);
-    return (element) => {
-        const radius = element[$scene].idealCameraDistance();
-        return {
-            basis: [theta, phi, numberNode(radius, 'm')],
-            keywords: { auto: [null, null, numberNode(105, '%')] }
-        };
-    };
+	const defaultTerms = parseExpressions(DEFAULT_CAMERA_ORBIT)[0]
+		.terms;
+	const theta = normalizeUnit(defaultTerms[0]);
+	const phi = normalizeUnit(defaultTerms[1]);
+	return (element) => {
+		const radius = element[$scene].idealCameraDistance();
+		return {
+			basis: [theta, phi, numberNode(radius, 'm')],
+			keywords: { auto: [null, null, numberNode(105, '%')] }
+		};
+	};
 })();
 const minCameraOrbitIntrinsics = (element) => {
-    const radius = MINIMUM_RADIUS_RATIO * element[$scene].boundingSphere.radius;
-    return {
-        basis: [
-            numberNode(-Infinity, 'rad'),
-            numberNode(0, 'rad'),
-            numberNode(radius, 'm')
-        ],
-        keywords: { auto: [null, null, null] }
-    };
+	const radius = MINIMUM_RADIUS_RATIO * element[$scene].boundingSphere.radius;
+	return {
+		basis: [
+			numberNode(-Infinity, 'rad'),
+			numberNode(0, 'rad'),
+			numberNode(radius, 'm')
+		],
+		keywords: { auto: [null, null, null] }
+	};
 };
 const maxCameraOrbitIntrinsics = (element) => {
-    const orbitIntrinsics = cameraOrbitIntrinsics(element);
-    const evaluator = new StyleEvaluator([], orbitIntrinsics);
-    const defaultRadius = evaluator.evaluate()[2];
-    return {
-        basis: [
-            numberNode(Infinity, 'rad'),
-            numberNode(Math.PI, 'rad'),
-            numberNode(defaultRadius, 'm')
-        ],
-        keywords: { auto: [null, null, null] }
-    };
+	const orbitIntrinsics = cameraOrbitIntrinsics(element);
+	const evaluator = new StyleEvaluator([], orbitIntrinsics);
+	const defaultRadius = evaluator.evaluate()[2];
+	return {
+		basis: [
+			numberNode(Infinity, 'rad'),
+			numberNode(Math.PI, 'rad'),
+			numberNode(defaultRadius, 'm')
+		],
+		keywords: { auto: [null, null, null] }
+	};
 };
 const cameraTargetIntrinsics = (element) => {
-    const center = element[$scene].boundingBox.getCenter(new Vector3());
-    return {
-        basis: [
-            numberNode(center.x, 'm'),
-            numberNode(center.y, 'm'),
-            numberNode(center.z, 'm')
-        ],
-        keywords: { auto: [null, null, null] }
-    };
+	const center = element[$scene].boundingBox.getCenter(new Vector3());
+	return {
+		basis: [
+			numberNode(center.x, 'm'),
+			numberNode(center.y, 'm'),
+			numberNode(center.z, 'm')
+		],
+		keywords: { auto: [null, null, null] }
+	};
 };
 const HALF_PI = Math.PI / 2.0;
 const THIRD_PI = Math.PI / 3.0;
@@ -53651,575 +53726,575 @@ const $syncMaxCameraOrbit = Symbol('syncMaxCameraOrbit');
 const $syncMinFieldOfView = Symbol('syncMinFieldOfView');
 const $syncMaxFieldOfView = Symbol('syncMaxFieldOfView');
 const ControlsMixin = (ModelViewerElement) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
-    class ControlsModelViewerElement extends ModelViewerElement {
-        constructor() {
-            super(...arguments);
-            this.cameraControls = false;
-            this.cameraOrbit = DEFAULT_CAMERA_ORBIT;
-            this.cameraTarget = DEFAULT_CAMERA_TARGET;
-            this.fieldOfView = DEFAULT_FIELD_OF_VIEW;
-            this.minCameraOrbit = 'auto';
-            this.maxCameraOrbit = 'auto';
-            this.minFieldOfView = 'auto';
-            this.maxFieldOfView = 'auto';
-            this.interactionPromptThreshold = DEFAULT_INTERACTION_PROMPT_THRESHOLD;
-            this.interactionPrompt = InteractionPromptStrategy.AUTO;
-            this.interactionPromptStyle = InteractionPromptStyle.WIGGLE;
-            this.orbitSensitivity = 1;
-            this.zoomSensitivity = 1;
-            this.panSensitivity = 1;
-            this.touchAction = TouchAction.NONE;
-            this.disableZoom = false;
-            this.disablePan = false;
-            this.disableTap = false;
-            this.interpolationDecay = DECAY_MILLISECONDS;
-            this.a11y = null;
-            this[_a] = this.shadowRoot.querySelector('.interaction-prompt');
-            this[_b] = this.shadowRoot.querySelector('#prompt');
-            this[_c] = [
-                this.shadowRoot.querySelector('#finger0'),
-                this.shadowRoot.querySelector('#finger1')
-            ];
-            this[_d] = this.shadowRoot.querySelector('.pan-target');
-            this[_e] = 0;
-            this[_f] = Infinity;
-            this[_g] = false;
-            this[_h] = false;
-            this[_j] = ChangeSource.AUTOMATIC;
-            this[_k] = new SmoothControls(this[$scene].camera, this[$userInputElement], this[$scene]);
-            this[_l] = new Spherical();
-            this[_m] = false;
-            this[_o] = false;
-            this[_p] = false;
-            this[_q] = {};
-            this[_r] = () => {
-                const source = this[$controls].changeSource;
-                this[$cancellationSource] = source;
-                if (source === ChangeSource.USER_INTERACTION) {
-                    this[$userHasInteracted] = true;
-                    this[$deferInteractionPrompt]();
-                }
-            };
-            this[_s] = () => {
-                this[$updateAria]();
-                this[$needsRender]();
-                const source = this[$controls].changeSource;
-                this.dispatchEvent(new CustomEvent('camera-change', { detail: { source } }));
-            };
-            this[_t] = (event) => {
-                this[$container].classList.toggle('pointer-tumbling', event.type === 'pointer-change-start');
-            };
-        }
-        get inputSensitivity() {
-            return this[$controls].inputSensitivity;
-        }
-        set inputSensitivity(value) {
-            this[$controls].inputSensitivity = value;
-        }
-        getCameraOrbit() {
-            const { theta, phi, radius } = this[$lastSpherical];
-            return {
-                theta,
-                phi,
-                radius,
-                toString() {
-                    return `${this.theta}rad ${this.phi}rad ${this.radius}m`;
-                }
-            };
-        }
-        getCameraTarget() {
-            return toVector3D(this[$renderer].isPresenting ? this[$renderer].arRenderer.target :
-                this[$scene].getDynamicTarget());
-        }
-        getFieldOfView() {
-            return this[$controls].getFieldOfView();
-        }
-        // Provided so user code does not have to parse these from attributes.
-        getMinimumFieldOfView() {
-            return this[$controls].options.minimumFieldOfView;
-        }
-        getMaximumFieldOfView() {
-            return this[$controls].options.maximumFieldOfView;
-        }
-        getIdealAspect() {
-            return this[$scene].idealAspect;
-        }
-        jumpCameraToGoal() {
-            this[$jumpCamera] = true;
-            this.requestUpdate($jumpCamera, false);
-        }
-        resetInteractionPrompt() {
-            this[$lastPromptOffset] = 0;
-            this[$promptElementVisibleTime] = Infinity;
-            this[$userHasInteracted] = false;
-            this[$waitingToPromptUser] =
-                this.interactionPrompt === InteractionPromptStrategy.AUTO &&
-                    this.cameraControls;
-        }
-        zoom(keyPresses) {
-            const event = new WheelEvent('wheel', { deltaY: -30 * keyPresses });
-            this[$userInputElement].dispatchEvent(event);
-        }
-        connectedCallback() {
-            super.connectedCallback();
-            this[$controls].addEventListener('user-interaction', this[$cancelPrompts]);
-            this[$controls].addEventListener('pointer-change-start', this[$onPointerChange]);
-            this[$controls].addEventListener('pointer-change-end', this[$onPointerChange]);
-        }
-        disconnectedCallback() {
-            super.disconnectedCallback();
-            this[$controls].removeEventListener('user-interaction', this[$cancelPrompts]);
-            this[$controls].removeEventListener('pointer-change-start', this[$onPointerChange]);
-            this[$controls].removeEventListener('pointer-change-end', this[$onPointerChange]);
-        }
-        updated(changedProperties) {
-            super.updated(changedProperties);
-            const controls = this[$controls];
-            const scene = this[$scene];
-            if (changedProperties.has('cameraControls')) {
-                if (this.cameraControls) {
-                    controls.enableInteraction();
-                    if (this.interactionPrompt === InteractionPromptStrategy.AUTO) {
-                        this[$waitingToPromptUser] = true;
-                    }
-                }
-                else {
-                    controls.disableInteraction();
-                    this[$deferInteractionPrompt]();
-                }
-                this[$userInputElement].setAttribute('aria-label', this[$ariaLabel]);
-            }
-            if (changedProperties.has('disableZoom')) {
-                controls.disableZoom = this.disableZoom;
-            }
-            if (changedProperties.has('disablePan')) {
-                controls.enablePan = !this.disablePan;
-            }
-            if (changedProperties.has('disableTap')) {
-                controls.enableTap = !this.disableTap;
-            }
-            if (changedProperties.has('interactionPrompt') ||
-                changedProperties.has('cameraControls') ||
-                changedProperties.has('src')) {
-                if (this.interactionPrompt === InteractionPromptStrategy.AUTO &&
-                    this.cameraControls && !this[$userHasInteracted]) {
-                    this[$waitingToPromptUser] = true;
-                }
-                else {
-                    this[$deferInteractionPrompt]();
-                }
-            }
-            if (changedProperties.has('interactionPromptStyle')) {
-                this[$promptAnimatedContainer].style.opacity =
-                    this.interactionPromptStyle == InteractionPromptStyle.BASIC ? '1' :
-                        '0';
-            }
-            if (changedProperties.has('touchAction')) {
-                const touchAction = this.touchAction;
-                controls.applyOptions({ touchAction });
-                controls.updateTouchActionStyle();
-            }
-            if (changedProperties.has('orbitSensitivity')) {
-                controls.orbitSensitivity = this.orbitSensitivity;
-            }
-            if (changedProperties.has('zoomSensitivity')) {
-                controls.zoomSensitivity = this.zoomSensitivity;
-            }
-            if (changedProperties.has('panSensitivity')) {
-                controls.panSensitivity = this.panSensitivity;
-            }
-            if (changedProperties.has('interpolationDecay')) {
-                controls.setDamperDecayTime(this.interpolationDecay);
-                scene.setTargetDamperDecayTime(this.interpolationDecay);
-            }
-            if (changedProperties.has('a11y')) {
-                this[$updateA11y]();
-            }
-            if (this[$jumpCamera] === true) {
-                Promise.resolve().then(() => {
-                    controls.jumpToGoal();
-                    scene.jumpToGoal();
-                    this[$onChange]();
-                    this[$jumpCamera] = false;
-                });
-            }
-        }
-        async updateFraming() {
-            const scene = this[$scene];
-            const oldFramedFoV = scene.adjustedFoV(scene.framedFoVDeg);
-            await scene.updateFraming();
-            const newFramedFoV = scene.adjustedFoV(scene.framedFoVDeg);
-            const zoom = this[$controls].getFieldOfView() / oldFramedFoV;
-            this[$controls].setFieldOfView(newFramedFoV * zoom);
-            this[$maintainThetaPhi] = true;
-            this.requestUpdate('maxFieldOfView');
-            this.requestUpdate('fieldOfView');
-            this.requestUpdate('minCameraOrbit');
-            this.requestUpdate('maxCameraOrbit');
-            this.requestUpdate('cameraOrbit');
-            await this.updateComplete;
-        }
-        interact(duration, finger0, finger1) {
-            const inputElement = this[$userInputElement];
-            const fingerElements = this[$fingerAnimatedContainers];
-            if (fingerElements[0].style.opacity === '1') {
-                console.warn('interact() failed because an existing interaction is running.');
-                return;
-            }
-            const xy = new Array();
-            xy.push({ x: timeline(finger0.x), y: timeline(finger0.y) });
-            const positions = [{ x: xy[0].x(0), y: xy[0].y(0) }];
-            if (finger1 != null) {
-                xy.push({ x: timeline(finger1.x), y: timeline(finger1.y) });
-                positions.push({ x: xy[1].x(0), y: xy[1].y(0) });
-            }
-            let startTime = performance.now();
-            const { width, height } = this[$scene];
-            const rect = this.getBoundingClientRect();
-            const dispatchTouches = (type) => {
-                for (const [i, position] of positions.entries()) {
-                    const { style } = fingerElements[i];
-                    style.transform = `translateX(${width * position.x}px) translateY(${height * position.y}px)`;
-                    if (type === 'pointerdown') {
-                        style.opacity = '1';
-                    }
-                    else if (type === 'pointerup') {
-                        style.opacity = '0';
-                    }
-                    const init = {
-                        pointerId: i - 5678, // help ensure uniqueness
-                        pointerType: 'touch',
-                        target: inputElement,
-                        clientX: width * position.x + rect.x,
-                        clientY: height * position.y + rect.y,
-                        altKey: true // flag that this is not a user interaction
-                    };
-                    inputElement.dispatchEvent(new PointerEvent(type, init));
-                }
-            };
-            const moveTouches = () => {
-                // Cancel interaction if something else moves the camera or input is
-                // removed from the DOM.
-                const changeSource = this[$cancellationSource];
-                if (changeSource !== ChangeSource.AUTOMATIC ||
-                    !inputElement.isConnected) {
-                    for (const fingerElement of this[$fingerAnimatedContainers]) {
-                        fingerElement.style.opacity = '0';
-                    }
-                    dispatchTouches('pointercancel');
-                    this.dispatchEvent(new CustomEvent('interact-stopped', { detail: { source: changeSource } }));
-                    document.removeEventListener('visibilitychange', onVisibilityChange);
-                    return;
-                }
-                const time = Math.min(1, (performance.now() - startTime) / duration);
-                for (const [i, position] of positions.entries()) {
-                    position.x = xy[i].x(time);
-                    position.y = xy[i].y(time);
-                }
-                dispatchTouches('pointermove');
-                if (time < 1) {
-                    requestAnimationFrame(moveTouches);
-                }
-                else {
-                    dispatchTouches('pointerup');
-                    this.dispatchEvent(new CustomEvent('interact-stopped', { detail: { source: ChangeSource.AUTOMATIC } }));
-                    document.removeEventListener('visibilitychange', onVisibilityChange);
-                }
-            };
-            const onVisibilityChange = () => {
-                let elapsed = 0;
-                if (document.visibilityState === 'hidden') {
-                    elapsed = performance.now() - startTime;
-                }
-                else {
-                    startTime = performance.now() - elapsed;
-                }
-            };
-            document.addEventListener('visibilitychange', onVisibilityChange);
-            dispatchTouches('pointerdown');
-            this[$cancellationSource] = ChangeSource.AUTOMATIC;
-            requestAnimationFrame(moveTouches);
-        }
-        [(_a = $promptElement, _b = $promptAnimatedContainer, _c = $fingerAnimatedContainers, _d = $panElement, _e = $lastPromptOffset, _f = $promptElementVisibleTime, _g = $userHasInteracted, _h = $waitingToPromptUser, _j = $cancellationSource, _k = $controls, _l = $lastSpherical, _m = $jumpCamera, _o = $initialized, _p = $maintainThetaPhi, _q = $a11y, $syncFieldOfView)](style) {
-            const controls = this[$controls];
-            const scene = this[$scene];
-            scene.framedFoVDeg = style[0] * 180 / Math.PI;
-            controls.changeSource = ChangeSource.NONE;
-            controls.setFieldOfView(scene.adjustedFoV(scene.framedFoVDeg));
-            this[$cancelPrompts]();
-        }
-        [$syncCameraOrbit](style) {
-            const controls = this[$controls];
-            if (this[$maintainThetaPhi]) {
-                const { theta, phi } = this.getCameraOrbit();
-                style[0] = theta;
-                style[1] = phi;
-                this[$maintainThetaPhi] = false;
-            }
-            controls.changeSource = ChangeSource.NONE;
-            controls.setOrbit(style[0], style[1], style[2]);
-            this[$cancelPrompts]();
-        }
-        [$syncMinCameraOrbit](style) {
-            this[$controls].applyOptions({
-                minimumAzimuthalAngle: style[0],
-                minimumPolarAngle: style[1],
-                minimumRadius: style[2]
-            });
-            this.jumpCameraToGoal();
-        }
-        [$syncMaxCameraOrbit](style) {
-            this[$controls].applyOptions({
-                maximumAzimuthalAngle: style[0],
-                maximumPolarAngle: style[1],
-                maximumRadius: style[2]
-            });
-            this[$updateCameraForRadius](style[2]);
-            this.jumpCameraToGoal();
-        }
-        [$syncMinFieldOfView](style) {
-            this[$controls].applyOptions({ minimumFieldOfView: style[0] * 180 / Math.PI });
-            this.jumpCameraToGoal();
-        }
-        [$syncMaxFieldOfView](style) {
-            const fov = this[$scene].adjustedFoV(style[0] * 180 / Math.PI);
-            this[$controls].applyOptions({ maximumFieldOfView: fov });
-            this.jumpCameraToGoal();
-        }
-        [$syncCameraTarget](style) {
-            const [x, y, z] = style;
-            if (!this[$renderer].arRenderer.isPresenting) {
-                this[$scene].setTarget(x, y, z);
-            }
-            this[$controls].changeSource = ChangeSource.NONE;
-            this[$renderer].arRenderer.updateTarget();
-            this[$cancelPrompts]();
-        }
-        [$tick](time, delta) {
-            super[$tick](time, delta);
-            if (this[$renderer].isPresenting || !this[$getModelIsVisible]()) {
-                return;
-            }
-            const controls = this[$controls];
-            const scene = this[$scene];
-            const now = performance.now();
-            if (this[$waitingToPromptUser]) {
-                if (this.loaded &&
-                    now > this[$loadedTime] + this.interactionPromptThreshold) {
-                    this[$waitingToPromptUser] = false;
-                    this[$promptElementVisibleTime] = now;
-                    this[$promptElement].classList.add('visible');
-                }
-            }
-            if (isFinite(this[$promptElementVisibleTime]) &&
-                this.interactionPromptStyle === InteractionPromptStyle.WIGGLE) {
-                const animationTime = ((now - this[$promptElementVisibleTime]) / PROMPT_ANIMATION_TIME) %
-                    1;
-                const offset = wiggle(animationTime);
-                const opacity = fade(animationTime);
-                this[$promptAnimatedContainer].style.opacity = `${opacity}`;
-                if (offset !== this[$lastPromptOffset]) {
-                    const xOffset = offset * scene.width * 0.05;
-                    const deltaTheta = (offset - this[$lastPromptOffset]) * Math.PI / 16;
-                    this[$promptAnimatedContainer].style.transform =
-                        `translateX(${xOffset}px)`;
-                    controls.changeSource = ChangeSource.AUTOMATIC;
-                    controls.adjustOrbit(deltaTheta, 0, 0);
-                    this[$lastPromptOffset] = offset;
-                }
-            }
-            const cameraMoved = controls.update(time, delta);
-            const targetMoved = scene.updateTarget(delta);
-            if (cameraMoved || targetMoved) {
-                this[$onChange]();
-            }
-        }
-        [$deferInteractionPrompt]() {
-            // Effectively cancel the timer waiting for user interaction:
-            this[$waitingToPromptUser] = false;
-            this[$promptElement].classList.remove('visible');
-            this[$promptElementVisibleTime] = Infinity;
-        }
-        /**
-         * Updates the camera's near and far planes to enclose the scene when
-         * orbiting at the supplied radius.
-         */
-        [$updateCameraForRadius](radius) {
-            const maximumRadius = Math.max(this[$scene].farRadius(), radius);
-            const near = 0;
-            const far = Math.abs(2 * maximumRadius);
-            this[$controls].updateNearFar(near, far);
-        }
-        [$updateAria]() {
-            const { theta, phi } = this[$controls].getCameraSpherical(this[$lastSpherical]);
-            const azimuthalQuadrant = (4 + Math.floor(((theta % TAU) + QUARTER_PI) / HALF_PI)) % 4;
-            const polarTrient = Math.floor(phi / THIRD_PI);
-            const azimuthalQuadrantLabel = AZIMUTHAL_QUADRANT_LABELS[azimuthalQuadrant];
-            const polarTrientLabel = POLAR_TRIENT_LABELS[polarTrient];
-            const position = `${polarTrientLabel}${azimuthalQuadrantLabel}`;
-            const key = position;
-            if (key in this[$a11y]) {
-                this[$updateStatus](this[$a11y][key]);
-            }
-            else {
-                this[$updateStatus](`View from stage ${position}`);
-            }
-        }
-        get [$ariaLabel]() {
-            let interactionPrompt = INTERACTION_PROMPT;
-            if ('interaction-prompt' in this[$a11y]) {
-                interactionPrompt = `. ${this[$a11y]['interaction-prompt']}`;
-            }
-            return super[$ariaLabel].replace(/\.$/, '') +
-                (this.cameraControls ? interactionPrompt : '');
-        }
-        async [$onResize](event) {
-            const controls = this[$controls];
-            const scene = this[$scene];
-            const oldFramedFoV = scene.adjustedFoV(scene.framedFoVDeg);
-            // The super of $onResize may update the scene's adjustedFoV, so we
-            // compare the before and after to calculate the proper zoom.
-            super[$onResize](event);
-            const fovRatio = scene.adjustedFoV(scene.framedFoVDeg) / oldFramedFoV;
-            const fov = controls.getFieldOfView() * (isFinite(fovRatio) ? fovRatio : 1);
-            controls.updateAspect(this[$scene].aspect);
-            this.requestUpdate('maxFieldOfView', this.maxFieldOfView);
-            await this.updateComplete;
-            this[$controls].setFieldOfView(fov);
-            this.jumpCameraToGoal();
-        }
-        [$onModelLoad]() {
-            super[$onModelLoad]();
-            if (this[$initialized]) {
-                this[$maintainThetaPhi] = true;
-            }
-            else {
-                this[$initialized] = true;
-            }
-            this.requestUpdate('maxFieldOfView', this.maxFieldOfView);
-            this.requestUpdate('fieldOfView', this.fieldOfView);
-            this.requestUpdate('minCameraOrbit', this.minCameraOrbit);
-            this.requestUpdate('maxCameraOrbit', this.maxCameraOrbit);
-            this.requestUpdate('cameraOrbit', this.cameraOrbit);
-            this.requestUpdate('cameraTarget', this.cameraTarget);
-            this.jumpCameraToGoal();
-        }
-        [(_r = $cancelPrompts, _s = $onChange, _t = $onPointerChange, $updateA11y)]() {
-            if (typeof this.a11y === 'string') {
-                if (this.a11y.startsWith('{')) {
-                    try {
-                        this[$a11y] = JSON.parse(this.a11y);
-                    }
-                    catch (error) {
-                        console.warn('Error parsing a11y JSON:', error);
-                    }
-                }
-                else if (this.a11y.length > 0) {
-                    console.warn('Error not supported format, should be a JSON string:', this.a11y);
-                }
-                else {
-                    this[$a11y] = {};
-                }
-            }
-            else if (typeof this.a11y === 'object' && this.a11y != null) {
-                this[$a11y] = Object.assign({}, this.a11y);
-            }
-            else {
-                this[$a11y] = {};
-            }
-            this[$userInputElement].setAttribute('aria-label', this[$ariaLabel]);
-        }
-    }
-    __decorate$6([
-        n$2({ type: Boolean, attribute: 'camera-controls' })
-    ], ControlsModelViewerElement.prototype, "cameraControls", void 0);
-    __decorate$6([
-        style({
-            intrinsics: cameraOrbitIntrinsics,
-            observeEffects: true,
-            updateHandler: $syncCameraOrbit
-        }),
-        n$2({ type: String, attribute: 'camera-orbit', hasChanged: () => true })
-    ], ControlsModelViewerElement.prototype, "cameraOrbit", void 0);
-    __decorate$6([
-        style({
-            intrinsics: cameraTargetIntrinsics,
-            observeEffects: true,
-            updateHandler: $syncCameraTarget
-        }),
-        n$2({ type: String, attribute: 'camera-target', hasChanged: () => true })
-    ], ControlsModelViewerElement.prototype, "cameraTarget", void 0);
-    __decorate$6([
-        style({
-            intrinsics: fieldOfViewIntrinsics,
-            observeEffects: true,
-            updateHandler: $syncFieldOfView
-        }),
-        n$2({ type: String, attribute: 'field-of-view', hasChanged: () => true })
-    ], ControlsModelViewerElement.prototype, "fieldOfView", void 0);
-    __decorate$6([
-        style({
-            intrinsics: minCameraOrbitIntrinsics,
-            updateHandler: $syncMinCameraOrbit
-        }),
-        n$2({ type: String, attribute: 'min-camera-orbit', hasChanged: () => true })
-    ], ControlsModelViewerElement.prototype, "minCameraOrbit", void 0);
-    __decorate$6([
-        style({
-            intrinsics: maxCameraOrbitIntrinsics,
-            updateHandler: $syncMaxCameraOrbit
-        }),
-        n$2({ type: String, attribute: 'max-camera-orbit', hasChanged: () => true })
-    ], ControlsModelViewerElement.prototype, "maxCameraOrbit", void 0);
-    __decorate$6([
-        style({
-            intrinsics: minFieldOfViewIntrinsics,
-            updateHandler: $syncMinFieldOfView
-        }),
-        n$2({ type: String, attribute: 'min-field-of-view', hasChanged: () => true })
-    ], ControlsModelViewerElement.prototype, "minFieldOfView", void 0);
-    __decorate$6([
-        style({ intrinsics: fieldOfViewIntrinsics, updateHandler: $syncMaxFieldOfView }),
-        n$2({ type: String, attribute: 'max-field-of-view', hasChanged: () => true })
-    ], ControlsModelViewerElement.prototype, "maxFieldOfView", void 0);
-    __decorate$6([
-        n$2({ type: Number, attribute: 'interaction-prompt-threshold' })
-    ], ControlsModelViewerElement.prototype, "interactionPromptThreshold", void 0);
-    __decorate$6([
-        n$2({ type: String, attribute: 'interaction-prompt' })
-    ], ControlsModelViewerElement.prototype, "interactionPrompt", void 0);
-    __decorate$6([
-        n$2({ type: String, attribute: 'interaction-prompt-style' })
-    ], ControlsModelViewerElement.prototype, "interactionPromptStyle", void 0);
-    __decorate$6([
-        n$2({ type: Number, attribute: 'orbit-sensitivity' })
-    ], ControlsModelViewerElement.prototype, "orbitSensitivity", void 0);
-    __decorate$6([
-        n$2({ type: Number, attribute: 'zoom-sensitivity' })
-    ], ControlsModelViewerElement.prototype, "zoomSensitivity", void 0);
-    __decorate$6([
-        n$2({ type: Number, attribute: 'pan-sensitivity' })
-    ], ControlsModelViewerElement.prototype, "panSensitivity", void 0);
-    __decorate$6([
-        n$2({ type: String, attribute: 'touch-action' })
-    ], ControlsModelViewerElement.prototype, "touchAction", void 0);
-    __decorate$6([
-        n$2({ type: Boolean, attribute: 'disable-zoom' })
-    ], ControlsModelViewerElement.prototype, "disableZoom", void 0);
-    __decorate$6([
-        n$2({ type: Boolean, attribute: 'disable-pan' })
-    ], ControlsModelViewerElement.prototype, "disablePan", void 0);
-    __decorate$6([
-        n$2({ type: Boolean, attribute: 'disable-tap' })
-    ], ControlsModelViewerElement.prototype, "disableTap", void 0);
-    __decorate$6([
-        n$2({ type: Number, attribute: 'interpolation-decay' })
-    ], ControlsModelViewerElement.prototype, "interpolationDecay", void 0);
-    __decorate$6([
-        n$2()
-    ], ControlsModelViewerElement.prototype, "a11y", void 0);
-    return ControlsModelViewerElement;
+	var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r, _s, _t;
+	class ControlsModelViewerElement extends ModelViewerElement {
+		constructor() {
+			super(...arguments);
+			this.cameraControls = false;
+			this.cameraOrbit = DEFAULT_CAMERA_ORBIT;
+			this.cameraTarget = DEFAULT_CAMERA_TARGET;
+			this.fieldOfView = DEFAULT_FIELD_OF_VIEW;
+			this.minCameraOrbit = 'auto';
+			this.maxCameraOrbit = 'auto';
+			this.minFieldOfView = 'auto';
+			this.maxFieldOfView = 'auto';
+			this.interactionPromptThreshold = DEFAULT_INTERACTION_PROMPT_THRESHOLD;
+			this.interactionPrompt = InteractionPromptStrategy.AUTO;
+			this.interactionPromptStyle = InteractionPromptStyle.WIGGLE;
+			this.orbitSensitivity = 1;
+			this.zoomSensitivity = 1;
+			this.panSensitivity = 1;
+			this.touchAction = TouchAction.NONE;
+			this.disableZoom = false;
+			this.disablePan = false;
+			this.disableTap = false;
+			this.interpolationDecay = DECAY_MILLISECONDS;
+			this.a11y = null;
+			this[_a] = this.shadowRoot.querySelector('.interaction-prompt');
+			this[_b] = this.shadowRoot.querySelector('#prompt');
+			this[_c] = [
+				this.shadowRoot.querySelector('#finger0'),
+				this.shadowRoot.querySelector('#finger1')
+			];
+			this[_d] = this.shadowRoot.querySelector('.pan-target');
+			this[_e] = 0;
+			this[_f] = Infinity;
+			this[_g] = false;
+			this[_h] = false;
+			this[_j] = ChangeSource.AUTOMATIC;
+			this[_k] = new SmoothControls(this[$scene].camera, this[$userInputElement], this[$scene]);
+			this[_l] = new Spherical();
+			this[_m] = false;
+			this[_o] = false;
+			this[_p] = false;
+			this[_q] = {};
+			this[_r] = () => {
+				const source = this[$controls].changeSource;
+				this[$cancellationSource] = source;
+				if (source === ChangeSource.USER_INTERACTION) {
+					this[$userHasInteracted] = true;
+					this[$deferInteractionPrompt]();
+				}
+			};
+			this[_s] = () => {
+				this[$updateAria]();
+				this[$needsRender]();
+				const source = this[$controls].changeSource;
+				this.dispatchEvent(new CustomEvent('camera-change', { detail: { source } }));
+			};
+			this[_t] = (event) => {
+				this[$container].classList.toggle('pointer-tumbling', event.type === 'pointer-change-start');
+			};
+		}
+		get inputSensitivity() {
+			return this[$controls].inputSensitivity;
+		}
+		set inputSensitivity(value) {
+			this[$controls].inputSensitivity = value;
+		}
+		getCameraOrbit() {
+			const { theta, phi, radius } = this[$lastSpherical];
+			return {
+				theta,
+				phi,
+				radius,
+				toString() {
+					return `${this.theta}rad ${this.phi}rad ${this.radius}m`;
+				}
+			};
+		}
+		getCameraTarget() {
+			return toVector3D(this[$renderer].isPresenting ? this[$renderer].arRenderer.target :
+				this[$scene].getDynamicTarget());
+		}
+		getFieldOfView() {
+			return this[$controls].getFieldOfView();
+		}
+		// Provided so user code does not have to parse these from attributes.
+		getMinimumFieldOfView() {
+			return this[$controls].options.minimumFieldOfView;
+		}
+		getMaximumFieldOfView() {
+			return this[$controls].options.maximumFieldOfView;
+		}
+		getIdealAspect() {
+			return this[$scene].idealAspect;
+		}
+		jumpCameraToGoal() {
+			this[$jumpCamera] = true;
+			this.requestUpdate($jumpCamera, false);
+		}
+		resetInteractionPrompt() {
+			this[$lastPromptOffset] = 0;
+			this[$promptElementVisibleTime] = Infinity;
+			this[$userHasInteracted] = false;
+			this[$waitingToPromptUser] =
+				this.interactionPrompt === InteractionPromptStrategy.AUTO &&
+					this.cameraControls;
+		}
+		zoom(keyPresses) {
+			const event = new WheelEvent('wheel', { deltaY: -30 * keyPresses });
+			this[$userInputElement].dispatchEvent(event);
+		}
+		connectedCallback() {
+			super.connectedCallback();
+			this[$controls].addEventListener('user-interaction', this[$cancelPrompts]);
+			this[$controls].addEventListener('pointer-change-start', this[$onPointerChange]);
+			this[$controls].addEventListener('pointer-change-end', this[$onPointerChange]);
+		}
+		disconnectedCallback() {
+			super.disconnectedCallback();
+			this[$controls].removeEventListener('user-interaction', this[$cancelPrompts]);
+			this[$controls].removeEventListener('pointer-change-start', this[$onPointerChange]);
+			this[$controls].removeEventListener('pointer-change-end', this[$onPointerChange]);
+		}
+		updated(changedProperties) {
+			super.updated(changedProperties);
+			const controls = this[$controls];
+			const scene = this[$scene];
+			if (changedProperties.has('cameraControls')) {
+				if (this.cameraControls) {
+					controls.enableInteraction();
+					if (this.interactionPrompt === InteractionPromptStrategy.AUTO) {
+						this[$waitingToPromptUser] = true;
+					}
+				}
+				else {
+					controls.disableInteraction();
+					this[$deferInteractionPrompt]();
+				}
+				this[$userInputElement].setAttribute('aria-label', this[$ariaLabel]);
+			}
+			if (changedProperties.has('disableZoom')) {
+				controls.disableZoom = this.disableZoom;
+			}
+			if (changedProperties.has('disablePan')) {
+				controls.enablePan = !this.disablePan;
+			}
+			if (changedProperties.has('disableTap')) {
+				controls.enableTap = !this.disableTap;
+			}
+			if (changedProperties.has('interactionPrompt') ||
+				changedProperties.has('cameraControls') ||
+				changedProperties.has('src')) {
+				if (this.interactionPrompt === InteractionPromptStrategy.AUTO &&
+					this.cameraControls && !this[$userHasInteracted]) {
+					this[$waitingToPromptUser] = true;
+				}
+				else {
+					this[$deferInteractionPrompt]();
+				}
+			}
+			if (changedProperties.has('interactionPromptStyle')) {
+				this[$promptAnimatedContainer].style.opacity =
+					this.interactionPromptStyle == InteractionPromptStyle.BASIC ? '1' :
+						'0';
+			}
+			if (changedProperties.has('touchAction')) {
+				const touchAction = this.touchAction;
+				controls.applyOptions({ touchAction });
+				controls.updateTouchActionStyle();
+			}
+			if (changedProperties.has('orbitSensitivity')) {
+				controls.orbitSensitivity = this.orbitSensitivity;
+			}
+			if (changedProperties.has('zoomSensitivity')) {
+				controls.zoomSensitivity = this.zoomSensitivity;
+			}
+			if (changedProperties.has('panSensitivity')) {
+				controls.panSensitivity = this.panSensitivity;
+			}
+			if (changedProperties.has('interpolationDecay')) {
+				controls.setDamperDecayTime(this.interpolationDecay);
+				scene.setTargetDamperDecayTime(this.interpolationDecay);
+			}
+			if (changedProperties.has('a11y')) {
+				this[$updateA11y]();
+			}
+			if (this[$jumpCamera] === true) {
+				Promise.resolve().then(() => {
+					controls.jumpToGoal();
+					scene.jumpToGoal();
+					this[$onChange]();
+					this[$jumpCamera] = false;
+				});
+			}
+		}
+		async updateFraming() {
+			const scene = this[$scene];
+			const oldFramedFoV = scene.adjustedFoV(scene.framedFoVDeg);
+			await scene.updateFraming();
+			const newFramedFoV = scene.adjustedFoV(scene.framedFoVDeg);
+			const zoom = this[$controls].getFieldOfView() / oldFramedFoV;
+			this[$controls].setFieldOfView(newFramedFoV * zoom);
+			this[$maintainThetaPhi] = true;
+			this.requestUpdate('maxFieldOfView');
+			this.requestUpdate('fieldOfView');
+			this.requestUpdate('minCameraOrbit');
+			this.requestUpdate('maxCameraOrbit');
+			this.requestUpdate('cameraOrbit');
+			await this.updateComplete;
+		}
+		interact(duration, finger0, finger1) {
+			const inputElement = this[$userInputElement];
+			const fingerElements = this[$fingerAnimatedContainers];
+			if (fingerElements[0].style.opacity === '1') {
+				console.warn('interact() failed because an existing interaction is running.');
+				return;
+			}
+			const xy = new Array();
+			xy.push({ x: timeline(finger0.x), y: timeline(finger0.y) });
+			const positions = [{ x: xy[0].x(0), y: xy[0].y(0) }];
+			if (finger1 != null) {
+				xy.push({ x: timeline(finger1.x), y: timeline(finger1.y) });
+				positions.push({ x: xy[1].x(0), y: xy[1].y(0) });
+			}
+			let startTime = performance.now();
+			const { width, height } = this[$scene];
+			const rect = this.getBoundingClientRect();
+			const dispatchTouches = (type) => {
+				for (const [i, position] of positions.entries()) {
+					const { style } = fingerElements[i];
+					style.transform = `translateX(${width * position.x}px) translateY(${height * position.y}px)`;
+					if (type === 'pointerdown') {
+						style.opacity = '1';
+					}
+					else if (type === 'pointerup') {
+						style.opacity = '0';
+					}
+					const init = {
+						pointerId: i - 5678, // help ensure uniqueness
+						pointerType: 'touch',
+						target: inputElement,
+						clientX: width * position.x + rect.x,
+						clientY: height * position.y + rect.y,
+						altKey: true // flag that this is not a user interaction
+					};
+					inputElement.dispatchEvent(new PointerEvent(type, init));
+				}
+			};
+			const moveTouches = () => {
+				// Cancel interaction if something else moves the camera or input is
+				// removed from the DOM.
+				const changeSource = this[$cancellationSource];
+				if (changeSource !== ChangeSource.AUTOMATIC ||
+					!inputElement.isConnected) {
+					for (const fingerElement of this[$fingerAnimatedContainers]) {
+						fingerElement.style.opacity = '0';
+					}
+					dispatchTouches('pointercancel');
+					this.dispatchEvent(new CustomEvent('interact-stopped', { detail: { source: changeSource } }));
+					document.removeEventListener('visibilitychange', onVisibilityChange);
+					return;
+				}
+				const time = Math.min(1, (performance.now() - startTime) / duration);
+				for (const [i, position] of positions.entries()) {
+					position.x = xy[i].x(time);
+					position.y = xy[i].y(time);
+				}
+				dispatchTouches('pointermove');
+				if (time < 1) {
+					requestAnimationFrame(moveTouches);
+				}
+				else {
+					dispatchTouches('pointerup');
+					this.dispatchEvent(new CustomEvent('interact-stopped', { detail: { source: ChangeSource.AUTOMATIC } }));
+					document.removeEventListener('visibilitychange', onVisibilityChange);
+				}
+			};
+			const onVisibilityChange = () => {
+				let elapsed = 0;
+				if (document.visibilityState === 'hidden') {
+					elapsed = performance.now() - startTime;
+				}
+				else {
+					startTime = performance.now() - elapsed;
+				}
+			};
+			document.addEventListener('visibilitychange', onVisibilityChange);
+			dispatchTouches('pointerdown');
+			this[$cancellationSource] = ChangeSource.AUTOMATIC;
+			requestAnimationFrame(moveTouches);
+		}
+		[(_a = $promptElement, _b = $promptAnimatedContainer, _c = $fingerAnimatedContainers, _d = $panElement, _e = $lastPromptOffset, _f = $promptElementVisibleTime, _g = $userHasInteracted, _h = $waitingToPromptUser, _j = $cancellationSource, _k = $controls, _l = $lastSpherical, _m = $jumpCamera, _o = $initialized, _p = $maintainThetaPhi, _q = $a11y, $syncFieldOfView)](style) {
+			const controls = this[$controls];
+			const scene = this[$scene];
+			scene.framedFoVDeg = style[0] * 180 / Math.PI;
+			controls.changeSource = ChangeSource.NONE;
+			controls.setFieldOfView(scene.adjustedFoV(scene.framedFoVDeg));
+			this[$cancelPrompts]();
+		}
+		[$syncCameraOrbit](style) {
+			const controls = this[$controls];
+			if (this[$maintainThetaPhi]) {
+				const { theta, phi } = this.getCameraOrbit();
+				style[0] = theta;
+				style[1] = phi;
+				this[$maintainThetaPhi] = false;
+			}
+			controls.changeSource = ChangeSource.NONE;
+			controls.setOrbit(style[0], style[1], style[2]);
+			this[$cancelPrompts]();
+		}
+		[$syncMinCameraOrbit](style) {
+			this[$controls].applyOptions({
+				minimumAzimuthalAngle: style[0],
+				minimumPolarAngle: style[1],
+				minimumRadius: style[2]
+			});
+			this.jumpCameraToGoal();
+		}
+		[$syncMaxCameraOrbit](style) {
+			this[$controls].applyOptions({
+				maximumAzimuthalAngle: style[0],
+				maximumPolarAngle: style[1],
+				maximumRadius: style[2]
+			});
+			this[$updateCameraForRadius](style[2]);
+			this.jumpCameraToGoal();
+		}
+		[$syncMinFieldOfView](style) {
+			this[$controls].applyOptions({ minimumFieldOfView: style[0] * 180 / Math.PI });
+			this.jumpCameraToGoal();
+		}
+		[$syncMaxFieldOfView](style) {
+			const fov = this[$scene].adjustedFoV(style[0] * 180 / Math.PI);
+			this[$controls].applyOptions({ maximumFieldOfView: fov });
+			this.jumpCameraToGoal();
+		}
+		[$syncCameraTarget](style) {
+			const [x, y, z] = style;
+			if (!this[$renderer].arRenderer.isPresenting) {
+				this[$scene].setTarget(x, y, z);
+			}
+			this[$controls].changeSource = ChangeSource.NONE;
+			this[$renderer].arRenderer.updateTarget();
+			this[$cancelPrompts]();
+		}
+		[$tick](time, delta) {
+			super[$tick](time, delta);
+			if (this[$renderer].isPresenting || !this[$getModelIsVisible]()) {
+				return;
+			}
+			const controls = this[$controls];
+			const scene = this[$scene];
+			const now = performance.now();
+			if (this[$waitingToPromptUser]) {
+				if (this.loaded &&
+					now > this[$loadedTime] + this.interactionPromptThreshold) {
+					this[$waitingToPromptUser] = false;
+					this[$promptElementVisibleTime] = now;
+					this[$promptElement].classList.add('visible');
+				}
+			}
+			if (isFinite(this[$promptElementVisibleTime]) &&
+				this.interactionPromptStyle === InteractionPromptStyle.WIGGLE) {
+				const animationTime = ((now - this[$promptElementVisibleTime]) / PROMPT_ANIMATION_TIME) %
+					1;
+				const offset = wiggle(animationTime);
+				const opacity = fade(animationTime);
+				this[$promptAnimatedContainer].style.opacity = `${opacity}`;
+				if (offset !== this[$lastPromptOffset]) {
+					const xOffset = offset * scene.width * 0.05;
+					const deltaTheta = (offset - this[$lastPromptOffset]) * Math.PI / 16;
+					this[$promptAnimatedContainer].style.transform =
+						`translateX(${xOffset}px)`;
+					controls.changeSource = ChangeSource.AUTOMATIC;
+					controls.adjustOrbit(deltaTheta, 0, 0);
+					this[$lastPromptOffset] = offset;
+				}
+			}
+			const cameraMoved = controls.update(time, delta);
+			const targetMoved = scene.updateTarget(delta);
+			if (cameraMoved || targetMoved) {
+				this[$onChange]();
+			}
+		}
+		[$deferInteractionPrompt]() {
+			// Effectively cancel the timer waiting for user interaction:
+			this[$waitingToPromptUser] = false;
+			this[$promptElement].classList.remove('visible');
+			this[$promptElementVisibleTime] = Infinity;
+		}
+		/**
+		 * Updates the camera's near and far planes to enclose the scene when
+		 * orbiting at the supplied radius.
+		 */
+		[$updateCameraForRadius](radius) {
+			const maximumRadius = Math.max(this[$scene].farRadius(), radius);
+			const near = 0;
+			const far = Math.abs(2 * maximumRadius);
+			this[$controls].updateNearFar(near, far);
+		}
+		[$updateAria]() {
+			const { theta, phi } = this[$controls].getCameraSpherical(this[$lastSpherical]);
+			const azimuthalQuadrant = (4 + Math.floor(((theta % TAU) + QUARTER_PI) / HALF_PI)) % 4;
+			const polarTrient = Math.floor(phi / THIRD_PI);
+			const azimuthalQuadrantLabel = AZIMUTHAL_QUADRANT_LABELS[azimuthalQuadrant];
+			const polarTrientLabel = POLAR_TRIENT_LABELS[polarTrient];
+			const position = `${polarTrientLabel}${azimuthalQuadrantLabel}`;
+			const key = position;
+			if (key in this[$a11y]) {
+				this[$updateStatus](this[$a11y][key]);
+			}
+			else {
+				this[$updateStatus](`View from stage ${position}`);
+			}
+		}
+		get [$ariaLabel]() {
+			let interactionPrompt = INTERACTION_PROMPT;
+			if ('interaction-prompt' in this[$a11y]) {
+				interactionPrompt = `. ${this[$a11y]['interaction-prompt']}`;
+			}
+			return super[$ariaLabel].replace(/\.$/, '') +
+				(this.cameraControls ? interactionPrompt : '');
+		}
+		async [$onResize](event) {
+			const controls = this[$controls];
+			const scene = this[$scene];
+			const oldFramedFoV = scene.adjustedFoV(scene.framedFoVDeg);
+			// The super of $onResize may update the scene's adjustedFoV, so we
+			// compare the before and after to calculate the proper zoom.
+			super[$onResize](event);
+			const fovRatio = scene.adjustedFoV(scene.framedFoVDeg) / oldFramedFoV;
+			const fov = controls.getFieldOfView() * (isFinite(fovRatio) ? fovRatio : 1);
+			controls.updateAspect(this[$scene].aspect);
+			this.requestUpdate('maxFieldOfView', this.maxFieldOfView);
+			await this.updateComplete;
+			this[$controls].setFieldOfView(fov);
+			this.jumpCameraToGoal();
+		}
+		[$onModelLoad]() {
+			super[$onModelLoad]();
+			if (this[$initialized]) {
+				this[$maintainThetaPhi] = true;
+			}
+			else {
+				this[$initialized] = true;
+			}
+			this.requestUpdate('maxFieldOfView', this.maxFieldOfView);
+			this.requestUpdate('fieldOfView', this.fieldOfView);
+			this.requestUpdate('minCameraOrbit', this.minCameraOrbit);
+			this.requestUpdate('maxCameraOrbit', this.maxCameraOrbit);
+			this.requestUpdate('cameraOrbit', this.cameraOrbit);
+			this.requestUpdate('cameraTarget', this.cameraTarget);
+			this.jumpCameraToGoal();
+		}
+		[(_r = $cancelPrompts, _s = $onChange, _t = $onPointerChange, $updateA11y)]() {
+			if (typeof this.a11y === 'string') {
+				if (this.a11y.startsWith('{')) {
+					try {
+						this[$a11y] = JSON.parse(this.a11y);
+					}
+					catch (error) {
+						console.warn('Error parsing a11y JSON:', error);
+					}
+				}
+				else if (this.a11y.length > 0) {
+					console.warn('Error not supported format, should be a JSON string:', this.a11y);
+				}
+				else {
+					this[$a11y] = {};
+				}
+			}
+			else if (typeof this.a11y === 'object' && this.a11y != null) {
+				this[$a11y] = Object.assign({}, this.a11y);
+			}
+			else {
+				this[$a11y] = {};
+			}
+			this[$userInputElement].setAttribute('aria-label', this[$ariaLabel]);
+		}
+	}
+	__decorate$6([
+		n$2({ type: Boolean, attribute: 'camera-controls' })
+	], ControlsModelViewerElement.prototype, "cameraControls", void 0);
+	__decorate$6([
+		style({
+			intrinsics: cameraOrbitIntrinsics,
+			observeEffects: true,
+			updateHandler: $syncCameraOrbit
+		}),
+		n$2({ type: String, attribute: 'camera-orbit', hasChanged: () => true })
+	], ControlsModelViewerElement.prototype, "cameraOrbit", void 0);
+	__decorate$6([
+		style({
+			intrinsics: cameraTargetIntrinsics,
+			observeEffects: true,
+			updateHandler: $syncCameraTarget
+		}),
+		n$2({ type: String, attribute: 'camera-target', hasChanged: () => true })
+	], ControlsModelViewerElement.prototype, "cameraTarget", void 0);
+	__decorate$6([
+		style({
+			intrinsics: fieldOfViewIntrinsics,
+			observeEffects: true,
+			updateHandler: $syncFieldOfView
+		}),
+		n$2({ type: String, attribute: 'field-of-view', hasChanged: () => true })
+	], ControlsModelViewerElement.prototype, "fieldOfView", void 0);
+	__decorate$6([
+		style({
+			intrinsics: minCameraOrbitIntrinsics,
+			updateHandler: $syncMinCameraOrbit
+		}),
+		n$2({ type: String, attribute: 'min-camera-orbit', hasChanged: () => true })
+	], ControlsModelViewerElement.prototype, "minCameraOrbit", void 0);
+	__decorate$6([
+		style({
+			intrinsics: maxCameraOrbitIntrinsics,
+			updateHandler: $syncMaxCameraOrbit
+		}),
+		n$2({ type: String, attribute: 'max-camera-orbit', hasChanged: () => true })
+	], ControlsModelViewerElement.prototype, "maxCameraOrbit", void 0);
+	__decorate$6([
+		style({
+			intrinsics: minFieldOfViewIntrinsics,
+			updateHandler: $syncMinFieldOfView
+		}),
+		n$2({ type: String, attribute: 'min-field-of-view', hasChanged: () => true })
+	], ControlsModelViewerElement.prototype, "minFieldOfView", void 0);
+	__decorate$6([
+		style({ intrinsics: fieldOfViewIntrinsics, updateHandler: $syncMaxFieldOfView }),
+		n$2({ type: String, attribute: 'max-field-of-view', hasChanged: () => true })
+	], ControlsModelViewerElement.prototype, "maxFieldOfView", void 0);
+	__decorate$6([
+		n$2({ type: Number, attribute: 'interaction-prompt-threshold' })
+	], ControlsModelViewerElement.prototype, "interactionPromptThreshold", void 0);
+	__decorate$6([
+		n$2({ type: String, attribute: 'interaction-prompt' })
+	], ControlsModelViewerElement.prototype, "interactionPrompt", void 0);
+	__decorate$6([
+		n$2({ type: String, attribute: 'interaction-prompt-style' })
+	], ControlsModelViewerElement.prototype, "interactionPromptStyle", void 0);
+	__decorate$6([
+		n$2({ type: Number, attribute: 'orbit-sensitivity' })
+	], ControlsModelViewerElement.prototype, "orbitSensitivity", void 0);
+	__decorate$6([
+		n$2({ type: Number, attribute: 'zoom-sensitivity' })
+	], ControlsModelViewerElement.prototype, "zoomSensitivity", void 0);
+	__decorate$6([
+		n$2({ type: Number, attribute: 'pan-sensitivity' })
+	], ControlsModelViewerElement.prototype, "panSensitivity", void 0);
+	__decorate$6([
+		n$2({ type: String, attribute: 'touch-action' })
+	], ControlsModelViewerElement.prototype, "touchAction", void 0);
+	__decorate$6([
+		n$2({ type: Boolean, attribute: 'disable-zoom' })
+	], ControlsModelViewerElement.prototype, "disableZoom", void 0);
+	__decorate$6([
+		n$2({ type: Boolean, attribute: 'disable-pan' })
+	], ControlsModelViewerElement.prototype, "disablePan", void 0);
+	__decorate$6([
+		n$2({ type: Boolean, attribute: 'disable-tap' })
+	], ControlsModelViewerElement.prototype, "disableTap", void 0);
+	__decorate$6([
+		n$2({ type: Number, attribute: 'interpolation-decay' })
+	], ControlsModelViewerElement.prototype, "interpolationDecay", void 0);
+	__decorate$6([
+		n$2()
+	], ControlsModelViewerElement.prototype, "a11y", void 0);
+	return ControlsModelViewerElement;
 };
 
 /* @license
@@ -54241,15 +54316,15 @@ const TAP_MS = 300;
 const vector2 = new Vector2();
 const vector3$2 = new Vector3();
 const DEFAULT_OPTIONS = Object.freeze({
-    minimumRadius: 0,
-    maximumRadius: Infinity,
-    minimumPolarAngle: 0,
-    maximumPolarAngle: Math.PI,
-    minimumAzimuthalAngle: -Infinity,
-    maximumAzimuthalAngle: Infinity,
-    minimumFieldOfView: 10,
-    maximumFieldOfView: 45,
-    touchAction: 'none'
+	minimumRadius: 0,
+	maximumRadius: Infinity,
+	minimumPolarAngle: 0,
+	maximumPolarAngle: Math.PI,
+	minimumAzimuthalAngle: -Infinity,
+	maximumAzimuthalAngle: Infinity,
+	minimumFieldOfView: 10,
+	maximumFieldOfView: 45,
+	touchAction: 'none'
 });
 // Constants
 const KEYBOARD_ORBIT_INCREMENT = Math.PI / 8;
@@ -54257,9 +54332,9 @@ const ZOOM_SENSITIVITY = 0.04;
 // The move size on pan key event
 const PAN_KEY_INCREMENT = 10;
 const ChangeSource = {
-    USER_INTERACTION: 'user-interaction',
-    NONE: 'none',
-    AUTOMATIC: 'automatic'
+	USER_INTERACTION: 'user-interaction',
+	NONE: 'none',
+	AUTOMATIC: 'automatic'
 };
 /**
  * SmoothControls is a Three.js helper for adding delightful pointer and
@@ -54280,653 +54355,653 @@ const ChangeSource = {
  * ensure that the camera's matrixWorld is in sync before using SmoothControls.
  */
 class SmoothControls extends EventDispatcher {
-    constructor(camera, element, scene) {
-        super();
-        this.camera = camera;
-        this.element = element;
-        this.scene = scene;
-        this.orbitSensitivity = 1;
-        this.zoomSensitivity = 1;
-        this.panSensitivity = 1;
-        this.inputSensitivity = 1;
-        this.changeSource = ChangeSource.NONE;
-        this._interactionEnabled = false;
-        this._disableZoom = false;
-        this.isUserPointing = false;
-        // Pan state
-        this.enablePan = true;
-        this.enableTap = true;
-        this.panProjection = new Matrix3();
-        this.panPerPixel = 0;
-        // Internal orbital position state
-        this.spherical = new Spherical();
-        this.goalSpherical = new Spherical();
-        this.thetaDamper = new Damper();
-        this.phiDamper = new Damper();
-        this.radiusDamper = new Damper();
-        this.logFov = Math.log(DEFAULT_OPTIONS.maximumFieldOfView);
-        this.goalLogFov = this.logFov;
-        this.fovDamper = new Damper();
-        // Pointer state
-        this.touchMode = null;
-        this.pointers = [];
-        this.startTime = 0;
-        this.startPointerPosition = { clientX: 0, clientY: 0 };
-        this.lastSeparation = 0;
-        this.touchDecided = false;
-        this.onContext = (event) => {
-            if (this.enablePan) {
-                event.preventDefault();
-            }
-            else {
-                for (const pointer of this.pointers) {
-                    // Required because of a common browser bug where the context menu never
-                    // fires a pointercancel event.
-                    this.onPointerUp(new PointerEvent('pointercancel', Object.assign(Object.assign({}, this.startPointerPosition), { pointerId: pointer.id })));
-                }
-            }
-        };
-        this.touchModeZoom = (dx, dy) => {
-            if (!this._disableZoom) {
-                const touchDistance = this.twoTouchDistance(this.pointers[0], this.pointers[1]);
-                const deltaZoom = ZOOM_SENSITIVITY * this.zoomSensitivity *
-                    (this.lastSeparation - touchDistance) * 50 / this.scene.height;
-                this.lastSeparation = touchDistance;
-                this.userAdjustOrbit(0, 0, deltaZoom);
-            }
-            if (this.panPerPixel > 0) {
-                this.movePan(dx, dy);
-            }
-        };
-        // We implement our own version of the browser's CSS touch-action, enforced by
-        // this function, because the iOS implementation of pan-y is bad and doesn't
-        // match Android. Specifically, even if a touch gesture begins by panning X,
-        // iOS will switch to scrolling as soon as the gesture moves in the Y, rather
-        // than staying in the same mode until the end of the gesture.
-        this.disableScroll = (event) => {
-            event.preventDefault();
-        };
-        this.touchModeRotate = (dx, dy) => {
-            const { touchAction } = this._options;
-            if (!this.touchDecided && touchAction !== 'none') {
-                this.touchDecided = true;
-                const dxMag = Math.abs(dx);
-                const dyMag = Math.abs(dy);
-                // If motion is mostly vertical, assume scrolling is the intent.
-                if (this.changeSource === ChangeSource.USER_INTERACTION &&
-                    ((touchAction === 'pan-y' && dyMag > dxMag) ||
-                        (touchAction === 'pan-x' && dxMag > dyMag))) {
-                    this.touchMode = null;
-                    return;
-                }
-                else {
-                    this.element.addEventListener('touchmove', this.disableScroll, { passive: false });
-                }
-            }
-            this.handleSinglePointerMove(dx, dy);
-        };
-        this.onPointerDown = (event) => {
-            if (this.pointers.length > 2) {
-                return;
-            }
-            const { element } = this;
-            if (this.pointers.length === 0) {
-                element.addEventListener('pointermove', this.onPointerMove);
-                element.addEventListener('pointerup', this.onPointerUp);
-                this.touchMode = null;
-                this.touchDecided = false;
-                this.startPointerPosition.clientX = event.clientX;
-                this.startPointerPosition.clientY = event.clientY;
-                this.startTime = performance.now();
-            }
-            try {
-                element.setPointerCapture(event.pointerId);
-            }
-            catch (_a) {
-            }
-            this.pointers.push({ clientX: event.clientX, clientY: event.clientY, id: event.pointerId });
-            this.isUserPointing = false;
-            if (event.pointerType === 'touch') {
-                this.changeSource = event.altKey ? // set by interact() in controls.ts
-                    ChangeSource.AUTOMATIC :
-                    ChangeSource.USER_INTERACTION;
-                this.onTouchChange(event);
-            }
-            else {
-                this.changeSource = ChangeSource.USER_INTERACTION;
-                this.onMouseDown(event);
-            }
-            if (this.changeSource === ChangeSource.USER_INTERACTION) {
-                this.dispatchEvent({ type: 'user-interaction' });
-            }
-        };
-        this.onPointerMove = (event) => {
-            const pointer = this.pointers.find((pointer) => pointer.id === event.pointerId);
-            if (pointer == null) {
-                return;
-            }
-            // In case no one gave us a pointerup or pointercancel event.
-            if (event.pointerType === 'mouse' && event.buttons === 0) {
-                this.onPointerUp(event);
-                return;
-            }
-            const numTouches = this.pointers.length;
-            const dx = (event.clientX - pointer.clientX) / numTouches;
-            const dy = (event.clientY - pointer.clientY) / numTouches;
-            if (dx === 0 && dy === 0) {
-                return;
-            }
-            pointer.clientX = event.clientX;
-            pointer.clientY = event.clientY;
-            if (event.pointerType === 'touch') {
-                this.changeSource = event.altKey ? // set by interact() in controls.ts
-                    ChangeSource.AUTOMATIC :
-                    ChangeSource.USER_INTERACTION;
-                if (this.touchMode !== null) {
-                    this.touchMode(dx, dy);
-                }
-            }
-            else {
-                this.changeSource = ChangeSource.USER_INTERACTION;
-                if (this.panPerPixel > 0) {
-                    this.movePan(dx, dy);
-                }
-                else {
-                    this.handleSinglePointerMove(dx, dy);
-                }
-            }
-        };
-        this.onPointerUp = (event) => {
-            const { element } = this;
-            const index = this.pointers.findIndex((pointer) => pointer.id === event.pointerId);
-            if (index !== -1) {
-                this.pointers.splice(index, 1);
-            }
-            // altKey indicates an interaction prompt; don't reset radius in this case
-            // as it will cause the camera to drift.
-            if (this.panPerPixel > 0 && !event.altKey) {
-                this.resetRadius();
-            }
-            if (this.pointers.length === 0) {
-                element.removeEventListener('pointermove', this.onPointerMove);
-                element.removeEventListener('pointerup', this.onPointerUp);
-                element.removeEventListener('touchmove', this.disableScroll);
-                if (this.enablePan && this.enableTap) {
-                    this.recenter(event);
-                }
-            }
-            else if (this.touchMode !== null) {
-                this.onTouchChange(event);
-            }
-            this.scene.element[$panElement].style.opacity = 0;
-            element.style.cursor = 'grab';
-            this.panPerPixel = 0;
-            if (this.isUserPointing) {
-                this.dispatchEvent({ type: 'pointer-change-end' });
-            }
-        };
-        this.onWheel = (event) => {
-            this.changeSource = ChangeSource.USER_INTERACTION;
-            const deltaZoom = event.deltaY *
-                (event.deltaMode == 1 ? 18 : 1) * ZOOM_SENSITIVITY *
-                this.zoomSensitivity / 30;
-            this.userAdjustOrbit(0, 0, deltaZoom);
-            event.preventDefault();
-            this.dispatchEvent({ type: 'user-interaction' });
-        };
-        this.onKeyDown = (event) => {
-            // We track if the key is actually one we respond to, so as not to
-            // accidentally clobber unrelated key inputs when the <model-viewer> has
-            // focus.
-            const { changeSource } = this;
-            this.changeSource = ChangeSource.USER_INTERACTION;
-            const relevantKey = (event.shiftKey && this.enablePan) ?
-                this.panKeyCodeHandler(event) :
-                this.orbitZoomKeyCodeHandler(event);
-            if (relevantKey) {
-                event.preventDefault();
-                this.dispatchEvent({ type: 'user-interaction' });
-            }
-            else {
-                this.changeSource = changeSource;
-            }
-        };
-        this._options = Object.assign({}, DEFAULT_OPTIONS);
-        this.setOrbit(0, Math.PI / 2, 1);
-        this.setFieldOfView(100);
-        this.jumpToGoal();
-    }
-    get interactionEnabled() {
-        return this._interactionEnabled;
-    }
-    enableInteraction() {
-        if (this._interactionEnabled === false) {
-            const { element } = this;
-            element.addEventListener('pointerdown', this.onPointerDown);
-            element.addEventListener('pointercancel', this.onPointerUp);
-            if (!this._disableZoom) {
-                element.addEventListener('wheel', this.onWheel);
-            }
-            element.addEventListener('keydown', this.onKeyDown);
-            // This little beauty is to work around a WebKit bug that otherwise makes
-            // touch events randomly not cancelable.
-            element.addEventListener('touchmove', () => { }, { passive: false });
-            element.addEventListener('contextmenu', this.onContext);
-            this.element.style.cursor = 'grab';
-            this._interactionEnabled = true;
-            this.updateTouchActionStyle();
-        }
-    }
-    disableInteraction() {
-        if (this._interactionEnabled === true) {
-            const { element } = this;
-            element.removeEventListener('pointerdown', this.onPointerDown);
-            element.removeEventListener('pointermove', this.onPointerMove);
-            element.removeEventListener('pointerup', this.onPointerUp);
-            element.removeEventListener('pointercancel', this.onPointerUp);
-            element.removeEventListener('wheel', this.onWheel);
-            element.removeEventListener('keydown', this.onKeyDown);
-            element.removeEventListener('contextmenu', this.onContext);
-            element.style.cursor = '';
-            this.touchMode = null;
-            this._interactionEnabled = false;
-            this.updateTouchActionStyle();
-        }
-    }
-    /**
-     * The options that are currently configured for the controls instance.
-     */
-    get options() {
-        return this._options;
-    }
-    set disableZoom(disable) {
-        if (this._disableZoom != disable) {
-            this._disableZoom = disable;
-            if (disable === true) {
-                this.element.removeEventListener('wheel', this.onWheel);
-            }
-            else {
-                this.element.addEventListener('wheel', this.onWheel);
-            }
-            this.updateTouchActionStyle();
-        }
-    }
-    /**
-     * Copy the spherical values that represent the current camera orbital
-     * position relative to the configured target into a provided Spherical
-     * instance. If no Spherical is provided, a new Spherical will be allocated
-     * to copy the values into. The Spherical that values are copied into is
-     * returned.
-     */
-    getCameraSpherical(target = new Spherical()) {
-        return target.copy(this.spherical);
-    }
-    /**
-     * Returns the camera's current vertical field of view in degrees.
-     */
-    getFieldOfView() {
-        return this.camera.fov;
-    }
-    /**
-     * Configure the _options of the controls. Configured _options will be
-     * merged with whatever _options have already been configured for this
-     * controls instance.
-     */
-    applyOptions(_options) {
-        Object.assign(this._options, _options);
-        // Re-evaluates clamping based on potentially new values for min/max
-        // polar, azimuth and radius:
-        this.setOrbit();
-        this.setFieldOfView(Math.exp(this.goalLogFov));
-    }
-    /**
-     * Sets the near and far planes of the camera.
-     */
-    updateNearFar(nearPlane, farPlane) {
-        this.camera.far = farPlane === 0 ? 2 : farPlane;
-        this.camera.near = Math.max(nearPlane, this.camera.far / 1000);
-        this.camera.updateProjectionMatrix();
-    }
-    /**
-     * Sets the aspect ratio of the camera
-     */
-    updateAspect(aspect) {
-        this.camera.aspect = aspect;
-        this.camera.updateProjectionMatrix();
-    }
-    /**
-     * Set the absolute orbital goal of the camera. The change will be
-     * applied over a number of frames depending on configured acceleration and
-     * dampening _options.
-     *
-     * Returns true if invoking the method will result in the camera changing
-     * position and/or rotation, otherwise false.
-     */
-    setOrbit(goalTheta = this.goalSpherical.theta, goalPhi = this.goalSpherical.phi, goalRadius = this.goalSpherical.radius) {
-        const { minimumAzimuthalAngle, maximumAzimuthalAngle, minimumPolarAngle, maximumPolarAngle, minimumRadius, maximumRadius } = this._options;
-        const { theta, phi, radius } = this.goalSpherical;
-        const nextTheta = clamp(goalTheta, minimumAzimuthalAngle, maximumAzimuthalAngle);
-        if (!isFinite(minimumAzimuthalAngle) &&
-            !isFinite(maximumAzimuthalAngle)) {
-            this.spherical.theta =
-                this.wrapAngle(this.spherical.theta - nextTheta) + nextTheta;
-        }
-        const nextPhi = clamp(goalPhi, minimumPolarAngle, maximumPolarAngle);
-        const nextRadius = clamp(goalRadius, minimumRadius, maximumRadius);
-        if (nextTheta === theta && nextPhi === phi && nextRadius === radius) {
-            return false;
-        }
-        if (!isFinite(nextTheta) || !isFinite(nextPhi) || !isFinite(nextRadius)) {
-            return false;
-        }
-        this.goalSpherical.theta = nextTheta;
-        this.goalSpherical.phi = nextPhi;
-        this.goalSpherical.radius = nextRadius;
-        this.goalSpherical.makeSafe();
-        return true;
-    }
-    /**
-     * Subset of setOrbit() above, which only sets the camera's radius.
-     */
-    setRadius(radius) {
-        this.goalSpherical.radius = radius;
-        this.setOrbit();
-    }
-    /**
-     * Sets the goal field of view for the camera
-     */
-    setFieldOfView(fov) {
-        const { minimumFieldOfView, maximumFieldOfView } = this._options;
-        fov = clamp(fov, minimumFieldOfView, maximumFieldOfView);
-        this.goalLogFov = Math.log(fov);
-    }
-    /**
-     * Sets the smoothing decay time.
-     */
-    setDamperDecayTime(decayMilliseconds) {
-        this.thetaDamper.setDecayTime(decayMilliseconds);
-        this.phiDamper.setDecayTime(decayMilliseconds);
-        this.radiusDamper.setDecayTime(decayMilliseconds);
-        this.fovDamper.setDecayTime(decayMilliseconds);
-    }
-    /**
-     * Adjust the orbital position of the camera relative to its current orbital
-     * position. Does not let the theta goal get more than pi ahead of the current
-     * theta, which ensures interpolation continues in the direction of the delta.
-     * The deltaZoom parameter adjusts both the field of view and the orbit radius
-     * such that they progress across their allowed ranges in sync.
-     */
-    adjustOrbit(deltaTheta, deltaPhi, deltaZoom) {
-        const { theta, phi, radius } = this.goalSpherical;
-        const { minimumRadius, maximumRadius, minimumFieldOfView, maximumFieldOfView } = this._options;
-        const dTheta = this.spherical.theta - theta;
-        const dThetaLimit = Math.PI - 0.001;
-        const goalTheta = theta - clamp(deltaTheta, -dThetaLimit - dTheta, dThetaLimit - dTheta);
-        const goalPhi = phi - deltaPhi;
-        const deltaRatio = deltaZoom === 0 ?
-            0 :
-            ((deltaZoom > 0 ? maximumRadius : minimumRadius) - radius) /
-                (Math.log(deltaZoom > 0 ? maximumFieldOfView : minimumFieldOfView) -
-                    this.goalLogFov);
-        const goalRadius = radius +
-            deltaZoom *
-                (isFinite(deltaRatio) ? deltaRatio :
-                    (maximumRadius - minimumRadius) * 2);
-        this.setOrbit(goalTheta, goalPhi, goalRadius);
-        if (deltaZoom !== 0) {
-            const goalLogFov = this.goalLogFov + deltaZoom;
-            this.setFieldOfView(Math.exp(goalLogFov));
-        }
-    }
-    /**
-     * Move the camera instantly instead of accelerating toward the goal
-     * parameters.
-     */
-    jumpToGoal() {
-        this.update(0, SETTLING_TIME);
-    }
-    /**
-     * Update controls. In most cases, this will result in the camera
-     * interpolating its position and rotation until it lines up with the
-     * designated goal orbital position. Returns false if the camera did not move.
-     *
-     * Time and delta are measured in milliseconds.
-     */
-    update(_time, delta) {
-        if (this.isStationary()) {
-            return false;
-        }
-        const { maximumPolarAngle, maximumRadius } = this._options;
-        const dTheta = this.spherical.theta - this.goalSpherical.theta;
-        if (Math.abs(dTheta) > Math.PI &&
-            !isFinite(this._options.minimumAzimuthalAngle) &&
-            !isFinite(this._options.maximumAzimuthalAngle)) {
-            this.spherical.theta -= Math.sign(dTheta) * 2 * Math.PI;
-        }
-        this.spherical.theta = this.thetaDamper.update(this.spherical.theta, this.goalSpherical.theta, delta, Math.PI);
-        this.spherical.phi = this.phiDamper.update(this.spherical.phi, this.goalSpherical.phi, delta, maximumPolarAngle);
-        this.spherical.radius = this.radiusDamper.update(this.spherical.radius, this.goalSpherical.radius, delta, maximumRadius);
-        this.logFov = this.fovDamper.update(this.logFov, this.goalLogFov, delta, 1);
-        this.moveCamera();
-        return true;
-    }
-    updateTouchActionStyle() {
-        const { style } = this.element;
-        if (this._interactionEnabled) {
-            const { touchAction } = this._options;
-            if (this._disableZoom && touchAction !== 'none') {
-                style.touchAction = 'manipulation';
-            }
-            else {
-                style.touchAction = touchAction;
-            }
-        }
-        else {
-            style.touchAction = '';
-        }
-    }
-    isStationary() {
-        return this.goalSpherical.theta === this.spherical.theta &&
-            this.goalSpherical.phi === this.spherical.phi &&
-            this.goalSpherical.radius === this.spherical.radius &&
-            this.goalLogFov === this.logFov;
-    }
-    moveCamera() {
-        // Derive the new camera position from the updated spherical:
-        this.spherical.makeSafe();
-        this.camera.position.setFromSpherical(this.spherical);
-        this.camera.setRotationFromEuler(new Euler(this.spherical.phi - Math.PI / 2, this.spherical.theta, 0, 'YXZ'));
-        if (this.camera.fov !== Math.exp(this.logFov)) {
-            this.camera.fov = Math.exp(this.logFov);
-            this.camera.updateProjectionMatrix();
-        }
-    }
-    userAdjustOrbit(deltaTheta, deltaPhi, deltaZoom) {
-        this.adjustOrbit(deltaTheta * this.orbitSensitivity * this.inputSensitivity, deltaPhi * this.orbitSensitivity * this.inputSensitivity, deltaZoom * this.inputSensitivity);
-    }
-    // Wraps to between -pi and pi
-    wrapAngle(radians) {
-        const normalized = (radians + Math.PI) / (2 * Math.PI);
-        const wrapped = normalized - Math.floor(normalized);
-        return wrapped * 2 * Math.PI - Math.PI;
-    }
-    pixelLengthToSphericalAngle(pixelLength) {
-        return 2 * Math.PI * pixelLength / this.scene.height;
-    }
-    twoTouchDistance(touchOne, touchTwo) {
-        const { clientX: xOne, clientY: yOne } = touchOne;
-        const { clientX: xTwo, clientY: yTwo } = touchTwo;
-        const xDelta = xTwo - xOne;
-        const yDelta = yTwo - yOne;
-        return Math.sqrt(xDelta * xDelta + yDelta * yDelta);
-    }
-    handleSinglePointerMove(dx, dy) {
-        const deltaTheta = this.pixelLengthToSphericalAngle(dx);
-        const deltaPhi = this.pixelLengthToSphericalAngle(dy);
-        if (this.isUserPointing === false) {
-            this.isUserPointing = true;
-            this.dispatchEvent({ type: 'pointer-change-start' });
-        }
-        this.userAdjustOrbit(deltaTheta, deltaPhi, 0);
-    }
-    initializePan() {
-        const { theta, phi } = this.spherical;
-        const psi = theta - this.scene.yaw;
-        this.panPerPixel =
-            PAN_SENSITIVITY * this.panSensitivity / this.scene.height;
-        this.panProjection.set(-Math.cos(psi), -Math.cos(phi) * Math.sin(psi), 0, 0, Math.sin(phi), 0, Math.sin(psi), -Math.cos(phi) * Math.cos(psi), 0);
-    }
-    movePan(dx, dy) {
-        const { scene } = this;
-        const dxy = vector3$2.set(dx, dy, 0).multiplyScalar(this.inputSensitivity);
-        const metersPerPixel = this.spherical.radius * Math.exp(this.logFov) * this.panPerPixel;
-        dxy.multiplyScalar(metersPerPixel);
-        const target = scene.getTarget();
-        target.add(dxy.applyMatrix3(this.panProjection));
-        scene.boundingSphere.clampPoint(target, target);
-        scene.setTarget(target.x, target.y, target.z);
-    }
-    recenter(pointer) {
-        if (performance.now() > this.startTime + TAP_MS ||
-            Math.abs(pointer.clientX - this.startPointerPosition.clientX) >
-                TAP_DISTANCE ||
-            Math.abs(pointer.clientY - this.startPointerPosition.clientY) >
-                TAP_DISTANCE) {
-            return;
-        }
-        const { scene } = this;
-        const hit = scene.positionAndNormalFromPoint(scene.getNDC(pointer.clientX, pointer.clientY));
-        if (hit == null) {
-            const { cameraTarget } = scene.element;
-            scene.element.cameraTarget = '';
-            scene.element.cameraTarget = cameraTarget;
-            // Zoom all the way out.
-            this.userAdjustOrbit(0, 0, 1);
-        }
-        else {
-            scene.target.worldToLocal(hit.position);
-            scene.setTarget(hit.position.x, hit.position.y, hit.position.z);
-        }
-    }
-    resetRadius() {
-        const { scene } = this;
-        const hit = scene.positionAndNormalFromPoint(vector2.set(0, 0));
-        if (hit == null) {
-            return;
-        }
-        scene.target.worldToLocal(hit.position);
-        const goalTarget = scene.getTarget();
-        const { theta, phi } = this.spherical;
-        // Set target to surface hit point, except the target is still settling,
-        // so offset the goal accordingly so the transition is smooth even though
-        // this will drift the target slightly away from the hit point.
-        const psi = theta - scene.yaw;
-        const n = vector3$2.set(Math.sin(phi) * Math.sin(psi), Math.cos(phi), Math.sin(phi) * Math.cos(psi));
-        const dr = n.dot(hit.position.sub(goalTarget));
-        goalTarget.add(n.multiplyScalar(dr));
-        scene.setTarget(goalTarget.x, goalTarget.y, goalTarget.z);
-        // Change the camera radius to match the change in target so that the
-        // camera itself does not move, unless it hits a radius bound.
-        this.setOrbit(undefined, undefined, this.goalSpherical.radius - dr);
-    }
-    onTouchChange(event) {
-        if (this.pointers.length === 1) {
-            this.touchMode = this.touchModeRotate;
-        }
-        else {
-            if (this._disableZoom) {
-                this.touchMode = null;
-                this.element.removeEventListener('touchmove', this.disableScroll);
-                return;
-            }
-            this.touchMode = (this.touchDecided && this.touchMode === null) ?
-                null :
-                this.touchModeZoom;
-            this.touchDecided = true;
-            this.element.addEventListener('touchmove', this.disableScroll, { passive: false });
-            this.lastSeparation =
-                this.twoTouchDistance(this.pointers[0], this.pointers[1]);
-            if (this.enablePan && this.touchMode != null) {
-                this.initializePan();
-                if (!event.altKey) { // user interaction, not prompt
-                    this.scene.element[$panElement].style.opacity = 1;
-                }
-            }
-        }
-    }
-    onMouseDown(event) {
-        this.panPerPixel = 0;
-        if (this.enablePan &&
-            (event.button === 2 || event.ctrlKey || event.metaKey ||
-                event.shiftKey)) {
-            this.initializePan();
-            this.scene.element[$panElement].style.opacity = 1;
-        }
-        this.element.style.cursor = 'grabbing';
-    }
-    /**
-     * Handles the orbit and Zoom key presses
-     * Uses constants for the increment.
-     * @param event The keyboard event for the .key value
-     * @returns boolean to indicate if the key event has been handled
-     */
-    orbitZoomKeyCodeHandler(event) {
-        let relevantKey = true;
-        switch (event.key) {
-            case 'PageUp':
-                this.userAdjustOrbit(0, 0, ZOOM_SENSITIVITY * this.zoomSensitivity);
-                break;
-            case 'PageDown':
-                this.userAdjustOrbit(0, 0, -1 * ZOOM_SENSITIVITY * this.zoomSensitivity);
-                break;
-            case 'ArrowUp':
-                this.userAdjustOrbit(0, -KEYBOARD_ORBIT_INCREMENT, 0);
-                break;
-            case 'ArrowDown':
-                this.userAdjustOrbit(0, KEYBOARD_ORBIT_INCREMENT, 0);
-                break;
-            case 'ArrowLeft':
-                this.userAdjustOrbit(-KEYBOARD_ORBIT_INCREMENT, 0, 0);
-                break;
-            case 'ArrowRight':
-                this.userAdjustOrbit(KEYBOARD_ORBIT_INCREMENT, 0, 0);
-                break;
-            default:
-                relevantKey = false;
-                break;
-        }
-        return relevantKey;
-    }
-    /**
-     * Handles the Pan key presses
-     * Uses constants for the increment.
-     * @param event The keyboard event for the .key value
-     * @returns boolean to indicate if the key event has been handled
-     */
-    panKeyCodeHandler(event) {
-        this.initializePan();
-        let relevantKey = true;
-        switch (event.key) {
-            case 'ArrowUp':
-                this.movePan(0, -1 * PAN_KEY_INCREMENT); // This is the negative one so that the
-                // model appears to move as the arrow
-                // direction rather than the view moving
-                break;
-            case 'ArrowDown':
-                this.movePan(0, PAN_KEY_INCREMENT);
-                break;
-            case 'ArrowLeft':
-                this.movePan(-1 * PAN_KEY_INCREMENT, 0);
-                break;
-            case 'ArrowRight':
-                this.movePan(PAN_KEY_INCREMENT, 0);
-                break;
-            default:
-                relevantKey = false;
-                break;
-        }
-        return relevantKey;
-    }
+	constructor(camera, element, scene) {
+		super();
+		this.camera = camera;
+		this.element = element;
+		this.scene = scene;
+		this.orbitSensitivity = 1;
+		this.zoomSensitivity = 1;
+		this.panSensitivity = 1;
+		this.inputSensitivity = 1;
+		this.changeSource = ChangeSource.NONE;
+		this._interactionEnabled = false;
+		this._disableZoom = false;
+		this.isUserPointing = false;
+		// Pan state
+		this.enablePan = true;
+		this.enableTap = true;
+		this.panProjection = new Matrix3();
+		this.panPerPixel = 0;
+		// Internal orbital position state
+		this.spherical = new Spherical();
+		this.goalSpherical = new Spherical();
+		this.thetaDamper = new Damper();
+		this.phiDamper = new Damper();
+		this.radiusDamper = new Damper();
+		this.logFov = Math.log(DEFAULT_OPTIONS.maximumFieldOfView);
+		this.goalLogFov = this.logFov;
+		this.fovDamper = new Damper();
+		// Pointer state
+		this.touchMode = null;
+		this.pointers = [];
+		this.startTime = 0;
+		this.startPointerPosition = { clientX: 0, clientY: 0 };
+		this.lastSeparation = 0;
+		this.touchDecided = false;
+		this.onContext = (event) => {
+			if (this.enablePan) {
+				event.preventDefault();
+			}
+			else {
+				for (const pointer of this.pointers) {
+					// Required because of a common browser bug where the context menu never
+					// fires a pointercancel event.
+					this.onPointerUp(new PointerEvent('pointercancel', Object.assign(Object.assign({}, this.startPointerPosition), { pointerId: pointer.id })));
+				}
+			}
+		};
+		this.touchModeZoom = (dx, dy) => {
+			if (!this._disableZoom) {
+				const touchDistance = this.twoTouchDistance(this.pointers[0], this.pointers[1]);
+				const deltaZoom = ZOOM_SENSITIVITY * this.zoomSensitivity *
+					(this.lastSeparation - touchDistance) * 50 / this.scene.height;
+				this.lastSeparation = touchDistance;
+				this.userAdjustOrbit(0, 0, deltaZoom);
+			}
+			if (this.panPerPixel > 0) {
+				this.movePan(dx, dy);
+			}
+		};
+		// We implement our own version of the browser's CSS touch-action, enforced by
+		// this function, because the iOS implementation of pan-y is bad and doesn't
+		// match Android. Specifically, even if a touch gesture begins by panning X,
+		// iOS will switch to scrolling as soon as the gesture moves in the Y, rather
+		// than staying in the same mode until the end of the gesture.
+		this.disableScroll = (event) => {
+			event.preventDefault();
+		};
+		this.touchModeRotate = (dx, dy) => {
+			const { touchAction } = this._options;
+			if (!this.touchDecided && touchAction !== 'none') {
+				this.touchDecided = true;
+				const dxMag = Math.abs(dx);
+				const dyMag = Math.abs(dy);
+				// If motion is mostly vertical, assume scrolling is the intent.
+				if (this.changeSource === ChangeSource.USER_INTERACTION &&
+					((touchAction === 'pan-y' && dyMag > dxMag) ||
+						(touchAction === 'pan-x' && dxMag > dyMag))) {
+					this.touchMode = null;
+					return;
+				}
+				else {
+					this.element.addEventListener('touchmove', this.disableScroll, { passive: false });
+				}
+			}
+			this.handleSinglePointerMove(dx, dy);
+		};
+		this.onPointerDown = (event) => {
+			if (this.pointers.length > 2) {
+				return;
+			}
+			const { element } = this;
+			if (this.pointers.length === 0) {
+				element.addEventListener('pointermove', this.onPointerMove);
+				element.addEventListener('pointerup', this.onPointerUp);
+				this.touchMode = null;
+				this.touchDecided = false;
+				this.startPointerPosition.clientX = event.clientX;
+				this.startPointerPosition.clientY = event.clientY;
+				this.startTime = performance.now();
+			}
+			try {
+				element.setPointerCapture(event.pointerId);
+			}
+			catch (_a) {
+			}
+			this.pointers.push({ clientX: event.clientX, clientY: event.clientY, id: event.pointerId });
+			this.isUserPointing = false;
+			if (event.pointerType === 'touch') {
+				this.changeSource = event.altKey ? // set by interact() in controls.ts
+					ChangeSource.AUTOMATIC :
+					ChangeSource.USER_INTERACTION;
+				this.onTouchChange(event);
+			}
+			else {
+				this.changeSource = ChangeSource.USER_INTERACTION;
+				this.onMouseDown(event);
+			}
+			if (this.changeSource === ChangeSource.USER_INTERACTION) {
+				this.dispatchEvent({ type: 'user-interaction' });
+			}
+		};
+		this.onPointerMove = (event) => {
+			const pointer = this.pointers.find((pointer) => pointer.id === event.pointerId);
+			if (pointer == null) {
+				return;
+			}
+			// In case no one gave us a pointerup or pointercancel event.
+			if (event.pointerType === 'mouse' && event.buttons === 0) {
+				this.onPointerUp(event);
+				return;
+			}
+			const numTouches = this.pointers.length;
+			const dx = (event.clientX - pointer.clientX) / numTouches;
+			const dy = (event.clientY - pointer.clientY) / numTouches;
+			if (dx === 0 && dy === 0) {
+				return;
+			}
+			pointer.clientX = event.clientX;
+			pointer.clientY = event.clientY;
+			if (event.pointerType === 'touch') {
+				this.changeSource = event.altKey ? // set by interact() in controls.ts
+					ChangeSource.AUTOMATIC :
+					ChangeSource.USER_INTERACTION;
+				if (this.touchMode !== null) {
+					this.touchMode(dx, dy);
+				}
+			}
+			else {
+				this.changeSource = ChangeSource.USER_INTERACTION;
+				if (this.panPerPixel > 0) {
+					this.movePan(dx, dy);
+				}
+				else {
+					this.handleSinglePointerMove(dx, dy);
+				}
+			}
+		};
+		this.onPointerUp = (event) => {
+			const { element } = this;
+			const index = this.pointers.findIndex((pointer) => pointer.id === event.pointerId);
+			if (index !== -1) {
+				this.pointers.splice(index, 1);
+			}
+			// altKey indicates an interaction prompt; don't reset radius in this case
+			// as it will cause the camera to drift.
+			if (this.panPerPixel > 0 && !event.altKey) {
+				this.resetRadius();
+			}
+			if (this.pointers.length === 0) {
+				element.removeEventListener('pointermove', this.onPointerMove);
+				element.removeEventListener('pointerup', this.onPointerUp);
+				element.removeEventListener('touchmove', this.disableScroll);
+				if (this.enablePan && this.enableTap) {
+					this.recenter(event);
+				}
+			}
+			else if (this.touchMode !== null) {
+				this.onTouchChange(event);
+			}
+			this.scene.element[$panElement].style.opacity = 0;
+			element.style.cursor = 'grab';
+			this.panPerPixel = 0;
+			if (this.isUserPointing) {
+				this.dispatchEvent({ type: 'pointer-change-end' });
+			}
+		};
+		this.onWheel = (event) => {
+			this.changeSource = ChangeSource.USER_INTERACTION;
+			const deltaZoom = event.deltaY *
+				(event.deltaMode == 1 ? 18 : 1) * ZOOM_SENSITIVITY *
+				this.zoomSensitivity / 30;
+			this.userAdjustOrbit(0, 0, deltaZoom);
+			event.preventDefault();
+			this.dispatchEvent({ type: 'user-interaction' });
+		};
+		this.onKeyDown = (event) => {
+			// We track if the key is actually one we respond to, so as not to
+			// accidentally clobber unrelated key inputs when the <model-viewer> has
+			// focus.
+			const { changeSource } = this;
+			this.changeSource = ChangeSource.USER_INTERACTION;
+			const relevantKey = (event.shiftKey && this.enablePan) ?
+				this.panKeyCodeHandler(event) :
+				this.orbitZoomKeyCodeHandler(event);
+			if (relevantKey) {
+				event.preventDefault();
+				this.dispatchEvent({ type: 'user-interaction' });
+			}
+			else {
+				this.changeSource = changeSource;
+			}
+		};
+		this._options = Object.assign({}, DEFAULT_OPTIONS);
+		this.setOrbit(0, Math.PI / 2, 1);
+		this.setFieldOfView(100);
+		this.jumpToGoal();
+	}
+	get interactionEnabled() {
+		return this._interactionEnabled;
+	}
+	enableInteraction() {
+		if (this._interactionEnabled === false) {
+			const { element } = this;
+			element.addEventListener('pointerdown', this.onPointerDown);
+			element.addEventListener('pointercancel', this.onPointerUp);
+			if (!this._disableZoom) {
+				element.addEventListener('wheel', this.onWheel);
+			}
+			element.addEventListener('keydown', this.onKeyDown);
+			// This little beauty is to work around a WebKit bug that otherwise makes
+			// touch events randomly not cancelable.
+			element.addEventListener('touchmove', () => { }, { passive: false });
+			element.addEventListener('contextmenu', this.onContext);
+			this.element.style.cursor = 'grab';
+			this._interactionEnabled = true;
+			this.updateTouchActionStyle();
+		}
+	}
+	disableInteraction() {
+		if (this._interactionEnabled === true) {
+			const { element } = this;
+			element.removeEventListener('pointerdown', this.onPointerDown);
+			element.removeEventListener('pointermove', this.onPointerMove);
+			element.removeEventListener('pointerup', this.onPointerUp);
+			element.removeEventListener('pointercancel', this.onPointerUp);
+			element.removeEventListener('wheel', this.onWheel);
+			element.removeEventListener('keydown', this.onKeyDown);
+			element.removeEventListener('contextmenu', this.onContext);
+			element.style.cursor = '';
+			this.touchMode = null;
+			this._interactionEnabled = false;
+			this.updateTouchActionStyle();
+		}
+	}
+	/**
+	 * The options that are currently configured for the controls instance.
+	 */
+	get options() {
+		return this._options;
+	}
+	set disableZoom(disable) {
+		if (this._disableZoom != disable) {
+			this._disableZoom = disable;
+			if (disable === true) {
+				this.element.removeEventListener('wheel', this.onWheel);
+			}
+			else {
+				this.element.addEventListener('wheel', this.onWheel);
+			}
+			this.updateTouchActionStyle();
+		}
+	}
+	/**
+	 * Copy the spherical values that represent the current camera orbital
+	 * position relative to the configured target into a provided Spherical
+	 * instance. If no Spherical is provided, a new Spherical will be allocated
+	 * to copy the values into. The Spherical that values are copied into is
+	 * returned.
+	 */
+	getCameraSpherical(target = new Spherical()) {
+		return target.copy(this.spherical);
+	}
+	/**
+	 * Returns the camera's current vertical field of view in degrees.
+	 */
+	getFieldOfView() {
+		return this.camera.fov;
+	}
+	/**
+	 * Configure the _options of the controls. Configured _options will be
+	 * merged with whatever _options have already been configured for this
+	 * controls instance.
+	 */
+	applyOptions(_options) {
+		Object.assign(this._options, _options);
+		// Re-evaluates clamping based on potentially new values for min/max
+		// polar, azimuth and radius:
+		this.setOrbit();
+		this.setFieldOfView(Math.exp(this.goalLogFov));
+	}
+	/**
+	 * Sets the near and far planes of the camera.
+	 */
+	updateNearFar(nearPlane, farPlane) {
+		this.camera.far = farPlane === 0 ? 2 : farPlane;
+		this.camera.near = Math.max(nearPlane, this.camera.far / 1000);
+		this.camera.updateProjectionMatrix();
+	}
+	/**
+	 * Sets the aspect ratio of the camera
+	 */
+	updateAspect(aspect) {
+		this.camera.aspect = aspect;
+		this.camera.updateProjectionMatrix();
+	}
+	/**
+	 * Set the absolute orbital goal of the camera. The change will be
+	 * applied over a number of frames depending on configured acceleration and
+	 * dampening _options.
+	 *
+	 * Returns true if invoking the method will result in the camera changing
+	 * position and/or rotation, otherwise false.
+	 */
+	setOrbit(goalTheta = this.goalSpherical.theta, goalPhi = this.goalSpherical.phi, goalRadius = this.goalSpherical.radius) {
+		const { minimumAzimuthalAngle, maximumAzimuthalAngle, minimumPolarAngle, maximumPolarAngle, minimumRadius, maximumRadius } = this._options;
+		const { theta, phi, radius } = this.goalSpherical;
+		const nextTheta = clamp(goalTheta, minimumAzimuthalAngle, maximumAzimuthalAngle);
+		if (!isFinite(minimumAzimuthalAngle) &&
+			!isFinite(maximumAzimuthalAngle)) {
+			this.spherical.theta =
+				this.wrapAngle(this.spherical.theta - nextTheta) + nextTheta;
+		}
+		const nextPhi = clamp(goalPhi, minimumPolarAngle, maximumPolarAngle);
+		const nextRadius = clamp(goalRadius, minimumRadius, maximumRadius);
+		if (nextTheta === theta && nextPhi === phi && nextRadius === radius) {
+			return false;
+		}
+		if (!isFinite(nextTheta) || !isFinite(nextPhi) || !isFinite(nextRadius)) {
+			return false;
+		}
+		this.goalSpherical.theta = nextTheta;
+		this.goalSpherical.phi = nextPhi;
+		this.goalSpherical.radius = nextRadius;
+		this.goalSpherical.makeSafe();
+		return true;
+	}
+	/**
+	 * Subset of setOrbit() above, which only sets the camera's radius.
+	 */
+	setRadius(radius) {
+		this.goalSpherical.radius = radius;
+		this.setOrbit();
+	}
+	/**
+	 * Sets the goal field of view for the camera
+	 */
+	setFieldOfView(fov) {
+		const { minimumFieldOfView, maximumFieldOfView } = this._options;
+		fov = clamp(fov, minimumFieldOfView, maximumFieldOfView);
+		this.goalLogFov = Math.log(fov);
+	}
+	/**
+	 * Sets the smoothing decay time.
+	 */
+	setDamperDecayTime(decayMilliseconds) {
+		this.thetaDamper.setDecayTime(decayMilliseconds);
+		this.phiDamper.setDecayTime(decayMilliseconds);
+		this.radiusDamper.setDecayTime(decayMilliseconds);
+		this.fovDamper.setDecayTime(decayMilliseconds);
+	}
+	/**
+	 * Adjust the orbital position of the camera relative to its current orbital
+	 * position. Does not let the theta goal get more than pi ahead of the current
+	 * theta, which ensures interpolation continues in the direction of the delta.
+	 * The deltaZoom parameter adjusts both the field of view and the orbit radius
+	 * such that they progress across their allowed ranges in sync.
+	 */
+	adjustOrbit(deltaTheta, deltaPhi, deltaZoom) {
+		const { theta, phi, radius } = this.goalSpherical;
+		const { minimumRadius, maximumRadius, minimumFieldOfView, maximumFieldOfView } = this._options;
+		const dTheta = this.spherical.theta - theta;
+		const dThetaLimit = Math.PI - 0.001;
+		const goalTheta = theta - clamp(deltaTheta, -dThetaLimit - dTheta, dThetaLimit - dTheta);
+		const goalPhi = phi - deltaPhi;
+		const deltaRatio = deltaZoom === 0 ?
+			0 :
+			((deltaZoom > 0 ? maximumRadius : minimumRadius) - radius) /
+				(Math.log(deltaZoom > 0 ? maximumFieldOfView : minimumFieldOfView) -
+					this.goalLogFov);
+		const goalRadius = radius +
+			deltaZoom *
+				(isFinite(deltaRatio) ? deltaRatio :
+					(maximumRadius - minimumRadius) * 2);
+		this.setOrbit(goalTheta, goalPhi, goalRadius);
+		if (deltaZoom !== 0) {
+			const goalLogFov = this.goalLogFov + deltaZoom;
+			this.setFieldOfView(Math.exp(goalLogFov));
+		}
+	}
+	/**
+	 * Move the camera instantly instead of accelerating toward the goal
+	 * parameters.
+	 */
+	jumpToGoal() {
+		this.update(0, SETTLING_TIME);
+	}
+	/**
+	 * Update controls. In most cases, this will result in the camera
+	 * interpolating its position and rotation until it lines up with the
+	 * designated goal orbital position. Returns false if the camera did not move.
+	 *
+	 * Time and delta are measured in milliseconds.
+	 */
+	update(_time, delta) {
+		if (this.isStationary()) {
+			return false;
+		}
+		const { maximumPolarAngle, maximumRadius } = this._options;
+		const dTheta = this.spherical.theta - this.goalSpherical.theta;
+		if (Math.abs(dTheta) > Math.PI &&
+			!isFinite(this._options.minimumAzimuthalAngle) &&
+			!isFinite(this._options.maximumAzimuthalAngle)) {
+			this.spherical.theta -= Math.sign(dTheta) * 2 * Math.PI;
+		}
+		this.spherical.theta = this.thetaDamper.update(this.spherical.theta, this.goalSpherical.theta, delta, Math.PI);
+		this.spherical.phi = this.phiDamper.update(this.spherical.phi, this.goalSpherical.phi, delta, maximumPolarAngle);
+		this.spherical.radius = this.radiusDamper.update(this.spherical.radius, this.goalSpherical.radius, delta, maximumRadius);
+		this.logFov = this.fovDamper.update(this.logFov, this.goalLogFov, delta, 1);
+		this.moveCamera();
+		return true;
+	}
+	updateTouchActionStyle() {
+		const { style } = this.element;
+		if (this._interactionEnabled) {
+			const { touchAction } = this._options;
+			if (this._disableZoom && touchAction !== 'none') {
+				style.touchAction = 'manipulation';
+			}
+			else {
+				style.touchAction = touchAction;
+			}
+		}
+		else {
+			style.touchAction = '';
+		}
+	}
+	isStationary() {
+		return this.goalSpherical.theta === this.spherical.theta &&
+			this.goalSpherical.phi === this.spherical.phi &&
+			this.goalSpherical.radius === this.spherical.radius &&
+			this.goalLogFov === this.logFov;
+	}
+	moveCamera() {
+		// Derive the new camera position from the updated spherical:
+		this.spherical.makeSafe();
+		this.camera.position.setFromSpherical(this.spherical);
+		this.camera.setRotationFromEuler(new Euler(this.spherical.phi - Math.PI / 2, this.spherical.theta, 0, 'YXZ'));
+		if (this.camera.fov !== Math.exp(this.logFov)) {
+			this.camera.fov = Math.exp(this.logFov);
+			this.camera.updateProjectionMatrix();
+		}
+	}
+	userAdjustOrbit(deltaTheta, deltaPhi, deltaZoom) {
+		this.adjustOrbit(deltaTheta * this.orbitSensitivity * this.inputSensitivity, deltaPhi * this.orbitSensitivity * this.inputSensitivity, deltaZoom * this.inputSensitivity);
+	}
+	// Wraps to between -pi and pi
+	wrapAngle(radians) {
+		const normalized = (radians + Math.PI) / (2 * Math.PI);
+		const wrapped = normalized - Math.floor(normalized);
+		return wrapped * 2 * Math.PI - Math.PI;
+	}
+	pixelLengthToSphericalAngle(pixelLength) {
+		return 2 * Math.PI * pixelLength / this.scene.height;
+	}
+	twoTouchDistance(touchOne, touchTwo) {
+		const { clientX: xOne, clientY: yOne } = touchOne;
+		const { clientX: xTwo, clientY: yTwo } = touchTwo;
+		const xDelta = xTwo - xOne;
+		const yDelta = yTwo - yOne;
+		return Math.sqrt(xDelta * xDelta + yDelta * yDelta);
+	}
+	handleSinglePointerMove(dx, dy) {
+		const deltaTheta = this.pixelLengthToSphericalAngle(dx);
+		const deltaPhi = this.pixelLengthToSphericalAngle(dy);
+		if (this.isUserPointing === false) {
+			this.isUserPointing = true;
+			this.dispatchEvent({ type: 'pointer-change-start' });
+		}
+		this.userAdjustOrbit(deltaTheta, deltaPhi, 0);
+	}
+	initializePan() {
+		const { theta, phi } = this.spherical;
+		const psi = theta - this.scene.yaw;
+		this.panPerPixel =
+			PAN_SENSITIVITY * this.panSensitivity / this.scene.height;
+		this.panProjection.set(-Math.cos(psi), -Math.cos(phi) * Math.sin(psi), 0, 0, Math.sin(phi), 0, Math.sin(psi), -Math.cos(phi) * Math.cos(psi), 0);
+	}
+	movePan(dx, dy) {
+		const { scene } = this;
+		const dxy = vector3$2.set(dx, dy, 0).multiplyScalar(this.inputSensitivity);
+		const metersPerPixel = this.spherical.radius * Math.exp(this.logFov) * this.panPerPixel;
+		dxy.multiplyScalar(metersPerPixel);
+		const target = scene.getTarget();
+		target.add(dxy.applyMatrix3(this.panProjection));
+		scene.boundingSphere.clampPoint(target, target);
+		scene.setTarget(target.x, target.y, target.z);
+	}
+	recenter(pointer) {
+		if (performance.now() > this.startTime + TAP_MS ||
+			Math.abs(pointer.clientX - this.startPointerPosition.clientX) >
+				TAP_DISTANCE ||
+			Math.abs(pointer.clientY - this.startPointerPosition.clientY) >
+				TAP_DISTANCE) {
+			return;
+		}
+		const { scene } = this;
+		const hit = scene.positionAndNormalFromPoint(scene.getNDC(pointer.clientX, pointer.clientY));
+		if (hit == null) {
+			const { cameraTarget } = scene.element;
+			scene.element.cameraTarget = '';
+			scene.element.cameraTarget = cameraTarget;
+			// Zoom all the way out.
+			this.userAdjustOrbit(0, 0, 1);
+		}
+		else {
+			scene.target.worldToLocal(hit.position);
+			scene.setTarget(hit.position.x, hit.position.y, hit.position.z);
+		}
+	}
+	resetRadius() {
+		const { scene } = this;
+		const hit = scene.positionAndNormalFromPoint(vector2.set(0, 0));
+		if (hit == null) {
+			return;
+		}
+		scene.target.worldToLocal(hit.position);
+		const goalTarget = scene.getTarget();
+		const { theta, phi } = this.spherical;
+		// Set target to surface hit point, except the target is still settling,
+		// so offset the goal accordingly so the transition is smooth even though
+		// this will drift the target slightly away from the hit point.
+		const psi = theta - scene.yaw;
+		const n = vector3$2.set(Math.sin(phi) * Math.sin(psi), Math.cos(phi), Math.sin(phi) * Math.cos(psi));
+		const dr = n.dot(hit.position.sub(goalTarget));
+		goalTarget.add(n.multiplyScalar(dr));
+		scene.setTarget(goalTarget.x, goalTarget.y, goalTarget.z);
+		// Change the camera radius to match the change in target so that the
+		// camera itself does not move, unless it hits a radius bound.
+		this.setOrbit(undefined, undefined, this.goalSpherical.radius - dr);
+	}
+	onTouchChange(event) {
+		if (this.pointers.length === 1) {
+			this.touchMode = this.touchModeRotate;
+		}
+		else {
+			if (this._disableZoom) {
+				this.touchMode = null;
+				this.element.removeEventListener('touchmove', this.disableScroll);
+				return;
+			}
+			this.touchMode = (this.touchDecided && this.touchMode === null) ?
+				null :
+				this.touchModeZoom;
+			this.touchDecided = true;
+			this.element.addEventListener('touchmove', this.disableScroll, { passive: false });
+			this.lastSeparation =
+				this.twoTouchDistance(this.pointers[0], this.pointers[1]);
+			if (this.enablePan && this.touchMode != null) {
+				this.initializePan();
+				if (!event.altKey) { // user interaction, not prompt
+					this.scene.element[$panElement].style.opacity = 1;
+				}
+			}
+		}
+	}
+	onMouseDown(event) {
+		this.panPerPixel = 0;
+		if (this.enablePan &&
+			(event.button === 2 || event.ctrlKey || event.metaKey ||
+				event.shiftKey)) {
+			this.initializePan();
+			this.scene.element[$panElement].style.opacity = 1;
+		}
+		this.element.style.cursor = 'grabbing';
+	}
+	/**
+	 * Handles the orbit and Zoom key presses
+	 * Uses constants for the increment.
+	 * @param event The keyboard event for the .key value
+	 * @returns boolean to indicate if the key event has been handled
+	 */
+	orbitZoomKeyCodeHandler(event) {
+		let relevantKey = true;
+		switch (event.key) {
+			case 'PageUp':
+				this.userAdjustOrbit(0, 0, ZOOM_SENSITIVITY * this.zoomSensitivity);
+				break;
+			case 'PageDown':
+				this.userAdjustOrbit(0, 0, -1 * ZOOM_SENSITIVITY * this.zoomSensitivity);
+				break;
+			case 'ArrowUp':
+				this.userAdjustOrbit(0, -KEYBOARD_ORBIT_INCREMENT, 0);
+				break;
+			case 'ArrowDown':
+				this.userAdjustOrbit(0, KEYBOARD_ORBIT_INCREMENT, 0);
+				break;
+			case 'ArrowLeft':
+				this.userAdjustOrbit(-KEYBOARD_ORBIT_INCREMENT, 0, 0);
+				break;
+			case 'ArrowRight':
+				this.userAdjustOrbit(KEYBOARD_ORBIT_INCREMENT, 0, 0);
+				break;
+			default:
+				relevantKey = false;
+				break;
+		}
+		return relevantKey;
+	}
+	/**
+	 * Handles the Pan key presses
+	 * Uses constants for the increment.
+	 * @param event The keyboard event for the .key value
+	 * @returns boolean to indicate if the key event has been handled
+	 */
+	panKeyCodeHandler(event) {
+		this.initializePan();
+		let relevantKey = true;
+		switch (event.key) {
+			case 'ArrowUp':
+				this.movePan(0, -1 * PAN_KEY_INCREMENT); // This is the negative one so that the
+				// model appears to move as the arrow
+				// direction rather than the view moving
+				break;
+			case 'ArrowDown':
+				this.movePan(0, PAN_KEY_INCREMENT);
+				break;
+			case 'ArrowLeft':
+				this.movePan(-1 * PAN_KEY_INCREMENT, 0);
+				break;
+			case 'ArrowRight':
+				this.movePan(PAN_KEY_INCREMENT, 0);
+				break;
+			default:
+				relevantKey = false;
+				break;
+		}
+		return relevantKey;
+	}
 }
 
 /* @license
@@ -54968,14 +55043,14 @@ const MAX_LINE_LENGTH = 5;
 // Maximum dimension of rotation indicator box on controller (meters).
 const BOX_SIZE = 0.1;
 const ARStatus = {
-    NOT_PRESENTING: 'not-presenting',
-    SESSION_STARTED: 'session-started',
-    OBJECT_PLACED: 'object-placed',
-    FAILED: 'failed'
+	NOT_PRESENTING: 'not-presenting',
+	SESSION_STARTED: 'session-started',
+	OBJECT_PLACED: 'object-placed',
+	FAILED: 'failed'
 };
 const ARTracking = {
-    TRACKING: 'tracking',
-    NOT_TRACKING: 'not-tracking'
+	TRACKING: 'tracking',
+	NOT_TRACKING: 'not-tracking'
 };
 const vector3$1 = new Vector3();
 const quaternion = new Quaternion();
@@ -54985,793 +55060,793 @@ const camera = new PerspectiveCamera(45, 1, 0.1, 100);
 const lineGeometry = new BufferGeometry().setFromPoints([new Vector3(0, 0, 0), new Vector3(0, 0, -1)]);
 const boxGeometry = new BoxGeometry();
 class ARRenderer extends EventDispatcher {
-    constructor(renderer) {
-        super();
-        this.renderer = renderer;
-        this.currentSession = null;
-        this.placeOnWall = false;
-        this.placementBox = null;
-        this.lastTick = null;
-        this.turntableRotation = null;
-        this.oldShadowIntensity = null;
-        this.frame = null;
-        this.initialHitSource = null;
-        this.transientHitTestSource = null;
-        this.inputSource = null;
-        this._presentedScene = null;
-        this.resolveCleanup = null;
-        this.exitWebXRButtonContainer = null;
-        this.overlay = null;
-        this.xrLight = null;
-        this.xrMode = null;
-        this.controller1 = null;
-        this.controller2 = null;
-        this.selectedController = null;
-        this.tracking = true;
-        this.frames = 0;
-        this.initialized = false;
-        this.oldTarget = new Vector3();
-        this.placementComplete = false;
-        this.isTranslating = false;
-        this.isRotating = false;
-        this.isTwoFingering = false;
-        this.lastDragPosition = new Vector3();
-        this.relativeOrientation = new Quaternion();
-        this.scaleLine = new Line(lineGeometry);
-        this.firstRatio = 0;
-        this.lastAngle = 0;
-        this.goalPosition = new Vector3();
-        this.goalYaw = 0;
-        this.goalScale = 1;
-        this.xDamper = new Damper();
-        this.yDamper = new Damper();
-        this.zDamper = new Damper();
-        this.yawDamper = new Damper();
-        this.pitchDamper = new Damper();
-        this.rollDamper = new Damper();
-        this.scaleDamper = new Damper();
-        this.onExitWebXRButtonContainerClick = () => this.stopPresenting();
-        this.onControllerSelectStart = (event) => {
-            const scene = this.presentedScene;
-            const controller = event.target;
-            if (this.placementBox.controllerIntersection(scene, controller) != null) {
-                if (this.selectedController != null) {
-                    this.selectedController.userData.line.visible = false;
-                    if (scene.canScale) {
-                        this.isTwoFingering = true;
-                        this.firstRatio = this.controllerSeparation() / scene.pivot.scale.x;
-                        this.scaleLine.visible = true;
-                    }
-                }
-                controller.attach(scene.pivot);
-                this.selectedController = controller;
-                scene.setShadowIntensity(0.01);
-            }
-            else {
-                const otherController = controller === this.controller1 ?
-                    this.controller2 :
-                    this.controller1;
-                this.relativeOrientation.copy(controller.quaternion)
-                    .invert()
-                    .multiply(scene.pivot.getWorldQuaternion(quaternion));
-                otherController.userData.turning = false;
-                controller.userData.turning = true;
-                controller.userData.line.visible = false;
-            }
-        };
-        this.onControllerSelectEnd = (event) => {
-            const controller = event.target;
-            controller.userData.turning = false;
-            controller.userData.line.visible = true;
-            this.isTwoFingering = false;
-            this.scaleLine.visible = false;
-            if (this.selectedController != null &&
-                this.selectedController != controller) {
-                return;
-            }
-            const scene = this.presentedScene;
-            // drop on floor
-            scene.attach(scene.pivot);
-            this.selectedController = null;
-            this.goalYaw = Math.atan2(scene.pivot.matrix.elements[8], scene.pivot.matrix.elements[10]);
-            this.goalPosition.x = scene.pivot.position.x;
-            this.goalPosition.z = scene.pivot.position.z;
-        };
-        this.onUpdateScene = () => {
-            if (this.placementBox != null && this.isPresenting) {
-                this.placementBox.dispose();
-                this.placementBox = new PlacementBox(this.presentedScene, this.placeOnWall ? 'back' : 'bottom');
-            }
-        };
-        this.onSelectStart = (event) => {
-            const hitSource = this.transientHitTestSource;
-            if (hitSource == null) {
-                return;
-            }
-            const fingers = this.frame.getHitTestResultsForTransientInput(hitSource);
-            const scene = this.presentedScene;
-            const box = this.placementBox;
-            if (fingers.length === 1) {
-                this.inputSource = event.inputSource;
-                const { axes } = this.inputSource.gamepad;
-                const hitPosition = box.getHit(this.presentedScene, axes[0], axes[1]);
-                box.show = true;
-                if (hitPosition != null) {
-                    this.isTranslating = true;
-                    this.lastDragPosition.copy(hitPosition);
-                }
-                else if (this.placeOnWall === false) {
-                    this.isRotating = true;
-                    this.lastAngle = axes[0] * ROTATION_RATE;
-                }
-            }
-            else if (fingers.length === 2) {
-                box.show = true;
-                this.isTwoFingering = true;
-                const { separation } = this.fingerPolar(fingers);
-                this.firstRatio = separation / scene.pivot.scale.x;
-            }
-        };
-        this.onSelectEnd = () => {
-            this.isTranslating = false;
-            this.isRotating = false;
-            this.isTwoFingering = false;
-            this.inputSource = null;
-            this.goalPosition.y +=
-                this.placementBox.offsetHeight * this.presentedScene.scale.x;
-            this.placementBox.show = false;
-        };
-        this.threeRenderer = renderer.threeRenderer;
-        this.threeRenderer.xr.enabled = true;
-    }
-    async resolveARSession() {
-        assertIsArCandidate();
-        const session = await navigator.xr.requestSession('immersive-ar', {
-            requiredFeatures: [],
-            optionalFeatures: ['hit-test', 'dom-overlay', 'light-estimation'],
-            domOverlay: this.overlay ? { root: this.overlay } : undefined
-        });
-        this.threeRenderer.xr.setReferenceSpaceType('local');
-        await this.threeRenderer.xr.setSession(session);
-        this.threeRenderer.xr.cameraAutoUpdate = false;
-        return session;
-    }
-    /**
-     * The currently presented scene, if any
-     */
-    get presentedScene() {
-        return this._presentedScene;
-    }
-    /**
-     * Resolves to true if the renderer has detected all the necessary qualities
-     * to support presentation in AR.
-     */
-    async supportsPresentation() {
-        try {
-            assertIsArCandidate();
-            return await navigator.xr.isSessionSupported('immersive-ar');
-        }
-        catch (error) {
-            console.warn('Request to present in WebXR denied:');
-            console.warn(error);
-            console.warn('Falling back to next ar-mode');
-            return false;
-        }
-    }
-    /**
-     * Present a scene in AR
-     */
-    async present(scene, environmentEstimation = false) {
-        if (this.isPresenting) {
-            console.warn('Cannot present while a model is already presenting');
-        }
-        let waitForAnimationFrame = new Promise((resolve, _reject) => {
-            requestAnimationFrame(() => resolve());
-        });
-        scene.setHotspotsVisibility(false);
-        scene.queueRender();
-        // Render a frame to turn off the hotspots
-        await waitForAnimationFrame;
-        // This sets isPresenting to true
-        this._presentedScene = scene;
-        this.overlay = scene.element.shadowRoot.querySelector('div.default');
-        if (environmentEstimation === true) {
-            this.xrLight = new XREstimatedLight(this.threeRenderer);
-            this.xrLight.addEventListener('estimationstart', () => {
-                if (!this.isPresenting || this.xrLight == null) {
-                    return;
-                }
-                const scene = this.presentedScene;
-                scene.add(this.xrLight);
-                scene.environment = this.xrLight.environment;
-            });
-        }
-        const currentSession = await this.resolveARSession();
-        currentSession.addEventListener('end', () => {
-            this.postSessionCleanup();
-        }, { once: true });
-        const exitButton = scene.element.shadowRoot.querySelector('.slot.exit-webxr-ar-button');
-        exitButton.classList.add('enabled');
-        exitButton.addEventListener('click', this.onExitWebXRButtonContainerClick);
-        this.exitWebXRButtonContainer = exitButton;
-        const viewerRefSpace = await currentSession.requestReferenceSpace('viewer');
-        this.xrMode = currentSession.interactionMode;
-        this.tracking = true;
-        this.frames = 0;
-        this.initialized = false;
-        this.turntableRotation = scene.yaw;
-        this.goalYaw = scene.yaw;
-        this.goalScale = 1;
-        scene.setBackground(null);
-        this.oldShadowIntensity = scene.shadowIntensity;
-        scene.setShadowIntensity(0.01); // invisible, but not changing the shader
-        this.oldTarget.copy(scene.getTarget());
-        scene.element.addEventListener('load', this.onUpdateScene);
-        const radians = HIT_ANGLE_DEG * Math.PI / 180;
-        const ray = this.placeOnWall === true ?
-            undefined :
-            new XRRay(new DOMPoint(0, 0, 0), { x: 0, y: -Math.sin(radians), z: -Math.cos(radians) });
-        currentSession
-            .requestHitTestSource({ space: viewerRefSpace, offsetRay: ray }).then(hitTestSource => {
-            this.initialHitSource = hitTestSource;
-        });
-        if (this.xrMode !== 'screen-space') {
-            this.setupControllers();
-            this.xDamper.setDecayTime(DECAY);
-            this.yDamper.setDecayTime(DECAY);
-            this.zDamper.setDecayTime(DECAY);
-            this.yawDamper.setDecayTime(DECAY);
-            this.pitchDamper.setDecayTime(DECAY);
-            this.rollDamper.setDecayTime(DECAY);
-        }
-        this.currentSession = currentSession;
-        this.placementBox =
-            new PlacementBox(scene, this.placeOnWall ? 'back' : 'bottom');
-        this.placementComplete = false;
-        this.lastTick = performance.now();
-        this.dispatchEvent({ type: 'status', status: ARStatus.SESSION_STARTED });
-    }
-    setupControllers() {
-        this.controller1 = this.threeRenderer.xr.getController(0);
-        this.controller1.addEventListener('selectstart', this.onControllerSelectStart);
-        this.controller1.addEventListener('selectend', this.onControllerSelectEnd);
-        this.controller2 = this.threeRenderer.xr.getController(1);
-        this.controller2.addEventListener('selectstart', this.onControllerSelectStart);
-        this.controller2.addEventListener('selectend', this.onControllerSelectEnd);
-        const scene = this.presentedScene;
-        scene.add(this.controller1);
-        scene.add(this.controller2);
-        if (!this.controller1.userData.line) {
-            const line = new Line(lineGeometry);
-            line.name = 'line';
-            line.scale.z = MAX_LINE_LENGTH;
-            this.controller1.userData.turning = false;
-            this.controller1.userData.line = line;
-            this.controller1.add(line);
-            this.controller2.userData.turning = false;
-            const line2 = line.clone();
-            this.controller2.userData.line = line2;
-            this.controller2.add(line2);
-            this.scaleLine.name = 'scale line';
-            this.scaleLine.visible = false;
-            this.controller1.add(this.scaleLine);
-            const { size } = scene;
-            const scale = BOX_SIZE / Math.max(size.x, size.y, size.z);
-            const box = new Mesh(boxGeometry);
-            box.name = 'box';
-            box.scale.copy(size).multiplyScalar(scale);
-            box.visible = false;
-            this.controller1.userData.box = box;
-            scene.add(box);
-            const box2 = box.clone();
-            this.controller2.userData.box = box2;
-            scene.add(box2);
-        }
-    }
-    hover(controller) {
-        // Do not highlight in mobile-ar
-        if (this.xrMode === 'screen-space' ||
-            this.selectedController == controller) {
-            return false;
-        }
-        const scene = this.presentedScene;
-        const intersection = this.placementBox.controllerIntersection(scene, controller);
-        controller.userData.box.visible =
-            (intersection == null || controller.userData.turning) &&
-                !this.isTwoFingering;
-        controller.userData.line.scale.z =
-            intersection == null ? MAX_LINE_LENGTH : intersection.distance;
-        return intersection != null;
-    }
-    controllerSeparation() {
-        return this.controller1.position.distanceTo(this.controller2.position);
-    }
-    /**
-     * If currently presenting a scene in AR, stops presentation and exits AR.
-     */
-    async stopPresenting() {
-        if (!this.isPresenting) {
-            return;
-        }
-        const cleanupPromise = new Promise((resolve) => {
-            this.resolveCleanup = resolve;
-        });
-        try {
-            await this.currentSession.end();
-            await cleanupPromise;
-        }
-        catch (error) {
-            console.warn('Error while trying to end WebXR AR session');
-            console.warn(error);
-            this.postSessionCleanup();
-        }
-    }
-    /**
-     * True if a scene is currently in the process of being presented in AR
-     */
-    get isPresenting() {
-        return this.presentedScene != null;
-    }
-    get target() {
-        return this.oldTarget;
-    }
-    updateTarget() {
-        const scene = this.presentedScene;
-        if (scene != null) {
-            const target = scene.getTarget();
-            this.oldTarget.copy(target);
-            if (this.placeOnWall) {
-                // Move the scene's target to the center of the back of the model's
-                // bounding box.
-                target.z = scene.boundingBox.min.z;
-            }
-            else {
-                // Move the scene's target to the model's floor height.
-                target.y = scene.boundingBox.min.y;
-            }
-            scene.setTarget(target.x, target.y, target.z);
-        }
-    }
-    postSessionCleanup() {
-        const session = this.currentSession;
-        if (session != null) {
-            session.removeEventListener('selectstart', this.onSelectStart);
-            session.removeEventListener('selectend', this.onSelectEnd);
-            this.currentSession = null;
-        }
-        const scene = this.presentedScene;
-        this._presentedScene = null;
-        if (scene != null) {
-            const { element } = scene;
-            if (this.xrLight != null) {
-                scene.remove(this.xrLight);
-                this.xrLight.dispose();
-                this.xrLight = null;
-            }
-            scene.add(scene.pivot);
-            scene.pivot.quaternion.set(0, 0, 0, 1);
-            scene.pivot.position.set(0, 0, 0);
-            scene.pivot.scale.set(1, 1, 1);
-            scene.setShadowOffset(0);
-            const yaw = this.turntableRotation;
-            if (yaw != null) {
-                scene.yaw = yaw;
-            }
-            const intensity = this.oldShadowIntensity;
-            if (intensity != null) {
-                scene.setShadowIntensity(intensity);
-            }
-            scene.setEnvironmentAndSkybox(element[$currentEnvironmentMap], element[$currentBackground]);
-            const point = this.oldTarget;
-            scene.setTarget(point.x, point.y, point.z);
-            scene.xrCamera = null;
-            scene.element.removeEventListener('load', this.onUpdateScene);
-            scene.orientHotspots(0);
-            const { width, height } = element.getBoundingClientRect();
-            scene.setSize(width, height);
-            requestAnimationFrame(() => {
-                scene.element.dispatchEvent(new CustomEvent('camera-change', { detail: { source: ChangeSource.NONE } }));
-            });
-        }
-        // Force the Renderer to update its size
-        this.renderer.height = 0;
-        const exitButton = this.exitWebXRButtonContainer;
-        if (exitButton != null) {
-            exitButton.classList.remove('enabled');
-            exitButton.removeEventListener('click', this.onExitWebXRButtonContainerClick);
-            this.exitWebXRButtonContainer = null;
-        }
-        const hitSource = this.transientHitTestSource;
-        if (hitSource != null) {
-            hitSource.cancel();
-            this.transientHitTestSource = null;
-        }
-        const hitSourceInitial = this.initialHitSource;
-        if (hitSourceInitial != null) {
-            hitSourceInitial.cancel();
-            this.initialHitSource = null;
-        }
-        if (this.placementBox != null) {
-            this.placementBox.dispose();
-            this.placementBox = null;
-        }
-        if (this.xrMode !== 'screen-space') {
-            if (this.controller1 != null) {
-                this.controller1.userData.turning = false;
-                this.controller1.userData.box.visible = false;
-                this.controller1.userData.line.visible = true;
-                this.controller1.removeEventListener('selectstart', this.onControllerSelectStart);
-                this.controller1.removeEventListener('selectend', this.onControllerSelectEnd);
-                this.controller1.removeFromParent();
-                this.controller1 = null;
-            }
-            if (this.controller2 != null) {
-                this.controller2.userData.turning = false;
-                this.controller2.userData.box.visible = false;
-                this.controller2.userData.line.visible = true;
-                this.controller2.removeEventListener('selectstart', this.onControllerSelectStart);
-                this.controller2.removeEventListener('selectend', this.onControllerSelectEnd);
-                this.controller2.removeFromParent();
-                this.controller2 = null;
-            }
-            this.selectedController = null;
-            this.scaleLine.visible = false;
-        }
-        this.isTranslating = false;
-        this.isRotating = false;
-        this.isTwoFingering = false;
-        this.lastTick = null;
-        this.turntableRotation = null;
-        this.oldShadowIntensity = null;
-        this.frame = null;
-        this.inputSource = null;
-        this.overlay = null;
-        if (this.resolveCleanup != null) {
-            this.resolveCleanup();
-        }
-        this.dispatchEvent({ type: 'status', status: ARStatus.NOT_PRESENTING });
-    }
-    updateView(view) {
-        const scene = this.presentedScene;
-        const xr = this.threeRenderer.xr;
-        xr.updateCamera(camera);
-        scene.xrCamera = xr.getCamera();
-        const { elements } = scene.getCamera().matrixWorld;
-        scene.orientHotspots(Math.atan2(elements[1], elements[5]));
-        if (!this.initialized) {
-            this.placeInitially();
-            this.initialized = true;
-        }
-        // Use automatic dynamic viewport scaling if supported.
-        if (view.requestViewportScale && view.recommendedViewportScale) {
-            const scale = view.recommendedViewportScale;
-            view.requestViewportScale(Math.max(scale, MIN_VIEWPORT_SCALE));
-        }
-        const layer = xr.getBaseLayer();
-        if (layer != null) {
-            const viewport = layer instanceof XRWebGLLayer ?
-                layer.getViewport(view) :
-                xr.getBinding().getViewSubImage(layer, view).viewport;
-            this.threeRenderer.setViewport(viewport.x, viewport.y, viewport.width, viewport.height);
-        }
-    }
-    placeInitially() {
-        const scene = this.presentedScene;
-        const { pivot, element } = scene;
-        const { position } = pivot;
-        const xrCamera = scene.getCamera();
-        const { width, height } = this.overlay.getBoundingClientRect();
-        scene.setSize(width, height);
-        xrCamera.projectionMatrixInverse.copy(xrCamera.projectionMatrix).invert();
-        const { theta } = element
-            .getCameraOrbit();
-        // Orient model to match the 3D camera view
-        const cameraDirection = xrCamera.getWorldDirection(vector3$1);
-        scene.yaw = Math.atan2(-cameraDirection.x, -cameraDirection.z) - theta;
-        this.goalYaw = scene.yaw;
-        const radius = Math.max(1, 2 * scene.boundingSphere.radius);
-        position.copy(xrCamera.position)
-            .add(cameraDirection.multiplyScalar(radius));
-        this.updateTarget();
-        const target = scene.getTarget();
-        position.add(target).sub(this.oldTarget);
-        this.goalPosition.copy(position);
-        scene.setHotspotsVisibility(true);
-        if (this.xrMode === 'screen-space') {
-            const { session } = this.frame;
-            session.addEventListener('selectstart', this.onSelectStart);
-            session.addEventListener('selectend', this.onSelectEnd);
-            session
-                .requestHitTestSourceForTransientInput({ profile: 'generic-touchscreen' }).then(hitTestSource => {
-                this.transientHitTestSource = hitTestSource;
-            });
-        }
-    }
-    getTouchLocation() {
-        const { axes } = this.inputSource.gamepad;
-        let location = this.placementBox.getExpandedHit(this.presentedScene, axes[0], axes[1]);
-        if (location != null) {
-            vector3$1.copy(location).sub(this.presentedScene.getCamera().position);
-            if (vector3$1.length() > MAX_DISTANCE)
-                return null;
-        }
-        return location;
-    }
-    getHitPoint(hitResult) {
-        const refSpace = this.threeRenderer.xr.getReferenceSpace();
-        const pose = hitResult.getPose(refSpace);
-        if (pose == null) {
-            return null;
-        }
-        const hitMatrix = matrix4.fromArray(pose.transform.matrix);
-        if (this.placeOnWall === true) {
-            // Orient the model to the wall's normal vector.
-            this.goalYaw = Math.atan2(hitMatrix.elements[4], hitMatrix.elements[6]);
-        }
-        // Check that the y-coordinate of the normal is large enough that the normal
-        // is pointing up for floor placement; opposite for wall placement.
-        return hitMatrix.elements[5] > 0.75 !== this.placeOnWall ?
-            hitPosition.setFromMatrixPosition(hitMatrix) :
-            null;
-    }
-    moveToFloor(frame) {
-        const hitSource = this.initialHitSource;
-        if (hitSource == null) {
-            return;
-        }
-        const hitTestResults = frame.getHitTestResults(hitSource);
-        if (hitTestResults.length == 0) {
-            return;
-        }
-        const hit = hitTestResults[0];
-        const hitPoint = this.getHitPoint(hit);
-        if (hitPoint == null) {
-            return;
-        }
-        this.placementBox.show = true;
-        // If the user is translating, let the finger hit-ray take precedence and
-        // ignore this hit result.
-        if (!this.isTranslating) {
-            if (this.placeOnWall) {
-                this.goalPosition.copy(hitPoint);
-            }
-            else {
-                this.goalPosition.y = hitPoint.y;
-            }
-        }
-        hitSource.cancel();
-        this.initialHitSource = null;
-        this.dispatchEvent({ type: 'status', status: ARStatus.OBJECT_PLACED });
-    }
-    fingerPolar(fingers) {
-        const fingerOne = fingers[0].inputSource.gamepad.axes;
-        const fingerTwo = fingers[1].inputSource.gamepad.axes;
-        const deltaX = fingerTwo[0] - fingerOne[0];
-        const deltaY = fingerTwo[1] - fingerOne[1];
-        const angle = Math.atan2(deltaY, deltaX);
-        let deltaYaw = this.lastAngle - angle;
-        if (deltaYaw > Math.PI) {
-            deltaYaw -= 2 * Math.PI;
-        }
-        else if (deltaYaw < -Math.PI) {
-            deltaYaw += 2 * Math.PI;
-        }
-        this.lastAngle = angle;
-        return {
-            separation: Math.sqrt(deltaX * deltaX + deltaY * deltaY),
-            deltaYaw: deltaYaw
-        };
-    }
-    setScale(separation) {
-        const scale = separation / this.firstRatio;
-        this.goalScale = (Math.abs(scale - 1) < SCALE_SNAP) ? 1 : scale;
-    }
-    processInput(frame) {
-        const hitSource = this.transientHitTestSource;
-        if (hitSource == null) {
-            return;
-        }
-        if (!this.isTranslating && !this.isTwoFingering && !this.isRotating) {
-            return;
-        }
-        const fingers = frame.getHitTestResultsForTransientInput(hitSource);
-        const scene = this.presentedScene;
-        const scale = scene.pivot.scale.x;
-        // Rotating, translating and scaling are mutually exclusive operations; only
-        // one can happen at a time, but we can switch during a gesture.
-        if (this.isTwoFingering) {
-            if (fingers.length < 2) {
-                // If we lose the second finger, stop scaling (in fact, stop processing
-                // input altogether until a new gesture starts).
-                this.isTwoFingering = false;
-            }
-            else {
-                const { separation, deltaYaw } = this.fingerPolar(fingers);
-                if (this.placeOnWall === false) {
-                    this.goalYaw += deltaYaw;
-                }
-                if (scene.canScale) {
-                    this.setScale(separation);
-                }
-            }
-            return;
-        }
-        else if (fingers.length === 2) {
-            // If we were rotating or translating and we get a second finger, switch
-            // to scaling instead.
-            this.isTranslating = false;
-            this.isRotating = false;
-            this.isTwoFingering = true;
-            const { separation } = this.fingerPolar(fingers);
-            this.firstRatio = separation / scale;
-            return;
-        }
-        if (this.isRotating) {
-            const angle = this.inputSource.gamepad.axes[0] * ROTATION_RATE;
-            this.goalYaw += angle - this.lastAngle;
-            this.lastAngle = angle;
-        }
-        else if (this.isTranslating) {
-            fingers.forEach(finger => {
-                if (finger.inputSource !== this.inputSource) {
-                    return;
-                }
-                let hit = null;
-                if (finger.results.length > 0) {
-                    hit = this.getHitPoint(finger.results[0]);
-                }
-                if (hit == null) {
-                    hit = this.getTouchLocation();
-                }
-                if (hit == null) {
-                    return;
-                }
-                this.goalPosition.sub(this.lastDragPosition);
-                if (this.placeOnWall === false) {
-                    const offset = hit.y - this.lastDragPosition.y;
-                    // When a lower floor is found, keep the model at the same height, but
-                    // drop the placement box to the floor. The model falls on select end.
-                    if (offset < 0) {
-                        this.placementBox.offsetHeight = offset / scale;
-                        this.presentedScene.setShadowOffset(offset);
-                        // Interpolate hit ray up to drag plane
-                        const cameraPosition = vector3$1.copy(scene.getCamera().position);
-                        const alpha = -offset / (cameraPosition.y - hit.y);
-                        cameraPosition.multiplyScalar(alpha);
-                        hit.multiplyScalar(1 - alpha).add(cameraPosition);
-                    }
-                }
-                this.goalPosition.add(hit);
-                this.lastDragPosition.copy(hit);
-            });
-        }
-    }
-    moveScene(delta) {
-        const scene = this.presentedScene;
-        const { pivot } = scene;
-        const box = this.placementBox;
-        box.updateOpacity(delta);
-        if (this.controller1) {
-            if (this.controller1.userData.turning) {
-                pivot.quaternion.copy(this.controller1.quaternion)
-                    .multiply(this.relativeOrientation);
-                if (this.selectedController &&
-                    this.selectedController === this.controller2) {
-                    pivot.quaternion.premultiply(quaternion.copy(this.controller2.quaternion).invert());
-                }
-            }
-            this.controller1.userData.box.position.copy(this.controller1.position);
-            pivot.getWorldQuaternion(this.controller1.userData.box.quaternion);
-        }
-        if (this.controller2) {
-            if (this.controller2.userData.turning) {
-                pivot.quaternion.copy(this.controller2.quaternion)
-                    .multiply(this.relativeOrientation);
-                if (this.selectedController &&
-                    this.selectedController === this.controller1) {
-                    pivot.quaternion.premultiply(quaternion.copy(this.controller1.quaternion).invert());
-                }
-            }
-            this.controller2.userData.box.position.copy(this.controller2.position);
-            pivot.getWorldQuaternion(this.controller2.userData.box.quaternion);
-        }
-        if (this.controller1 && this.controller2 && this.isTwoFingering) {
-            const dist = this.controllerSeparation();
-            this.setScale(dist);
-            this.scaleLine.scale.z = -dist;
-            this.scaleLine.lookAt(this.controller2.position);
-        }
-        const oldScale = scene.pivot.scale.x;
-        if (this.goalScale !== oldScale) {
-            const newScale = this.scaleDamper.update(oldScale, this.goalScale, delta, 1);
-            scene.pivot.scale.set(newScale, newScale, newScale);
-        }
-        if (pivot.parent !== scene) {
-            return; // attached to controller instead
-        }
-        const { position } = pivot;
-        const boundingRadius = scene.boundingSphere.radius;
-        const goal = this.goalPosition;
-        let source = ChangeSource.NONE;
-        if (!goal.equals(position)) {
-            source = ChangeSource.USER_INTERACTION;
-            let { x, y, z } = position;
-            x = this.xDamper.update(x, goal.x, delta, boundingRadius);
-            y = this.yDamper.update(y, goal.y, delta, boundingRadius);
-            z = this.zDamper.update(z, goal.z, delta, boundingRadius);
-            position.set(x, y, z);
-            if (this.xrMode === 'screen-space' && !this.isTranslating) {
-                const offset = goal.y - y;
-                if (this.placementComplete && this.placeOnWall === false) {
-                    box.offsetHeight = offset / scene.pivot.scale.x;
-                    scene.setShadowOffset(offset);
-                }
-                else if (offset === 0) {
-                    this.placementComplete = true;
-                    box.show = false;
-                    scene.setShadowIntensity(AR_SHADOW_INTENSITY);
-                }
-            }
-            if (this.xrMode !== 'screen-space' && goal.equals(position)) {
-                scene.setShadowIntensity(AR_SHADOW_INTENSITY);
-            }
-        }
-        scene.updateTarget(delta);
-        // yaw must be updated last, since this also updates the shadow position.
-        quaternion.setFromAxisAngle(vector3$1.set(0, 1, 0), this.goalYaw);
-        const angle = scene.pivot.quaternion.angleTo(quaternion);
-        const angleStep = angle - this.yawDamper.update(angle, 0, delta, Math.PI);
-        scene.pivot.quaternion.rotateTowards(quaternion, angleStep);
-        // camera changes on every frame - user-interaction only if touching the
-        // screen, plus damping time.
-        scene.element.dispatchEvent(new CustomEvent('camera-change', { detail: { source } }));
-    }
-    /**
-     * Only public to make it testable.
-     */
-    onWebXRFrame(time, frame) {
-        if (this.xrMode !== 'screen-space') {
-            const over1 = this.hover(this.controller1);
-            const over2 = this.hover(this.controller2);
-            this.placementBox.show = (over1 || over2) && !this.isTwoFingering;
-        }
-        this.frame = frame;
-        ++this.frames;
-        const refSpace = this.threeRenderer.xr.getReferenceSpace();
-        const pose = frame.getViewerPose(refSpace);
-        if (pose == null && this.tracking === true && this.frames > INIT_FRAMES) {
-            this.tracking = false;
-            this.dispatchEvent({ type: 'tracking', status: ARTracking.NOT_TRACKING });
-        }
-        const scene = this.presentedScene;
-        if (pose == null || scene == null || !scene.element.loaded) {
-            this.threeRenderer.clear();
-            return;
-        }
-        if (this.tracking === false) {
-            this.tracking = true;
-            this.dispatchEvent({ type: 'tracking', status: ARTracking.TRACKING });
-        }
-        // WebXR may return multiple views, i.e. for headset AR. This
-        // isn't really supported at this point, but make a best-effort
-        // attempt to render other views also, using the first view
-        // as the main viewpoint.
-        let isFirstView = true;
-        for (const view of pose.views) {
-            this.updateView(view);
-            if (isFirstView) {
-                this.moveToFloor(frame);
-                this.processInput(frame);
-                const delta = time - this.lastTick;
-                this.moveScene(delta);
-                this.renderer.preRender(scene, time, delta);
-                this.lastTick = time;
-                scene.renderShadow(this.threeRenderer);
-            }
-            this.threeRenderer.render(scene, scene.getCamera());
-            isFirstView = false;
-        }
-    }
+	constructor(renderer) {
+		super();
+		this.renderer = renderer;
+		this.currentSession = null;
+		this.placeOnWall = false;
+		this.placementBox = null;
+		this.lastTick = null;
+		this.turntableRotation = null;
+		this.oldShadowIntensity = null;
+		this.frame = null;
+		this.initialHitSource = null;
+		this.transientHitTestSource = null;
+		this.inputSource = null;
+		this._presentedScene = null;
+		this.resolveCleanup = null;
+		this.exitWebXRButtonContainer = null;
+		this.overlay = null;
+		this.xrLight = null;
+		this.xrMode = null;
+		this.controller1 = null;
+		this.controller2 = null;
+		this.selectedController = null;
+		this.tracking = true;
+		this.frames = 0;
+		this.initialized = false;
+		this.oldTarget = new Vector3();
+		this.placementComplete = false;
+		this.isTranslating = false;
+		this.isRotating = false;
+		this.isTwoFingering = false;
+		this.lastDragPosition = new Vector3();
+		this.relativeOrientation = new Quaternion();
+		this.scaleLine = new Line(lineGeometry);
+		this.firstRatio = 0;
+		this.lastAngle = 0;
+		this.goalPosition = new Vector3();
+		this.goalYaw = 0;
+		this.goalScale = 1;
+		this.xDamper = new Damper();
+		this.yDamper = new Damper();
+		this.zDamper = new Damper();
+		this.yawDamper = new Damper();
+		this.pitchDamper = new Damper();
+		this.rollDamper = new Damper();
+		this.scaleDamper = new Damper();
+		this.onExitWebXRButtonContainerClick = () => this.stopPresenting();
+		this.onControllerSelectStart = (event) => {
+			const scene = this.presentedScene;
+			const controller = event.target;
+			if (this.placementBox.controllerIntersection(scene, controller) != null) {
+				if (this.selectedController != null) {
+					this.selectedController.userData.line.visible = false;
+					if (scene.canScale) {
+						this.isTwoFingering = true;
+						this.firstRatio = this.controllerSeparation() / scene.pivot.scale.x;
+						this.scaleLine.visible = true;
+					}
+				}
+				controller.attach(scene.pivot);
+				this.selectedController = controller;
+				scene.setShadowIntensity(0.01);
+			}
+			else {
+				const otherController = controller === this.controller1 ?
+					this.controller2 :
+					this.controller1;
+				this.relativeOrientation.copy(controller.quaternion)
+					.invert()
+					.multiply(scene.pivot.getWorldQuaternion(quaternion));
+				otherController.userData.turning = false;
+				controller.userData.turning = true;
+				controller.userData.line.visible = false;
+			}
+		};
+		this.onControllerSelectEnd = (event) => {
+			const controller = event.target;
+			controller.userData.turning = false;
+			controller.userData.line.visible = true;
+			this.isTwoFingering = false;
+			this.scaleLine.visible = false;
+			if (this.selectedController != null &&
+				this.selectedController != controller) {
+				return;
+			}
+			const scene = this.presentedScene;
+			// drop on floor
+			scene.attach(scene.pivot);
+			this.selectedController = null;
+			this.goalYaw = Math.atan2(scene.pivot.matrix.elements[8], scene.pivot.matrix.elements[10]);
+			this.goalPosition.x = scene.pivot.position.x;
+			this.goalPosition.z = scene.pivot.position.z;
+		};
+		this.onUpdateScene = () => {
+			if (this.placementBox != null && this.isPresenting) {
+				this.placementBox.dispose();
+				this.placementBox = new PlacementBox(this.presentedScene, this.placeOnWall ? 'back' : 'bottom');
+			}
+		};
+		this.onSelectStart = (event) => {
+			const hitSource = this.transientHitTestSource;
+			if (hitSource == null) {
+				return;
+			}
+			const fingers = this.frame.getHitTestResultsForTransientInput(hitSource);
+			const scene = this.presentedScene;
+			const box = this.placementBox;
+			if (fingers.length === 1) {
+				this.inputSource = event.inputSource;
+				const { axes } = this.inputSource.gamepad;
+				const hitPosition = box.getHit(this.presentedScene, axes[0], axes[1]);
+				box.show = true;
+				if (hitPosition != null) {
+					this.isTranslating = true;
+					this.lastDragPosition.copy(hitPosition);
+				}
+				else if (this.placeOnWall === false) {
+					this.isRotating = true;
+					this.lastAngle = axes[0] * ROTATION_RATE;
+				}
+			}
+			else if (fingers.length === 2) {
+				box.show = true;
+				this.isTwoFingering = true;
+				const { separation } = this.fingerPolar(fingers);
+				this.firstRatio = separation / scene.pivot.scale.x;
+			}
+		};
+		this.onSelectEnd = () => {
+			this.isTranslating = false;
+			this.isRotating = false;
+			this.isTwoFingering = false;
+			this.inputSource = null;
+			this.goalPosition.y +=
+				this.placementBox.offsetHeight * this.presentedScene.scale.x;
+			this.placementBox.show = false;
+		};
+		this.threeRenderer = renderer.threeRenderer;
+		this.threeRenderer.xr.enabled = true;
+	}
+	async resolveARSession() {
+		assertIsArCandidate();
+		const session = await navigator.xr.requestSession('immersive-ar', {
+			requiredFeatures: [],
+			optionalFeatures: ['hit-test', 'dom-overlay', 'light-estimation'],
+			domOverlay: this.overlay ? { root: this.overlay } : undefined
+		});
+		this.threeRenderer.xr.setReferenceSpaceType('local');
+		await this.threeRenderer.xr.setSession(session);
+		this.threeRenderer.xr.cameraAutoUpdate = false;
+		return session;
+	}
+	/**
+	 * The currently presented scene, if any
+	 */
+	get presentedScene() {
+		return this._presentedScene;
+	}
+	/**
+	 * Resolves to true if the renderer has detected all the necessary qualities
+	 * to support presentation in AR.
+	 */
+	async supportsPresentation() {
+		try {
+			assertIsArCandidate();
+			return await navigator.xr.isSessionSupported('immersive-ar');
+		}
+		catch (error) {
+			console.warn('Request to present in WebXR denied:');
+			console.warn(error);
+			console.warn('Falling back to next ar-mode');
+			return false;
+		}
+	}
+	/**
+	 * Present a scene in AR
+	 */
+	async present(scene, environmentEstimation = false) {
+		if (this.isPresenting) {
+			console.warn('Cannot present while a model is already presenting');
+		}
+		let waitForAnimationFrame = new Promise((resolve, _reject) => {
+			requestAnimationFrame(() => resolve());
+		});
+		scene.setHotspotsVisibility(false);
+		scene.queueRender();
+		// Render a frame to turn off the hotspots
+		await waitForAnimationFrame;
+		// This sets isPresenting to true
+		this._presentedScene = scene;
+		this.overlay = scene.element.shadowRoot.querySelector('div.default');
+		if (environmentEstimation === true) {
+			this.xrLight = new XREstimatedLight(this.threeRenderer);
+			this.xrLight.addEventListener('estimationstart', () => {
+				if (!this.isPresenting || this.xrLight == null) {
+					return;
+				}
+				const scene = this.presentedScene;
+				scene.add(this.xrLight);
+				scene.environment = this.xrLight.environment;
+			});
+		}
+		const currentSession = await this.resolveARSession();
+		currentSession.addEventListener('end', () => {
+			this.postSessionCleanup();
+		}, { once: true });
+		const exitButton = scene.element.shadowRoot.querySelector('.slot.exit-webxr-ar-button');
+		exitButton.classList.add('enabled');
+		exitButton.addEventListener('click', this.onExitWebXRButtonContainerClick);
+		this.exitWebXRButtonContainer = exitButton;
+		const viewerRefSpace = await currentSession.requestReferenceSpace('viewer');
+		this.xrMode = currentSession.interactionMode;
+		this.tracking = true;
+		this.frames = 0;
+		this.initialized = false;
+		this.turntableRotation = scene.yaw;
+		this.goalYaw = scene.yaw;
+		this.goalScale = 1;
+		scene.setBackground(null);
+		this.oldShadowIntensity = scene.shadowIntensity;
+		scene.setShadowIntensity(0.01); // invisible, but not changing the shader
+		this.oldTarget.copy(scene.getTarget());
+		scene.element.addEventListener('load', this.onUpdateScene);
+		const radians = HIT_ANGLE_DEG * Math.PI / 180;
+		const ray = this.placeOnWall === true ?
+			undefined :
+			new XRRay(new DOMPoint(0, 0, 0), { x: 0, y: -Math.sin(radians), z: -Math.cos(radians) });
+		currentSession
+			.requestHitTestSource({ space: viewerRefSpace, offsetRay: ray }).then(hitTestSource => {
+			this.initialHitSource = hitTestSource;
+		});
+		if (this.xrMode !== 'screen-space') {
+			this.setupControllers();
+			this.xDamper.setDecayTime(DECAY);
+			this.yDamper.setDecayTime(DECAY);
+			this.zDamper.setDecayTime(DECAY);
+			this.yawDamper.setDecayTime(DECAY);
+			this.pitchDamper.setDecayTime(DECAY);
+			this.rollDamper.setDecayTime(DECAY);
+		}
+		this.currentSession = currentSession;
+		this.placementBox =
+			new PlacementBox(scene, this.placeOnWall ? 'back' : 'bottom');
+		this.placementComplete = false;
+		this.lastTick = performance.now();
+		this.dispatchEvent({ type: 'status', status: ARStatus.SESSION_STARTED });
+	}
+	setupControllers() {
+		this.controller1 = this.threeRenderer.xr.getController(0);
+		this.controller1.addEventListener('selectstart', this.onControllerSelectStart);
+		this.controller1.addEventListener('selectend', this.onControllerSelectEnd);
+		this.controller2 = this.threeRenderer.xr.getController(1);
+		this.controller2.addEventListener('selectstart', this.onControllerSelectStart);
+		this.controller2.addEventListener('selectend', this.onControllerSelectEnd);
+		const scene = this.presentedScene;
+		scene.add(this.controller1);
+		scene.add(this.controller2);
+		if (!this.controller1.userData.line) {
+			const line = new Line(lineGeometry);
+			line.name = 'line';
+			line.scale.z = MAX_LINE_LENGTH;
+			this.controller1.userData.turning = false;
+			this.controller1.userData.line = line;
+			this.controller1.add(line);
+			this.controller2.userData.turning = false;
+			const line2 = line.clone();
+			this.controller2.userData.line = line2;
+			this.controller2.add(line2);
+			this.scaleLine.name = 'scale line';
+			this.scaleLine.visible = false;
+			this.controller1.add(this.scaleLine);
+			const { size } = scene;
+			const scale = BOX_SIZE / Math.max(size.x, size.y, size.z);
+			const box = new Mesh(boxGeometry);
+			box.name = 'box';
+			box.scale.copy(size).multiplyScalar(scale);
+			box.visible = false;
+			this.controller1.userData.box = box;
+			scene.add(box);
+			const box2 = box.clone();
+			this.controller2.userData.box = box2;
+			scene.add(box2);
+		}
+	}
+	hover(controller) {
+		// Do not highlight in mobile-ar
+		if (this.xrMode === 'screen-space' ||
+			this.selectedController == controller) {
+			return false;
+		}
+		const scene = this.presentedScene;
+		const intersection = this.placementBox.controllerIntersection(scene, controller);
+		controller.userData.box.visible =
+			(intersection == null || controller.userData.turning) &&
+				!this.isTwoFingering;
+		controller.userData.line.scale.z =
+			intersection == null ? MAX_LINE_LENGTH : intersection.distance;
+		return intersection != null;
+	}
+	controllerSeparation() {
+		return this.controller1.position.distanceTo(this.controller2.position);
+	}
+	/**
+	 * If currently presenting a scene in AR, stops presentation and exits AR.
+	 */
+	async stopPresenting() {
+		if (!this.isPresenting) {
+			return;
+		}
+		const cleanupPromise = new Promise((resolve) => {
+			this.resolveCleanup = resolve;
+		});
+		try {
+			await this.currentSession.end();
+			await cleanupPromise;
+		}
+		catch (error) {
+			console.warn('Error while trying to end WebXR AR session');
+			console.warn(error);
+			this.postSessionCleanup();
+		}
+	}
+	/**
+	 * True if a scene is currently in the process of being presented in AR
+	 */
+	get isPresenting() {
+		return this.presentedScene != null;
+	}
+	get target() {
+		return this.oldTarget;
+	}
+	updateTarget() {
+		const scene = this.presentedScene;
+		if (scene != null) {
+			const target = scene.getTarget();
+			this.oldTarget.copy(target);
+			if (this.placeOnWall) {
+				// Move the scene's target to the center of the back of the model's
+				// bounding box.
+				target.z = scene.boundingBox.min.z;
+			}
+			else {
+				// Move the scene's target to the model's floor height.
+				target.y = scene.boundingBox.min.y;
+			}
+			scene.setTarget(target.x, target.y, target.z);
+		}
+	}
+	postSessionCleanup() {
+		const session = this.currentSession;
+		if (session != null) {
+			session.removeEventListener('selectstart', this.onSelectStart);
+			session.removeEventListener('selectend', this.onSelectEnd);
+			this.currentSession = null;
+		}
+		const scene = this.presentedScene;
+		this._presentedScene = null;
+		if (scene != null) {
+			const { element } = scene;
+			if (this.xrLight != null) {
+				scene.remove(this.xrLight);
+				this.xrLight.dispose();
+				this.xrLight = null;
+			}
+			scene.add(scene.pivot);
+			scene.pivot.quaternion.set(0, 0, 0, 1);
+			scene.pivot.position.set(0, 0, 0);
+			scene.pivot.scale.set(1, 1, 1);
+			scene.setShadowOffset(0);
+			const yaw = this.turntableRotation;
+			if (yaw != null) {
+				scene.yaw = yaw;
+			}
+			const intensity = this.oldShadowIntensity;
+			if (intensity != null) {
+				scene.setShadowIntensity(intensity);
+			}
+			scene.setEnvironmentAndSkybox(element[$currentEnvironmentMap], element[$currentBackground]);
+			const point = this.oldTarget;
+			scene.setTarget(point.x, point.y, point.z);
+			scene.xrCamera = null;
+			scene.element.removeEventListener('load', this.onUpdateScene);
+			scene.orientHotspots(0);
+			const { width, height } = element.getBoundingClientRect();
+			scene.setSize(width, height);
+			requestAnimationFrame(() => {
+				scene.element.dispatchEvent(new CustomEvent('camera-change', { detail: { source: ChangeSource.NONE } }));
+			});
+		}
+		// Force the Renderer to update its size
+		this.renderer.height = 0;
+		const exitButton = this.exitWebXRButtonContainer;
+		if (exitButton != null) {
+			exitButton.classList.remove('enabled');
+			exitButton.removeEventListener('click', this.onExitWebXRButtonContainerClick);
+			this.exitWebXRButtonContainer = null;
+		}
+		const hitSource = this.transientHitTestSource;
+		if (hitSource != null) {
+			hitSource.cancel();
+			this.transientHitTestSource = null;
+		}
+		const hitSourceInitial = this.initialHitSource;
+		if (hitSourceInitial != null) {
+			hitSourceInitial.cancel();
+			this.initialHitSource = null;
+		}
+		if (this.placementBox != null) {
+			this.placementBox.dispose();
+			this.placementBox = null;
+		}
+		if (this.xrMode !== 'screen-space') {
+			if (this.controller1 != null) {
+				this.controller1.userData.turning = false;
+				this.controller1.userData.box.visible = false;
+				this.controller1.userData.line.visible = true;
+				this.controller1.removeEventListener('selectstart', this.onControllerSelectStart);
+				this.controller1.removeEventListener('selectend', this.onControllerSelectEnd);
+				this.controller1.removeFromParent();
+				this.controller1 = null;
+			}
+			if (this.controller2 != null) {
+				this.controller2.userData.turning = false;
+				this.controller2.userData.box.visible = false;
+				this.controller2.userData.line.visible = true;
+				this.controller2.removeEventListener('selectstart', this.onControllerSelectStart);
+				this.controller2.removeEventListener('selectend', this.onControllerSelectEnd);
+				this.controller2.removeFromParent();
+				this.controller2 = null;
+			}
+			this.selectedController = null;
+			this.scaleLine.visible = false;
+		}
+		this.isTranslating = false;
+		this.isRotating = false;
+		this.isTwoFingering = false;
+		this.lastTick = null;
+		this.turntableRotation = null;
+		this.oldShadowIntensity = null;
+		this.frame = null;
+		this.inputSource = null;
+		this.overlay = null;
+		if (this.resolveCleanup != null) {
+			this.resolveCleanup();
+		}
+		this.dispatchEvent({ type: 'status', status: ARStatus.NOT_PRESENTING });
+	}
+	updateView(view) {
+		const scene = this.presentedScene;
+		const xr = this.threeRenderer.xr;
+		xr.updateCamera(camera);
+		scene.xrCamera = xr.getCamera();
+		const { elements } = scene.getCamera().matrixWorld;
+		scene.orientHotspots(Math.atan2(elements[1], elements[5]));
+		if (!this.initialized) {
+			this.placeInitially();
+			this.initialized = true;
+		}
+		// Use automatic dynamic viewport scaling if supported.
+		if (view.requestViewportScale && view.recommendedViewportScale) {
+			const scale = view.recommendedViewportScale;
+			view.requestViewportScale(Math.max(scale, MIN_VIEWPORT_SCALE));
+		}
+		const layer = xr.getBaseLayer();
+		if (layer != null) {
+			const viewport = layer instanceof XRWebGLLayer ?
+				layer.getViewport(view) :
+				xr.getBinding().getViewSubImage(layer, view).viewport;
+			this.threeRenderer.setViewport(viewport.x, viewport.y, viewport.width, viewport.height);
+		}
+	}
+	placeInitially() {
+		const scene = this.presentedScene;
+		const { pivot, element } = scene;
+		const { position } = pivot;
+		const xrCamera = scene.getCamera();
+		const { width, height } = this.overlay.getBoundingClientRect();
+		scene.setSize(width, height);
+		xrCamera.projectionMatrixInverse.copy(xrCamera.projectionMatrix).invert();
+		const { theta } = element
+			.getCameraOrbit();
+		// Orient model to match the 3D camera view
+		const cameraDirection = xrCamera.getWorldDirection(vector3$1);
+		scene.yaw = Math.atan2(-cameraDirection.x, -cameraDirection.z) - theta;
+		this.goalYaw = scene.yaw;
+		const radius = Math.max(1, 2 * scene.boundingSphere.radius);
+		position.copy(xrCamera.position)
+			.add(cameraDirection.multiplyScalar(radius));
+		this.updateTarget();
+		const target = scene.getTarget();
+		position.add(target).sub(this.oldTarget);
+		this.goalPosition.copy(position);
+		scene.setHotspotsVisibility(true);
+		if (this.xrMode === 'screen-space') {
+			const { session } = this.frame;
+			session.addEventListener('selectstart', this.onSelectStart);
+			session.addEventListener('selectend', this.onSelectEnd);
+			session
+				.requestHitTestSourceForTransientInput({ profile: 'generic-touchscreen' }).then(hitTestSource => {
+				this.transientHitTestSource = hitTestSource;
+			});
+		}
+	}
+	getTouchLocation() {
+		const { axes } = this.inputSource.gamepad;
+		let location = this.placementBox.getExpandedHit(this.presentedScene, axes[0], axes[1]);
+		if (location != null) {
+			vector3$1.copy(location).sub(this.presentedScene.getCamera().position);
+			if (vector3$1.length() > MAX_DISTANCE)
+				return null;
+		}
+		return location;
+	}
+	getHitPoint(hitResult) {
+		const refSpace = this.threeRenderer.xr.getReferenceSpace();
+		const pose = hitResult.getPose(refSpace);
+		if (pose == null) {
+			return null;
+		}
+		const hitMatrix = matrix4.fromArray(pose.transform.matrix);
+		if (this.placeOnWall === true) {
+			// Orient the model to the wall's normal vector.
+			this.goalYaw = Math.atan2(hitMatrix.elements[4], hitMatrix.elements[6]);
+		}
+		// Check that the y-coordinate of the normal is large enough that the normal
+		// is pointing up for floor placement; opposite for wall placement.
+		return hitMatrix.elements[5] > 0.75 !== this.placeOnWall ?
+			hitPosition.setFromMatrixPosition(hitMatrix) :
+			null;
+	}
+	moveToFloor(frame) {
+		const hitSource = this.initialHitSource;
+		if (hitSource == null) {
+			return;
+		}
+		const hitTestResults = frame.getHitTestResults(hitSource);
+		if (hitTestResults.length == 0) {
+			return;
+		}
+		const hit = hitTestResults[0];
+		const hitPoint = this.getHitPoint(hit);
+		if (hitPoint == null) {
+			return;
+		}
+		this.placementBox.show = true;
+		// If the user is translating, let the finger hit-ray take precedence and
+		// ignore this hit result.
+		if (!this.isTranslating) {
+			if (this.placeOnWall) {
+				this.goalPosition.copy(hitPoint);
+			}
+			else {
+				this.goalPosition.y = hitPoint.y;
+			}
+		}
+		hitSource.cancel();
+		this.initialHitSource = null;
+		this.dispatchEvent({ type: 'status', status: ARStatus.OBJECT_PLACED });
+	}
+	fingerPolar(fingers) {
+		const fingerOne = fingers[0].inputSource.gamepad.axes;
+		const fingerTwo = fingers[1].inputSource.gamepad.axes;
+		const deltaX = fingerTwo[0] - fingerOne[0];
+		const deltaY = fingerTwo[1] - fingerOne[1];
+		const angle = Math.atan2(deltaY, deltaX);
+		let deltaYaw = this.lastAngle - angle;
+		if (deltaYaw > Math.PI) {
+			deltaYaw -= 2 * Math.PI;
+		}
+		else if (deltaYaw < -Math.PI) {
+			deltaYaw += 2 * Math.PI;
+		}
+		this.lastAngle = angle;
+		return {
+			separation: Math.sqrt(deltaX * deltaX + deltaY * deltaY),
+			deltaYaw: deltaYaw
+		};
+	}
+	setScale(separation) {
+		const scale = separation / this.firstRatio;
+		this.goalScale = (Math.abs(scale - 1) < SCALE_SNAP) ? 1 : scale;
+	}
+	processInput(frame) {
+		const hitSource = this.transientHitTestSource;
+		if (hitSource == null) {
+			return;
+		}
+		if (!this.isTranslating && !this.isTwoFingering && !this.isRotating) {
+			return;
+		}
+		const fingers = frame.getHitTestResultsForTransientInput(hitSource);
+		const scene = this.presentedScene;
+		const scale = scene.pivot.scale.x;
+		// Rotating, translating and scaling are mutually exclusive operations; only
+		// one can happen at a time, but we can switch during a gesture.
+		if (this.isTwoFingering) {
+			if (fingers.length < 2) {
+				// If we lose the second finger, stop scaling (in fact, stop processing
+				// input altogether until a new gesture starts).
+				this.isTwoFingering = false;
+			}
+			else {
+				const { separation, deltaYaw } = this.fingerPolar(fingers);
+				if (this.placeOnWall === false) {
+					this.goalYaw += deltaYaw;
+				}
+				if (scene.canScale) {
+					this.setScale(separation);
+				}
+			}
+			return;
+		}
+		else if (fingers.length === 2) {
+			// If we were rotating or translating and we get a second finger, switch
+			// to scaling instead.
+			this.isTranslating = false;
+			this.isRotating = false;
+			this.isTwoFingering = true;
+			const { separation } = this.fingerPolar(fingers);
+			this.firstRatio = separation / scale;
+			return;
+		}
+		if (this.isRotating) {
+			const angle = this.inputSource.gamepad.axes[0] * ROTATION_RATE;
+			this.goalYaw += angle - this.lastAngle;
+			this.lastAngle = angle;
+		}
+		else if (this.isTranslating) {
+			fingers.forEach(finger => {
+				if (finger.inputSource !== this.inputSource) {
+					return;
+				}
+				let hit = null;
+				if (finger.results.length > 0) {
+					hit = this.getHitPoint(finger.results[0]);
+				}
+				if (hit == null) {
+					hit = this.getTouchLocation();
+				}
+				if (hit == null) {
+					return;
+				}
+				this.goalPosition.sub(this.lastDragPosition);
+				if (this.placeOnWall === false) {
+					const offset = hit.y - this.lastDragPosition.y;
+					// When a lower floor is found, keep the model at the same height, but
+					// drop the placement box to the floor. The model falls on select end.
+					if (offset < 0) {
+						this.placementBox.offsetHeight = offset / scale;
+						this.presentedScene.setShadowOffset(offset);
+						// Interpolate hit ray up to drag plane
+						const cameraPosition = vector3$1.copy(scene.getCamera().position);
+						const alpha = -offset / (cameraPosition.y - hit.y);
+						cameraPosition.multiplyScalar(alpha);
+						hit.multiplyScalar(1 - alpha).add(cameraPosition);
+					}
+				}
+				this.goalPosition.add(hit);
+				this.lastDragPosition.copy(hit);
+			});
+		}
+	}
+	moveScene(delta) {
+		const scene = this.presentedScene;
+		const { pivot } = scene;
+		const box = this.placementBox;
+		box.updateOpacity(delta);
+		if (this.controller1) {
+			if (this.controller1.userData.turning) {
+				pivot.quaternion.copy(this.controller1.quaternion)
+					.multiply(this.relativeOrientation);
+				if (this.selectedController &&
+					this.selectedController === this.controller2) {
+					pivot.quaternion.premultiply(quaternion.copy(this.controller2.quaternion).invert());
+				}
+			}
+			this.controller1.userData.box.position.copy(this.controller1.position);
+			pivot.getWorldQuaternion(this.controller1.userData.box.quaternion);
+		}
+		if (this.controller2) {
+			if (this.controller2.userData.turning) {
+				pivot.quaternion.copy(this.controller2.quaternion)
+					.multiply(this.relativeOrientation);
+				if (this.selectedController &&
+					this.selectedController === this.controller1) {
+					pivot.quaternion.premultiply(quaternion.copy(this.controller1.quaternion).invert());
+				}
+			}
+			this.controller2.userData.box.position.copy(this.controller2.position);
+			pivot.getWorldQuaternion(this.controller2.userData.box.quaternion);
+		}
+		if (this.controller1 && this.controller2 && this.isTwoFingering) {
+			const dist = this.controllerSeparation();
+			this.setScale(dist);
+			this.scaleLine.scale.z = -dist;
+			this.scaleLine.lookAt(this.controller2.position);
+		}
+		const oldScale = scene.pivot.scale.x;
+		if (this.goalScale !== oldScale) {
+			const newScale = this.scaleDamper.update(oldScale, this.goalScale, delta, 1);
+			scene.pivot.scale.set(newScale, newScale, newScale);
+		}
+		if (pivot.parent !== scene) {
+			return; // attached to controller instead
+		}
+		const { position } = pivot;
+		const boundingRadius = scene.boundingSphere.radius;
+		const goal = this.goalPosition;
+		let source = ChangeSource.NONE;
+		if (!goal.equals(position)) {
+			source = ChangeSource.USER_INTERACTION;
+			let { x, y, z } = position;
+			x = this.xDamper.update(x, goal.x, delta, boundingRadius);
+			y = this.yDamper.update(y, goal.y, delta, boundingRadius);
+			z = this.zDamper.update(z, goal.z, delta, boundingRadius);
+			position.set(x, y, z);
+			if (this.xrMode === 'screen-space' && !this.isTranslating) {
+				const offset = goal.y - y;
+				if (this.placementComplete && this.placeOnWall === false) {
+					box.offsetHeight = offset / scene.pivot.scale.x;
+					scene.setShadowOffset(offset);
+				}
+				else if (offset === 0) {
+					this.placementComplete = true;
+					box.show = false;
+					scene.setShadowIntensity(AR_SHADOW_INTENSITY);
+				}
+			}
+			if (this.xrMode !== 'screen-space' && goal.equals(position)) {
+				scene.setShadowIntensity(AR_SHADOW_INTENSITY);
+			}
+		}
+		scene.updateTarget(delta);
+		// yaw must be updated last, since this also updates the shadow position.
+		quaternion.setFromAxisAngle(vector3$1.set(0, 1, 0), this.goalYaw);
+		const angle = scene.pivot.quaternion.angleTo(quaternion);
+		const angleStep = angle - this.yawDamper.update(angle, 0, delta, Math.PI);
+		scene.pivot.quaternion.rotateTowards(quaternion, angleStep);
+		// camera changes on every frame - user-interaction only if touching the
+		// screen, plus damping time.
+		scene.element.dispatchEvent(new CustomEvent('camera-change', { detail: { source } }));
+	}
+	/**
+	 * Only public to make it testable.
+	 */
+	onWebXRFrame(time, frame) {
+		if (this.xrMode !== 'screen-space') {
+			const over1 = this.hover(this.controller1);
+			const over2 = this.hover(this.controller2);
+			this.placementBox.show = (over1 || over2) && !this.isTwoFingering;
+		}
+		this.frame = frame;
+		++this.frames;
+		const refSpace = this.threeRenderer.xr.getReferenceSpace();
+		const pose = frame.getViewerPose(refSpace);
+		if (pose == null && this.tracking === true && this.frames > INIT_FRAMES) {
+			this.tracking = false;
+			this.dispatchEvent({ type: 'tracking', status: ARTracking.NOT_TRACKING });
+		}
+		const scene = this.presentedScene;
+		if (pose == null || scene == null || !scene.element.loaded) {
+			this.threeRenderer.clear();
+			return;
+		}
+		if (this.tracking === false) {
+			this.tracking = true;
+			this.dispatchEvent({ type: 'tracking', status: ARTracking.TRACKING });
+		}
+		// WebXR may return multiple views, i.e. for headset AR. This
+		// isn't really supported at this point, but make a best-effort
+		// attempt to render other views also, using the first view
+		// as the main viewpoint.
+		let isFirstView = true;
+		for (const view of pose.views) {
+			this.updateView(view);
+			if (isFirstView) {
+				this.moveToFloor(frame);
+				this.processInput(frame);
+				const delta = time - this.lastTick;
+				this.moveScene(delta);
+				this.renderer.preRender(scene, time, delta);
+				this.lastTick = time;
+				scene.renderShadow(this.threeRenderer);
+			}
+			this.threeRenderer.render(scene, scene.getCamera());
+			isFirstView = false;
+		}
+	}
 }
 
 function clone( source ) {
@@ -55857,134 +55932,134 @@ const $clone = Symbol('clone');
  * classes.
  */
 class GLTFInstance {
-    /**
-     * Prepares a given GLTF for presentation and future cloning. A GLTF that is
-     * prepared can safely have this method invoked on it multiple times; it will
-     * only be prepared once, including after being cloned.
-     */
-    static prepare(source) {
-        if (source.scene == null) {
-            throw new Error('Model does not have a scene');
-        }
-        if (source[$prepared]) {
-            return source;
-        }
-        const prepared = this[$prepare](source);
-        // NOTE: ES5 Symbol polyfill is not compatible with spread operator
-        // so {...prepared, [$prepared]: true} does not work
-        prepared[$prepared] = true;
-        return prepared;
-    }
-    /**
-     * Override in an inheriting class to apply specialty one-time preparations
-     * for a given input GLTF.
-     */
-    static [$prepare](source) {
-        // TODO(#195,#1003): We don't currently support multiple scenes, so we don't
-        // bother preparing extra scenes for now:
-        const { scene } = source;
-        const scenes = [scene];
-        return Object.assign(Object.assign({}, source), { scene, scenes });
-    }
-    get parser() {
-        return this[$preparedGLTF].parser;
-    }
-    get animations() {
-        return this[$preparedGLTF].animations;
-    }
-    get scene() {
-        return this[$preparedGLTF].scene;
-    }
-    get scenes() {
-        return this[$preparedGLTF].scenes;
-    }
-    get cameras() {
-        return this[$preparedGLTF].cameras;
-    }
-    get asset() {
-        return this[$preparedGLTF].asset;
-    }
-    get userData() {
-        return this[$preparedGLTF].userData;
-    }
-    constructor(preparedGLTF) {
-        this[$preparedGLTF] = preparedGLTF;
-    }
-    /**
-     * Creates and returns a copy of this instance.
-     */
-    clone() {
-        const GLTFInstanceConstructor = this.constructor;
-        const clonedGLTF = this[$clone]();
-        return new GLTFInstanceConstructor(clonedGLTF);
-    }
-    /**
-     * Cleans up any retained memory that might not otherwise be released when
-     * this instance is done being used.
-     */
-    dispose() {
-        this.scenes.forEach((scene) => {
-            scene.traverse((object) => {
-                const mesh = object;
-                if (!mesh.material) {
-                    return;
-                }
-                const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
-                materials.forEach(material => {
-                    // Explicitly dispose any textures assigned to this material
-                    for (const propertyName in material) {
-                        const texture = material[propertyName];
-                        if (texture instanceof Texture$1) {
-                            const image = texture.source.data;
-                            if (image.close != null) {
-                                image.close();
-                            }
-                            texture.dispose();
-                        }
-                    }
-                    material.dispose();
-                });
-                mesh.geometry.dispose();
-            });
-        });
-    }
-    /**
-     * Override in an inheriting class to implement specialized cloning strategies
-     */
-    [$clone]() {
-        const source = this[$preparedGLTF];
-        // TODO(#195,#1003): We don't currently support multiple scenes, so we don't
-        // bother cloning extra scenes for now:
-        const scene = clone(this.scene);
-        cloneVariantMaterials(scene, this.scene);
-        const scenes = [scene];
-        const userData = source.userData ? Object.assign({}, source.userData) : {};
-        return Object.assign(Object.assign({}, source), { scene, scenes, userData });
-    }
+	/**
+	 * Prepares a given GLTF for presentation and future cloning. A GLTF that is
+	 * prepared can safely have this method invoked on it multiple times; it will
+	 * only be prepared once, including after being cloned.
+	 */
+	static prepare(source) {
+		if (source.scene == null) {
+			throw new Error('Model does not have a scene');
+		}
+		if (source[$prepared]) {
+			return source;
+		}
+		const prepared = this[$prepare](source);
+		// NOTE: ES5 Symbol polyfill is not compatible with spread operator
+		// so {...prepared, [$prepared]: true} does not work
+		prepared[$prepared] = true;
+		return prepared;
+	}
+	/**
+	 * Override in an inheriting class to apply specialty one-time preparations
+	 * for a given input GLTF.
+	 */
+	static [$prepare](source) {
+		// TODO(#195,#1003): We don't currently support multiple scenes, so we don't
+		// bother preparing extra scenes for now:
+		const { scene } = source;
+		const scenes = [scene];
+		return Object.assign(Object.assign({}, source), { scene, scenes });
+	}
+	get parser() {
+		return this[$preparedGLTF].parser;
+	}
+	get animations() {
+		return this[$preparedGLTF].animations;
+	}
+	get scene() {
+		return this[$preparedGLTF].scene;
+	}
+	get scenes() {
+		return this[$preparedGLTF].scenes;
+	}
+	get cameras() {
+		return this[$preparedGLTF].cameras;
+	}
+	get asset() {
+		return this[$preparedGLTF].asset;
+	}
+	get userData() {
+		return this[$preparedGLTF].userData;
+	}
+	constructor(preparedGLTF) {
+		this[$preparedGLTF] = preparedGLTF;
+	}
+	/**
+	 * Creates and returns a copy of this instance.
+	 */
+	clone() {
+		const GLTFInstanceConstructor = this.constructor;
+		const clonedGLTF = this[$clone]();
+		return new GLTFInstanceConstructor(clonedGLTF);
+	}
+	/**
+	 * Cleans up any retained memory that might not otherwise be released when
+	 * this instance is done being used.
+	 */
+	dispose() {
+		this.scenes.forEach((scene) => {
+			scene.traverse((object) => {
+				const mesh = object;
+				if (!mesh.material) {
+					return;
+				}
+				const materials = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+				materials.forEach(material => {
+					// Explicitly dispose any textures assigned to this material
+					for (const propertyName in material) {
+						const texture = material[propertyName];
+						if (texture instanceof Texture$1) {
+							const image = texture.source.data;
+							if (image.close != null) {
+								image.close();
+							}
+							texture.dispose();
+						}
+					}
+					material.dispose();
+				});
+				mesh.geometry.dispose();
+			});
+		});
+	}
+	/**
+	 * Override in an inheriting class to implement specialized cloning strategies
+	 */
+	[$clone]() {
+		const source = this[$preparedGLTF];
+		// TODO(#195,#1003): We don't currently support multiple scenes, so we don't
+		// bother cloning extra scenes for now:
+		const scene = clone(this.scene);
+		cloneVariantMaterials(scene, this.scene);
+		const scenes = [scene];
+		const userData = source.userData ? Object.assign({}, source.userData) : {};
+		return Object.assign(Object.assign({}, source), { scene, scenes, userData });
+	}
 }
 // Variant materials and original material instances are stored under
 // object.userData.variantMaterials/originalMaterial.
 // Three.js Object3D.clone() doesn't clone Three.js objects under
 // .userData so this function is a workaround.
 const cloneVariantMaterials = (dst, src) => {
-    traversePair(dst, src, (dst, src) => {
-        if (src.userData.variantMaterials !== undefined) {
-            dst.userData.variantMaterials = new Map(src.userData.variantMaterials);
-        }
-        if (src.userData.variantData !== undefined) {
-            dst.userData.variantData = src.userData.variantData;
-        }
-        if (src.userData.originalMaterial !== undefined) {
-            dst.userData.originalMaterial = src.userData.originalMaterial;
-        }
-    });
+	traversePair(dst, src, (dst, src) => {
+		if (src.userData.variantMaterials !== undefined) {
+			dst.userData.variantMaterials = new Map(src.userData.variantMaterials);
+		}
+		if (src.userData.variantData !== undefined) {
+			dst.userData.variantData = src.userData.variantData;
+		}
+		if (src.userData.originalMaterial !== undefined) {
+			dst.userData.originalMaterial = src.userData.originalMaterial;
+		}
+	});
 };
 const traversePair = (obj1, obj2, callback) => {
-    callback(obj1, obj2);
-    // Assume obj1 and obj2 have the same tree structure
-    for (let i = 0; i < obj1.children.length; i++) {
-        traversePair(obj1.children[i], obj2.children[i], callback);
-    }
+	callback(obj1, obj2);
+	// Assume obj1 and obj2 have the same tree structure
+	for (let i = 0; i < obj1.children.length; i++) {
+		traversePair(obj1.children[i], obj2.children[i], callback);
+	}
 };
 
 const $threeGLTF = Symbol('threeGLTF');
@@ -56004,171 +56079,171 @@ const $correlateCloneThreeGLTF = Symbol('correlateCloneThreeGLTF');
  * element references to their corresponding Three.js constructs.
  */
 class CorrelatedSceneGraph {
-    /**
-     * Produce a CorrelatedSceneGraph from a naturally generated Three.js GLTF.
-     * Such GLTFs are produced by Three.js' GLTFLoader, and contain cached
-     * details that expedite the correlation step.
-     *
-     * If a CorrelatedSceneGraph is provided as the second argument, re-correlates
-     * a cloned Three.js GLTF with a clone of the glTF hierarchy used to produce
-     * the upstream Three.js GLTF that the clone was created from. The result
-     * CorrelatedSceneGraph is representative of the cloned hierarchy.
-     */
-    static from(threeGLTF, upstreamCorrelatedSceneGraph) {
-        if (upstreamCorrelatedSceneGraph != null) {
-            return this[$correlateCloneThreeGLTF](threeGLTF, upstreamCorrelatedSceneGraph);
-        }
-        else {
-            return this[$correlateOriginalThreeGLTF](threeGLTF);
-        }
-    }
-    static [$correlateOriginalThreeGLTF](threeGLTF) {
-        const gltf = threeGLTF.parser.json;
-        const associations = threeGLTF.parser.associations;
-        const gltfElementMap = new Map();
-        const defaultMaterial = { name: 'Default' };
-        const defaultReference = { index: -1 };
-        for (const threeMaterial of associations.keys()) {
-            // Note: GLTFLoader creates a "default" material that has no
-            // corresponding glTF element in the case that no materials are
-            // specified in the source glTF. In this case we append a default
-            // material to allow this to be operated upon.
-            if (threeMaterial instanceof Material$1 &&
-                associations.get(threeMaterial) == null) {
-                if (defaultReference.index < 0) {
-                    if (gltf.materials == null) {
-                        gltf.materials = [];
-                    }
-                    defaultReference.index = gltf.materials.length;
-                    gltf.materials.push(defaultMaterial);
-                }
-                threeMaterial.name = defaultMaterial.name;
-                associations.set(threeMaterial, { materials: defaultReference.index });
-            }
-        }
-        // Creates a reverse look up map (gltf-object to Three-object)
-        for (const [threeObject, gltfMappings] of associations) {
-            if (gltfMappings) {
-                threeObject.userData = threeObject.userData || {};
-                threeObject.userData.associations = gltfMappings;
-            }
-            for (const mapping in gltfMappings) {
-                if (mapping != null && mapping !== 'primitives') {
-                    const type = mapping;
-                    const elementArray = gltf[type] || [];
-                    const gltfElement = elementArray[gltfMappings[type]];
-                    if (gltfElement == null) {
-                        // TODO: Maybe throw here...
-                        continue;
-                    }
-                    let threeObjects = gltfElementMap.get(gltfElement);
-                    if (threeObjects == null) {
-                        threeObjects = new Set();
-                        gltfElementMap.set(gltfElement, threeObjects);
-                    }
-                    threeObjects.add(threeObject);
-                }
-            }
-        }
-        return new CorrelatedSceneGraph(threeGLTF, gltf, associations, gltfElementMap);
-    }
-    /**
-     * Transfers the association between a raw glTF and a Three.js scene graph
-     * to a clone of the Three.js scene graph, resolved as a new
-     * CorrelatedSceneGraph instance.
-     */
-    static [$correlateCloneThreeGLTF](cloneThreeGLTF, upstreamCorrelatedSceneGraph) {
-        const originalThreeGLTF = upstreamCorrelatedSceneGraph.threeGLTF;
-        const originalGLTF = upstreamCorrelatedSceneGraph.gltf;
-        const cloneGLTF = JSON.parse(JSON.stringify(originalGLTF));
-        const cloneThreeObjectMap = new Map();
-        const cloneGLTFElementMap = new Map();
-        for (let i = 0; i < originalThreeGLTF.scenes.length; i++) {
-            this[$parallelTraverseThreeScene](originalThreeGLTF.scenes[i], cloneThreeGLTF.scenes[i], (object, cloneObject) => {
-                const elementReference = upstreamCorrelatedSceneGraph.threeObjectMap.get(object);
-                if (elementReference == null) {
-                    return;
-                }
-                for (const mapping in elementReference) {
-                    if (mapping != null && mapping !== 'primitives') {
-                        const type = mapping;
-                        const index = elementReference[type];
-                        const cloneElement = cloneGLTF[type][index];
-                        const mappings = cloneThreeObjectMap.get(cloneObject) || {};
-                        mappings[type] = index;
-                        cloneThreeObjectMap.set(cloneObject, mappings);
-                        const cloneObjects = cloneGLTFElementMap.get(cloneElement) || new Set();
-                        cloneObjects.add(cloneObject);
-                        cloneGLTFElementMap.set(cloneElement, cloneObjects);
-                    }
-                }
-            });
-        }
-        return new CorrelatedSceneGraph(cloneThreeGLTF, cloneGLTF, cloneThreeObjectMap, cloneGLTFElementMap);
-    }
-    /**
-     * Traverses two presumably identical Three.js scenes, and invokes a
-     * callback for each Object3D or Material encountered, including the initial
-     * scene. Adapted from
-     * https://github.com/mrdoob/three.js/blob/7c1424c5819ab622a346dd630ee4e6431388021e/examples/jsm/utils/SkeletonUtils.js#L586-L596
-     */
-    static [$parallelTraverseThreeScene](sceneOne, sceneTwo, callback) {
-        const traverse = (a, b) => {
-            callback(a, b);
-            if (a.isObject3D) {
-                const meshA = a;
-                const meshB = b;
-                if (meshA.material) {
-                    if (Array.isArray(meshA.material)) {
-                        for (let i = 0; i < meshA.material.length; ++i) {
-                            callback(meshA.material[i], meshB.material[i]);
-                        }
-                    }
-                    else {
-                        callback(meshA.material, meshB.material);
-                    }
-                }
-                for (let i = 0; i < a.children.length; ++i) {
-                    traverse(a.children[i], b.children[i]);
-                }
-            }
-        };
-        traverse(sceneOne, sceneTwo);
-    }
-    /**
-     * The source Three.js GLTF result given to us by a Three.js GLTFLoader.
-     */
-    get threeGLTF() {
-        return this[$threeGLTF];
-    }
-    /**
-     * The in-memory deserialized source glTF.
-     */
-    get gltf() {
-        return this[$gltf];
-    }
-    /**
-     * A Map of glTF element references to arrays of corresponding Three.js
-     * object references. Three.js objects are kept in arrays to account for
-     * cases where more than one Three.js object corresponds to a single glTF
-     * element.
-     */
-    get gltfElementMap() {
-        return this[$gltfElementMap];
-    }
-    /**
-     * A map of individual Three.js objects to corresponding elements in the
-     * source glTF.
-     */
-    get threeObjectMap() {
-        return this[$threeObjectMap];
-    }
-    constructor(threeGLTF, gltf, threeObjectMap, gltfElementMap) {
-        this[$threeGLTF] = threeGLTF;
-        this[$gltf] = gltf;
-        this[$gltfElementMap] = gltfElementMap;
-        this[$threeObjectMap] = threeObjectMap;
-    }
+	/**
+	 * Produce a CorrelatedSceneGraph from a naturally generated Three.js GLTF.
+	 * Such GLTFs are produced by Three.js' GLTFLoader, and contain cached
+	 * details that expedite the correlation step.
+	 *
+	 * If a CorrelatedSceneGraph is provided as the second argument, re-correlates
+	 * a cloned Three.js GLTF with a clone of the glTF hierarchy used to produce
+	 * the upstream Three.js GLTF that the clone was created from. The result
+	 * CorrelatedSceneGraph is representative of the cloned hierarchy.
+	 */
+	static from(threeGLTF, upstreamCorrelatedSceneGraph) {
+		if (upstreamCorrelatedSceneGraph != null) {
+			return this[$correlateCloneThreeGLTF](threeGLTF, upstreamCorrelatedSceneGraph);
+		}
+		else {
+			return this[$correlateOriginalThreeGLTF](threeGLTF);
+		}
+	}
+	static [$correlateOriginalThreeGLTF](threeGLTF) {
+		const gltf = threeGLTF.parser.json;
+		const associations = threeGLTF.parser.associations;
+		const gltfElementMap = new Map();
+		const defaultMaterial = { name: 'Default' };
+		const defaultReference = { index: -1 };
+		for (const threeMaterial of associations.keys()) {
+			// Note: GLTFLoader creates a "default" material that has no
+			// corresponding glTF element in the case that no materials are
+			// specified in the source glTF. In this case we append a default
+			// material to allow this to be operated upon.
+			if (threeMaterial instanceof Material$1 &&
+				associations.get(threeMaterial) == null) {
+				if (defaultReference.index < 0) {
+					if (gltf.materials == null) {
+						gltf.materials = [];
+					}
+					defaultReference.index = gltf.materials.length;
+					gltf.materials.push(defaultMaterial);
+				}
+				threeMaterial.name = defaultMaterial.name;
+				associations.set(threeMaterial, { materials: defaultReference.index });
+			}
+		}
+		// Creates a reverse look up map (gltf-object to Three-object)
+		for (const [threeObject, gltfMappings] of associations) {
+			if (gltfMappings) {
+				threeObject.userData = threeObject.userData || {};
+				threeObject.userData.associations = gltfMappings;
+			}
+			for (const mapping in gltfMappings) {
+				if (mapping != null && mapping !== 'primitives') {
+					const type = mapping;
+					const elementArray = gltf[type] || [];
+					const gltfElement = elementArray[gltfMappings[type]];
+					if (gltfElement == null) {
+						// TODO: Maybe throw here...
+						continue;
+					}
+					let threeObjects = gltfElementMap.get(gltfElement);
+					if (threeObjects == null) {
+						threeObjects = new Set();
+						gltfElementMap.set(gltfElement, threeObjects);
+					}
+					threeObjects.add(threeObject);
+				}
+			}
+		}
+		return new CorrelatedSceneGraph(threeGLTF, gltf, associations, gltfElementMap);
+	}
+	/**
+	 * Transfers the association between a raw glTF and a Three.js scene graph
+	 * to a clone of the Three.js scene graph, resolved as a new
+	 * CorrelatedSceneGraph instance.
+	 */
+	static [$correlateCloneThreeGLTF](cloneThreeGLTF, upstreamCorrelatedSceneGraph) {
+		const originalThreeGLTF = upstreamCorrelatedSceneGraph.threeGLTF;
+		const originalGLTF = upstreamCorrelatedSceneGraph.gltf;
+		const cloneGLTF = JSON.parse(JSON.stringify(originalGLTF));
+		const cloneThreeObjectMap = new Map();
+		const cloneGLTFElementMap = new Map();
+		for (let i = 0; i < originalThreeGLTF.scenes.length; i++) {
+			this[$parallelTraverseThreeScene](originalThreeGLTF.scenes[i], cloneThreeGLTF.scenes[i], (object, cloneObject) => {
+				const elementReference = upstreamCorrelatedSceneGraph.threeObjectMap.get(object);
+				if (elementReference == null) {
+					return;
+				}
+				for (const mapping in elementReference) {
+					if (mapping != null && mapping !== 'primitives') {
+						const type = mapping;
+						const index = elementReference[type];
+						const cloneElement = cloneGLTF[type][index];
+						const mappings = cloneThreeObjectMap.get(cloneObject) || {};
+						mappings[type] = index;
+						cloneThreeObjectMap.set(cloneObject, mappings);
+						const cloneObjects = cloneGLTFElementMap.get(cloneElement) || new Set();
+						cloneObjects.add(cloneObject);
+						cloneGLTFElementMap.set(cloneElement, cloneObjects);
+					}
+				}
+			});
+		}
+		return new CorrelatedSceneGraph(cloneThreeGLTF, cloneGLTF, cloneThreeObjectMap, cloneGLTFElementMap);
+	}
+	/**
+	 * Traverses two presumably identical Three.js scenes, and invokes a
+	 * callback for each Object3D or Material encountered, including the initial
+	 * scene. Adapted from
+	 * https://github.com/mrdoob/three.js/blob/7c1424c5819ab622a346dd630ee4e6431388021e/examples/jsm/utils/SkeletonUtils.js#L586-L596
+	 */
+	static [$parallelTraverseThreeScene](sceneOne, sceneTwo, callback) {
+		const traverse = (a, b) => {
+			callback(a, b);
+			if (a.isObject3D) {
+				const meshA = a;
+				const meshB = b;
+				if (meshA.material) {
+					if (Array.isArray(meshA.material)) {
+						for (let i = 0; i < meshA.material.length; ++i) {
+							callback(meshA.material[i], meshB.material[i]);
+						}
+					}
+					else {
+						callback(meshA.material, meshB.material);
+					}
+				}
+				for (let i = 0; i < a.children.length; ++i) {
+					traverse(a.children[i], b.children[i]);
+				}
+			}
+		};
+		traverse(sceneOne, sceneTwo);
+	}
+	/**
+	 * The source Three.js GLTF result given to us by a Three.js GLTFLoader.
+	 */
+	get threeGLTF() {
+		return this[$threeGLTF];
+	}
+	/**
+	 * The in-memory deserialized source glTF.
+	 */
+	get gltf() {
+		return this[$gltf];
+	}
+	/**
+	 * A Map of glTF element references to arrays of corresponding Three.js
+	 * object references. Three.js objects are kept in arrays to account for
+	 * cases where more than one Three.js object corresponds to a single glTF
+	 * element.
+	 */
+	get gltfElementMap() {
+		return this[$gltfElementMap];
+	}
+	/**
+	 * A map of individual Three.js objects to corresponding elements in the
+	 * source glTF.
+	 */
+	get threeObjectMap() {
+		return this[$threeObjectMap];
+	}
+	constructor(threeGLTF, gltf, threeObjectMap, gltfElementMap) {
+		this[$threeGLTF] = threeGLTF;
+		this[$gltf] = gltf;
+		this[$gltfElementMap] = gltfElementMap;
+		this[$threeObjectMap] = threeObjectMap;
+	}
 }
 
 /* @license
@@ -56192,108 +56267,108 @@ const $correlatedSceneGraph = Symbol('correlatedSceneGraph');
  * <model-viewer> use cases.
  */
 class ModelViewerGLTFInstance extends GLTFInstance {
-    /**
-     * @override
-     */
-    static [$prepare](source) {
-        const prepared = super[$prepare](source);
-        if (prepared[$correlatedSceneGraph] == null) {
-            prepared[$correlatedSceneGraph] = CorrelatedSceneGraph.from(prepared);
-        }
-        const { scene } = prepared;
-        const nullSphere = new Sphere(undefined, Infinity);
-        scene.traverse((node) => {
-            // Set a high renderOrder while we're here to ensure the model
-            // always renders on top of the sky sphere
-            node.renderOrder = 1000;
-            // Three.js seems to cull some animated models incorrectly. Since we
-            // expect to view our whole scene anyway, we turn off the frustum
-            // culling optimization here.
-            node.frustumCulled = false;
-            // Animations for objects without names target their UUID instead. When
-            // objects are cloned, they get new UUIDs which the animation can't
-            // find. To fix this, we assign their UUID as their name.
-            if (!node.name) {
-                node.name = node.uuid;
-            }
-            const mesh = node;
-            if (mesh.material) {
-                const { geometry } = mesh;
-                mesh.castShadow = true;
-                if (mesh.isSkinnedMesh) {
-                    // Akin to disabling frustum culling above, we have to also manually
-                    // disable the bounds to make raycasting correct for skinned meshes.
-                    geometry.boundingSphere = nullSphere;
-                    // The bounding box is set in GLTFLoader by the accessor bounds, which
-                    // are not updated with animation.
-                    geometry.boundingBox = null;
-                }
-                const material = mesh.material;
-                if (material.isMeshBasicMaterial === true) {
-                    material.toneMapped = false;
-                }
-                // This makes shadows better for non-manifold meshes
-                material.shadowSide = FrontSide;
-                // Fixes an edge case with unused extra UV-coords being incorrectly
-                // referenced by three.js; remove when
-                // https://github.com/mrdoob/three.js/pull/23974 is merged.
-                if (material.aoMap) {
-                    const { gltf, threeObjectMap } = prepared[$correlatedSceneGraph];
-                    const gltfRef = threeObjectMap.get(material);
-                    if (gltf.materials != null && gltfRef != null &&
-                        gltfRef.materials != null) {
-                        const gltfMaterial = gltf.materials[gltfRef.materials];
-                        if (gltfMaterial.occlusionTexture &&
-                            gltfMaterial.occlusionTexture.texCoord === 0 &&
-                            geometry.attributes.uv != null) {
-                            geometry.setAttribute('uv2', geometry.attributes.uv);
-                        }
-                    }
-                }
-            }
-        });
-        return prepared;
-    }
-    get correlatedSceneGraph() {
-        return this[$preparedGLTF][$correlatedSceneGraph];
-    }
-    /**
-     * @override
-     */
-    [$clone]() {
-        const clone = super[$clone]();
-        const sourceUUIDToClonedMaterial = new Map();
-        clone.scene.traverse((node) => {
-            // Materials aren't cloned when cloning meshes; geometry
-            // and materials are copied by reference. This is necessary
-            // for the same model to be used twice with different
-            // scene-graph operations.
-            const mesh = node;
-            if (mesh.material) {
-                const material = mesh.material;
-                if (material != null) {
-                    if (sourceUUIDToClonedMaterial.has(material.uuid)) {
-                        mesh.material = sourceUUIDToClonedMaterial.get(material.uuid);
-                        return;
-                    }
-                    mesh.material = material.clone();
-                    sourceUUIDToClonedMaterial.set(material.uuid, mesh.material);
-                }
-            }
-            const light = node;
-            if (light.target !== undefined) {
-                // The target's parent is lost in the cloning process, but in
-                // GLTFLoader, all light targets are children of their light.
-                light.add(light.target);
-            }
-        });
-        // Cross-correlate the scene graph by relying on information in the
-        // current scene graph; without this step, relationships between the
-        // Three.js object graph and the glTF scene graph will be lost.
-        clone[$correlatedSceneGraph] =
-            CorrelatedSceneGraph.from(clone, this.correlatedSceneGraph);
-        return clone;
-    }
+	/**
+	 * @override
+	 */
+	static [$prepare](source) {
+		const prepared = super[$prepare](source);
+		if (prepared[$correlatedSceneGraph] == null) {
+			prepared[$correlatedSceneGraph] = CorrelatedSceneGraph.from(prepared);
+		}
+		const { scene } = prepared;
+		const nullSphere = new Sphere(undefined, Infinity);
+		scene.traverse((node) => {
+			// Set a high renderOrder while we're here to ensure the model
+			// always renders on top of the sky sphere
+			node.renderOrder = 1000;
+			// Three.js seems to cull some animated models incorrectly. Since we
+			// expect to view our whole scene anyway, we turn off the frustum
+			// culling optimization here.
+			node.frustumCulled = false;
+			// Animations for objects without names target their UUID instead. When
+			// objects are cloned, they get new UUIDs which the animation can't
+			// find. To fix this, we assign their UUID as their name.
+			if (!node.name) {
+				node.name = node.uuid;
+			}
+			const mesh = node;
+			if (mesh.material) {
+				const { geometry } = mesh;
+				mesh.castShadow = true;
+				if (mesh.isSkinnedMesh) {
+					// Akin to disabling frustum culling above, we have to also manually
+					// disable the bounds to make raycasting correct for skinned meshes.
+					geometry.boundingSphere = nullSphere;
+					// The bounding box is set in GLTFLoader by the accessor bounds, which
+					// are not updated with animation.
+					geometry.boundingBox = null;
+				}
+				const material = mesh.material;
+				if (material.isMeshBasicMaterial === true) {
+					material.toneMapped = false;
+				}
+				// This makes shadows better for non-manifold meshes
+				material.shadowSide = FrontSide;
+				// Fixes an edge case with unused extra UV-coords being incorrectly
+				// referenced by three.js; remove when
+				// https://github.com/mrdoob/three.js/pull/23974 is merged.
+				if (material.aoMap) {
+					const { gltf, threeObjectMap } = prepared[$correlatedSceneGraph];
+					const gltfRef = threeObjectMap.get(material);
+					if (gltf.materials != null && gltfRef != null &&
+						gltfRef.materials != null) {
+						const gltfMaterial = gltf.materials[gltfRef.materials];
+						if (gltfMaterial.occlusionTexture &&
+							gltfMaterial.occlusionTexture.texCoord === 0 &&
+							geometry.attributes.uv != null) {
+							geometry.setAttribute('uv2', geometry.attributes.uv);
+						}
+					}
+				}
+			}
+		});
+		return prepared;
+	}
+	get correlatedSceneGraph() {
+		return this[$preparedGLTF][$correlatedSceneGraph];
+	}
+	/**
+	 * @override
+	 */
+	[$clone]() {
+		const clone = super[$clone]();
+		const sourceUUIDToClonedMaterial = new Map();
+		clone.scene.traverse((node) => {
+			// Materials aren't cloned when cloning meshes; geometry
+			// and materials are copied by reference. This is necessary
+			// for the same model to be used twice with different
+			// scene-graph operations.
+			const mesh = node;
+			if (mesh.material) {
+				const material = mesh.material;
+				if (material != null) {
+					if (sourceUUIDToClonedMaterial.has(material.uuid)) {
+						mesh.material = sourceUUIDToClonedMaterial.get(material.uuid);
+						return;
+					}
+					mesh.material = material.clone();
+					sourceUUIDToClonedMaterial.set(material.uuid, mesh.material);
+				}
+			}
+			const light = node;
+			if (light.target !== undefined) {
+				// The target's parent is lost in the cloning process, but in
+				// GLTFLoader, all light targets are children of their light.
+				light.add(light.target);
+			}
+		});
+		// Cross-correlate the scene graph by relying on information in the
+		// current scene graph; without this step, relationships between the
+		// Three.js object graph and the glTF scene graph will be lost.
+		clone[$correlatedSceneGraph] =
+			CorrelatedSceneGraph.from(clone, this.correlatedSceneGraph);
+		return clone;
+	}
 }
 
 /**
@@ -56303,33 +56378,33 @@ class ModelViewerGLTFInstance extends GLTFInstance {
 
 
 const getBufferForType = (type, width, height) => {
-    let out;
-    switch (type) {
-        case UnsignedByteType:
-            out = new Uint8ClampedArray(width * height * 4);
-            break;
-        case HalfFloatType:
-            out = new Uint16Array(width * height * 4);
-            break;
-        case UnsignedIntType:
-            out = new Uint32Array(width * height * 4);
-            break;
-        case ByteType:
-            out = new Int8Array(width * height * 4);
-            break;
-        case ShortType:
-            out = new Int16Array(width * height * 4);
-            break;
-        case IntType:
-            out = new Int32Array(width * height * 4);
-            break;
-        case FloatType:
-            out = new Float32Array(width * height * 4);
-            break;
-        default:
-            throw new Error('Unsupported data type');
-    }
-    return out;
+	let out;
+	switch (type) {
+		case UnsignedByteType:
+			out = new Uint8ClampedArray(width * height * 4);
+			break;
+		case HalfFloatType:
+			out = new Uint16Array(width * height * 4);
+			break;
+		case UnsignedIntType:
+			out = new Uint32Array(width * height * 4);
+			break;
+		case ByteType:
+			out = new Int8Array(width * height * 4);
+			break;
+		case ShortType:
+			out = new Int16Array(width * height * 4);
+			break;
+		case IntType:
+			out = new Int32Array(width * height * 4);
+			break;
+		case FloatType:
+			out = new Float32Array(width * height * 4);
+			break;
+		default:
+			throw new Error('Unsupported data type');
+	}
+	return out;
 };
 let _canReadPixelsResult;
 /**
@@ -56345,20 +56420,20 @@ let _canReadPixelsResult;
  * @returns
  */
 const canReadPixels = (type, renderer, camera, renderTargetOptions) => {
-    if (_canReadPixelsResult !== undefined)
-        return _canReadPixelsResult;
-    const testRT = new WebGLRenderTarget(1, 1, renderTargetOptions);
-    renderer.setRenderTarget(testRT);
-    const mesh = new Mesh(new PlaneGeometry(), new MeshBasicMaterial({ color: 0xffffff }));
-    renderer.render(mesh, camera);
-    renderer.setRenderTarget(null);
-    const out = getBufferForType(type, testRT.width, testRT.height);
-    renderer.readRenderTargetPixels(testRT, 0, 0, testRT.width, testRT.height, out);
-    testRT.dispose();
-    mesh.geometry.dispose();
-    mesh.material.dispose();
-    _canReadPixelsResult = out[0] !== 0;
-    return _canReadPixelsResult;
+	if (_canReadPixelsResult !== undefined)
+		return _canReadPixelsResult;
+	const testRT = new WebGLRenderTarget(1, 1, renderTargetOptions);
+	renderer.setRenderTarget(testRT);
+	const mesh = new Mesh(new PlaneGeometry(), new MeshBasicMaterial({ color: 0xffffff }));
+	renderer.render(mesh, camera);
+	renderer.setRenderTarget(null);
+	const out = getBufferForType(type, testRT.width, testRT.height);
+	renderer.readRenderTargetPixels(testRT, 0, 0, testRT.width, testRT.height, out);
+	testRT.dispose();
+	mesh.geometry.dispose();
+	mesh.material.dispose();
+	_canReadPixelsResult = out[0] !== 0;
+	return _canReadPixelsResult;
 };
 /**
  * Utility class used for rendering a texture with a material
@@ -56367,232 +56442,232 @@ const canReadPixels = (type, renderer, camera, renderTargetOptions) => {
  * @group Core
  */
 class QuadRenderer {
-    /**
-     * Constructs a new QuadRenderer
-     *
-     * @param options Parameters for this QuadRenderer
-     */
-    constructor(options) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
-        this._rendererIsDisposable = false;
-        this._supportsReadPixels = true;
-        /**
-         * Renders the input texture using the specified material
-         */
-        this.render = () => {
-            this._renderer.setRenderTarget(this._renderTarget);
-            try {
-                this._renderer.render(this._scene, this._camera);
-            }
-            catch (e) {
-                this._renderer.setRenderTarget(null);
-                throw e;
-            }
-            this._renderer.setRenderTarget(null);
-        };
-        this._width = options.width;
-        this._height = options.height;
-        this._type = options.type;
-        this._colorSpace = options.colorSpace;
-        const rtOptions = {
-            // fixed options
-            format: RGBAFormat,
-            depthBuffer: false,
-            stencilBuffer: false,
-            // user options
-            type: this._type, // set in class property
-            colorSpace: this._colorSpace, // set in class property
-            anisotropy: ((_a = options.renderTargetOptions) === null || _a === void 0 ? void 0 : _a.anisotropy) !== undefined ? (_b = options.renderTargetOptions) === null || _b === void 0 ? void 0 : _b.anisotropy : 1,
-            generateMipmaps: ((_c = options.renderTargetOptions) === null || _c === void 0 ? void 0 : _c.generateMipmaps) !== undefined ? (_d = options.renderTargetOptions) === null || _d === void 0 ? void 0 : _d.generateMipmaps : false,
-            magFilter: ((_e = options.renderTargetOptions) === null || _e === void 0 ? void 0 : _e.magFilter) !== undefined ? (_f = options.renderTargetOptions) === null || _f === void 0 ? void 0 : _f.magFilter : LinearFilter,
-            minFilter: ((_g = options.renderTargetOptions) === null || _g === void 0 ? void 0 : _g.minFilter) !== undefined ? (_h = options.renderTargetOptions) === null || _h === void 0 ? void 0 : _h.minFilter : LinearFilter,
-            samples: ((_j = options.renderTargetOptions) === null || _j === void 0 ? void 0 : _j.samples) !== undefined ? (_k = options.renderTargetOptions) === null || _k === void 0 ? void 0 : _k.samples : undefined,
-            wrapS: ((_l = options.renderTargetOptions) === null || _l === void 0 ? void 0 : _l.wrapS) !== undefined ? (_m = options.renderTargetOptions) === null || _m === void 0 ? void 0 : _m.wrapS : ClampToEdgeWrapping,
-            wrapT: ((_o = options.renderTargetOptions) === null || _o === void 0 ? void 0 : _o.wrapT) !== undefined ? (_p = options.renderTargetOptions) === null || _p === void 0 ? void 0 : _p.wrapT : ClampToEdgeWrapping
-        };
-        this._material = options.material;
-        if (options.renderer) {
-            this._renderer = options.renderer;
-        }
-        else {
-            this._renderer = QuadRenderer.instantiateRenderer();
-            this._rendererIsDisposable = true;
-        }
-        this._scene = new Scene();
-        this._camera = new OrthographicCamera();
-        this._camera.position.set(0, 0, 10);
-        this._camera.left = -0.5;
-        this._camera.right = 0.5;
-        this._camera.top = 0.5;
-        this._camera.bottom = -0.5;
-        this._camera.updateProjectionMatrix();
-        if (!canReadPixels(this._type, this._renderer, this._camera, rtOptions)) {
-            let alternativeType;
-            switch (this._type) {
-                case HalfFloatType:
-                    alternativeType = this._renderer.extensions.has('EXT_color_buffer_float') ? FloatType : undefined;
-                    break;
-            }
-            if (alternativeType !== undefined) {
-                console.warn(`This browser does not support reading pixels from ${this._type} RenderTargets, switching to ${FloatType}`);
-                this._type = alternativeType;
-            }
-            else {
-                this._supportsReadPixels = false;
-                console.warn('This browser dos not support toArray or toDataTexture, calls to those methods will result in an error thrown');
-            }
-        }
-        this._quad = new Mesh(new PlaneGeometry(), this._material);
-        this._quad.geometry.computeBoundingBox();
-        this._scene.add(this._quad);
-        this._renderTarget = new WebGLRenderTarget(this.width, this.height, rtOptions);
-        this._renderTarget.texture.mapping = ((_q = options.renderTargetOptions) === null || _q === void 0 ? void 0 : _q.mapping) !== undefined ? (_r = options.renderTargetOptions) === null || _r === void 0 ? void 0 : _r.mapping : UVMapping;
-    }
-    /**
-     * Instantiates a temporary renderer
-     *
-     * @returns
-     */
-    static instantiateRenderer() {
-        const renderer = new WebGLRenderer();
-        renderer.setSize(128, 128);
-        // renderer.outputColorSpace = SRGBColorSpace
-        // renderer.toneMapping = LinearToneMapping
-        // renderer.debug.checkShaderErrors = false
-        // this._rendererIsDisposable = true
-        return renderer;
-    }
-    /**
-     * Obtains a Buffer containing the rendered texture.
-     *
-     * @throws Error if the browser cannot read pixels from this RenderTarget type.
-     * @returns a TypedArray containing RGBA values from this renderer
-     */
-    toArray() {
-        if (!this._supportsReadPixels)
-            throw new Error('Can\'t read pixels in this browser');
-        const out = getBufferForType(this._type, this._width, this._height);
-        this._renderer.readRenderTargetPixels(this._renderTarget, 0, 0, this._width, this._height, out);
-        return out;
-    }
-    /**
-     * Performs a readPixel operation in the renderTarget
-     * and returns a DataTexture containing the read data
-     *
-     * @param options options
-     * @returns
-     */
-    toDataTexture(options) {
-        const returnValue = new DataTexture(
-        // fixed values
-        this.toArray(), this.width, this.height, RGBAFormat, this._type, 
-        // user values
-        (options === null || options === void 0 ? void 0 : options.mapping) || UVMapping, (options === null || options === void 0 ? void 0 : options.wrapS) || ClampToEdgeWrapping, (options === null || options === void 0 ? void 0 : options.wrapT) || ClampToEdgeWrapping, (options === null || options === void 0 ? void 0 : options.magFilter) || LinearFilter, (options === null || options === void 0 ? void 0 : options.minFilter) || LinearFilter, (options === null || options === void 0 ? void 0 : options.anisotropy) || 1, 
-        // fixed value
-        LinearSRGBColorSpace);
-        // set this afterwards, we can't set it in constructor
-        returnValue.generateMipmaps = (options === null || options === void 0 ? void 0 : options.generateMipmaps) !== undefined ? options === null || options === void 0 ? void 0 : options.generateMipmaps : false;
-        return returnValue;
-    }
-    /**
-     * If using a disposable renderer, it will dispose it.
-     */
-    disposeOnDemandRenderer() {
-        this._renderer.setRenderTarget(null);
-        if (this._rendererIsDisposable) {
-            this._renderer.dispose();
-            this._renderer.forceContextLoss();
-        }
-    }
-    /**
-     * Will dispose of **all** assets used by this renderer.
-     *
-     *
-     * @param disposeRenderTarget will dispose of the renderTarget which will not be usable later
-     * set this to true if you passed the `renderTarget.texture` to a `PMREMGenerator`
-     * or are otherwise done with it.
-     *
-     * @example
-     * ```js
-     * const loader = new HDRJPGLoader(renderer)
-     * const result = await loader.loadAsync('gainmap.jpeg')
-     * const mesh = new Mesh(geometry, new MeshBasicMaterial({ map: result.renderTarget.texture }) )
-     * // DO NOT dispose the renderTarget here,
-     * // it is used directly in the material
-     * result.dispose()
-     * ```
-     *
-     * @example
-     * ```js
-     * const loader = new HDRJPGLoader(renderer)
-     * const pmremGenerator = new PMREMGenerator( renderer );
-     * const result = await loader.loadAsync('gainmap.jpeg')
-     * const envMap = pmremGenerator.fromEquirectangular(result.renderTarget.texture)
-     * const mesh = new Mesh(geometry, new MeshStandardMaterial({ envMap }) )
-     * // renderTarget can be disposed here
-     * // because it was used to generate a PMREM texture
-     * result.dispose(true)
-     * ```
-     */
-    dispose(disposeRenderTarget) {
-        this.disposeOnDemandRenderer();
-        if (disposeRenderTarget) {
-            this.renderTarget.dispose();
-        }
-        // dispose shader material texture uniforms
-        if (this.material instanceof ShaderMaterial) {
-            Object.values(this.material.uniforms).forEach(v => {
-                if (v.value instanceof Texture$1)
-                    v.value.dispose();
-            });
-        }
-        // dispose other material properties
-        Object.values(this.material).forEach(value => {
-            if (value instanceof Texture$1)
-                value.dispose();
-        });
-        this.material.dispose();
-        this._quad.geometry.dispose();
-    }
-    /**
-     * Width of the texture
-     */
-    get width() { return this._width; }
-    set width(value) {
-        this._width = value;
-        this._renderTarget.setSize(this._width, this._height);
-    }
-    /**
-     * Height of the texture
-     */
-    get height() { return this._height; }
-    set height(value) {
-        this._height = value;
-        this._renderTarget.setSize(this._width, this._height);
-    }
-    /**
-     * The renderer used
-     */
-    get renderer() { return this._renderer; }
-    /**
-     * The `WebGLRenderTarget` used.
-     */
-    get renderTarget() { return this._renderTarget; }
-    set renderTarget(value) {
-        this._renderTarget = value;
-        this._width = value.width;
-        this._height = value.height;
-        // this._type = value.texture.type
-    }
-    /**
-     * The `Material` used.
-     */
-    get material() { return this._material; }
-    /**
-     *
-     */
-    get type() { return this._type; }
-    get colorSpace() { return this._colorSpace; }
+	/**
+	 * Constructs a new QuadRenderer
+	 *
+	 * @param options Parameters for this QuadRenderer
+	 */
+	constructor(options) {
+		var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o, _p, _q, _r;
+		this._rendererIsDisposable = false;
+		this._supportsReadPixels = true;
+		/**
+		 * Renders the input texture using the specified material
+		 */
+		this.render = () => {
+			this._renderer.setRenderTarget(this._renderTarget);
+			try {
+				this._renderer.render(this._scene, this._camera);
+			}
+			catch (e) {
+				this._renderer.setRenderTarget(null);
+				throw e;
+			}
+			this._renderer.setRenderTarget(null);
+		};
+		this._width = options.width;
+		this._height = options.height;
+		this._type = options.type;
+		this._colorSpace = options.colorSpace;
+		const rtOptions = {
+			// fixed options
+			format: RGBAFormat,
+			depthBuffer: false,
+			stencilBuffer: false,
+			// user options
+			type: this._type, // set in class property
+			colorSpace: this._colorSpace, // set in class property
+			anisotropy: ((_a = options.renderTargetOptions) === null || _a === void 0 ? void 0 : _a.anisotropy) !== undefined ? (_b = options.renderTargetOptions) === null || _b === void 0 ? void 0 : _b.anisotropy : 1,
+			generateMipmaps: ((_c = options.renderTargetOptions) === null || _c === void 0 ? void 0 : _c.generateMipmaps) !== undefined ? (_d = options.renderTargetOptions) === null || _d === void 0 ? void 0 : _d.generateMipmaps : false,
+			magFilter: ((_e = options.renderTargetOptions) === null || _e === void 0 ? void 0 : _e.magFilter) !== undefined ? (_f = options.renderTargetOptions) === null || _f === void 0 ? void 0 : _f.magFilter : LinearFilter,
+			minFilter: ((_g = options.renderTargetOptions) === null || _g === void 0 ? void 0 : _g.minFilter) !== undefined ? (_h = options.renderTargetOptions) === null || _h === void 0 ? void 0 : _h.minFilter : LinearFilter,
+			samples: ((_j = options.renderTargetOptions) === null || _j === void 0 ? void 0 : _j.samples) !== undefined ? (_k = options.renderTargetOptions) === null || _k === void 0 ? void 0 : _k.samples : undefined,
+			wrapS: ((_l = options.renderTargetOptions) === null || _l === void 0 ? void 0 : _l.wrapS) !== undefined ? (_m = options.renderTargetOptions) === null || _m === void 0 ? void 0 : _m.wrapS : ClampToEdgeWrapping,
+			wrapT: ((_o = options.renderTargetOptions) === null || _o === void 0 ? void 0 : _o.wrapT) !== undefined ? (_p = options.renderTargetOptions) === null || _p === void 0 ? void 0 : _p.wrapT : ClampToEdgeWrapping
+		};
+		this._material = options.material;
+		if (options.renderer) {
+			this._renderer = options.renderer;
+		}
+		else {
+			this._renderer = QuadRenderer.instantiateRenderer();
+			this._rendererIsDisposable = true;
+		}
+		this._scene = new Scene();
+		this._camera = new OrthographicCamera();
+		this._camera.position.set(0, 0, 10);
+		this._camera.left = -0.5;
+		this._camera.right = 0.5;
+		this._camera.top = 0.5;
+		this._camera.bottom = -0.5;
+		this._camera.updateProjectionMatrix();
+		if (!canReadPixels(this._type, this._renderer, this._camera, rtOptions)) {
+			let alternativeType;
+			switch (this._type) {
+				case HalfFloatType:
+					alternativeType = this._renderer.extensions.has('EXT_color_buffer_float') ? FloatType : undefined;
+					break;
+			}
+			if (alternativeType !== undefined) {
+				console.warn(`This browser does not support reading pixels from ${this._type} RenderTargets, switching to ${FloatType}`);
+				this._type = alternativeType;
+			}
+			else {
+				this._supportsReadPixels = false;
+				console.warn('This browser dos not support toArray or toDataTexture, calls to those methods will result in an error thrown');
+			}
+		}
+		this._quad = new Mesh(new PlaneGeometry(), this._material);
+		this._quad.geometry.computeBoundingBox();
+		this._scene.add(this._quad);
+		this._renderTarget = new WebGLRenderTarget(this.width, this.height, rtOptions);
+		this._renderTarget.texture.mapping = ((_q = options.renderTargetOptions) === null || _q === void 0 ? void 0 : _q.mapping) !== undefined ? (_r = options.renderTargetOptions) === null || _r === void 0 ? void 0 : _r.mapping : UVMapping;
+	}
+	/**
+	 * Instantiates a temporary renderer
+	 *
+	 * @returns
+	 */
+	static instantiateRenderer() {
+		const renderer = new WebGLRenderer();
+		renderer.setSize(128, 128);
+		// renderer.outputColorSpace = SRGBColorSpace
+		// renderer.toneMapping = LinearToneMapping
+		// renderer.debug.checkShaderErrors = false
+		// this._rendererIsDisposable = true
+		return renderer;
+	}
+	/**
+	 * Obtains a Buffer containing the rendered texture.
+	 *
+	 * @throws Error if the browser cannot read pixels from this RenderTarget type.
+	 * @returns a TypedArray containing RGBA values from this renderer
+	 */
+	toArray() {
+		if (!this._supportsReadPixels)
+			throw new Error('Can\'t read pixels in this browser');
+		const out = getBufferForType(this._type, this._width, this._height);
+		this._renderer.readRenderTargetPixels(this._renderTarget, 0, 0, this._width, this._height, out);
+		return out;
+	}
+	/**
+	 * Performs a readPixel operation in the renderTarget
+	 * and returns a DataTexture containing the read data
+	 *
+	 * @param options options
+	 * @returns
+	 */
+	toDataTexture(options) {
+		const returnValue = new DataTexture(
+		// fixed values
+		this.toArray(), this.width, this.height, RGBAFormat, this._type, 
+		// user values
+		(options === null || options === void 0 ? void 0 : options.mapping) || UVMapping, (options === null || options === void 0 ? void 0 : options.wrapS) || ClampToEdgeWrapping, (options === null || options === void 0 ? void 0 : options.wrapT) || ClampToEdgeWrapping, (options === null || options === void 0 ? void 0 : options.magFilter) || LinearFilter, (options === null || options === void 0 ? void 0 : options.minFilter) || LinearFilter, (options === null || options === void 0 ? void 0 : options.anisotropy) || 1, 
+		// fixed value
+		LinearSRGBColorSpace);
+		// set this afterwards, we can't set it in constructor
+		returnValue.generateMipmaps = (options === null || options === void 0 ? void 0 : options.generateMipmaps) !== undefined ? options === null || options === void 0 ? void 0 : options.generateMipmaps : false;
+		return returnValue;
+	}
+	/**
+	 * If using a disposable renderer, it will dispose it.
+	 */
+	disposeOnDemandRenderer() {
+		this._renderer.setRenderTarget(null);
+		if (this._rendererIsDisposable) {
+			this._renderer.dispose();
+			this._renderer.forceContextLoss();
+		}
+	}
+	/**
+	 * Will dispose of **all** assets used by this renderer.
+	 *
+	 *
+	 * @param disposeRenderTarget will dispose of the renderTarget which will not be usable later
+	 * set this to true if you passed the `renderTarget.texture` to a `PMREMGenerator`
+	 * or are otherwise done with it.
+	 *
+	 * @example
+	 * ```js
+	 * const loader = new HDRJPGLoader(renderer)
+	 * const result = await loader.loadAsync('gainmap.jpeg')
+	 * const mesh = new Mesh(geometry, new MeshBasicMaterial({ map: result.renderTarget.texture }) )
+	 * // DO NOT dispose the renderTarget here,
+	 * // it is used directly in the material
+	 * result.dispose()
+	 * ```
+	 *
+	 * @example
+	 * ```js
+	 * const loader = new HDRJPGLoader(renderer)
+	 * const pmremGenerator = new PMREMGenerator( renderer );
+	 * const result = await loader.loadAsync('gainmap.jpeg')
+	 * const envMap = pmremGenerator.fromEquirectangular(result.renderTarget.texture)
+	 * const mesh = new Mesh(geometry, new MeshStandardMaterial({ envMap }) )
+	 * // renderTarget can be disposed here
+	 * // because it was used to generate a PMREM texture
+	 * result.dispose(true)
+	 * ```
+	 */
+	dispose(disposeRenderTarget) {
+		this.disposeOnDemandRenderer();
+		if (disposeRenderTarget) {
+			this.renderTarget.dispose();
+		}
+		// dispose shader material texture uniforms
+		if (this.material instanceof ShaderMaterial) {
+			Object.values(this.material.uniforms).forEach(v => {
+				if (v.value instanceof Texture$1)
+					v.value.dispose();
+			});
+		}
+		// dispose other material properties
+		Object.values(this.material).forEach(value => {
+			if (value instanceof Texture$1)
+				value.dispose();
+		});
+		this.material.dispose();
+		this._quad.geometry.dispose();
+	}
+	/**
+	 * Width of the texture
+	 */
+	get width() { return this._width; }
+	set width(value) {
+		this._width = value;
+		this._renderTarget.setSize(this._width, this._height);
+	}
+	/**
+	 * Height of the texture
+	 */
+	get height() { return this._height; }
+	set height(value) {
+		this._height = value;
+		this._renderTarget.setSize(this._width, this._height);
+	}
+	/**
+	 * The renderer used
+	 */
+	get renderer() { return this._renderer; }
+	/**
+	 * The `WebGLRenderTarget` used.
+	 */
+	get renderTarget() { return this._renderTarget; }
+	set renderTarget(value) {
+		this._renderTarget = value;
+		this._width = value.width;
+		this._height = value.height;
+		// this._type = value.texture.type
+	}
+	/**
+	 * The `Material` used.
+	 */
+	get material() { return this._material; }
+	/**
+	 *
+	 */
+	get type() { return this._type; }
+	get colorSpace() { return this._colorSpace; }
 }
 
 /**
@@ -56643,105 +56718,105 @@ void main() {
  * @group Materials
  */
 class GainMapDecoderMaterial extends ShaderMaterial {
-    /**
-     *
-     * @param params
-     */
-    constructor({ gamma, offsetHdr, offsetSdr, gainMapMin, gainMapMax, maxDisplayBoost, hdrCapacityMin, hdrCapacityMax, sdr, gainMap }) {
-        super({
-            name: 'GainMapDecoderMaterial',
-            vertexShader,
-            fragmentShader,
-            uniforms: {
-                sdr: { value: sdr },
-                gainMap: { value: gainMap },
-                gamma: { value: new Vector3(1.0 / gamma[0], 1.0 / gamma[1], 1.0 / gamma[2]) },
-                offsetHdr: { value: new Vector3().fromArray(offsetHdr) },
-                offsetSdr: { value: new Vector3().fromArray(offsetSdr) },
-                gainMapMin: { value: new Vector3().fromArray(gainMapMin) },
-                gainMapMax: { value: new Vector3().fromArray(gainMapMax) },
-                weightFactor: {
-                    value: (Math.log2(maxDisplayBoost) - hdrCapacityMin) / (hdrCapacityMax - hdrCapacityMin)
-                }
-            },
-            blending: NoBlending,
-            depthTest: false,
-            depthWrite: false
-        });
-        this._maxDisplayBoost = maxDisplayBoost;
-        this._hdrCapacityMin = hdrCapacityMin;
-        this._hdrCapacityMax = hdrCapacityMax;
-        this.needsUpdate = true;
-        this.uniformsNeedUpdate = true;
-    }
-    get sdr() { return this.uniforms.sdr.value; }
-    set sdr(value) { this.uniforms.sdr.value = value; }
-    get gainMap() { return this.uniforms.gainMap.value; }
-    set gainMap(value) { this.uniforms.gainMap.value = value; }
-    /**
-     * @see {@link GainMapMetadata.offsetHdr}
-     */
-    get offsetHdr() { return this.uniforms.offsetHdr.value.toArray(); }
-    set offsetHdr(value) { this.uniforms.offsetHdr.value.fromArray(value); }
-    /**
-     * @see {@link GainMapMetadata.offsetSdr}
-     */
-    get offsetSdr() { return this.uniforms.offsetSdr.value.toArray(); }
-    set offsetSdr(value) { this.uniforms.offsetSdr.value.fromArray(value); }
-    /**
-     * @see {@link GainMapMetadata.gainMapMin}
-     */
-    get gainMapMin() { return this.uniforms.gainMapMin.value.toArray(); }
-    set gainMapMin(value) { this.uniforms.gainMapMin.value.fromArray(value); }
-    /**
-     * @see {@link GainMapMetadata.gainMapMax}
-     */
-    get gainMapMax() { return this.uniforms.gainMapMax.value.toArray(); }
-    set gainMapMax(value) { this.uniforms.gainMapMax.value.fromArray(value); }
-    /**
-     * @see {@link GainMapMetadata.gamma}
-     */
-    get gamma() {
-        const g = this.uniforms.gamma.value;
-        return [1 / g.x, 1 / g.y, 1 / g.z];
-    }
-    set gamma(value) {
-        const g = this.uniforms.gamma.value;
-        g.x = 1.0 / value[0];
-        g.y = 1.0 / value[1];
-        g.z = 1.0 / value[2];
-    }
-    /**
-     * @see {@link GainMapMetadata.hdrCapacityMin}
-     * @remarks Logarithmic space
-     */
-    get hdrCapacityMin() { return this._hdrCapacityMin; }
-    set hdrCapacityMin(value) {
-        this._hdrCapacityMin = value;
-        this.calculateWeight();
-    }
-    /**
-     * @see {@link GainMapMetadata.hdrCapacityMin}
-     * @remarks Logarithmic space
-     */
-    get hdrCapacityMax() { return this._hdrCapacityMax; }
-    set hdrCapacityMax(value) {
-        this._hdrCapacityMax = value;
-        this.calculateWeight();
-    }
-    /**
-     * @see {@link GainmapDecodingParameters.maxDisplayBoost}
-     * @remarks Non Logarithmic space
-     */
-    get maxDisplayBoost() { return this._maxDisplayBoost; }
-    set maxDisplayBoost(value) {
-        this._maxDisplayBoost = Math.max(1, Math.min(65504, value));
-        this.calculateWeight();
-    }
-    calculateWeight() {
-        const val = (Math.log2(this._maxDisplayBoost) - this._hdrCapacityMin) / (this._hdrCapacityMax - this._hdrCapacityMin);
-        this.uniforms.weightFactor.value = Math.max(0, Math.min(1, val));
-    }
+	/**
+	 *
+	 * @param params
+	 */
+	constructor({ gamma, offsetHdr, offsetSdr, gainMapMin, gainMapMax, maxDisplayBoost, hdrCapacityMin, hdrCapacityMax, sdr, gainMap }) {
+		super({
+			name: 'GainMapDecoderMaterial',
+			vertexShader,
+			fragmentShader,
+			uniforms: {
+				sdr: { value: sdr },
+				gainMap: { value: gainMap },
+				gamma: { value: new Vector3(1.0 / gamma[0], 1.0 / gamma[1], 1.0 / gamma[2]) },
+				offsetHdr: { value: new Vector3().fromArray(offsetHdr) },
+				offsetSdr: { value: new Vector3().fromArray(offsetSdr) },
+				gainMapMin: { value: new Vector3().fromArray(gainMapMin) },
+				gainMapMax: { value: new Vector3().fromArray(gainMapMax) },
+				weightFactor: {
+					value: (Math.log2(maxDisplayBoost) - hdrCapacityMin) / (hdrCapacityMax - hdrCapacityMin)
+				}
+			},
+			blending: NoBlending,
+			depthTest: false,
+			depthWrite: false
+		});
+		this._maxDisplayBoost = maxDisplayBoost;
+		this._hdrCapacityMin = hdrCapacityMin;
+		this._hdrCapacityMax = hdrCapacityMax;
+		this.needsUpdate = true;
+		this.uniformsNeedUpdate = true;
+	}
+	get sdr() { return this.uniforms.sdr.value; }
+	set sdr(value) { this.uniforms.sdr.value = value; }
+	get gainMap() { return this.uniforms.gainMap.value; }
+	set gainMap(value) { this.uniforms.gainMap.value = value; }
+	/**
+	 * @see {@link GainMapMetadata.offsetHdr}
+	 */
+	get offsetHdr() { return this.uniforms.offsetHdr.value.toArray(); }
+	set offsetHdr(value) { this.uniforms.offsetHdr.value.fromArray(value); }
+	/**
+	 * @see {@link GainMapMetadata.offsetSdr}
+	 */
+	get offsetSdr() { return this.uniforms.offsetSdr.value.toArray(); }
+	set offsetSdr(value) { this.uniforms.offsetSdr.value.fromArray(value); }
+	/**
+	 * @see {@link GainMapMetadata.gainMapMin}
+	 */
+	get gainMapMin() { return this.uniforms.gainMapMin.value.toArray(); }
+	set gainMapMin(value) { this.uniforms.gainMapMin.value.fromArray(value); }
+	/**
+	 * @see {@link GainMapMetadata.gainMapMax}
+	 */
+	get gainMapMax() { return this.uniforms.gainMapMax.value.toArray(); }
+	set gainMapMax(value) { this.uniforms.gainMapMax.value.fromArray(value); }
+	/**
+	 * @see {@link GainMapMetadata.gamma}
+	 */
+	get gamma() {
+		const g = this.uniforms.gamma.value;
+		return [1 / g.x, 1 / g.y, 1 / g.z];
+	}
+	set gamma(value) {
+		const g = this.uniforms.gamma.value;
+		g.x = 1.0 / value[0];
+		g.y = 1.0 / value[1];
+		g.z = 1.0 / value[2];
+	}
+	/**
+	 * @see {@link GainMapMetadata.hdrCapacityMin}
+	 * @remarks Logarithmic space
+	 */
+	get hdrCapacityMin() { return this._hdrCapacityMin; }
+	set hdrCapacityMin(value) {
+		this._hdrCapacityMin = value;
+		this.calculateWeight();
+	}
+	/**
+	 * @see {@link GainMapMetadata.hdrCapacityMin}
+	 * @remarks Logarithmic space
+	 */
+	get hdrCapacityMax() { return this._hdrCapacityMax; }
+	set hdrCapacityMax(value) {
+		this._hdrCapacityMax = value;
+		this.calculateWeight();
+	}
+	/**
+	 * @see {@link GainmapDecodingParameters.maxDisplayBoost}
+	 * @remarks Non Logarithmic space
+	 */
+	get maxDisplayBoost() { return this._maxDisplayBoost; }
+	set maxDisplayBoost(value) {
+		this._maxDisplayBoost = Math.max(1, Math.min(65504, value));
+		this.calculateWeight();
+	}
+	calculateWeight() {
+		const val = (Math.log2(this._maxDisplayBoost) - this._hdrCapacityMin) / (this._hdrCapacityMax - this._hdrCapacityMin);
+		this.uniforms.weightFactor.value = Math.max(0, Math.min(1, val));
+	}
 }
 
 class GainMapNotFoundError extends Error {
@@ -56751,63 +56826,63 @@ class XMPMetadataNotFoundError extends Error {
 }
 
 const getXMLValue = (xml, tag, defaultValue) => {
-    // Check for attribute format first: tag="value"
-    const attributeMatch = new RegExp(`${tag}="([^"]*)"`, 'i').exec(xml);
-    if (attributeMatch)
-        return attributeMatch[1];
-    // Check for tag format: <tag>value</tag> or <tag><rdf:li>value</rdf:li>...</tag>
-    const tagMatch = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, 'i').exec(xml);
-    if (tagMatch) {
-        // Check if it contains rdf:li elements
-        const liValues = tagMatch[1].match(/<rdf:li>([^<]*)<\/rdf:li>/g);
-        if (liValues && liValues.length === 3) {
-            return liValues.map(v => v.replace(/<\/?rdf:li>/g, ''));
-        }
-        return tagMatch[1].trim();
-    }
-    if (defaultValue !== undefined)
-        return defaultValue;
-    throw new Error(`Can't find ${tag} in gainmap metadata`);
+	// Check for attribute format first: tag="value"
+	const attributeMatch = new RegExp(`${tag}="([^"]*)"`, 'i').exec(xml);
+	if (attributeMatch)
+		return attributeMatch[1];
+	// Check for tag format: <tag>value</tag> or <tag><rdf:li>value</rdf:li>...</tag>
+	const tagMatch = new RegExp(`<${tag}[^>]*>([\\s\\S]*?)</${tag}>`, 'i').exec(xml);
+	if (tagMatch) {
+		// Check if it contains rdf:li elements
+		const liValues = tagMatch[1].match(/<rdf:li>([^<]*)<\/rdf:li>/g);
+		if (liValues && liValues.length === 3) {
+			return liValues.map(v => v.replace(/<\/?rdf:li>/g, ''));
+		}
+		return tagMatch[1].trim();
+	}
+	if (defaultValue !== undefined)
+		return defaultValue;
+	throw new Error(`Can't find ${tag} in gainmap metadata`);
 };
 const extractXMP = (input) => {
-    let str;
-    // support node test environment
-    if (typeof TextDecoder !== 'undefined')
-        str = new TextDecoder().decode(input);
-    else
-        str = input.toString();
-    let start = str.indexOf('<x:xmpmeta');
-    while (start !== -1) {
-        const end = str.indexOf('x:xmpmeta>', start);
-        const xmpBlock = str.slice(start, end + 10);
-        try {
-            const gainMapMin = getXMLValue(xmpBlock, 'hdrgm:GainMapMin', '0');
-            const gainMapMax = getXMLValue(xmpBlock, 'hdrgm:GainMapMax');
-            const gamma = getXMLValue(xmpBlock, 'hdrgm:Gamma', '1');
-            const offsetSDR = getXMLValue(xmpBlock, 'hdrgm:OffsetSDR', '0.015625');
-            const offsetHDR = getXMLValue(xmpBlock, 'hdrgm:OffsetHDR', '0.015625');
-            // These are always attributes, so we can use a simpler regex
-            const hdrCapacityMinMatch = /hdrgm:HDRCapacityMin="([^"]*)"/.exec(xmpBlock);
-            const hdrCapacityMin = hdrCapacityMinMatch ? hdrCapacityMinMatch[1] : '0';
-            const hdrCapacityMaxMatch = /hdrgm:HDRCapacityMax="([^"]*)"/.exec(xmpBlock);
-            if (!hdrCapacityMaxMatch)
-                throw new Error('Incomplete gainmap metadata');
-            const hdrCapacityMax = hdrCapacityMaxMatch[1];
-            return {
-                gainMapMin: Array.isArray(gainMapMin) ? gainMapMin.map(v => parseFloat(v)) : [parseFloat(gainMapMin), parseFloat(gainMapMin), parseFloat(gainMapMin)],
-                gainMapMax: Array.isArray(gainMapMax) ? gainMapMax.map(v => parseFloat(v)) : [parseFloat(gainMapMax), parseFloat(gainMapMax), parseFloat(gainMapMax)],
-                gamma: Array.isArray(gamma) ? gamma.map(v => parseFloat(v)) : [parseFloat(gamma), parseFloat(gamma), parseFloat(gamma)],
-                offsetSdr: Array.isArray(offsetSDR) ? offsetSDR.map(v => parseFloat(v)) : [parseFloat(offsetSDR), parseFloat(offsetSDR), parseFloat(offsetSDR)],
-                offsetHdr: Array.isArray(offsetHDR) ? offsetHDR.map(v => parseFloat(v)) : [parseFloat(offsetHDR), parseFloat(offsetHDR), parseFloat(offsetHDR)],
-                hdrCapacityMin: parseFloat(hdrCapacityMin),
-                hdrCapacityMax: parseFloat(hdrCapacityMax)
-            };
-        }
-        catch (e) {
-            // Continue searching for another xmpmeta block if this one fails
-        }
-        start = str.indexOf('<x:xmpmeta', end);
-    }
+	let str;
+	// support node test environment
+	if (typeof TextDecoder !== 'undefined')
+		str = new TextDecoder().decode(input);
+	else
+		str = input.toString();
+	let start = str.indexOf('<x:xmpmeta');
+	while (start !== -1) {
+		const end = str.indexOf('x:xmpmeta>', start);
+		const xmpBlock = str.slice(start, end + 10);
+		try {
+			const gainMapMin = getXMLValue(xmpBlock, 'hdrgm:GainMapMin', '0');
+			const gainMapMax = getXMLValue(xmpBlock, 'hdrgm:GainMapMax');
+			const gamma = getXMLValue(xmpBlock, 'hdrgm:Gamma', '1');
+			const offsetSDR = getXMLValue(xmpBlock, 'hdrgm:OffsetSDR', '0.015625');
+			const offsetHDR = getXMLValue(xmpBlock, 'hdrgm:OffsetHDR', '0.015625');
+			// These are always attributes, so we can use a simpler regex
+			const hdrCapacityMinMatch = /hdrgm:HDRCapacityMin="([^"]*)"/.exec(xmpBlock);
+			const hdrCapacityMin = hdrCapacityMinMatch ? hdrCapacityMinMatch[1] : '0';
+			const hdrCapacityMaxMatch = /hdrgm:HDRCapacityMax="([^"]*)"/.exec(xmpBlock);
+			if (!hdrCapacityMaxMatch)
+				throw new Error('Incomplete gainmap metadata');
+			const hdrCapacityMax = hdrCapacityMaxMatch[1];
+			return {
+				gainMapMin: Array.isArray(gainMapMin) ? gainMapMin.map(v => parseFloat(v)) : [parseFloat(gainMapMin), parseFloat(gainMapMin), parseFloat(gainMapMin)],
+				gainMapMax: Array.isArray(gainMapMax) ? gainMapMax.map(v => parseFloat(v)) : [parseFloat(gainMapMax), parseFloat(gainMapMax), parseFloat(gainMapMax)],
+				gamma: Array.isArray(gamma) ? gamma.map(v => parseFloat(v)) : [parseFloat(gamma), parseFloat(gamma), parseFloat(gamma)],
+				offsetSdr: Array.isArray(offsetSDR) ? offsetSDR.map(v => parseFloat(v)) : [parseFloat(offsetSDR), parseFloat(offsetSDR), parseFloat(offsetSDR)],
+				offsetHdr: Array.isArray(offsetHDR) ? offsetHDR.map(v => parseFloat(v)) : [parseFloat(offsetHDR), parseFloat(offsetHDR), parseFloat(offsetHDR)],
+				hdrCapacityMin: parseFloat(hdrCapacityMin),
+				hdrCapacityMax: parseFloat(hdrCapacityMax)
+			};
+		}
+		catch (e) {
+			// Continue searching for another xmpmeta block if this one fails
+		}
+		start = str.indexOf('<x:xmpmeta', end);
+	}
 };
 
 /**
@@ -56822,155 +56897,155 @@ const extractXMP = (input) => {
  * Kudos to: Phil Harvey (exiftool), Jaume Sanchez (android-lens-blur-depth-extractor)
  */
 class MPFExtractor {
-    constructor(options) {
-        this.options = {
-            debug: options && options.debug !== undefined ? options.debug : false,
-            extractFII: options && options.extractFII !== undefined ? options.extractFII : true,
-            extractNonFII: options && options.extractNonFII !== undefined ? options.extractNonFII : true
-        };
-    }
-    extract(imageArrayBuffer) {
-        return new Promise((resolve, reject) => {
-            const debug = this.options.debug;
-            const dataView = new DataView(imageArrayBuffer.buffer);
-            // If you're executing this line on a big endian machine, it'll be reversed.
-            // bigEnd further down though, refers to the endianness of the image itself.
-            if (dataView.getUint16(0) !== 0xffd8) {
-                reject(new Error('Not a valid jpeg'));
-                return;
-            }
-            const length = dataView.byteLength;
-            let offset = 2;
-            let loops = 0;
-            let marker; // APP# marker
-            while (offset < length) {
-                if (++loops > 250) {
-                    reject(new Error(`Found no marker after ${loops} loops 😵`));
-                    return;
-                }
-                if (dataView.getUint8(offset) !== 0xff) {
-                    reject(new Error(`Not a valid marker at offset 0x${offset.toString(16)}, found: 0x${dataView.getUint8(offset).toString(16)}`));
-                    return;
-                }
-                marker = dataView.getUint8(offset + 1);
-                if (debug)
-                    console.log(`Marker: ${marker.toString(16)}`);
-                if (marker === 0xe2) {
-                    if (debug)
-                        console.log('Found APP2 marker (0xffe2)');
-                    // Works for iPhone 8 Plus, X, and XSMax. Or any photos of MPF format.
-                    // Great way to visualize image information in html is using Exiftool. E.g.:
-                    // ./exiftool.exe -htmldump -wantTrailer photo.jpg > photo.html
-                    const formatPt = offset + 4;
-                    /*
-                     *  Structure of the MP Format Identifier
-                     *
-                     *  Offset Addr.  | Code (Hex)  | Description
-                     *  +00             ff            Marker Prefix      <-- offset
-                     *  +01             e2            APP2
-                     *  +02             #n            APP2 Field Length
-                     *  +03             #n            APP2 Field Length
-                     *  +04             4d            'M'                <-- formatPt
-                     *  +05             50            'P'
-                     *  +06             46            'F'
-                     *  +07             00            NULL
-                     *                                                   <-- tiffOffset
-                     */
-                    if (dataView.getUint32(formatPt) === 0x4d504600) {
-                        // Found MPF tag, so we start dig out sub images
-                        const tiffOffset = formatPt + 4;
-                        let bigEnd; // Endianness from TIFF header
-                        // Test for TIFF validity and endianness
-                        // 0x4949 and 0x4D4D ('II' and 'MM') marks Little Endian and Big Endian
-                        if (dataView.getUint16(tiffOffset) === 0x4949) {
-                            bigEnd = false;
-                        }
-                        else if (dataView.getUint16(tiffOffset) === 0x4d4d) {
-                            bigEnd = true;
-                        }
-                        else {
-                            reject(new Error('No valid endianness marker found in TIFF header'));
-                            return;
-                        }
-                        if (dataView.getUint16(tiffOffset + 2, !bigEnd) !== 0x002a) {
-                            reject(new Error('Not valid TIFF data! (no 0x002A marker)'));
-                            return;
-                        }
-                        // 32 bit number stating the offset from the start of the 8 Byte MP Header
-                        // to MP Index IFD Least possible value is thus 8 (means 0 offset)
-                        const firstIFDOffset = dataView.getUint32(tiffOffset + 4, !bigEnd);
-                        if (firstIFDOffset < 0x00000008) {
-                            reject(new Error('Not valid TIFF data! (First offset less than 8)'));
-                            return;
-                        }
-                        // Move ahead to MP Index IFD
-                        // Assume we're at the first IFD, so firstIFDOffset points to
-                        // MP Index IFD and not MP Attributes IFD. (If we try extract from a sub image,
-                        // we fail silently here due to this assumption)
-                        // Count (2 Byte) | MP Index Fields a.k.a. MP Entries (count * 12 Byte) | Offset of Next IFD (4 Byte)
-                        const dirStart = tiffOffset + firstIFDOffset; // Start of IFD (Image File Directory)
-                        const count = dataView.getUint16(dirStart, !bigEnd); // Count of MPEntries (2 Byte)
-                        // Extract info from MPEntries (starting after Count)
-                        const entriesStart = dirStart + 2;
-                        let numberOfImages = 0;
-                        for (let i = entriesStart; i < entriesStart + 12 * count; i += 12) {
-                            // Each entry is 12 Bytes long
-                            // Check MP Index IFD tags, here we only take tag 0xb001 = Number of images
-                            if (dataView.getUint16(i, !bigEnd) === 0xb001) {
-                                // stored in Last 4 bytes of its 12 Byte entry.
-                                numberOfImages = dataView.getUint32(i + 8, !bigEnd);
-                            }
-                        }
-                        const nextIFDOffsetLen = 4; // 4 Byte offset field that appears after MP Index IFD tags
-                        const MPImageListValPt = dirStart + 2 + count * 12 + nextIFDOffsetLen;
-                        const images = [];
-                        for (let i = MPImageListValPt; i < MPImageListValPt + numberOfImages * 16; i += 16) {
-                            const image = {
-                                MPType: dataView.getUint32(i, !bigEnd),
-                                size: dataView.getUint32(i + 4, !bigEnd),
-                                // This offset is specified relative to the address of the MP Endian
-                                // field in the MP Header, unless the image is a First Individual Image,
-                                // in which case the value of the offset shall be NULL (0x00000000).
-                                dataOffset: dataView.getUint32(i + 8, !bigEnd),
-                                dependantImages: dataView.getUint32(i + 12, !bigEnd),
-                                start: -1,
-                                end: -1,
-                                isFII: false
-                            };
-                            if (!image.dataOffset) {
-                                // dataOffset is 0x00000000 for First Individual Image
-                                image.start = 0;
-                                image.isFII = true;
-                            }
-                            else {
-                                image.start = tiffOffset + image.dataOffset;
-                                image.isFII = false;
-                            }
-                            image.end = image.start + image.size;
-                            images.push(image);
-                        }
-                        if (this.options.extractNonFII && images.length) {
-                            const bufferBlob = new Blob([dataView]);
-                            const imgs = [];
-                            for (const image of images) {
-                                if (image.isFII && !this.options.extractFII) {
-                                    continue; // Skip FII
-                                }
-                                const imageBlob = bufferBlob.slice(image.start, image.end + 1, 'image/jpeg');
-                                // we don't need this
-                                // const imageUrl = URL.createObjectURL(imageBlob)
-                                // image.img = document.createElement('img')
-                                // image.img.src = imageUrl
-                                imgs.push(imageBlob);
-                            }
-                            resolve(imgs);
-                        }
-                    }
-                }
-                offset += 2 + dataView.getUint16(offset + 2);
-            }
-        });
-    }
+	constructor(options) {
+		this.options = {
+			debug: options && options.debug !== undefined ? options.debug : false,
+			extractFII: options && options.extractFII !== undefined ? options.extractFII : true,
+			extractNonFII: options && options.extractNonFII !== undefined ? options.extractNonFII : true
+		};
+	}
+	extract(imageArrayBuffer) {
+		return new Promise((resolve, reject) => {
+			const debug = this.options.debug;
+			const dataView = new DataView(imageArrayBuffer.buffer);
+			// If you're executing this line on a big endian machine, it'll be reversed.
+			// bigEnd further down though, refers to the endianness of the image itself.
+			if (dataView.getUint16(0) !== 0xffd8) {
+				reject(new Error('Not a valid jpeg'));
+				return;
+			}
+			const length = dataView.byteLength;
+			let offset = 2;
+			let loops = 0;
+			let marker; // APP# marker
+			while (offset < length) {
+				if (++loops > 250) {
+					reject(new Error(`Found no marker after ${loops} loops 😵`));
+					return;
+				}
+				if (dataView.getUint8(offset) !== 0xff) {
+					reject(new Error(`Not a valid marker at offset 0x${offset.toString(16)}, found: 0x${dataView.getUint8(offset).toString(16)}`));
+					return;
+				}
+				marker = dataView.getUint8(offset + 1);
+				if (debug)
+					console.log(`Marker: ${marker.toString(16)}`);
+				if (marker === 0xe2) {
+					if (debug)
+						console.log('Found APP2 marker (0xffe2)');
+					// Works for iPhone 8 Plus, X, and XSMax. Or any photos of MPF format.
+					// Great way to visualize image information in html is using Exiftool. E.g.:
+					// ./exiftool.exe -htmldump -wantTrailer photo.jpg > photo.html
+					const formatPt = offset + 4;
+					/*
+					 *  Structure of the MP Format Identifier
+					 *
+					 *  Offset Addr.  | Code (Hex)  | Description
+					 *  +00             ff            Marker Prefix      <-- offset
+					 *  +01             e2            APP2
+					 *  +02             #n            APP2 Field Length
+					 *  +03             #n            APP2 Field Length
+					 *  +04             4d            'M'                <-- formatPt
+					 *  +05             50            'P'
+					 *  +06             46            'F'
+					 *  +07             00            NULL
+					 *                                                   <-- tiffOffset
+					 */
+					if (dataView.getUint32(formatPt) === 0x4d504600) {
+						// Found MPF tag, so we start dig out sub images
+						const tiffOffset = formatPt + 4;
+						let bigEnd; // Endianness from TIFF header
+						// Test for TIFF validity and endianness
+						// 0x4949 and 0x4D4D ('II' and 'MM') marks Little Endian and Big Endian
+						if (dataView.getUint16(tiffOffset) === 0x4949) {
+							bigEnd = false;
+						}
+						else if (dataView.getUint16(tiffOffset) === 0x4d4d) {
+							bigEnd = true;
+						}
+						else {
+							reject(new Error('No valid endianness marker found in TIFF header'));
+							return;
+						}
+						if (dataView.getUint16(tiffOffset + 2, !bigEnd) !== 0x002a) {
+							reject(new Error('Not valid TIFF data! (no 0x002A marker)'));
+							return;
+						}
+						// 32 bit number stating the offset from the start of the 8 Byte MP Header
+						// to MP Index IFD Least possible value is thus 8 (means 0 offset)
+						const firstIFDOffset = dataView.getUint32(tiffOffset + 4, !bigEnd);
+						if (firstIFDOffset < 0x00000008) {
+							reject(new Error('Not valid TIFF data! (First offset less than 8)'));
+							return;
+						}
+						// Move ahead to MP Index IFD
+						// Assume we're at the first IFD, so firstIFDOffset points to
+						// MP Index IFD and not MP Attributes IFD. (If we try extract from a sub image,
+						// we fail silently here due to this assumption)
+						// Count (2 Byte) | MP Index Fields a.k.a. MP Entries (count * 12 Byte) | Offset of Next IFD (4 Byte)
+						const dirStart = tiffOffset + firstIFDOffset; // Start of IFD (Image File Directory)
+						const count = dataView.getUint16(dirStart, !bigEnd); // Count of MPEntries (2 Byte)
+						// Extract info from MPEntries (starting after Count)
+						const entriesStart = dirStart + 2;
+						let numberOfImages = 0;
+						for (let i = entriesStart; i < entriesStart + 12 * count; i += 12) {
+							// Each entry is 12 Bytes long
+							// Check MP Index IFD tags, here we only take tag 0xb001 = Number of images
+							if (dataView.getUint16(i, !bigEnd) === 0xb001) {
+								// stored in Last 4 bytes of its 12 Byte entry.
+								numberOfImages = dataView.getUint32(i + 8, !bigEnd);
+							}
+						}
+						const nextIFDOffsetLen = 4; // 4 Byte offset field that appears after MP Index IFD tags
+						const MPImageListValPt = dirStart + 2 + count * 12 + nextIFDOffsetLen;
+						const images = [];
+						for (let i = MPImageListValPt; i < MPImageListValPt + numberOfImages * 16; i += 16) {
+							const image = {
+								MPType: dataView.getUint32(i, !bigEnd),
+								size: dataView.getUint32(i + 4, !bigEnd),
+								// This offset is specified relative to the address of the MP Endian
+								// field in the MP Header, unless the image is a First Individual Image,
+								// in which case the value of the offset shall be NULL (0x00000000).
+								dataOffset: dataView.getUint32(i + 8, !bigEnd),
+								dependantImages: dataView.getUint32(i + 12, !bigEnd),
+								start: -1,
+								end: -1,
+								isFII: false
+							};
+							if (!image.dataOffset) {
+								// dataOffset is 0x00000000 for First Individual Image
+								image.start = 0;
+								image.isFII = true;
+							}
+							else {
+								image.start = tiffOffset + image.dataOffset;
+								image.isFII = false;
+							}
+							image.end = image.start + image.size;
+							images.push(image);
+						}
+						if (this.options.extractNonFII && images.length) {
+							const bufferBlob = new Blob([dataView]);
+							const imgs = [];
+							for (const image of images) {
+								if (image.isFII && !this.options.extractFII) {
+									continue; // Skip FII
+								}
+								const imageBlob = bufferBlob.slice(image.start, image.end + 1, 'image/jpeg');
+								// we don't need this
+								// const imageUrl = URL.createObjectURL(imageBlob)
+								// image.img = document.createElement('img')
+								// image.img.src = imageUrl
+								imgs.push(imageBlob);
+							}
+							resolve(imgs);
+						}
+					}
+				}
+				offset += 2 + dataView.getUint16(offset + 2);
+			}
+		});
+	}
 }
 
 /**
@@ -56994,18 +57069,18 @@ class MPFExtractor {
  * const { sdr, gainMap, metadata } = extractGainmapFromJPEG(jpegFile)
  */
 const extractGainmapFromJPEG = async (jpegFile) => {
-    const metadata = extractXMP(jpegFile);
-    if (!metadata)
-        throw new XMPMetadataNotFoundError('Gain map XMP metadata not found');
-    const mpfExtractor = new MPFExtractor({ extractFII: true, extractNonFII: true });
-    const images = await mpfExtractor.extract(jpegFile);
-    if (images.length !== 2)
-        throw new GainMapNotFoundError('Gain map recovery image not found');
-    return {
-        sdr: new Uint8Array(await images[0].arrayBuffer()),
-        gainMap: new Uint8Array(await images[1].arrayBuffer()),
-        metadata
-    };
+	const metadata = extractXMP(jpegFile);
+	if (!metadata)
+		throw new XMPMetadataNotFoundError('Gain map XMP metadata not found');
+	const mpfExtractor = new MPFExtractor({ extractFII: true, extractNonFII: true });
+	const images = await mpfExtractor.extract(jpegFile);
+	if (images.length !== 2)
+		throw new GainMapNotFoundError('Gain map recovery image not found');
+	return {
+		sdr: new Uint8Array(await images[0].arrayBuffer()),
+		gainMap: new Uint8Array(await images[1].arrayBuffer()),
+		metadata
+	};
 };
 
 /**
@@ -57015,128 +57090,128 @@ const extractGainmapFromJPEG = async (jpegFile) => {
  * @returns
  */
 const getHTMLImageFromBlob = (blob) => {
-    return new Promise((resolve, reject) => {
-        const img = document.createElement('img');
-        img.onload = () => { resolve(img); };
-        img.onerror = (e) => { reject(e); };
-        img.src = URL.createObjectURL(blob);
-    });
+	return new Promise((resolve, reject) => {
+		const img = document.createElement('img');
+		img.onload = () => { resolve(img); };
+		img.onerror = (e) => { reject(e); };
+		img.src = URL.createObjectURL(blob);
+	});
 };
 
 class LoaderBase extends Loader {
-    /**
-     *
-     * @param renderer
-     * @param manager
-     */
-    constructor(renderer, manager) {
-        super(manager);
-        if (renderer)
-            this._renderer = renderer;
-        this._internalLoadingManager = new LoadingManager();
-    }
-    /**
-     * Specify the renderer to use when rendering the gain map
-     *
-     * @param renderer
-     * @returns
-     */
-    setRenderer(renderer) {
-        this._renderer = renderer;
-        return this;
-    }
-    /**
-     * Specify the renderTarget options to use when rendering the gain map
-     *
-     * @param options
-     * @returns
-     */
-    setRenderTargetOptions(options) {
-        this._renderTargetOptions = options;
-        return this;
-    }
-    /**
-     * @private
-     * @returns
-     */
-    prepareQuadRenderer() {
-        if (!this._renderer)
-            console.warn('WARNING: An existing WebGL Renderer was not passed to this Loader constructor or in setRenderer, the result of this Loader will need to be converted to a Data Texture with toDataTexture() before you can use it in your renderer.');
-        // temporary values
-        const material = new GainMapDecoderMaterial({
-            gainMapMax: [1, 1, 1],
-            gainMapMin: [0, 0, 0],
-            gamma: [1, 1, 1],
-            offsetHdr: [1, 1, 1],
-            offsetSdr: [1, 1, 1],
-            hdrCapacityMax: 1,
-            hdrCapacityMin: 0,
-            maxDisplayBoost: 1,
-            gainMap: new Texture$1(),
-            sdr: new Texture$1()
-        });
-        return new QuadRenderer({
-            width: 16,
-            height: 16,
-            type: HalfFloatType,
-            colorSpace: LinearSRGBColorSpace,
-            material,
-            renderer: this._renderer,
-            renderTargetOptions: this._renderTargetOptions
-        });
-    }
-    /**
+	/**
+	 *
+	 * @param renderer
+	 * @param manager
+	 */
+	constructor(renderer, manager) {
+		super(manager);
+		if (renderer)
+			this._renderer = renderer;
+		this._internalLoadingManager = new LoadingManager();
+	}
+	/**
+	 * Specify the renderer to use when rendering the gain map
+	 *
+	 * @param renderer
+	 * @returns
+	 */
+	setRenderer(renderer) {
+		this._renderer = renderer;
+		return this;
+	}
+	/**
+	 * Specify the renderTarget options to use when rendering the gain map
+	 *
+	 * @param options
+	 * @returns
+	 */
+	setRenderTargetOptions(options) {
+		this._renderTargetOptions = options;
+		return this;
+	}
+	/**
+	 * @private
+	 * @returns
+	 */
+	prepareQuadRenderer() {
+		if (!this._renderer)
+			console.warn('WARNING: An existing WebGL Renderer was not passed to this Loader constructor or in setRenderer, the result of this Loader will need to be converted to a Data Texture with toDataTexture() before you can use it in your renderer.');
+		// temporary values
+		const material = new GainMapDecoderMaterial({
+			gainMapMax: [1, 1, 1],
+			gainMapMin: [0, 0, 0],
+			gamma: [1, 1, 1],
+			offsetHdr: [1, 1, 1],
+			offsetSdr: [1, 1, 1],
+			hdrCapacityMax: 1,
+			hdrCapacityMin: 0,
+			maxDisplayBoost: 1,
+			gainMap: new Texture$1(),
+			sdr: new Texture$1()
+		});
+		return new QuadRenderer({
+			width: 16,
+			height: 16,
+			type: HalfFloatType,
+			colorSpace: LinearSRGBColorSpace,
+			material,
+			renderer: this._renderer,
+			renderTargetOptions: this._renderTargetOptions
+		});
+	}
+	/**
    * @private
    * @param quadRenderer
    * @param metadata
    * @param sdrBuffer
    * @param gainMapBuffer
    */
-    async render(quadRenderer, metadata, sdrBuffer, gainMapBuffer) {
-        // this is optional, will render a black gain-map if not present
-        const gainMapBlob = gainMapBuffer ? new Blob([gainMapBuffer], { type: 'image/jpeg' }) : undefined;
-        const sdrBlob = new Blob([sdrBuffer], { type: 'image/jpeg' });
-        let sdrImage;
-        let gainMapImage;
-        let needsFlip = false;
-        if (typeof createImageBitmap === 'undefined') {
-            const res = await Promise.all([
-                gainMapBlob ? getHTMLImageFromBlob(gainMapBlob) : Promise.resolve(undefined),
-                getHTMLImageFromBlob(sdrBlob)
-            ]);
-            gainMapImage = res[0];
-            sdrImage = res[1];
-            needsFlip = true;
-        }
-        else {
-            const res = await Promise.all([
-                gainMapBlob ? createImageBitmap(gainMapBlob, { imageOrientation: 'flipY' }) : Promise.resolve(undefined),
-                createImageBitmap(sdrBlob, { imageOrientation: 'flipY' })
-            ]);
-            gainMapImage = res[0];
-            sdrImage = res[1];
-        }
-        const gainMap = new Texture$1(gainMapImage || new ImageData(2, 2), UVMapping, ClampToEdgeWrapping, ClampToEdgeWrapping, LinearFilter, LinearMipMapLinearFilter, RGBAFormat, UnsignedByteType, 1, LinearSRGBColorSpace);
-        gainMap.flipY = needsFlip;
-        gainMap.needsUpdate = true;
-        const sdr = new Texture$1(sdrImage, UVMapping, ClampToEdgeWrapping, ClampToEdgeWrapping, LinearFilter, LinearMipMapLinearFilter, RGBAFormat, UnsignedByteType, 1, SRGBColorSpace);
-        sdr.flipY = needsFlip;
-        sdr.needsUpdate = true;
-        quadRenderer.width = sdrImage.width;
-        quadRenderer.height = sdrImage.height;
-        quadRenderer.material.gainMap = gainMap;
-        quadRenderer.material.sdr = sdr;
-        quadRenderer.material.gainMapMin = metadata.gainMapMin;
-        quadRenderer.material.gainMapMax = metadata.gainMapMax;
-        quadRenderer.material.offsetHdr = metadata.offsetHdr;
-        quadRenderer.material.offsetSdr = metadata.offsetSdr;
-        quadRenderer.material.gamma = metadata.gamma;
-        quadRenderer.material.hdrCapacityMin = metadata.hdrCapacityMin;
-        quadRenderer.material.hdrCapacityMax = metadata.hdrCapacityMax;
-        quadRenderer.material.maxDisplayBoost = Math.pow(2, metadata.hdrCapacityMax);
-        quadRenderer.material.needsUpdate = true;
-        quadRenderer.render();
-    }
+	async render(quadRenderer, metadata, sdrBuffer, gainMapBuffer) {
+		// this is optional, will render a black gain-map if not present
+		const gainMapBlob = gainMapBuffer ? new Blob([gainMapBuffer], { type: 'image/jpeg' }) : undefined;
+		const sdrBlob = new Blob([sdrBuffer], { type: 'image/jpeg' });
+		let sdrImage;
+		let gainMapImage;
+		let needsFlip = false;
+		if (typeof createImageBitmap === 'undefined') {
+			const res = await Promise.all([
+				gainMapBlob ? getHTMLImageFromBlob(gainMapBlob) : Promise.resolve(undefined),
+				getHTMLImageFromBlob(sdrBlob)
+			]);
+			gainMapImage = res[0];
+			sdrImage = res[1];
+			needsFlip = true;
+		}
+		else {
+			const res = await Promise.all([
+				gainMapBlob ? createImageBitmap(gainMapBlob, { imageOrientation: 'flipY' }) : Promise.resolve(undefined),
+				createImageBitmap(sdrBlob, { imageOrientation: 'flipY' })
+			]);
+			gainMapImage = res[0];
+			sdrImage = res[1];
+		}
+		const gainMap = new Texture$1(gainMapImage || new ImageData(2, 2), UVMapping, ClampToEdgeWrapping, ClampToEdgeWrapping, LinearFilter, LinearMipMapLinearFilter, RGBAFormat, UnsignedByteType, 1, LinearSRGBColorSpace);
+		gainMap.flipY = needsFlip;
+		gainMap.needsUpdate = true;
+		const sdr = new Texture$1(sdrImage, UVMapping, ClampToEdgeWrapping, ClampToEdgeWrapping, LinearFilter, LinearMipMapLinearFilter, RGBAFormat, UnsignedByteType, 1, SRGBColorSpace);
+		sdr.flipY = needsFlip;
+		sdr.needsUpdate = true;
+		quadRenderer.width = sdrImage.width;
+		quadRenderer.height = sdrImage.height;
+		quadRenderer.material.gainMap = gainMap;
+		quadRenderer.material.sdr = sdr;
+		quadRenderer.material.gainMapMin = metadata.gainMapMin;
+		quadRenderer.material.gainMapMax = metadata.gainMapMax;
+		quadRenderer.material.offsetHdr = metadata.offsetHdr;
+		quadRenderer.material.offsetSdr = metadata.offsetSdr;
+		quadRenderer.material.gamma = metadata.gamma;
+		quadRenderer.material.hdrCapacityMin = metadata.hdrCapacityMin;
+		quadRenderer.material.hdrCapacityMax = metadata.hdrCapacityMax;
+		quadRenderer.material.maxDisplayBoost = Math.pow(2, metadata.hdrCapacityMax);
+		quadRenderer.material.needsUpdate = true;
+		quadRenderer.render();
+	}
 }
 
 /**
@@ -57188,82 +57263,82 @@ class LoaderBase extends Loader {
  *
  */
 class HDRJPGLoader extends LoaderBase {
-    /**
-     * Loads a JPEG containing gain map metadata
-     * Renders a normal SDR image if gainmap data is not found
-     *
-     * @param url An array in the form of [sdr.jpg, gainmap.jpg, metadata.json]
-     * @param onLoad Load complete callback, will receive the result
-     * @param onProgress Progress callback, will receive a {@link ProgressEvent}
-     * @param onError Error callback
-     * @returns
-     */
-    load(url, onLoad, onProgress, onError) {
-        const quadRenderer = this.prepareQuadRenderer();
-        const loader = new FileLoader(this._internalLoadingManager);
-        loader.setResponseType('arraybuffer');
-        loader.setRequestHeader(this.requestHeader);
-        loader.setPath(this.path);
-        loader.setWithCredentials(this.withCredentials);
-        this.manager.itemStart(url);
-        loader.load(url, async (jpeg) => {
-            /* istanbul ignore if
-             this condition exists only because of three.js types + strict mode
-            */
-            if (typeof jpeg === 'string')
-                throw new Error('Invalid buffer, received [string], was expecting [ArrayBuffer]');
-            const jpegBuffer = new Uint8Array(jpeg);
-            let sdrJPEG;
-            let gainMapJPEG;
-            let metadata;
-            try {
-                const extractionResult = await extractGainmapFromJPEG(jpegBuffer);
-                // gain map is successfully reconstructed
-                sdrJPEG = extractionResult.sdr;
-                gainMapJPEG = extractionResult.gainMap;
-                metadata = extractionResult.metadata;
-            }
-            catch (e) {
-                // render the SDR version if this is not a gainmap
-                if (e instanceof XMPMetadataNotFoundError || e instanceof GainMapNotFoundError) {
-                    console.warn(`Failure to reconstruct an HDR image from ${url}: Gain map metadata not found in the file, HDRJPGLoader will render the SDR jpeg`);
-                    metadata = {
-                        gainMapMin: [0, 0, 0],
-                        gainMapMax: [1, 1, 1],
-                        gamma: [1, 1, 1],
-                        hdrCapacityMin: 0,
-                        hdrCapacityMax: 1,
-                        offsetHdr: [0, 0, 0],
-                        offsetSdr: [0, 0, 0]
-                    };
-                    sdrJPEG = jpegBuffer;
-                }
-                else {
-                    throw e;
-                }
-            }
-            // solves #16
-            try {
-                await this.render(quadRenderer, metadata, sdrJPEG, gainMapJPEG);
-            }
-            catch (error) {
-                this.manager.itemError(url);
-                if (typeof onError === 'function')
-                    onError(error);
-                quadRenderer.disposeOnDemandRenderer();
-                return;
-            }
-            if (typeof onLoad === 'function')
-                onLoad(quadRenderer);
-            this.manager.itemEnd(url);
-            quadRenderer.disposeOnDemandRenderer();
-        }, onProgress, (error) => {
-            this.manager.itemError(url);
-            if (typeof onError === 'function')
-                onError(error);
-        });
-        return quadRenderer;
-    }
+	/**
+	 * Loads a JPEG containing gain map metadata
+	 * Renders a normal SDR image if gainmap data is not found
+	 *
+	 * @param url An array in the form of [sdr.jpg, gainmap.jpg, metadata.json]
+	 * @param onLoad Load complete callback, will receive the result
+	 * @param onProgress Progress callback, will receive a {@link ProgressEvent}
+	 * @param onError Error callback
+	 * @returns
+	 */
+	load(url, onLoad, onProgress, onError) {
+		const quadRenderer = this.prepareQuadRenderer();
+		const loader = new FileLoader(this._internalLoadingManager);
+		loader.setResponseType('arraybuffer');
+		loader.setRequestHeader(this.requestHeader);
+		loader.setPath(this.path);
+		loader.setWithCredentials(this.withCredentials);
+		this.manager.itemStart(url);
+		loader.load(url, async (jpeg) => {
+			/* istanbul ignore if
+			 this condition exists only because of three.js types + strict mode
+			*/
+			if (typeof jpeg === 'string')
+				throw new Error('Invalid buffer, received [string], was expecting [ArrayBuffer]');
+			const jpegBuffer = new Uint8Array(jpeg);
+			let sdrJPEG;
+			let gainMapJPEG;
+			let metadata;
+			try {
+				const extractionResult = await extractGainmapFromJPEG(jpegBuffer);
+				// gain map is successfully reconstructed
+				sdrJPEG = extractionResult.sdr;
+				gainMapJPEG = extractionResult.gainMap;
+				metadata = extractionResult.metadata;
+			}
+			catch (e) {
+				// render the SDR version if this is not a gainmap
+				if (e instanceof XMPMetadataNotFoundError || e instanceof GainMapNotFoundError) {
+					console.warn(`Failure to reconstruct an HDR image from ${url}: Gain map metadata not found in the file, HDRJPGLoader will render the SDR jpeg`);
+					metadata = {
+						gainMapMin: [0, 0, 0],
+						gainMapMax: [1, 1, 1],
+						gamma: [1, 1, 1],
+						hdrCapacityMin: 0,
+						hdrCapacityMax: 1,
+						offsetHdr: [0, 0, 0],
+						offsetSdr: [0, 0, 0]
+					};
+					sdrJPEG = jpegBuffer;
+				}
+				else {
+					throw e;
+				}
+			}
+			// solves #16
+			try {
+				await this.render(quadRenderer, metadata, sdrJPEG, gainMapJPEG);
+			}
+			catch (error) {
+				this.manager.itemError(url);
+				if (typeof onError === 'function')
+					onError(error);
+				quadRenderer.disposeOnDemandRenderer();
+				return;
+			}
+			if (typeof onLoad === 'function')
+				onLoad(quadRenderer);
+			this.manager.itemEnd(url);
+			quadRenderer.disposeOnDemandRenderer();
+		}, onProgress, (error) => {
+			this.manager.itemError(url);
+			if (typeof onError === 'function')
+				onError(error);
+		});
+		return quadRenderer;
+	}
 }
 
 // https://github.com/mrdoob/three.js/issues/5552
@@ -57720,193 +57795,193 @@ class RGBELoader extends DataTextureLoader {
  * limitations under the License.
  */
 const legacy = {
-    topLight: {
-        intensity: 500,
-        position: [0.418, 16.199, 0.300],
-    },
-    room: {
-        position: [-0.757, 13.219, 0.717],
-        scale: [31.713, 28.305, 28.591],
-    },
-    boxes: [
-        {
-            position: [-10.906, 2.009, 1.846],
-            rotation: -0.195,
-            scale: [2.328, 7.905, 4.651],
-        },
-        {
-            position: [-5.607, -0.754, -0.758],
-            rotation: 0.994,
-            scale: [1.970, 1.534, 3.955],
-        },
-        {
-            position: [6.167, 0.857, 7.803],
-            rotation: 0.561,
-            scale: [3.927, 6.285, 3.687],
-        },
-        {
-            position: [-2.017, 0.018, 6.124],
-            rotation: 0.333,
-            scale: [2.002, 4.566, 2.064],
-        },
-        {
-            position: [2.291, -0.756, -2.621],
-            rotation: -0.286,
-            scale: [1.546, 1.552, 1.496],
-        },
-        {
-            position: [-2.193, -0.369, -5.547],
-            rotation: 0.516,
-            scale: [3.875, 3.487, 2.986],
-        },
-    ],
-    lights: [
-        {
-            intensity: 50,
-            position: [-16.116, 14.37, 8.208],
-            scale: [0.1, 2.428, 2.739],
-        },
-        {
-            intensity: 50,
-            position: [-16.109, 18.021, -8.207],
-            scale: [0.1, 2.425, 2.751],
-        },
-        {
-            intensity: 17,
-            position: [14.904, 12.198, -1.832],
-            scale: [0.15, 4.265, 6.331],
-        },
-        {
-            intensity: 43,
-            position: [-0.462, 8.89, 14.520],
-            scale: [4.38, 5.441, 0.088],
-        },
-        {
-            intensity: 20,
-            position: [3.235, 11.486, -12.541],
-            scale: [2.5, 2.0, 0.1],
-        },
-        {
-            intensity: 100,
-            position: [0.0, 20.0, 0.0],
-            scale: [1.0, 0.1, 1.0],
-        },
-    ]
+	topLight: {
+		intensity: 500,
+		position: [0.418, 16.199, 0.300],
+	},
+	room: {
+		position: [-0.757, 13.219, 0.717],
+		scale: [31.713, 28.305, 28.591],
+	},
+	boxes: [
+		{
+			position: [-10.906, 2.009, 1.846],
+			rotation: -0.195,
+			scale: [2.328, 7.905, 4.651],
+		},
+		{
+			position: [-5.607, -0.754, -0.758],
+			rotation: 0.994,
+			scale: [1.970, 1.534, 3.955],
+		},
+		{
+			position: [6.167, 0.857, 7.803],
+			rotation: 0.561,
+			scale: [3.927, 6.285, 3.687],
+		},
+		{
+			position: [-2.017, 0.018, 6.124],
+			rotation: 0.333,
+			scale: [2.002, 4.566, 2.064],
+		},
+		{
+			position: [2.291, -0.756, -2.621],
+			rotation: -0.286,
+			scale: [1.546, 1.552, 1.496],
+		},
+		{
+			position: [-2.193, -0.369, -5.547],
+			rotation: 0.516,
+			scale: [3.875, 3.487, 2.986],
+		},
+	],
+	lights: [
+		{
+			intensity: 50,
+			position: [-16.116, 14.37, 8.208],
+			scale: [0.1, 2.428, 2.739],
+		},
+		{
+			intensity: 50,
+			position: [-16.109, 18.021, -8.207],
+			scale: [0.1, 2.425, 2.751],
+		},
+		{
+			intensity: 17,
+			position: [14.904, 12.198, -1.832],
+			scale: [0.15, 4.265, 6.331],
+		},
+		{
+			intensity: 43,
+			position: [-0.462, 8.89, 14.520],
+			scale: [4.38, 5.441, 0.088],
+		},
+		{
+			intensity: 20,
+			position: [3.235, 11.486, -12.541],
+			scale: [2.5, 2.0, 0.1],
+		},
+		{
+			intensity: 100,
+			position: [0.0, 20.0, 0.0],
+			scale: [1.0, 0.1, 1.0],
+		},
+	]
 };
 const neutral = {
-    topLight: {
-        intensity: 400,
-        position: [0.5, 14.0, 0.5],
-    },
-    room: {
-        position: [0.0, 13.2, 0.0],
-        scale: [31.5, 28.5, 31.5],
-    },
-    boxes: [
-        {
-            position: [-10.906, -1, 1.846],
-            rotation: -0.195,
-            scale: [2.328, 7.905, 4.651],
-        },
-        {
-            position: [-5.607, -0.754, -0.758],
-            rotation: 0.994,
-            scale: [1.970, 1.534, 3.955],
-        },
-        {
-            position: [6.167, -0.16, 7.803],
-            rotation: 0.561,
-            scale: [3.927, 6.285, 3.687],
-        },
-        {
-            position: [-2.017, 0.018, 6.124],
-            rotation: 0.333,
-            scale: [2.002, 4.566, 2.064],
-        },
-        {
-            position: [2.291, -0.756, -2.621],
-            rotation: -0.286,
-            scale: [1.546, 1.552, 1.496],
-        },
-        {
-            position: [-2.193, -0.369, -5.547],
-            rotation: 0.516,
-            scale: [3.875, 3.487, 2.986],
-        },
-    ],
-    lights: [
-        {
-            intensity: 80,
-            position: [-14, 10.0, 8.0],
-            scale: [0.1, 2.5, 2.5],
-        },
-        {
-            intensity: 80,
-            position: [-14, 14.0, -4],
-            scale: [0.1, 2.5, 2.5],
-        },
-        {
-            intensity: 23,
-            position: [14.0, 12.0, 0.0],
-            scale: [0.1, 5.0, 5.0],
-        },
-        {
-            intensity: 16,
-            position: [0.0, 9.0, 14.0],
-            scale: [5.0, 5.0, 0.1],
-        },
-        {
-            intensity: 80,
-            position: [7.0, 8.0, -14],
-            scale: [2.5, 2.5, 0.1],
-        },
-        {
-            intensity: 80,
-            position: [-7, 16.0, -14],
-            scale: [2.5, 2.5, 0.1],
-        },
-        {
-            intensity: 1,
-            position: [0.0, 20.0, 0.0],
-            scale: [0.1, 0.1, 0.1],
-        },
-    ]
+	topLight: {
+		intensity: 400,
+		position: [0.5, 14.0, 0.5],
+	},
+	room: {
+		position: [0.0, 13.2, 0.0],
+		scale: [31.5, 28.5, 31.5],
+	},
+	boxes: [
+		{
+			position: [-10.906, -1, 1.846],
+			rotation: -0.195,
+			scale: [2.328, 7.905, 4.651],
+		},
+		{
+			position: [-5.607, -0.754, -0.758],
+			rotation: 0.994,
+			scale: [1.970, 1.534, 3.955],
+		},
+		{
+			position: [6.167, -0.16, 7.803],
+			rotation: 0.561,
+			scale: [3.927, 6.285, 3.687],
+		},
+		{
+			position: [-2.017, 0.018, 6.124],
+			rotation: 0.333,
+			scale: [2.002, 4.566, 2.064],
+		},
+		{
+			position: [2.291, -0.756, -2.621],
+			rotation: -0.286,
+			scale: [1.546, 1.552, 1.496],
+		},
+		{
+			position: [-2.193, -0.369, -5.547],
+			rotation: 0.516,
+			scale: [3.875, 3.487, 2.986],
+		},
+	],
+	lights: [
+		{
+			intensity: 80,
+			position: [-14, 10.0, 8.0],
+			scale: [0.1, 2.5, 2.5],
+		},
+		{
+			intensity: 80,
+			position: [-14, 14.0, -4],
+			scale: [0.1, 2.5, 2.5],
+		},
+		{
+			intensity: 23,
+			position: [14.0, 12.0, 0.0],
+			scale: [0.1, 5.0, 5.0],
+		},
+		{
+			intensity: 16,
+			position: [0.0, 9.0, 14.0],
+			scale: [5.0, 5.0, 0.1],
+		},
+		{
+			intensity: 80,
+			position: [7.0, 8.0, -14],
+			scale: [2.5, 2.5, 0.1],
+		},
+		{
+			intensity: 80,
+			position: [-7, 16.0, -14],
+			scale: [2.5, 2.5, 0.1],
+		},
+		{
+			intensity: 1,
+			position: [0.0, 20.0, 0.0],
+			scale: [0.1, 0.1, 0.1],
+		},
+	]
 };
 class EnvironmentScene extends Scene {
-    constructor(name) {
-        super();
-        this.position.y = -3.5;
-        const geometry = new BoxGeometry();
-        geometry.deleteAttribute('uv');
-        const roomMaterial = new MeshStandardMaterial({ metalness: 0, side: BackSide });
-        const boxMaterial = new MeshStandardMaterial({ metalness: 0 });
-        const data = name == 'legacy' ? legacy : neutral;
-        const mainLight = new PointLight(0xffffff, data.topLight.intensity, 28, 2);
-        mainLight.position.set(...data.topLight.position);
-        this.add(mainLight);
-        const room = new Mesh(geometry, roomMaterial);
-        room.position.set(...data.room.position);
-        room.scale.set(...data.room.scale);
-        this.add(room);
-        for (const box of data.boxes) {
-            const box1 = new Mesh(geometry, boxMaterial);
-            box1.position.set(...box.position);
-            box1.rotation.set(0, box.rotation, 0);
-            box1.scale.set(...box.scale);
-            this.add(box1);
-        }
-        for (const light of data.lights) {
-            const light1 = new Mesh(geometry, this.createAreaLightMaterial(light.intensity));
-            light1.position.set(...light.position);
-            light1.scale.set(...light.scale);
-            this.add(light1);
-        }
-    }
-    createAreaLightMaterial(intensity) {
-        const material = new MeshBasicMaterial();
-        material.color.setScalar(intensity);
-        return material;
-    }
+	constructor(name) {
+		super();
+		this.position.y = -3.5;
+		const geometry = new BoxGeometry();
+		geometry.deleteAttribute('uv');
+		const roomMaterial = new MeshStandardMaterial({ metalness: 0, side: BackSide });
+		const boxMaterial = new MeshStandardMaterial({ metalness: 0 });
+		const data = name == 'legacy' ? legacy : neutral;
+		const mainLight = new PointLight(0xffffff, data.topLight.intensity, 28, 2);
+		mainLight.position.set(...data.topLight.position);
+		this.add(mainLight);
+		const room = new Mesh(geometry, roomMaterial);
+		room.position.set(...data.room.position);
+		room.scale.set(...data.room.scale);
+		this.add(room);
+		for (const box of data.boxes) {
+			const box1 = new Mesh(geometry, boxMaterial);
+			box1.position.set(...box.position);
+			box1.rotation.set(0, box.rotation, 0);
+			box1.scale.set(...box.scale);
+			this.add(box1);
+		}
+		for (const light of data.lights) {
+			const light1 = new Mesh(geometry, this.createAreaLightMaterial(light.intensity));
+			light1.position.set(...light.position);
+			light1.scale.set(...light.scale);
+			this.add(light1);
+		}
+	}
+	createAreaLightMaterial(intensity) {
+		const material = new MeshBasicMaterial();
+		material.color.setScalar(intensity);
+		return material;
+	}
 }
 
 /* @license
@@ -57929,345 +58004,345 @@ const GENERATED_SIGMA = 0.04;
 const MAX_SAMPLES = 20;
 const HDR_FILE_RE = /\.hdr(\.js)?$/;
 class TextureUtils {
-    constructor(threeRenderer) {
-        this.threeRenderer = threeRenderer;
-        this.lottieLoaderUrl = '';
-        this._ldrLoader = null;
-        this._imageLoader = null;
-        this._hdrLoader = null;
-        this._lottieLoader = null;
-        this.generatedEnvironmentMap = null;
-        this.generatedEnvironmentMapAlt = null;
-        this.skyboxCache = new Map();
-        this.blurMaterial = null;
-        this.blurScene = null;
-    }
-    ldrLoader(withCredentials) {
-        if (this._ldrLoader == null) {
-            this._ldrLoader = new TextureLoader();
-        }
-        this._ldrLoader.setWithCredentials(withCredentials);
-        return this._ldrLoader;
-    }
-    imageLoader(withCredentials) {
-        if (this._imageLoader == null) {
-            this._imageLoader = new HDRJPGLoader(this.threeRenderer);
-        }
-        this._imageLoader.setWithCredentials(withCredentials);
-        return this._imageLoader;
-    }
-    hdrLoader(withCredentials) {
-        if (this._hdrLoader == null) {
-            this._hdrLoader = new RGBELoader();
-            this._hdrLoader.setDataType(HalfFloatType);
-        }
-        this._hdrLoader.setWithCredentials(withCredentials);
-        return this._hdrLoader;
-    }
-    async getLottieLoader(withCredentials) {
-        if (this._lottieLoader == null) {
-            const { LottieLoader } = await import(/* webpackIgnore: true */ this.lottieLoaderUrl);
-            this._lottieLoader = new LottieLoader();
-        }
-        this._lottieLoader.setWithCredentials(withCredentials);
-        return this._lottieLoader;
-    }
-    async loadImage(url, withCredentials) {
-        const texture = await new Promise((resolve, reject) => this.ldrLoader(withCredentials)
-            .load(url, resolve, () => { }, reject));
-        texture.name = url;
-        texture.flipY = false;
-        return texture;
-    }
-    async loadLottie(url, quality, withCredentials) {
-        const loader = await this.getLottieLoader(withCredentials);
-        loader.setQuality(quality);
-        const texture = await new Promise((resolve, reject) => loader.load(url, resolve, () => { }, reject));
-        texture.name = url;
-        return texture;
-    }
-    async loadEquirect(url, withCredentials = false, progressCallback = () => { }) {
-        try {
-            const isHDR = HDR_FILE_RE.test(url);
-            const loader = isHDR ? this.hdrLoader(withCredentials) :
-                this.imageLoader(withCredentials);
-            const texture = await new Promise((resolve, reject) => loader.load(url, (result) => {
-                const { renderTarget } = result;
-                if (renderTarget != null) {
-                    const { texture } = renderTarget;
-                    result.dispose(false);
-                    resolve(texture);
-                }
-                else {
-                    resolve(result);
-                }
-            }, (event) => {
-                progressCallback(event.loaded / event.total * 0.9);
-            }, reject));
-            progressCallback(1.0);
-            texture.name = url;
-            texture.mapping = EquirectangularReflectionMapping;
-            if (!isHDR) {
-                texture.colorSpace = SRGBColorSpace;
-            }
-            return texture;
-        }
-        finally {
-            if (progressCallback) {
-                progressCallback(1);
-            }
-        }
-    }
-    /**
-     * Returns a { skybox, environmentMap } object with the targets/textures
-     * accordingly. `skybox` is a WebGLRenderCubeTarget, and `environmentMap`
-     * is a Texture from a WebGLRenderCubeTarget.
-     */
-    async generateEnvironmentMapAndSkybox(skyboxUrl = null, environmentMapUrl = null, progressCallback = () => { }, withCredentials = false) {
-        const useAltEnvironment = environmentMapUrl !== 'legacy';
-        if (environmentMapUrl === 'legacy' || environmentMapUrl === 'neutral') {
-            environmentMapUrl = null;
-        }
-        environmentMapUrl = deserializeUrl(environmentMapUrl);
-        let skyboxLoads = Promise.resolve(null);
-        let environmentMapLoads;
-        // If we have a skybox URL, attempt to load it as a cubemap
-        if (!!skyboxUrl) {
-            skyboxLoads = this.loadEquirectFromUrl(skyboxUrl, withCredentials, progressCallback);
-        }
-        if (!!environmentMapUrl) {
-            // We have an available environment map URL
-            environmentMapLoads = this.loadEquirectFromUrl(environmentMapUrl, withCredentials, progressCallback);
-        }
-        else if (!!skyboxUrl) {
-            // Fallback to deriving the environment map from an available skybox
-            environmentMapLoads = this.loadEquirectFromUrl(skyboxUrl, withCredentials, progressCallback);
-        }
-        else {
-            // Fallback to generating the environment map
-            environmentMapLoads = useAltEnvironment ?
-                this.loadGeneratedEnvironmentMapAlt() :
-                this.loadGeneratedEnvironmentMap();
-        }
-        const [environmentMap, skybox] = await Promise.all([environmentMapLoads, skyboxLoads]);
-        if (environmentMap == null) {
-            throw new Error('Failed to load environment map.');
-        }
-        return { environmentMap, skybox };
-    }
-    /**
-     * Loads an equirect Texture from a given URL, for use as a skybox.
-     */
-    async loadEquirectFromUrl(url, withCredentials, progressCallback) {
-        if (!this.skyboxCache.has(url)) {
-            const skyboxMapLoads = this.loadEquirect(url, withCredentials, progressCallback);
-            this.skyboxCache.set(url, skyboxMapLoads);
-        }
-        return this.skyboxCache.get(url);
-    }
-    async GenerateEnvironmentMap(scene, name) {
-        await timePasses();
-        const renderer = this.threeRenderer;
-        const cubeTarget = new WebGLCubeRenderTarget(256, {
-            generateMipmaps: false,
-            type: HalfFloatType,
-            format: RGBAFormat,
-            colorSpace: LinearSRGBColorSpace,
-            depthBuffer: true
-        });
-        const cubeCamera = new CubeCamera(0.1, 100, cubeTarget);
-        const generatedEnvironmentMap = cubeCamera.renderTarget.texture;
-        generatedEnvironmentMap.name = name;
-        const outputColorSpace = renderer.outputColorSpace;
-        const toneMapping = renderer.toneMapping;
-        renderer.toneMapping = NoToneMapping;
-        renderer.outputColorSpace = LinearSRGBColorSpace;
-        cubeCamera.update(renderer, scene);
-        this.blurCubemap(cubeTarget, GENERATED_SIGMA);
-        renderer.toneMapping = toneMapping;
-        renderer.outputColorSpace = outputColorSpace;
-        return generatedEnvironmentMap;
-    }
-    /**
-     * Loads a dynamically generated environment map.
-     */
-    async loadGeneratedEnvironmentMap() {
-        if (this.generatedEnvironmentMap == null) {
-            this.generatedEnvironmentMap =
-                this.GenerateEnvironmentMap(new EnvironmentScene('legacy'), 'legacy');
-        }
-        return this.generatedEnvironmentMap;
-    }
-    /**
-     * Loads a dynamically generated environment map, designed to be neutral and
-     * color-preserving. Shows less contrast around the different sides of the
-     * object.
-     */
-    async loadGeneratedEnvironmentMapAlt() {
-        if (this.generatedEnvironmentMapAlt == null) {
-            this.generatedEnvironmentMapAlt = this.GenerateEnvironmentMap(new EnvironmentScene('neutral'), 'neutral');
-        }
-        return this.generatedEnvironmentMapAlt;
-    }
-    blurCubemap(cubeTarget, sigma) {
-        if (this.blurMaterial == null) {
-            this.blurMaterial = this.getBlurShader(MAX_SAMPLES);
-            const box = new BoxGeometry();
-            const blurMesh = new Mesh(box, this.blurMaterial);
-            this.blurScene = new Scene();
-            this.blurScene.add(blurMesh);
-        }
-        const tempTarget = cubeTarget.clone();
-        this.halfblur(cubeTarget, tempTarget, sigma, 'latitudinal');
-        this.halfblur(tempTarget, cubeTarget, sigma, 'longitudinal');
-        // Disposing this target after we're done with it somehow corrupts Safari's
-        // whole graphics driver. It's random, but occurs more frequently on
-        // lower-powered GPUs (macbooks with intel graphics, older iPhones). It goes
-        // beyond just messing up the PMREM, as it also occasionally causes
-        // visible corruption on the canvas and even on the rest of the page.
-        /** tempTarget.dispose(); */
-    }
-    halfblur(targetIn, targetOut, sigmaRadians, direction) {
-        // Number of standard deviations at which to cut off the discrete
-        // approximation.
-        const STANDARD_DEVIATIONS = 3;
-        const pixels = targetIn.width;
-        const radiansPerPixel = isFinite(sigmaRadians) ?
-            Math.PI / (2 * pixels) :
-            2 * Math.PI / (2 * MAX_SAMPLES - 1);
-        const sigmaPixels = sigmaRadians / radiansPerPixel;
-        const samples = isFinite(sigmaRadians) ?
-            1 + Math.floor(STANDARD_DEVIATIONS * sigmaPixels) :
-            MAX_SAMPLES;
-        if (samples > MAX_SAMPLES) {
-            console.warn(`sigmaRadians, ${sigmaRadians}, is too large and will clip, as it requested ${samples} samples when the maximum is set to ${MAX_SAMPLES}`);
-        }
-        const weights = [];
-        let sum = 0;
-        for (let i = 0; i < MAX_SAMPLES; ++i) {
-            const x = i / sigmaPixels;
-            const weight = Math.exp(-x * x / 2);
-            weights.push(weight);
-            if (i == 0) {
-                sum += weight;
-            }
-            else if (i < samples) {
-                sum += 2 * weight;
-            }
-        }
-        for (let i = 0; i < weights.length; i++) {
-            weights[i] = weights[i] / sum;
-        }
-        const blurUniforms = this.blurMaterial.uniforms;
-        blurUniforms['envMap'].value = targetIn.texture;
-        blurUniforms['samples'].value = samples;
-        blurUniforms['weights'].value = weights;
-        blurUniforms['latitudinal'].value = direction === 'latitudinal';
-        blurUniforms['dTheta'].value = radiansPerPixel;
-        const cubeCamera = new CubeCamera(0.1, 100, targetOut);
-        cubeCamera.update(this.threeRenderer, this.blurScene);
-    }
-    getBlurShader(maxSamples) {
-        const weights = new Float32Array(maxSamples);
-        const poleAxis = new Vector3(0, 1, 0);
-        const shaderMaterial = new ShaderMaterial({
-            name: 'SphericalGaussianBlur',
-            defines: { 'n': maxSamples },
-            uniforms: {
-                'envMap': { value: null },
-                'samples': { value: 1 },
-                'weights': { value: weights },
-                'latitudinal': { value: false },
-                'dTheta': { value: 0 },
-                'poleAxis': { value: poleAxis }
-            },
-            vertexShader: /* glsl */ `
-      
-      varying vec3 vOutputDirection;
+	constructor(threeRenderer) {
+		this.threeRenderer = threeRenderer;
+		this.lottieLoaderUrl = '';
+		this._ldrLoader = null;
+		this._imageLoader = null;
+		this._hdrLoader = null;
+		this._lottieLoader = null;
+		this.generatedEnvironmentMap = null;
+		this.generatedEnvironmentMapAlt = null;
+		this.skyboxCache = new Map();
+		this.blurMaterial = null;
+		this.blurScene = null;
+	}
+	ldrLoader(withCredentials) {
+		if (this._ldrLoader == null) {
+			this._ldrLoader = new TextureLoader();
+		}
+		this._ldrLoader.setWithCredentials(withCredentials);
+		return this._ldrLoader;
+	}
+	imageLoader(withCredentials) {
+		if (this._imageLoader == null) {
+			this._imageLoader = new HDRJPGLoader(this.threeRenderer);
+		}
+		this._imageLoader.setWithCredentials(withCredentials);
+		return this._imageLoader;
+	}
+	hdrLoader(withCredentials) {
+		if (this._hdrLoader == null) {
+			this._hdrLoader = new RGBELoader();
+			this._hdrLoader.setDataType(HalfFloatType);
+		}
+		this._hdrLoader.setWithCredentials(withCredentials);
+		return this._hdrLoader;
+	}
+	async getLottieLoader(withCredentials) {
+		if (this._lottieLoader == null) {
+			const { LottieLoader } = await import(/* webpackIgnore: true */ this.lottieLoaderUrl);
+			this._lottieLoader = new LottieLoader();
+		}
+		this._lottieLoader.setWithCredentials(withCredentials);
+		return this._lottieLoader;
+	}
+	async loadImage(url, withCredentials) {
+		const texture = await new Promise((resolve, reject) => this.ldrLoader(withCredentials)
+			.load(url, resolve, () => { }, reject));
+		texture.name = url;
+		texture.flipY = false;
+		return texture;
+	}
+	async loadLottie(url, quality, withCredentials) {
+		const loader = await this.getLottieLoader(withCredentials);
+		loader.setQuality(quality);
+		const texture = await new Promise((resolve, reject) => loader.load(url, resolve, () => { }, reject));
+		texture.name = url;
+		return texture;
+	}
+	async loadEquirect(url, withCredentials = false, progressCallback = () => { }) {
+		try {
+			const isHDR = HDR_FILE_RE.test(url);
+			const loader = isHDR ? this.hdrLoader(withCredentials) :
+				this.imageLoader(withCredentials);
+			const texture = await new Promise((resolve, reject) => loader.load(url, (result) => {
+				const { renderTarget } = result;
+				if (renderTarget != null) {
+					const { texture } = renderTarget;
+					result.dispose(false);
+					resolve(texture);
+				}
+				else {
+					resolve(result);
+				}
+			}, (event) => {
+				progressCallback(event.loaded / event.total * 0.9);
+			}, reject));
+			progressCallback(1.0);
+			texture.name = url;
+			texture.mapping = EquirectangularReflectionMapping;
+			if (!isHDR) {
+				texture.colorSpace = SRGBColorSpace;
+			}
+			return texture;
+		}
+		finally {
+			if (progressCallback) {
+				progressCallback(1);
+			}
+		}
+	}
+	/**
+	 * Returns a { skybox, environmentMap } object with the targets/textures
+	 * accordingly. `skybox` is a WebGLRenderCubeTarget, and `environmentMap`
+	 * is a Texture from a WebGLRenderCubeTarget.
+	 */
+	async generateEnvironmentMapAndSkybox(skyboxUrl = null, environmentMapUrl = null, progressCallback = () => { }, withCredentials = false) {
+		const useAltEnvironment = environmentMapUrl !== 'legacy';
+		if (environmentMapUrl === 'legacy' || environmentMapUrl === 'neutral') {
+			environmentMapUrl = null;
+		}
+		environmentMapUrl = deserializeUrl(environmentMapUrl);
+		let skyboxLoads = Promise.resolve(null);
+		let environmentMapLoads;
+		// If we have a skybox URL, attempt to load it as a cubemap
+		if (!!skyboxUrl) {
+			skyboxLoads = this.loadEquirectFromUrl(skyboxUrl, withCredentials, progressCallback);
+		}
+		if (!!environmentMapUrl) {
+			// We have an available environment map URL
+			environmentMapLoads = this.loadEquirectFromUrl(environmentMapUrl, withCredentials, progressCallback);
+		}
+		else if (!!skyboxUrl) {
+			// Fallback to deriving the environment map from an available skybox
+			environmentMapLoads = this.loadEquirectFromUrl(skyboxUrl, withCredentials, progressCallback);
+		}
+		else {
+			// Fallback to generating the environment map
+			environmentMapLoads = useAltEnvironment ?
+				this.loadGeneratedEnvironmentMapAlt() :
+				this.loadGeneratedEnvironmentMap();
+		}
+		const [environmentMap, skybox] = await Promise.all([environmentMapLoads, skyboxLoads]);
+		if (environmentMap == null) {
+			throw new Error('Failed to load environment map.');
+		}
+		return { environmentMap, skybox };
+	}
+	/**
+	 * Loads an equirect Texture from a given URL, for use as a skybox.
+	 */
+	async loadEquirectFromUrl(url, withCredentials, progressCallback) {
+		if (!this.skyboxCache.has(url)) {
+			const skyboxMapLoads = this.loadEquirect(url, withCredentials, progressCallback);
+			this.skyboxCache.set(url, skyboxMapLoads);
+		}
+		return this.skyboxCache.get(url);
+	}
+	async GenerateEnvironmentMap(scene, name) {
+		await timePasses();
+		const renderer = this.threeRenderer;
+		const cubeTarget = new WebGLCubeRenderTarget(256, {
+			generateMipmaps: false,
+			type: HalfFloatType,
+			format: RGBAFormat,
+			colorSpace: LinearSRGBColorSpace,
+			depthBuffer: true
+		});
+		const cubeCamera = new CubeCamera(0.1, 100, cubeTarget);
+		const generatedEnvironmentMap = cubeCamera.renderTarget.texture;
+		generatedEnvironmentMap.name = name;
+		const outputColorSpace = renderer.outputColorSpace;
+		const toneMapping = renderer.toneMapping;
+		renderer.toneMapping = NoToneMapping;
+		renderer.outputColorSpace = LinearSRGBColorSpace;
+		cubeCamera.update(renderer, scene);
+		this.blurCubemap(cubeTarget, GENERATED_SIGMA);
+		renderer.toneMapping = toneMapping;
+		renderer.outputColorSpace = outputColorSpace;
+		return generatedEnvironmentMap;
+	}
+	/**
+	 * Loads a dynamically generated environment map.
+	 */
+	async loadGeneratedEnvironmentMap() {
+		if (this.generatedEnvironmentMap == null) {
+			this.generatedEnvironmentMap =
+				this.GenerateEnvironmentMap(new EnvironmentScene('legacy'), 'legacy');
+		}
+		return this.generatedEnvironmentMap;
+	}
+	/**
+	 * Loads a dynamically generated environment map, designed to be neutral and
+	 * color-preserving. Shows less contrast around the different sides of the
+	 * object.
+	 */
+	async loadGeneratedEnvironmentMapAlt() {
+		if (this.generatedEnvironmentMapAlt == null) {
+			this.generatedEnvironmentMapAlt = this.GenerateEnvironmentMap(new EnvironmentScene('neutral'), 'neutral');
+		}
+		return this.generatedEnvironmentMapAlt;
+	}
+	blurCubemap(cubeTarget, sigma) {
+		if (this.blurMaterial == null) {
+			this.blurMaterial = this.getBlurShader(MAX_SAMPLES);
+			const box = new BoxGeometry();
+			const blurMesh = new Mesh(box, this.blurMaterial);
+			this.blurScene = new Scene();
+			this.blurScene.add(blurMesh);
+		}
+		const tempTarget = cubeTarget.clone();
+		this.halfblur(cubeTarget, tempTarget, sigma, 'latitudinal');
+		this.halfblur(tempTarget, cubeTarget, sigma, 'longitudinal');
+		// Disposing this target after we're done with it somehow corrupts Safari's
+		// whole graphics driver. It's random, but occurs more frequently on
+		// lower-powered GPUs (macbooks with intel graphics, older iPhones). It goes
+		// beyond just messing up the PMREM, as it also occasionally causes
+		// visible corruption on the canvas and even on the rest of the page.
+		/** tempTarget.dispose(); */
+	}
+	halfblur(targetIn, targetOut, sigmaRadians, direction) {
+		// Number of standard deviations at which to cut off the discrete
+		// approximation.
+		const STANDARD_DEVIATIONS = 3;
+		const pixels = targetIn.width;
+		const radiansPerPixel = isFinite(sigmaRadians) ?
+			Math.PI / (2 * pixels) :
+			2 * Math.PI / (2 * MAX_SAMPLES - 1);
+		const sigmaPixels = sigmaRadians / radiansPerPixel;
+		const samples = isFinite(sigmaRadians) ?
+			1 + Math.floor(STANDARD_DEVIATIONS * sigmaPixels) :
+			MAX_SAMPLES;
+		if (samples > MAX_SAMPLES) {
+			console.warn(`sigmaRadians, ${sigmaRadians}, is too large and will clip, as it requested ${samples} samples when the maximum is set to ${MAX_SAMPLES}`);
+		}
+		const weights = [];
+		let sum = 0;
+		for (let i = 0; i < MAX_SAMPLES; ++i) {
+			const x = i / sigmaPixels;
+			const weight = Math.exp(-x * x / 2);
+			weights.push(weight);
+			if (i == 0) {
+				sum += weight;
+			}
+			else if (i < samples) {
+				sum += 2 * weight;
+			}
+		}
+		for (let i = 0; i < weights.length; i++) {
+			weights[i] = weights[i] / sum;
+		}
+		const blurUniforms = this.blurMaterial.uniforms;
+		blurUniforms['envMap'].value = targetIn.texture;
+		blurUniforms['samples'].value = samples;
+		blurUniforms['weights'].value = weights;
+		blurUniforms['latitudinal'].value = direction === 'latitudinal';
+		blurUniforms['dTheta'].value = radiansPerPixel;
+		const cubeCamera = new CubeCamera(0.1, 100, targetOut);
+		cubeCamera.update(this.threeRenderer, this.blurScene);
+	}
+	getBlurShader(maxSamples) {
+		const weights = new Float32Array(maxSamples);
+		const poleAxis = new Vector3(0, 1, 0);
+		const shaderMaterial = new ShaderMaterial({
+			name: 'SphericalGaussianBlur',
+			defines: { 'n': maxSamples },
+			uniforms: {
+				'envMap': { value: null },
+				'samples': { value: 1 },
+				'weights': { value: weights },
+				'latitudinal': { value: false },
+				'dTheta': { value: 0 },
+				'poleAxis': { value: poleAxis }
+			},
+			vertexShader: /* glsl */ `
+	  
+	  varying vec3 vOutputDirection;
   
-      void main() {
+	  void main() {
   
-        vOutputDirection = vec3( position );
-        gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
+		vOutputDirection = vec3( position );
+		gl_Position = projectionMatrix * modelViewMatrix * vec4( position, 1.0 );
   
-      }
-    `,
-            fragmentShader: /* glsl */ `
-        varying vec3 vOutputDirection;
+	  }
+	`,
+			fragmentShader: /* glsl */ `
+		varying vec3 vOutputDirection;
   
-        uniform samplerCube envMap;
-        uniform int samples;
-        uniform float weights[ n ];
-        uniform bool latitudinal;
-        uniform float dTheta;
-        uniform vec3 poleAxis;
+		uniform samplerCube envMap;
+		uniform int samples;
+		uniform float weights[ n ];
+		uniform bool latitudinal;
+		uniform float dTheta;
+		uniform vec3 poleAxis;
   
-        vec3 getSample( float theta, vec3 axis ) {
+		vec3 getSample( float theta, vec3 axis ) {
   
-          float cosTheta = cos( theta );
-          // Rodrigues' axis-angle rotation
-          vec3 sampleDirection = vOutputDirection * cosTheta
-            + cross( axis, vOutputDirection ) * sin( theta )
-            + axis * dot( axis, vOutputDirection ) * ( 1.0 - cosTheta );
+		  float cosTheta = cos( theta );
+		  // Rodrigues' axis-angle rotation
+		  vec3 sampleDirection = vOutputDirection * cosTheta
+			+ cross( axis, vOutputDirection ) * sin( theta )
+			+ axis * dot( axis, vOutputDirection ) * ( 1.0 - cosTheta );
   
-          return vec3( textureCube( envMap, sampleDirection ) );
+		  return vec3( textureCube( envMap, sampleDirection ) );
   
-        }
+		}
   
-        void main() {
+		void main() {
   
-          vec3 axis = latitudinal ? poleAxis : cross( poleAxis, vOutputDirection );
+		  vec3 axis = latitudinal ? poleAxis : cross( poleAxis, vOutputDirection );
   
-          if ( all( equal( axis, vec3( 0.0 ) ) ) ) {
+		  if ( all( equal( axis, vec3( 0.0 ) ) ) ) {
   
-            axis = vec3( vOutputDirection.z, 0.0, - vOutputDirection.x );
+			axis = vec3( vOutputDirection.z, 0.0, - vOutputDirection.x );
   
-          }
+		  }
   
-          axis = normalize( axis );
+		  axis = normalize( axis );
   
-          gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0 );
-          gl_FragColor.rgb += weights[ 0 ] * getSample( 0.0, axis );
+		  gl_FragColor = vec4( 0.0, 0.0, 0.0, 1.0 );
+		  gl_FragColor.rgb += weights[ 0 ] * getSample( 0.0, axis );
   
-          for ( int i = 1; i < n; i++ ) {
+		  for ( int i = 1; i < n; i++ ) {
   
-            if ( i >= samples ) {
+			if ( i >= samples ) {
   
-              break;
+			  break;
   
-            }
+			}
   
-            float theta = dTheta * float( i );
-            gl_FragColor.rgb += weights[ i ] * getSample( -1.0 * theta, axis );
-            gl_FragColor.rgb += weights[ i ] * getSample( theta, axis );
+			float theta = dTheta * float( i );
+			gl_FragColor.rgb += weights[ i ] * getSample( -1.0 * theta, axis );
+			gl_FragColor.rgb += weights[ i ] * getSample( theta, axis );
   
-          }
-        }
-      `,
-            blending: NoBlending,
-            depthTest: false,
-            depthWrite: false,
-            side: BackSide
-        });
-        return shaderMaterial;
-    }
-    async dispose() {
-        for (const [, promise] of this.skyboxCache) {
-            const skybox = await promise;
-            skybox.dispose();
-        }
-        if (this.generatedEnvironmentMap != null) {
-            (await this.generatedEnvironmentMap).dispose();
-            this.generatedEnvironmentMap = null;
-        }
-        if (this.generatedEnvironmentMapAlt != null) {
-            (await this.generatedEnvironmentMapAlt).dispose();
-            this.generatedEnvironmentMapAlt = null;
-        }
-        if (this.blurMaterial != null) {
-            this.blurMaterial.dispose();
-        }
-    }
+		  }
+		}
+	  `,
+			blending: NoBlending,
+			depthTest: false,
+			depthWrite: false,
+			side: BackSide
+		});
+		return shaderMaterial;
+	}
+	async dispose() {
+		for (const [, promise] of this.skyboxCache) {
+			const skybox = await promise;
+			skybox.dispose();
+		}
+		if (this.generatedEnvironmentMap != null) {
+			(await this.generatedEnvironmentMap).dispose();
+			this.generatedEnvironmentMap = null;
+		}
+		if (this.generatedEnvironmentMapAlt != null) {
+			(await this.generatedEnvironmentMapAlt).dispose();
+			this.generatedEnvironmentMapAlt = null;
+		}
+		if (this.blurMaterial != null) {
+			this.blurMaterial.dispose();
+		}
+	}
 }
 
 /* @license
@@ -58305,414 +58380,414 @@ const COMMERCE_EXPOSURE = 1.3;
  * the texture.
  */
 class Renderer extends EventDispatcher {
-    static get singleton() {
-        if (!this._singleton) {
-            this._singleton = new Renderer({
-                powerPreference: (self.ModelViewerElement || {})
-                    .powerPreference ||
-                    DEFAULT_POWER_PREFERENCE,
-                debug: isDebugMode()
-            });
-        }
-        return this._singleton;
-    }
-    static resetSingleton() {
-        const elements = this._singleton.dispose();
-        for (const element of elements) {
-            element.disconnectedCallback();
-        }
-        this._singleton = new Renderer({
-            powerPreference: (self.ModelViewerElement || {})
-                .powerPreference ||
-                DEFAULT_POWER_PREFERENCE,
-            debug: isDebugMode()
-        });
-        for (const element of elements) {
-            element.connectedCallback();
-        }
-    }
-    get canRender() {
-        return this.threeRenderer != null;
-    }
-    get scaleFactor() {
-        return SCALE_STEPS[this.scaleStep];
-    }
-    set minScale(scale) {
-        let i = 1;
-        while (i < SCALE_STEPS.length) {
-            if (SCALE_STEPS[i] < scale) {
-                break;
-            }
-            ++i;
-        }
-        this.lastStep = i - 1;
-    }
-    constructor(options) {
-        super();
-        this.loader = new CachingGLTFLoader(ModelViewerGLTFInstance);
-        this.width = 0;
-        this.height = 0;
-        this.dpr = 1;
-        this.scenes = new Set();
-        this.multipleScenesVisible = false;
-        this.lastTick = performance.now();
-        this.renderedLastFrame = false;
-        this.scaleStep = 0;
-        this.lastStep = DEFAULT_LAST_STEP;
-        this.avgFrameDuration = (HIGH_FRAME_DURATION_MS + LOW_FRAME_DURATION_MS) / 2;
-        this.onWebGLContextLost = (event) => {
-            this.dispatchEvent({ type: 'contextlost', sourceEvent: event });
-        };
-        this.onWebGLContextRestored = () => {
-            var _a;
-            (_a = this.textureUtils) === null || _a === void 0 ? void 0 : _a.dispose();
-            this.textureUtils = new TextureUtils(this.threeRenderer);
-            for (const scene of this.scenes) {
-                scene.element[$updateEnvironment]();
-            }
-        };
-        this.dpr = window.devicePixelRatio;
-        this.canvas3D = document.createElement('canvas');
-        this.canvas3D.id = 'webgl-canvas';
-        this.canvas3D.classList.add('show');
-        try {
-            this.threeRenderer = new WebGLRenderer({
-                canvas: this.canvas3D,
-                alpha: true,
-                antialias: true,
-                powerPreference: options.powerPreference,
-                preserveDrawingBuffer: true,
-            });
-            this.threeRenderer.autoClear = true;
-            this.threeRenderer.setPixelRatio(1); // handle pixel ratio externally
-            this.threeRenderer.debug = {
-                checkShaderErrors: !!options.debug,
-                onShaderError: null
-            };
-            // ACESFilmicToneMapping appears to be the most "saturated",
-            // and similar to Filament's gltf-viewer.
-            this.threeRenderer.toneMapping = NeutralToneMapping;
-        }
-        catch (error) {
-            console.warn(error);
-        }
-        this.arRenderer = new ARRenderer(this);
-        this.textureUtils =
-            this.canRender ? new TextureUtils(this.threeRenderer) : null;
-        CachingGLTFLoader.initializeKTX2Loader(this.threeRenderer);
-        this.canvas3D.addEventListener('webglcontextlost', this.onWebGLContextLost);
-        this.canvas3D.addEventListener('webglcontextrestored', this.onWebGLContextRestored);
-        this.updateRendererSize();
-    }
-    registerScene(scene) {
-        this.scenes.add(scene);
-        scene.forceRescale();
-        const size = new Vector2();
-        this.threeRenderer.getSize(size);
-        scene.canvas.width = size.x;
-        scene.canvas.height = size.y;
-        if (this.canRender && this.scenes.size > 0) {
-            this.threeRenderer.setAnimationLoop((time, frame) => this.render(time, frame));
-        }
-    }
-    unregisterScene(scene) {
-        this.scenes.delete(scene);
-        if (this.canvas3D.parentElement === scene.canvas.parentElement) {
-            scene.canvas.parentElement.removeChild(this.canvas3D);
-        }
-        if (this.canRender && this.scenes.size === 0) {
-            this.threeRenderer.setAnimationLoop(null);
-        }
-    }
-    displayCanvas(scene) {
-        return scene.element.modelIsVisible && !this.multipleScenesVisible ?
-            this.canvas3D :
-            scene.element[$canvas];
-    }
-    /**
-     * The function enables an optimization, where when there is only a single
-     * <model-viewer> element, we can use the renderer's 3D canvas directly for
-     * display. Otherwise we need to use the element's 2D canvas and copy the
-     * renderer's result into it.
-     */
-    countVisibleScenes() {
-        const { canvas3D } = this;
-        let visibleScenes = 0;
-        let canvas3DScene = null;
-        for (const scene of this.scenes) {
-            const { element } = scene;
-            if (element.modelIsVisible && scene.externalRenderer == null) {
-                ++visibleScenes;
-            }
-            if (canvas3D.parentElement === scene.canvas.parentElement) {
-                canvas3DScene = scene;
-            }
-        }
-        const multipleScenesVisible = visibleScenes > 1;
-        if (canvas3DScene != null) {
-            const newlyMultiple = multipleScenesVisible && !this.multipleScenesVisible;
-            const disappearing = !canvas3DScene.element.modelIsVisible;
-            if (newlyMultiple || disappearing) {
-                const { width, height } = this.sceneSize(canvas3DScene);
-                this.copyPixels(canvas3DScene, width, height);
-                canvas3D.parentElement.removeChild(canvas3D);
-            }
-        }
-        this.multipleScenesVisible = multipleScenesVisible;
-    }
-    /**
-     * Updates the renderer's size based on the largest scene and any changes to
-     * device pixel ratio.
-     */
-    updateRendererSize() {
-        var _a;
-        const dpr = window.devicePixelRatio;
-        if (dpr !== this.dpr) {
-            // If the device pixel ratio has changed due to page zoom, elements
-            // specified by % width do not fire a resize event even though their CSS
-            // pixel dimensions change, so we force them to update their size here.
-            for (const scene of this.scenes) {
-                const { element } = scene;
-                element[$updateSize](element.getBoundingClientRect());
-            }
-        }
-        // Make the renderer the size of the largest scene
-        let width = 0;
-        let height = 0;
-        for (const scene of this.scenes) {
-            width = Math.max(width, scene.width);
-            height = Math.max(height, scene.height);
-        }
-        if (width === this.width && height === this.height && dpr === this.dpr) {
-            return;
-        }
-        this.width = width;
-        this.height = height;
-        this.dpr = dpr;
-        width = Math.ceil(width * dpr);
-        height = Math.ceil(height * dpr);
-        if (this.canRender) {
-            this.threeRenderer.setSize(width, height, false);
-        }
-        // Each scene's canvas must match the renderer size. In general they can be
-        // larger than the element that contains them, but the overflow is hidden
-        // and only the portion that is shown is copied over.
-        for (const scene of this.scenes) {
-            const { canvas } = scene;
-            canvas.width = width;
-            canvas.height = height;
-            scene.forceRescale();
-            (_a = scene.effectRenderer) === null || _a === void 0 ? void 0 : _a.setSize(width, height);
-        }
-    }
-    updateRendererScale(delta) {
-        const scaleStep = this.scaleStep;
-        this.avgFrameDuration += clamp(DURATION_DECAY * (delta - this.avgFrameDuration), -5, MAX_AVG_CHANGE_MS);
-        if (this.avgFrameDuration > HIGH_FRAME_DURATION_MS) {
-            ++this.scaleStep;
-        }
-        else if (this.avgFrameDuration < LOW_FRAME_DURATION_MS && this.scaleStep > 0) {
-            --this.scaleStep;
-        }
-        this.scaleStep = Math.min(this.scaleStep, this.lastStep);
-        if (scaleStep !== this.scaleStep) {
-            this.avgFrameDuration =
-                (HIGH_FRAME_DURATION_MS + LOW_FRAME_DURATION_MS) / 2;
-        }
-    }
-    shouldRender(scene) {
-        if (!scene.shouldRender()) {
-            // The first frame we stop rendering the scene (because it stops moving),
-            // trigger one extra render at full scale.
-            if (scene.scaleStep != 0) {
-                scene.scaleStep = 0;
-                this.rescaleCanvas(scene);
-            }
-            else {
-                return false;
-            }
-        }
-        else if (scene.scaleStep != this.scaleStep) {
-            // Update render scale
-            scene.scaleStep = this.scaleStep;
-            this.rescaleCanvas(scene);
-        }
-        return true;
-    }
-    rescaleCanvas(scene) {
-        const scale = SCALE_STEPS[scene.scaleStep];
-        const width = Math.ceil(this.width / scale);
-        const height = Math.ceil(this.height / scale);
-        const { style } = scene.canvas;
-        style.width = `${width}px`;
-        style.height = `${height}px`;
-        this.canvas3D.style.width = `${width}px`;
-        this.canvas3D.style.height = `${height}px`;
-        const renderedDpr = this.dpr * scale;
-        const reason = scale < 1 ? 'GPU throttling' :
-            this.dpr !== window.devicePixelRatio ? 'No meta viewport tag' :
-                '';
-        scene.element.dispatchEvent(new CustomEvent('render-scale', {
-            detail: {
-                reportedDpr: window.devicePixelRatio,
-                renderedDpr: renderedDpr,
-                minimumDpr: this.dpr * SCALE_STEPS[this.lastStep],
-                pixelWidth: Math.ceil(scene.width * renderedDpr),
-                pixelHeight: Math.ceil(scene.height * renderedDpr),
-                reason: reason
-            }
-        }));
-    }
-    sceneSize(scene) {
-        const { dpr } = this;
-        const scaleFactor = SCALE_STEPS[scene.scaleStep];
-        // We avoid using the Three.js PixelRatio and handle it ourselves here so
-        // that we can do proper rounding and avoid white boundary pixels.
-        const width = Math.min(Math.ceil(scene.width * scaleFactor * dpr), this.canvas3D.width);
-        const height = Math.min(Math.ceil(scene.height * scaleFactor * dpr), this.canvas3D.height);
-        return { width, height };
-    }
-    copyPixels(scene, width, height) {
-        const context2D = scene.context;
-        if (context2D == null) {
-            console.log('could not acquire 2d context');
-            return;
-        }
-        context2D.clearRect(0, 0, width, height);
-        context2D.drawImage(this.canvas3D, 0, 0, width, height, 0, 0, width, height);
-        scene.canvas.classList.add('show');
-    }
-    /**
-     * Returns an array version of this.scenes where the non-visible ones are
-     * first. This allows eager scenes to be rendered before they are visible,
-     * without needing the multi-canvas render path.
-     */
-    orderedScenes() {
-        const scenes = [];
-        for (const visible of [false, true]) {
-            for (const scene of this.scenes) {
-                if (scene.element.modelIsVisible === visible) {
-                    scenes.push(scene);
-                }
-            }
-        }
-        return scenes;
-    }
-    get isPresenting() {
-        return this.arRenderer.isPresenting;
-    }
-    /**
-     * This method takes care of updating the element and renderer state based on
-     * the time that has passed since the last rendered frame.
-     */
-    preRender(scene, t, delta) {
-        const { element, exposure, toneMapping } = scene;
-        element[$tick](t, delta);
-        const exposureIsNumber = typeof exposure === 'number' && !Number.isNaN(exposure);
-        const env = element.environmentImage;
-        const sky = element.skyboxImage;
-        const compensateExposure = toneMapping === NeutralToneMapping &&
-            (env === 'neutral' || env === 'legacy' || (!env && !sky));
-        this.threeRenderer.toneMappingExposure =
-            (exposureIsNumber ? exposure : 1.0) *
-                (compensateExposure ? COMMERCE_EXPOSURE : 1.0);
-    }
-    render(t, frame) {
-        if (frame != null) {
-            this.arRenderer.onWebXRFrame(t, frame);
-            return;
-        }
-        const delta = t - this.lastTick;
-        this.lastTick = t;
-        if (!this.canRender || this.isPresenting) {
-            return;
-        }
-        this.countVisibleScenes();
-        this.updateRendererSize();
-        if (this.renderedLastFrame) {
-            this.updateRendererScale(delta);
-            this.renderedLastFrame = false;
-        }
-        const { canvas3D } = this;
-        for (const scene of this.orderedScenes()) {
-            const { element } = scene;
-            if (!element.loaded ||
-                (!element.modelIsVisible && scene.renderCount > 0)) {
-                continue;
-            }
-            this.preRender(scene, t, delta);
-            if (!this.shouldRender(scene)) {
-                continue;
-            }
-            if (scene.externalRenderer != null) {
-                const camera = scene.getCamera();
-                camera.updateMatrix();
-                const { matrix, projectionMatrix } = camera;
-                const viewMatrix = matrix.elements.slice();
-                const target = scene.getTarget();
-                viewMatrix[12] += target.x;
-                viewMatrix[13] += target.y;
-                viewMatrix[14] += target.z;
-                scene.externalRenderer.render({
-                    viewMatrix: viewMatrix,
-                    projectionMatrix: projectionMatrix.elements
-                });
-                continue;
-            }
-            if (!element.modelIsVisible && !this.multipleScenesVisible) {
-                // Here we are pre-rendering on the visible canvas, so we must mark the
-                // visible scene dirty to ensure it overwrites us.
-                for (const visibleScene of this.scenes) {
-                    if (visibleScene.element.modelIsVisible) {
-                        visibleScene.queueRender();
-                    }
-                }
-            }
-            const { width, height } = this.sceneSize(scene);
-            scene.renderShadow(this.threeRenderer);
-            // Need to set the render target in order to prevent
-            // clearing the depth from a different buffer
-            this.threeRenderer.setRenderTarget(null);
-            this.threeRenderer.setViewport(0, Math.ceil(this.height * this.dpr) - height, width, height);
-            if (scene.effectRenderer != null) {
-                scene.effectRenderer.render(delta);
-            }
-            else {
-                this.threeRenderer.autoClear =
-                    true; // this might get reset by the effectRenderer
-                this.threeRenderer.toneMapping = scene.toneMapping;
-                this.threeRenderer.render(scene, scene.camera);
-            }
-            if (this.multipleScenesVisible ||
-                (!scene.element.modelIsVisible && scene.renderCount === 0)) {
-                this.copyPixels(scene, width, height);
-            }
-            else if (canvas3D.parentElement !== scene.canvas.parentElement) {
-                scene.canvas.parentElement.appendChild(canvas3D);
-                scene.canvas.classList.remove('show');
-            }
-            scene.hasRendered();
-            ++scene.renderCount;
-            this.renderedLastFrame = true;
-        }
-    }
-    dispose() {
-        if (this.textureUtils != null) {
-            this.textureUtils.dispose();
-        }
-        if (this.threeRenderer != null) {
-            this.threeRenderer.dispose();
-        }
-        this.textureUtils = null;
-        this.threeRenderer = null;
-        const elements = [];
-        for (const scene of this.scenes) {
-            elements.push(scene.element);
-        }
-        this.canvas3D.removeEventListener('webglcontextlost', this.onWebGLContextLost);
-        this.canvas3D.removeEventListener('webglcontextrestored', this.onWebGLContextRestored);
-        return elements;
-    }
+	static get singleton() {
+		if (!this._singleton) {
+			this._singleton = new Renderer({
+				powerPreference: (self.ModelViewerElement || {})
+					.powerPreference ||
+					DEFAULT_POWER_PREFERENCE,
+				debug: isDebugMode()
+			});
+		}
+		return this._singleton;
+	}
+	static resetSingleton() {
+		const elements = this._singleton.dispose();
+		for (const element of elements) {
+			element.disconnectedCallback();
+		}
+		this._singleton = new Renderer({
+			powerPreference: (self.ModelViewerElement || {})
+				.powerPreference ||
+				DEFAULT_POWER_PREFERENCE,
+			debug: isDebugMode()
+		});
+		for (const element of elements) {
+			element.connectedCallback();
+		}
+	}
+	get canRender() {
+		return this.threeRenderer != null;
+	}
+	get scaleFactor() {
+		return SCALE_STEPS[this.scaleStep];
+	}
+	set minScale(scale) {
+		let i = 1;
+		while (i < SCALE_STEPS.length) {
+			if (SCALE_STEPS[i] < scale) {
+				break;
+			}
+			++i;
+		}
+		this.lastStep = i - 1;
+	}
+	constructor(options) {
+		super();
+		this.loader = new CachingGLTFLoader(ModelViewerGLTFInstance);
+		this.width = 0;
+		this.height = 0;
+		this.dpr = 1;
+		this.scenes = new Set();
+		this.multipleScenesVisible = false;
+		this.lastTick = performance.now();
+		this.renderedLastFrame = false;
+		this.scaleStep = 0;
+		this.lastStep = DEFAULT_LAST_STEP;
+		this.avgFrameDuration = (HIGH_FRAME_DURATION_MS + LOW_FRAME_DURATION_MS) / 2;
+		this.onWebGLContextLost = (event) => {
+			this.dispatchEvent({ type: 'contextlost', sourceEvent: event });
+		};
+		this.onWebGLContextRestored = () => {
+			var _a;
+			(_a = this.textureUtils) === null || _a === void 0 ? void 0 : _a.dispose();
+			this.textureUtils = new TextureUtils(this.threeRenderer);
+			for (const scene of this.scenes) {
+				scene.element[$updateEnvironment]();
+			}
+		};
+		this.dpr = window.devicePixelRatio;
+		this.canvas3D = document.createElement('canvas');
+		this.canvas3D.id = 'webgl-canvas';
+		this.canvas3D.classList.add('show');
+		try {
+			this.threeRenderer = new WebGLRenderer({
+				canvas: this.canvas3D,
+				alpha: true,
+				antialias: true,
+				powerPreference: options.powerPreference,
+				preserveDrawingBuffer: true,
+			});
+			this.threeRenderer.autoClear = true;
+			this.threeRenderer.setPixelRatio(1); // handle pixel ratio externally
+			this.threeRenderer.debug = {
+				checkShaderErrors: !!options.debug,
+				onShaderError: null
+			};
+			// ACESFilmicToneMapping appears to be the most "saturated",
+			// and similar to Filament's gltf-viewer.
+			this.threeRenderer.toneMapping = NeutralToneMapping;
+		}
+		catch (error) {
+			console.warn(error);
+		}
+		this.arRenderer = new ARRenderer(this);
+		this.textureUtils =
+			this.canRender ? new TextureUtils(this.threeRenderer) : null;
+		CachingGLTFLoader.initializeKTX2Loader(this.threeRenderer);
+		this.canvas3D.addEventListener('webglcontextlost', this.onWebGLContextLost);
+		this.canvas3D.addEventListener('webglcontextrestored', this.onWebGLContextRestored);
+		this.updateRendererSize();
+	}
+	registerScene(scene) {
+		this.scenes.add(scene);
+		scene.forceRescale();
+		const size = new Vector2();
+		this.threeRenderer.getSize(size);
+		scene.canvas.width = size.x;
+		scene.canvas.height = size.y;
+		if (this.canRender && this.scenes.size > 0) {
+			this.threeRenderer.setAnimationLoop((time, frame) => this.render(time, frame));
+		}
+	}
+	unregisterScene(scene) {
+		this.scenes.delete(scene);
+		if (this.canvas3D.parentElement === scene.canvas.parentElement) {
+			scene.canvas.parentElement.removeChild(this.canvas3D);
+		}
+		if (this.canRender && this.scenes.size === 0) {
+			this.threeRenderer.setAnimationLoop(null);
+		}
+	}
+	displayCanvas(scene) {
+		return scene.element.modelIsVisible && !this.multipleScenesVisible ?
+			this.canvas3D :
+			scene.element[$canvas];
+	}
+	/**
+	 * The function enables an optimization, where when there is only a single
+	 * <model-viewer> element, we can use the renderer's 3D canvas directly for
+	 * display. Otherwise we need to use the element's 2D canvas and copy the
+	 * renderer's result into it.
+	 */
+	countVisibleScenes() {
+		const { canvas3D } = this;
+		let visibleScenes = 0;
+		let canvas3DScene = null;
+		for (const scene of this.scenes) {
+			const { element } = scene;
+			if (element.modelIsVisible && scene.externalRenderer == null) {
+				++visibleScenes;
+			}
+			if (canvas3D.parentElement === scene.canvas.parentElement) {
+				canvas3DScene = scene;
+			}
+		}
+		const multipleScenesVisible = visibleScenes > 1;
+		if (canvas3DScene != null) {
+			const newlyMultiple = multipleScenesVisible && !this.multipleScenesVisible;
+			const disappearing = !canvas3DScene.element.modelIsVisible;
+			if (newlyMultiple || disappearing) {
+				const { width, height } = this.sceneSize(canvas3DScene);
+				this.copyPixels(canvas3DScene, width, height);
+				canvas3D.parentElement.removeChild(canvas3D);
+			}
+		}
+		this.multipleScenesVisible = multipleScenesVisible;
+	}
+	/**
+	 * Updates the renderer's size based on the largest scene and any changes to
+	 * device pixel ratio.
+	 */
+	updateRendererSize() {
+		var _a;
+		const dpr = window.devicePixelRatio;
+		if (dpr !== this.dpr) {
+			// If the device pixel ratio has changed due to page zoom, elements
+			// specified by % width do not fire a resize event even though their CSS
+			// pixel dimensions change, so we force them to update their size here.
+			for (const scene of this.scenes) {
+				const { element } = scene;
+				element[$updateSize](element.getBoundingClientRect());
+			}
+		}
+		// Make the renderer the size of the largest scene
+		let width = 0;
+		let height = 0;
+		for (const scene of this.scenes) {
+			width = Math.max(width, scene.width);
+			height = Math.max(height, scene.height);
+		}
+		if (width === this.width && height === this.height && dpr === this.dpr) {
+			return;
+		}
+		this.width = width;
+		this.height = height;
+		this.dpr = dpr;
+		width = Math.ceil(width * dpr);
+		height = Math.ceil(height * dpr);
+		if (this.canRender) {
+			this.threeRenderer.setSize(width, height, false);
+		}
+		// Each scene's canvas must match the renderer size. In general they can be
+		// larger than the element that contains them, but the overflow is hidden
+		// and only the portion that is shown is copied over.
+		for (const scene of this.scenes) {
+			const { canvas } = scene;
+			canvas.width = width;
+			canvas.height = height;
+			scene.forceRescale();
+			(_a = scene.effectRenderer) === null || _a === void 0 ? void 0 : _a.setSize(width, height);
+		}
+	}
+	updateRendererScale(delta) {
+		const scaleStep = this.scaleStep;
+		this.avgFrameDuration += clamp(DURATION_DECAY * (delta - this.avgFrameDuration), -5, MAX_AVG_CHANGE_MS);
+		if (this.avgFrameDuration > HIGH_FRAME_DURATION_MS) {
+			++this.scaleStep;
+		}
+		else if (this.avgFrameDuration < LOW_FRAME_DURATION_MS && this.scaleStep > 0) {
+			--this.scaleStep;
+		}
+		this.scaleStep = Math.min(this.scaleStep, this.lastStep);
+		if (scaleStep !== this.scaleStep) {
+			this.avgFrameDuration =
+				(HIGH_FRAME_DURATION_MS + LOW_FRAME_DURATION_MS) / 2;
+		}
+	}
+	shouldRender(scene) {
+		if (!scene.shouldRender()) {
+			// The first frame we stop rendering the scene (because it stops moving),
+			// trigger one extra render at full scale.
+			if (scene.scaleStep != 0) {
+				scene.scaleStep = 0;
+				this.rescaleCanvas(scene);
+			}
+			else {
+				return false;
+			}
+		}
+		else if (scene.scaleStep != this.scaleStep) {
+			// Update render scale
+			scene.scaleStep = this.scaleStep;
+			this.rescaleCanvas(scene);
+		}
+		return true;
+	}
+	rescaleCanvas(scene) {
+		const scale = SCALE_STEPS[scene.scaleStep];
+		const width = Math.ceil(this.width / scale);
+		const height = Math.ceil(this.height / scale);
+		const { style } = scene.canvas;
+		style.width = `${width}px`;
+		style.height = `${height}px`;
+		this.canvas3D.style.width = `${width}px`;
+		this.canvas3D.style.height = `${height}px`;
+		const renderedDpr = this.dpr * scale;
+		const reason = scale < 1 ? 'GPU throttling' :
+			this.dpr !== window.devicePixelRatio ? 'No meta viewport tag' :
+				'';
+		scene.element.dispatchEvent(new CustomEvent('render-scale', {
+			detail: {
+				reportedDpr: window.devicePixelRatio,
+				renderedDpr: renderedDpr,
+				minimumDpr: this.dpr * SCALE_STEPS[this.lastStep],
+				pixelWidth: Math.ceil(scene.width * renderedDpr),
+				pixelHeight: Math.ceil(scene.height * renderedDpr),
+				reason: reason
+			}
+		}));
+	}
+	sceneSize(scene) {
+		const { dpr } = this;
+		const scaleFactor = SCALE_STEPS[scene.scaleStep];
+		// We avoid using the Three.js PixelRatio and handle it ourselves here so
+		// that we can do proper rounding and avoid white boundary pixels.
+		const width = Math.min(Math.ceil(scene.width * scaleFactor * dpr), this.canvas3D.width);
+		const height = Math.min(Math.ceil(scene.height * scaleFactor * dpr), this.canvas3D.height);
+		return { width, height };
+	}
+	copyPixels(scene, width, height) {
+		const context2D = scene.context;
+		if (context2D == null) {
+			console.log('could not acquire 2d context');
+			return;
+		}
+		context2D.clearRect(0, 0, width, height);
+		context2D.drawImage(this.canvas3D, 0, 0, width, height, 0, 0, width, height);
+		scene.canvas.classList.add('show');
+	}
+	/**
+	 * Returns an array version of this.scenes where the non-visible ones are
+	 * first. This allows eager scenes to be rendered before they are visible,
+	 * without needing the multi-canvas render path.
+	 */
+	orderedScenes() {
+		const scenes = [];
+		for (const visible of [false, true]) {
+			for (const scene of this.scenes) {
+				if (scene.element.modelIsVisible === visible) {
+					scenes.push(scene);
+				}
+			}
+		}
+		return scenes;
+	}
+	get isPresenting() {
+		return this.arRenderer.isPresenting;
+	}
+	/**
+	 * This method takes care of updating the element and renderer state based on
+	 * the time that has passed since the last rendered frame.
+	 */
+	preRender(scene, t, delta) {
+		const { element, exposure, toneMapping } = scene;
+		element[$tick](t, delta);
+		const exposureIsNumber = typeof exposure === 'number' && !Number.isNaN(exposure);
+		const env = element.environmentImage;
+		const sky = element.skyboxImage;
+		const compensateExposure = toneMapping === NeutralToneMapping &&
+			(env === 'neutral' || env === 'legacy' || (!env && !sky));
+		this.threeRenderer.toneMappingExposure =
+			(exposureIsNumber ? exposure : 1.0) *
+				(compensateExposure ? COMMERCE_EXPOSURE : 1.0);
+	}
+	render(t, frame) {
+		if (frame != null) {
+			this.arRenderer.onWebXRFrame(t, frame);
+			return;
+		}
+		const delta = t - this.lastTick;
+		this.lastTick = t;
+		if (!this.canRender || this.isPresenting) {
+			return;
+		}
+		this.countVisibleScenes();
+		this.updateRendererSize();
+		if (this.renderedLastFrame) {
+			this.updateRendererScale(delta);
+			this.renderedLastFrame = false;
+		}
+		const { canvas3D } = this;
+		for (const scene of this.orderedScenes()) {
+			const { element } = scene;
+			if (!element.loaded ||
+				(!element.modelIsVisible && scene.renderCount > 0)) {
+				continue;
+			}
+			this.preRender(scene, t, delta);
+			if (!this.shouldRender(scene)) {
+				continue;
+			}
+			if (scene.externalRenderer != null) {
+				const camera = scene.getCamera();
+				camera.updateMatrix();
+				const { matrix, projectionMatrix } = camera;
+				const viewMatrix = matrix.elements.slice();
+				const target = scene.getTarget();
+				viewMatrix[12] += target.x;
+				viewMatrix[13] += target.y;
+				viewMatrix[14] += target.z;
+				scene.externalRenderer.render({
+					viewMatrix: viewMatrix,
+					projectionMatrix: projectionMatrix.elements
+				});
+				continue;
+			}
+			if (!element.modelIsVisible && !this.multipleScenesVisible) {
+				// Here we are pre-rendering on the visible canvas, so we must mark the
+				// visible scene dirty to ensure it overwrites us.
+				for (const visibleScene of this.scenes) {
+					if (visibleScene.element.modelIsVisible) {
+						visibleScene.queueRender();
+					}
+				}
+			}
+			const { width, height } = this.sceneSize(scene);
+			scene.renderShadow(this.threeRenderer);
+			// Need to set the render target in order to prevent
+			// clearing the depth from a different buffer
+			this.threeRenderer.setRenderTarget(null);
+			this.threeRenderer.setViewport(0, Math.ceil(this.height * this.dpr) - height, width, height);
+			if (scene.effectRenderer != null) {
+				scene.effectRenderer.render(delta);
+			}
+			else {
+				this.threeRenderer.autoClear =
+					true; // this might get reset by the effectRenderer
+				this.threeRenderer.toneMapping = scene.toneMapping;
+				this.threeRenderer.render(scene, scene.camera);
+			}
+			if (this.multipleScenesVisible ||
+				(!scene.element.modelIsVisible && scene.renderCount === 0)) {
+				this.copyPixels(scene, width, height);
+			}
+			else if (canvas3D.parentElement !== scene.canvas.parentElement) {
+				scene.canvas.parentElement.appendChild(canvas3D);
+				scene.canvas.classList.remove('show');
+			}
+			scene.hasRendered();
+			++scene.renderCount;
+			this.renderedLastFrame = true;
+		}
+	}
+	dispose() {
+		if (this.textureUtils != null) {
+			this.textureUtils.dispose();
+		}
+		if (this.threeRenderer != null) {
+			this.threeRenderer.dispose();
+		}
+		this.textureUtils = null;
+		this.threeRenderer = null;
+		const elements = [];
+		for (const scene of this.scenes) {
+			elements.push(scene.element);
+		}
+		this.canvas3D.removeEventListener('webglcontextlost', this.onWebGLContextLost);
+		this.canvas3D.removeEventListener('webglcontextrestored', this.onWebGLContextRestored);
+		return elements;
+	}
 }
 
 /* @license
@@ -58738,10 +58813,10 @@ const $onUpdate$1 = Symbol('onUpdate');
  * serializability.
  */
 class ThreeDOMElement {
-    constructor(onUpdate, correlatedObjects) {
-        this[$onUpdate$1] = onUpdate;
-        this[$correlatedObjects] = correlatedObjects;
-    }
+	constructor(onUpdate, correlatedObjects) {
+		this[$onUpdate$1] = onUpdate;
+		this[$correlatedObjects] = correlatedObjects;
+	}
 }
 
 /* @license
@@ -58767,109 +58842,109 @@ const $threeTextures$1 = Symbol('threeTextures');
  * Image facade implementation for Three.js textures
  */
 let Image$1 = class Image extends ThreeDOMElement {
-    get [$threeTexture$2]() {
-        var _a;
-        return (_a = this[$correlatedObjects]) === null || _a === void 0 ? void 0 : _a.values().next().value;
-    }
-    get [$threeTextures$1]() {
-        return this[$correlatedObjects];
-    }
-    constructor(onUpdate, texture) {
-        super(onUpdate, new Set(texture ? [texture] : []));
-        if (!this[$threeTexture$2].image.src) {
-            this[$threeTexture$2].image.src =
-                texture.name ? texture.name : 'adhoc_image' + adhocNum++;
-        }
-        if (!this[$threeTexture$2].image.name) {
-            this[$threeTexture$2].image.name =
-                (texture && texture.image && texture.image.src) ?
-                    texture.image.src.split('/').pop() :
-                    'adhoc_image';
-        }
-    }
-    get name() {
-        return this[$threeTexture$2].image.name || '';
-    }
-    get uri() {
-        return this[$threeTexture$2].image.src;
-    }
-    get bufferView() {
-        return this[$threeTexture$2].image.bufferView;
-    }
-    get element() {
-        const texture = this[$threeTexture$2];
-        if (texture && (texture.isCanvasTexture || texture.isVideoTexture)) {
-            return texture.image;
-        }
-        return;
-    }
-    get animation() {
-        const texture = this[$threeTexture$2];
-        if (texture && texture.isCanvasTexture && texture.animation) {
-            return texture.animation;
-        }
-        return;
-    }
-    get type() {
-        return this.uri != null ? 'external' : 'embedded';
-    }
-    set name(name) {
-        for (const texture of this[$threeTextures$1]) {
-            texture.image.name = name;
-        }
-    }
-    update() {
-        const texture = this[$threeTexture$2];
-        // Applies to non-Lottie canvas textures only
-        if (texture && texture.isCanvasTexture && !texture.animation) {
-            this[$threeTexture$2].needsUpdate = true;
-            this[$onUpdate$1]();
-        }
-    }
-    async createThumbnail(width, height) {
-        const scene = new Scene();
-        quadMaterial.map = this[$threeTexture$2];
-        const mesh = new Mesh(quad, quadMaterial);
-        scene.add(mesh);
-        const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
-        const { threeRenderer } = Renderer.singleton;
-        const renderTarget = new WebGLRenderTarget(width, height);
-        threeRenderer.setRenderTarget(renderTarget);
-        threeRenderer.render(scene, camera);
-        threeRenderer.setRenderTarget(null);
-        const buffer = new Uint8Array(width * height * 4);
-        threeRenderer.readRenderTargetPixels(renderTarget, 0, 0, width, height, buffer);
-        blobCanvas.width = width;
-        blobCanvas.height = height;
-        const blobContext = blobCanvas.getContext('2d');
-        const imageData = blobContext.createImageData(width, height);
-        imageData.data.set(buffer);
-        blobContext.putImageData(imageData, 0, 0);
-        return new Promise(async (resolve, reject) => {
-            blobCanvas.toBlob(blob => {
-                if (!blob) {
-                    return reject('Failed to capture thumbnail.');
-                }
-                resolve(URL.createObjectURL(blob));
-            }, 'image/png');
-        });
-    }
+	get [$threeTexture$2]() {
+		var _a;
+		return (_a = this[$correlatedObjects]) === null || _a === void 0 ? void 0 : _a.values().next().value;
+	}
+	get [$threeTextures$1]() {
+		return this[$correlatedObjects];
+	}
+	constructor(onUpdate, texture) {
+		super(onUpdate, new Set(texture ? [texture] : []));
+		if (!this[$threeTexture$2].image.src) {
+			this[$threeTexture$2].image.src =
+				texture.name ? texture.name : 'adhoc_image' + adhocNum++;
+		}
+		if (!this[$threeTexture$2].image.name) {
+			this[$threeTexture$2].image.name =
+				(texture && texture.image && texture.image.src) ?
+					texture.image.src.split('/').pop() :
+					'adhoc_image';
+		}
+	}
+	get name() {
+		return this[$threeTexture$2].image.name || '';
+	}
+	get uri() {
+		return this[$threeTexture$2].image.src;
+	}
+	get bufferView() {
+		return this[$threeTexture$2].image.bufferView;
+	}
+	get element() {
+		const texture = this[$threeTexture$2];
+		if (texture && (texture.isCanvasTexture || texture.isVideoTexture)) {
+			return texture.image;
+		}
+		return;
+	}
+	get animation() {
+		const texture = this[$threeTexture$2];
+		if (texture && texture.isCanvasTexture && texture.animation) {
+			return texture.animation;
+		}
+		return;
+	}
+	get type() {
+		return this.uri != null ? 'external' : 'embedded';
+	}
+	set name(name) {
+		for (const texture of this[$threeTextures$1]) {
+			texture.image.name = name;
+		}
+	}
+	update() {
+		const texture = this[$threeTexture$2];
+		// Applies to non-Lottie canvas textures only
+		if (texture && texture.isCanvasTexture && !texture.animation) {
+			this[$threeTexture$2].needsUpdate = true;
+			this[$onUpdate$1]();
+		}
+	}
+	async createThumbnail(width, height) {
+		const scene = new Scene();
+		quadMaterial.map = this[$threeTexture$2];
+		const mesh = new Mesh(quad, quadMaterial);
+		scene.add(mesh);
+		const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
+		const { threeRenderer } = Renderer.singleton;
+		const renderTarget = new WebGLRenderTarget(width, height);
+		threeRenderer.setRenderTarget(renderTarget);
+		threeRenderer.render(scene, camera);
+		threeRenderer.setRenderTarget(null);
+		const buffer = new Uint8Array(width * height * 4);
+		threeRenderer.readRenderTargetPixels(renderTarget, 0, 0, width, height, buffer);
+		blobCanvas.width = width;
+		blobCanvas.height = height;
+		const blobContext = blobCanvas.getContext('2d');
+		const imageData = blobContext.createImageData(width, height);
+		imageData.data.set(buffer);
+		blobContext.putImageData(imageData, 0, 0);
+		return new Promise(async (resolve, reject) => {
+			blobCanvas.toBlob(blob => {
+				if (!blob) {
+					return reject('Failed to capture thumbnail.');
+				}
+				resolve(URL.createObjectURL(blob));
+			}, 'image/png');
+		});
+	}
 };
 
 var Filter;
 (function (Filter) {
-    Filter[Filter["Nearest"] = 9728] = "Nearest";
-    Filter[Filter["Linear"] = 9729] = "Linear";
-    Filter[Filter["NearestMipmapNearest"] = 9984] = "NearestMipmapNearest";
-    Filter[Filter["LinearMipmapNearest"] = 9985] = "LinearMipmapNearest";
-    Filter[Filter["NearestMipmapLinear"] = 9986] = "NearestMipmapLinear";
-    Filter[Filter["LinearMipmapLinear"] = 9987] = "LinearMipmapLinear";
+	Filter[Filter["Nearest"] = 9728] = "Nearest";
+	Filter[Filter["Linear"] = 9729] = "Linear";
+	Filter[Filter["NearestMipmapNearest"] = 9984] = "NearestMipmapNearest";
+	Filter[Filter["LinearMipmapNearest"] = 9985] = "LinearMipmapNearest";
+	Filter[Filter["NearestMipmapLinear"] = 9986] = "NearestMipmapLinear";
+	Filter[Filter["LinearMipmapLinear"] = 9987] = "LinearMipmapLinear";
 })(Filter || (Filter = {}));
 var Wrap;
 (function (Wrap) {
-    Wrap[Wrap["ClampToEdge"] = 33071] = "ClampToEdge";
-    Wrap[Wrap["MirroredRepeat"] = 33648] = "MirroredRepeat";
-    Wrap[Wrap["Repeat"] = 10497] = "Repeat";
+	Wrap[Wrap["ClampToEdge"] = 33071] = "ClampToEdge";
+	Wrap[Wrap["MirroredRepeat"] = 33648] = "MirroredRepeat";
+	Wrap[Wrap["Repeat"] = 10497] = "Repeat";
 })(Wrap || (Wrap = {}));
 
 /* @license
@@ -58888,59 +58963,59 @@ var Wrap;
  */
 // Convertion between gltf standards and threejs standards.
 const wrapModeToWrapping = new Map([
-    [Wrap.Repeat, RepeatWrapping],
-    [Wrap.ClampToEdge, ClampToEdgeWrapping],
-    [Wrap.MirroredRepeat, MirroredRepeatWrapping]
+	[Wrap.Repeat, RepeatWrapping],
+	[Wrap.ClampToEdge, ClampToEdgeWrapping],
+	[Wrap.MirroredRepeat, MirroredRepeatWrapping]
 ]);
 const wrappingToWrapMode = new Map([
-    [RepeatWrapping, Wrap.Repeat],
-    [ClampToEdgeWrapping, Wrap.ClampToEdge],
-    [MirroredRepeatWrapping, Wrap.MirroredRepeat]
+	[RepeatWrapping, Wrap.Repeat],
+	[ClampToEdgeWrapping, Wrap.ClampToEdge],
+	[MirroredRepeatWrapping, Wrap.MirroredRepeat]
 ]);
 const minFilterToMinification = new Map([
-    [Filter.Nearest, NearestFilter],
-    [Filter.Linear, LinearFilter],
-    [Filter.NearestMipmapNearest, NearestMipmapNearestFilter],
-    [Filter.LinearMipmapNearest, LinearMipmapNearestFilter],
-    [Filter.NearestMipmapLinear, NearestMipmapLinearFilter],
-    [Filter.LinearMipmapLinear, LinearMipmapLinearFilter]
+	[Filter.Nearest, NearestFilter],
+	[Filter.Linear, LinearFilter],
+	[Filter.NearestMipmapNearest, NearestMipmapNearestFilter],
+	[Filter.LinearMipmapNearest, LinearMipmapNearestFilter],
+	[Filter.NearestMipmapLinear, NearestMipmapLinearFilter],
+	[Filter.LinearMipmapLinear, LinearMipmapLinearFilter]
 ]);
 const minificationToMinFilter = new Map([
-    [NearestFilter, Filter.Nearest],
-    [LinearFilter, Filter.Linear],
-    [NearestMipmapNearestFilter, Filter.NearestMipmapNearest],
-    [LinearMipmapNearestFilter, Filter.LinearMipmapNearest],
-    [NearestMipmapLinearFilter, Filter.NearestMipmapLinear],
-    [LinearMipmapLinearFilter, Filter.LinearMipmapLinear]
+	[NearestFilter, Filter.Nearest],
+	[LinearFilter, Filter.Linear],
+	[NearestMipmapNearestFilter, Filter.NearestMipmapNearest],
+	[LinearMipmapNearestFilter, Filter.LinearMipmapNearest],
+	[NearestMipmapLinearFilter, Filter.NearestMipmapLinear],
+	[LinearMipmapLinearFilter, Filter.LinearMipmapLinear]
 ]);
 const magFilterToMagnification = new Map([[Filter.Nearest, NearestFilter], [Filter.Linear, LinearFilter]]);
 const magnificationToMagFilter = new Map([[NearestFilter, Filter.Nearest], [LinearFilter, Filter.Linear]]);
 // Checks for threejs standards.
 const isMinFilter = (() => {
-    return (value) => minificationToMinFilter.has(value);
+	return (value) => minificationToMinFilter.has(value);
 })();
 const isMagFilter = (() => {
-    return (value) => magnificationToMagFilter.has(value);
+	return (value) => magnificationToMagFilter.has(value);
 })();
 const isWrapping = (() => {
-    return (value) => wrappingToWrapMode.has(value);
+	return (value) => wrappingToWrapMode.has(value);
 })();
 const isValidSamplerValue = (property, value) => {
-    switch (property) {
-        case 'minFilter':
-            return isMinFilter(value);
-        case 'magFilter':
-            return isMagFilter(value);
-        case 'wrapS':
-        case 'wrapT':
-            return isWrapping(value);
-        case 'rotation':
-        case 'repeat':
-        case 'offset':
-            return true;
-        default:
-            throw new Error(`Cannot configure property "${property}" on Sampler`);
-    }
+	switch (property) {
+		case 'minFilter':
+			return isMinFilter(value);
+		case 'magFilter':
+			return isMagFilter(value);
+		case 'wrapS':
+		case 'wrapT':
+			return isWrapping(value);
+		case 'rotation':
+		case 'repeat':
+		case 'offset':
+			return true;
+		default:
+			throw new Error(`Cannot configure property "${property}" on Sampler`);
+	}
 };
 const $threeTexture$1 = Symbol('threeTexture');
 const $threeTextures = Symbol('threeTextures');
@@ -58949,82 +59024,82 @@ const $setProperty = Symbol('setProperty');
  * Sampler facade implementation for Three.js textures
  */
 class Sampler extends ThreeDOMElement {
-    get [$threeTexture$1]() {
-        var _a;
-        return (_a = this[$correlatedObjects]) === null || _a === void 0 ? void 0 : _a.values().next().value;
-    }
-    get [$threeTextures]() {
-        return this[$correlatedObjects];
-    }
-    constructor(onUpdate, texture) {
-        super(onUpdate, new Set(texture ? [texture] : []));
-    }
-    get name() {
-        return this[$threeTexture$1].name || '';
-    }
-    get minFilter() {
-        return minificationToMinFilter.get(this[$threeTexture$1].minFilter);
-    }
-    get magFilter() {
-        return magnificationToMagFilter.get(this[$threeTexture$1].magFilter);
-    }
-    get wrapS() {
-        return wrappingToWrapMode.get(this[$threeTexture$1].wrapS);
-    }
-    get wrapT() {
-        return wrappingToWrapMode.get(this[$threeTexture$1].wrapT);
-    }
-    get rotation() {
-        return this[$threeTexture$1].rotation;
-    }
-    get scale() {
-        return toVector2D(this[$threeTexture$1].repeat);
-    }
-    get offset() {
-        return toVector2D(this[$threeTexture$1].offset);
-    }
-    setMinFilter(filter) {
-        this[$setProperty]('minFilter', minFilterToMinification.get(filter));
-    }
-    setMagFilter(filter) {
-        this[$setProperty]('magFilter', magFilterToMagnification.get(filter));
-    }
-    setWrapS(mode) {
-        this[$setProperty]('wrapS', wrapModeToWrapping.get(mode));
-    }
-    setWrapT(mode) {
-        this[$setProperty]('wrapT', wrapModeToWrapping.get(mode));
-    }
-    setRotation(rotation) {
-        if (rotation == null) {
-            // Reset rotation.
-            rotation = 0;
-        }
-        this[$setProperty]('rotation', rotation);
-    }
-    setScale(scale) {
-        if (scale == null) {
-            // Reset scale.
-            scale = { u: 1, v: 1 };
-        }
-        this[$setProperty]('repeat', new Vector2(scale.u, scale.v));
-    }
-    setOffset(offset) {
-        if (offset == null) {
-            // Reset offset.
-            offset = { u: 0, v: 0 };
-        }
-        this[$setProperty]('offset', new Vector2(offset.u, offset.v));
-    }
-    [$setProperty](property, value) {
-        if (isValidSamplerValue(property, value)) {
-            for (const texture of this[$threeTextures]) {
-                texture[property] = value;
-                texture.needsUpdate = true;
-            }
-        }
-        this[$onUpdate$1]();
-    }
+	get [$threeTexture$1]() {
+		var _a;
+		return (_a = this[$correlatedObjects]) === null || _a === void 0 ? void 0 : _a.values().next().value;
+	}
+	get [$threeTextures]() {
+		return this[$correlatedObjects];
+	}
+	constructor(onUpdate, texture) {
+		super(onUpdate, new Set(texture ? [texture] : []));
+	}
+	get name() {
+		return this[$threeTexture$1].name || '';
+	}
+	get minFilter() {
+		return minificationToMinFilter.get(this[$threeTexture$1].minFilter);
+	}
+	get magFilter() {
+		return magnificationToMagFilter.get(this[$threeTexture$1].magFilter);
+	}
+	get wrapS() {
+		return wrappingToWrapMode.get(this[$threeTexture$1].wrapS);
+	}
+	get wrapT() {
+		return wrappingToWrapMode.get(this[$threeTexture$1].wrapT);
+	}
+	get rotation() {
+		return this[$threeTexture$1].rotation;
+	}
+	get scale() {
+		return toVector2D(this[$threeTexture$1].repeat);
+	}
+	get offset() {
+		return toVector2D(this[$threeTexture$1].offset);
+	}
+	setMinFilter(filter) {
+		this[$setProperty]('minFilter', minFilterToMinification.get(filter));
+	}
+	setMagFilter(filter) {
+		this[$setProperty]('magFilter', magFilterToMagnification.get(filter));
+	}
+	setWrapS(mode) {
+		this[$setProperty]('wrapS', wrapModeToWrapping.get(mode));
+	}
+	setWrapT(mode) {
+		this[$setProperty]('wrapT', wrapModeToWrapping.get(mode));
+	}
+	setRotation(rotation) {
+		if (rotation == null) {
+			// Reset rotation.
+			rotation = 0;
+		}
+		this[$setProperty]('rotation', rotation);
+	}
+	setScale(scale) {
+		if (scale == null) {
+			// Reset scale.
+			scale = { u: 1, v: 1 };
+		}
+		this[$setProperty]('repeat', new Vector2(scale.u, scale.v));
+	}
+	setOffset(offset) {
+		if (offset == null) {
+			// Reset offset.
+			offset = { u: 0, v: 0 };
+		}
+		this[$setProperty]('offset', new Vector2(offset.u, offset.v));
+	}
+	[$setProperty](property, value) {
+		if (isValidSamplerValue(property, value)) {
+			for (const texture of this[$threeTextures]) {
+				texture[property] = value;
+				texture.needsUpdate = true;
+			}
+		}
+		this[$onUpdate$1]();
+	}
 }
 
 /* @license
@@ -59048,29 +59123,29 @@ const $threeTexture = Symbol('threeTexture');
  * Material facade implementation for Three.js materials
  */
 class Texture extends ThreeDOMElement {
-    get [$threeTexture]() {
-        var _a;
-        return (_a = this[$correlatedObjects]) === null || _a === void 0 ? void 0 : _a.values().next().value;
-    }
-    constructor(onUpdate, threeTexture) {
-        super(onUpdate, new Set(threeTexture ? [threeTexture] : []));
-        this[$sampler] = new Sampler(onUpdate, threeTexture);
-        this[$image] = new Image$1(onUpdate, threeTexture);
-    }
-    get name() {
-        return this[$threeTexture].name || '';
-    }
-    set name(name) {
-        for (const texture of this[$correlatedObjects]) {
-            texture.name = name;
-        }
-    }
-    get sampler() {
-        return this[$sampler];
-    }
-    get source() {
-        return this[$image];
-    }
+	get [$threeTexture]() {
+		var _a;
+		return (_a = this[$correlatedObjects]) === null || _a === void 0 ? void 0 : _a.values().next().value;
+	}
+	constructor(onUpdate, threeTexture) {
+		super(onUpdate, new Set(threeTexture ? [threeTexture] : []));
+		this[$sampler] = new Sampler(onUpdate, threeTexture);
+		this[$image] = new Image$1(onUpdate, threeTexture);
+	}
+	get name() {
+		return this[$threeTexture].name || '';
+	}
+	set name(name) {
+		for (const texture of this[$correlatedObjects]) {
+			texture.name = name;
+		}
+	}
+	get sampler() {
+		return this[$sampler];
+	}
+	get source() {
+		return this[$image];
+	}
 }
 
 /* @license
@@ -59097,160 +59172,160 @@ const $activeVideo = Symbol('activeVideo');
 // Defines what a texture will be used for.
 var TextureUsage;
 (function (TextureUsage) {
-    TextureUsage[TextureUsage["Base"] = 0] = "Base";
-    TextureUsage[TextureUsage["MetallicRoughness"] = 1] = "MetallicRoughness";
-    TextureUsage[TextureUsage["Normal"] = 2] = "Normal";
-    TextureUsage[TextureUsage["Occlusion"] = 3] = "Occlusion";
-    TextureUsage[TextureUsage["Emissive"] = 4] = "Emissive";
-    TextureUsage[TextureUsage["Clearcoat"] = 5] = "Clearcoat";
-    TextureUsage[TextureUsage["ClearcoatRoughness"] = 6] = "ClearcoatRoughness";
-    TextureUsage[TextureUsage["ClearcoatNormal"] = 7] = "ClearcoatNormal";
-    TextureUsage[TextureUsage["SheenColor"] = 8] = "SheenColor";
-    TextureUsage[TextureUsage["SheenRoughness"] = 9] = "SheenRoughness";
-    TextureUsage[TextureUsage["Transmission"] = 10] = "Transmission";
-    TextureUsage[TextureUsage["Thickness"] = 11] = "Thickness";
-    TextureUsage[TextureUsage["Specular"] = 12] = "Specular";
-    TextureUsage[TextureUsage["SpecularColor"] = 13] = "SpecularColor";
-    TextureUsage[TextureUsage["Iridescence"] = 14] = "Iridescence";
-    TextureUsage[TextureUsage["IridescenceThickness"] = 15] = "IridescenceThickness";
-    TextureUsage[TextureUsage["Anisotropy"] = 16] = "Anisotropy";
+	TextureUsage[TextureUsage["Base"] = 0] = "Base";
+	TextureUsage[TextureUsage["MetallicRoughness"] = 1] = "MetallicRoughness";
+	TextureUsage[TextureUsage["Normal"] = 2] = "Normal";
+	TextureUsage[TextureUsage["Occlusion"] = 3] = "Occlusion";
+	TextureUsage[TextureUsage["Emissive"] = 4] = "Emissive";
+	TextureUsage[TextureUsage["Clearcoat"] = 5] = "Clearcoat";
+	TextureUsage[TextureUsage["ClearcoatRoughness"] = 6] = "ClearcoatRoughness";
+	TextureUsage[TextureUsage["ClearcoatNormal"] = 7] = "ClearcoatNormal";
+	TextureUsage[TextureUsage["SheenColor"] = 8] = "SheenColor";
+	TextureUsage[TextureUsage["SheenRoughness"] = 9] = "SheenRoughness";
+	TextureUsage[TextureUsage["Transmission"] = 10] = "Transmission";
+	TextureUsage[TextureUsage["Thickness"] = 11] = "Thickness";
+	TextureUsage[TextureUsage["Specular"] = 12] = "Specular";
+	TextureUsage[TextureUsage["SpecularColor"] = 13] = "SpecularColor";
+	TextureUsage[TextureUsage["Iridescence"] = 14] = "Iridescence";
+	TextureUsage[TextureUsage["IridescenceThickness"] = 15] = "IridescenceThickness";
+	TextureUsage[TextureUsage["Anisotropy"] = 16] = "Anisotropy";
 })(TextureUsage || (TextureUsage = {}));
 /**
  * TextureInfo facade implementation for Three.js materials
  */
 class TextureInfo {
-    constructor(onUpdate, usage, threeTexture, material) {
-        this[_a$4] = null;
-        this[_b$4] = {
-            rotation: 0,
-            scale: new Vector2(1, 1),
-            offset: new Vector2(0, 0)
-        };
-        this[_c$2] = false;
-        // Creates image, sampler, and texture if valid texture info is provided.
-        if (threeTexture) {
-            this[$transform].rotation = threeTexture.rotation;
-            this[$transform].scale.copy(threeTexture.repeat);
-            this[$transform].offset.copy(threeTexture.offset);
-            this[$texture] = new Texture(onUpdate, threeTexture);
-        }
-        this[$onUpdate] = onUpdate;
-        this[$materials$1] = material;
-        this[$usage] = usage;
-    }
-    get texture() {
-        return this[$texture];
-    }
-    setTexture(texture) {
-        var _d, _e;
-        const threeTexture = texture != null ? texture.source[$threeTexture$2] : null;
-        const oldTexture = (_d = this[$texture]) === null || _d === void 0 ? void 0 : _d.source[$threeTexture$2];
-        if (oldTexture != null && oldTexture.isVideoTexture) {
-            this[$activeVideo] = false;
-        }
-        else if ((_e = this[$texture]) === null || _e === void 0 ? void 0 : _e.source.animation) {
-            this[$texture].source.animation.removeEventListener('enterFrame', this[$onUpdate]);
-        }
-        this[$texture] = texture;
-        if (threeTexture != null && threeTexture.isVideoTexture) {
-            const element = threeTexture.image;
-            this[$activeVideo] = true;
-            if (element.requestVideoFrameCallback != null) {
-                const update = () => {
-                    if (!this[$activeVideo]) {
-                        return;
-                    }
-                    this[$onUpdate]();
-                    element.requestVideoFrameCallback(update);
-                };
-                element.requestVideoFrameCallback(update);
-            }
-            else {
-                const update = () => {
-                    if (!this[$activeVideo]) {
-                        return;
-                    }
-                    this[$onUpdate]();
-                    requestAnimationFrame(update);
-                };
-                requestAnimationFrame(update);
-            }
-        }
-        else if ((texture === null || texture === void 0 ? void 0 : texture.source.animation) != null) {
-            texture.source.animation.addEventListener('enterFrame', this[$onUpdate]);
-        }
-        let colorSpace = SRGBColorSpace;
-        if (this[$materials$1]) {
-            for (const material of this[$materials$1]) {
-                switch (this[$usage]) {
-                    case TextureUsage.Base:
-                        material.map = threeTexture;
-                        break;
-                    case TextureUsage.MetallicRoughness:
-                        colorSpace = LinearSRGBColorSpace;
-                        material.metalnessMap = threeTexture;
-                        material.roughnessMap = threeTexture;
-                        break;
-                    case TextureUsage.Normal:
-                        colorSpace = LinearSRGBColorSpace;
-                        material.normalMap = threeTexture;
-                        break;
-                    case TextureUsage.Occlusion:
-                        colorSpace = LinearSRGBColorSpace;
-                        material.aoMap = threeTexture;
-                        break;
-                    case TextureUsage.Emissive:
-                        material.emissiveMap = threeTexture;
-                        break;
-                    case TextureUsage.Clearcoat:
-                        material.clearcoatMap = threeTexture;
-                        break;
-                    case TextureUsage.ClearcoatRoughness:
-                        material.clearcoatRoughnessMap = threeTexture;
-                        break;
-                    case TextureUsage.ClearcoatNormal:
-                        material.clearcoatNormalMap = threeTexture;
-                        break;
-                    case TextureUsage.SheenColor:
-                        material.sheenColorMap = threeTexture;
-                        break;
-                    case TextureUsage.SheenRoughness:
-                        material.sheenRoughnessMap = threeTexture;
-                        break;
-                    case TextureUsage.Transmission:
-                        material.transmissionMap = threeTexture;
-                        break;
-                    case TextureUsage.Thickness:
-                        material.thicknessMap = threeTexture;
-                        break;
-                    case TextureUsage.Specular:
-                        material.specularIntensityMap = threeTexture;
-                        break;
-                    case TextureUsage.SpecularColor:
-                        material.specularColorMap = threeTexture;
-                        break;
-                    case TextureUsage.Iridescence:
-                        material.iridescenceMap = threeTexture;
-                        break;
-                    case TextureUsage.IridescenceThickness:
-                        material.iridescenceThicknessMap = threeTexture;
-                        break;
-                    case TextureUsage.Anisotropy:
-                        material.anisotropyMap = threeTexture;
-                        break;
-                }
-                material.needsUpdate = true;
-            }
-        }
-        if (threeTexture) {
-            // Updates the colorSpace for the texture, affects all references.
-            threeTexture.colorSpace = colorSpace;
-            threeTexture.rotation = this[$transform].rotation;
-            threeTexture.repeat = this[$transform].scale;
-            threeTexture.offset = this[$transform].offset;
-        }
-        this[$onUpdate]();
-    }
+	constructor(onUpdate, usage, threeTexture, material) {
+		this[_a$4] = null;
+		this[_b$4] = {
+			rotation: 0,
+			scale: new Vector2(1, 1),
+			offset: new Vector2(0, 0)
+		};
+		this[_c$2] = false;
+		// Creates image, sampler, and texture if valid texture info is provided.
+		if (threeTexture) {
+			this[$transform].rotation = threeTexture.rotation;
+			this[$transform].scale.copy(threeTexture.repeat);
+			this[$transform].offset.copy(threeTexture.offset);
+			this[$texture] = new Texture(onUpdate, threeTexture);
+		}
+		this[$onUpdate] = onUpdate;
+		this[$materials$1] = material;
+		this[$usage] = usage;
+	}
+	get texture() {
+		return this[$texture];
+	}
+	setTexture(texture) {
+		var _d, _e;
+		const threeTexture = texture != null ? texture.source[$threeTexture$2] : null;
+		const oldTexture = (_d = this[$texture]) === null || _d === void 0 ? void 0 : _d.source[$threeTexture$2];
+		if (oldTexture != null && oldTexture.isVideoTexture) {
+			this[$activeVideo] = false;
+		}
+		else if ((_e = this[$texture]) === null || _e === void 0 ? void 0 : _e.source.animation) {
+			this[$texture].source.animation.removeEventListener('enterFrame', this[$onUpdate]);
+		}
+		this[$texture] = texture;
+		if (threeTexture != null && threeTexture.isVideoTexture) {
+			const element = threeTexture.image;
+			this[$activeVideo] = true;
+			if (element.requestVideoFrameCallback != null) {
+				const update = () => {
+					if (!this[$activeVideo]) {
+						return;
+					}
+					this[$onUpdate]();
+					element.requestVideoFrameCallback(update);
+				};
+				element.requestVideoFrameCallback(update);
+			}
+			else {
+				const update = () => {
+					if (!this[$activeVideo]) {
+						return;
+					}
+					this[$onUpdate]();
+					requestAnimationFrame(update);
+				};
+				requestAnimationFrame(update);
+			}
+		}
+		else if ((texture === null || texture === void 0 ? void 0 : texture.source.animation) != null) {
+			texture.source.animation.addEventListener('enterFrame', this[$onUpdate]);
+		}
+		let colorSpace = SRGBColorSpace;
+		if (this[$materials$1]) {
+			for (const material of this[$materials$1]) {
+				switch (this[$usage]) {
+					case TextureUsage.Base:
+						material.map = threeTexture;
+						break;
+					case TextureUsage.MetallicRoughness:
+						colorSpace = LinearSRGBColorSpace;
+						material.metalnessMap = threeTexture;
+						material.roughnessMap = threeTexture;
+						break;
+					case TextureUsage.Normal:
+						colorSpace = LinearSRGBColorSpace;
+						material.normalMap = threeTexture;
+						break;
+					case TextureUsage.Occlusion:
+						colorSpace = LinearSRGBColorSpace;
+						material.aoMap = threeTexture;
+						break;
+					case TextureUsage.Emissive:
+						material.emissiveMap = threeTexture;
+						break;
+					case TextureUsage.Clearcoat:
+						material.clearcoatMap = threeTexture;
+						break;
+					case TextureUsage.ClearcoatRoughness:
+						material.clearcoatRoughnessMap = threeTexture;
+						break;
+					case TextureUsage.ClearcoatNormal:
+						material.clearcoatNormalMap = threeTexture;
+						break;
+					case TextureUsage.SheenColor:
+						material.sheenColorMap = threeTexture;
+						break;
+					case TextureUsage.SheenRoughness:
+						material.sheenRoughnessMap = threeTexture;
+						break;
+					case TextureUsage.Transmission:
+						material.transmissionMap = threeTexture;
+						break;
+					case TextureUsage.Thickness:
+						material.thicknessMap = threeTexture;
+						break;
+					case TextureUsage.Specular:
+						material.specularIntensityMap = threeTexture;
+						break;
+					case TextureUsage.SpecularColor:
+						material.specularColorMap = threeTexture;
+						break;
+					case TextureUsage.Iridescence:
+						material.iridescenceMap = threeTexture;
+						break;
+					case TextureUsage.IridescenceThickness:
+						material.iridescenceThicknessMap = threeTexture;
+						break;
+					case TextureUsage.Anisotropy:
+						material.anisotropyMap = threeTexture;
+						break;
+				}
+				material.needsUpdate = true;
+			}
+		}
+		if (threeTexture) {
+			// Updates the colorSpace for the texture, affects all references.
+			threeTexture.colorSpace = colorSpace;
+			threeTexture.rotation = this[$transform].rotation;
+			threeTexture.repeat = this[$transform].scale;
+			threeTexture.offset = this[$transform].offset;
+		}
+		this[$onUpdate]();
+	}
 }
 _a$4 = $texture, _b$4 = $transform, _c$2 = $activeVideo;
 
@@ -59276,69 +59351,69 @@ const $metallicRoughnessTexture = Symbol('metallicRoughnessTexture');
  * PBR material properties facade implementation for Three.js materials
  */
 class PBRMetallicRoughness extends ThreeDOMElement {
-    get [$threeMaterials]() {
-        return this[$correlatedObjects];
-    }
-    get [$threeMaterial]() {
-        var _a;
-        return (_a = this[$correlatedObjects]) === null || _a === void 0 ? void 0 : _a.values().next().value;
-    }
-    constructor(onUpdate, correlatedMaterials) {
-        super(onUpdate, correlatedMaterials);
-        const { map, metalnessMap } = correlatedMaterials.values().next().value;
-        this[$baseColorTexture] =
-            new TextureInfo(onUpdate, TextureUsage.Base, map, correlatedMaterials);
-        this[$metallicRoughnessTexture] = new TextureInfo(onUpdate, TextureUsage.MetallicRoughness, metalnessMap, correlatedMaterials);
-    }
-    get baseColorFactor() {
-        const rgba = [0, 0, 0, this[$threeMaterial].opacity];
-        this[$threeMaterial].color.toArray(rgba);
-        return rgba;
-    }
-    get metallicFactor() {
-        return this[$threeMaterial].metalness;
-    }
-    get roughnessFactor() {
-        return this[$threeMaterial].roughness;
-    }
-    get baseColorTexture() {
-        return this[$baseColorTexture];
-    }
-    get metallicRoughnessTexture() {
-        return this[$metallicRoughnessTexture];
-    }
-    setBaseColorFactor(rgba) {
-        const color = new Color();
-        if (rgba instanceof Array) {
-            color.fromArray(rgba);
-        }
-        else {
-            color.set(rgba);
-        }
-        for (const material of this[$threeMaterials]) {
-            material.color.set(color);
-            if (rgba instanceof Array && rgba.length > 3) {
-                material.opacity = rgba[3];
-            }
-            else {
-                rgba = [0, 0, 0, material.opacity];
-                color.toArray(rgba);
-            }
-        }
-        this[$onUpdate$1]();
-    }
-    setMetallicFactor(value) {
-        for (const material of this[$threeMaterials]) {
-            material.metalness = value;
-        }
-        this[$onUpdate$1]();
-    }
-    setRoughnessFactor(value) {
-        for (const material of this[$threeMaterials]) {
-            material.roughness = value;
-        }
-        this[$onUpdate$1]();
-    }
+	get [$threeMaterials]() {
+		return this[$correlatedObjects];
+	}
+	get [$threeMaterial]() {
+		var _a;
+		return (_a = this[$correlatedObjects]) === null || _a === void 0 ? void 0 : _a.values().next().value;
+	}
+	constructor(onUpdate, correlatedMaterials) {
+		super(onUpdate, correlatedMaterials);
+		const { map, metalnessMap } = correlatedMaterials.values().next().value;
+		this[$baseColorTexture] =
+			new TextureInfo(onUpdate, TextureUsage.Base, map, correlatedMaterials);
+		this[$metallicRoughnessTexture] = new TextureInfo(onUpdate, TextureUsage.MetallicRoughness, metalnessMap, correlatedMaterials);
+	}
+	get baseColorFactor() {
+		const rgba = [0, 0, 0, this[$threeMaterial].opacity];
+		this[$threeMaterial].color.toArray(rgba);
+		return rgba;
+	}
+	get metallicFactor() {
+		return this[$threeMaterial].metalness;
+	}
+	get roughnessFactor() {
+		return this[$threeMaterial].roughness;
+	}
+	get baseColorTexture() {
+		return this[$baseColorTexture];
+	}
+	get metallicRoughnessTexture() {
+		return this[$metallicRoughnessTexture];
+	}
+	setBaseColorFactor(rgba) {
+		const color = new Color();
+		if (rgba instanceof Array) {
+			color.fromArray(rgba);
+		}
+		else {
+			color.set(rgba);
+		}
+		for (const material of this[$threeMaterials]) {
+			material.color.set(color);
+			if (rgba instanceof Array && rgba.length > 3) {
+				material.opacity = rgba[3];
+			}
+			else {
+				rgba = [0, 0, 0, material.opacity];
+				color.toArray(rgba);
+			}
+		}
+		this[$onUpdate$1]();
+	}
+	setMetallicFactor(value) {
+		for (const material of this[$threeMaterials]) {
+			material.metalness = value;
+		}
+		this[$onUpdate$1]();
+	}
+	setRoughnessFactor(value) {
+		for (const material of this[$threeMaterials]) {
+			material.roughness = value;
+		}
+		this[$onUpdate$1]();
+	}
 }
 
 /* @license
@@ -59378,691 +59453,691 @@ const $pbrTextures = Symbol('pbrTextures');
  * Material facade implementation for Three.js materials
  */
 class Material extends ThreeDOMElement {
-    get [(_a$3 = $variantIndices, _b$3 = $pbrTextures, $backingThreeMaterial)]() {
-        return this[$correlatedObjects]
-            .values()
-            .next()
-            .value;
-    }
-    constructor(onUpdate, gltfIndex, isActive, modelVariants, correlatedMaterials, name, lazyLoadInfo = undefined) {
-        super(onUpdate, correlatedMaterials);
-        this[_a$3] = new Set();
-        this[_b$3] = new Map();
-        this[$gltfIndex] = gltfIndex;
-        this[$isActive] = isActive;
-        this[$modelVariants] = modelVariants;
-        this[$name] = name;
-        if (lazyLoadInfo == null) {
-            this[$initialize]();
-        }
-        else {
-            this[$lazyLoadGLTFInfo] = lazyLoadInfo;
-        }
-    }
-    [$initialize]() {
-        const onUpdate = this[$onUpdate$1];
-        const correlatedMaterials = this[$correlatedObjects];
-        this[$pbrMetallicRoughness] =
-            new PBRMetallicRoughness(onUpdate, correlatedMaterials);
-        const { normalMap, aoMap, emissiveMap } = correlatedMaterials.values().next().value;
-        this[$normalTexture] = new TextureInfo(onUpdate, TextureUsage.Normal, normalMap, correlatedMaterials);
-        this[$occlusionTexture] = new TextureInfo(onUpdate, TextureUsage.Occlusion, aoMap, correlatedMaterials);
-        this[$emissiveTexture] = new TextureInfo(onUpdate, TextureUsage.Emissive, emissiveMap, correlatedMaterials);
-        const createTextureInfo = (usage) => {
-            this[$pbrTextures].set(usage, new TextureInfo(onUpdate, usage, null, correlatedMaterials));
-        };
-        createTextureInfo(TextureUsage.Clearcoat);
-        createTextureInfo(TextureUsage.ClearcoatRoughness);
-        createTextureInfo(TextureUsage.ClearcoatNormal);
-        createTextureInfo(TextureUsage.SheenColor);
-        createTextureInfo(TextureUsage.SheenRoughness);
-        createTextureInfo(TextureUsage.Transmission);
-        createTextureInfo(TextureUsage.Thickness);
-        createTextureInfo(TextureUsage.Specular);
-        createTextureInfo(TextureUsage.SpecularColor);
-        createTextureInfo(TextureUsage.Iridescence);
-        createTextureInfo(TextureUsage.IridescenceThickness);
-        createTextureInfo(TextureUsage.Anisotropy);
-    }
-    async [$getLoadedMaterial]() {
-        if (this[$lazyLoadGLTFInfo] != null) {
-            const material = await this[$lazyLoadGLTFInfo].doLazyLoad();
-            this[$initialize]();
-            // Releases lazy load info.
-            this[$lazyLoadGLTFInfo] = undefined;
-            // Redefines the method as a noop method.
-            this.ensureLoaded = async () => { };
-            return material;
-        }
-        return null;
-    }
-    colorFromRgb(rgb) {
-        const color = new Color();
-        if (rgb instanceof Array) {
-            color.fromArray(rgb);
-        }
-        else {
-            color.set(rgb);
-        }
-        return color;
-    }
-    [$ensureMaterialIsLoaded]() {
-        if (this[$lazyLoadGLTFInfo] == null) {
-            return;
-        }
-        throw new Error(`Material "${this.name}" has not been loaded, call 'await
-    myMaterial.ensureLoaded()' before using an unloaded material.`);
-    }
-    async ensureLoaded() {
-        await this[$getLoadedMaterial]();
-    }
-    get isLoaded() {
-        return this[$lazyLoadGLTFInfo] == null;
-    }
-    get isActive() {
-        return this[$isActive];
-    }
-    [$setActive](isActive) {
-        this[$isActive] = isActive;
-    }
-    get name() {
-        return this[$name] || '';
-    }
-    set name(name) {
-        this[$name] = name;
-        if (this[$correlatedObjects] != null) {
-            for (const threeMaterial of this[$correlatedObjects]) {
-                threeMaterial.name = name;
-            }
-        }
-    }
-    get pbrMetallicRoughness() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrMetallicRoughness];
-    }
-    get normalTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$normalTexture];
-    }
-    get occlusionTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$occlusionTexture];
-    }
-    get emissiveTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$emissiveTexture];
-    }
-    get emissiveFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].emissive.toArray();
-    }
-    get index() {
-        return this[$gltfIndex];
-    }
-    hasVariant(name) {
-        const variantData = this[$modelVariants].get(name);
-        return variantData != null && this[$variantIndices].has(variantData.index);
-    }
-    setEmissiveFactor(rgb) {
-        this[$ensureMaterialIsLoaded]();
-        const color = this.colorFromRgb(rgb);
-        for (const material of this[$correlatedObjects]) {
-            material.emissive.set(color);
-        }
-        this[$onUpdate$1]();
-    }
-    [$getAlphaMode]() {
-        // Follows implementation of GLTFExporter from three.js
-        if (this[$backingThreeMaterial].transparent) {
-            return 'BLEND';
-        }
-        else {
-            if (this[$backingThreeMaterial].alphaTest > 0.0) {
-                return 'MASK';
-            }
-        }
-        return 'OPAQUE';
-    }
-    [$applyAlphaCutoff]() {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            if (this[$getAlphaMode]() === 'MASK') {
-                if (material.alphaTest == undefined) {
-                    material.alphaTest = 0.5;
-                }
-            }
-            else {
-                material.alphaTest = undefined;
-            }
-            material.needsUpdate = true;
-        }
-    }
-    setAlphaCutoff(cutoff) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.alphaTest = cutoff;
-            material.needsUpdate = true;
-        }
-        // Set AlphaCutoff to undefined if AlphaMode is not MASK.
-        this[$applyAlphaCutoff]();
-        this[$onUpdate$1]();
-    }
-    getAlphaCutoff() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].alphaTest;
-    }
-    setDoubleSided(doubleSided) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            // When double-sided is disabled gltf spec dictates that Back-Face culling
-            // must be disabled, in three.js parlance that would mean FrontSide
-            // rendering only.
-            // https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#double-sided
-            material.side = doubleSided ? DoubleSide : FrontSide;
-            material.needsUpdate = true;
-        }
-        this[$onUpdate$1]();
-    }
-    getDoubleSided() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].side == DoubleSide;
-    }
-    setAlphaMode(alphaMode) {
-        this[$ensureMaterialIsLoaded]();
-        const enableTransparency = (material, enabled) => {
-            material.transparent = enabled;
-            material.depthWrite = !enabled;
-        };
-        for (const material of this[$correlatedObjects]) {
-            enableTransparency(material, alphaMode === 'BLEND');
-            if (alphaMode === 'MASK') {
-                material.alphaTest = 0.5;
-            }
-            else {
-                material.alphaTest = undefined;
-            }
-            material.needsUpdate = true;
-        }
-        this[$onUpdate$1]();
-    }
-    getAlphaMode() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$getAlphaMode]();
-    }
-    /**
-     * PBR Next properties.
-     */
-    // KHR_materials_emissive_strength
-    get emissiveStrength() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].emissiveIntensity;
-    }
-    setEmissiveStrength(emissiveStrength) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.emissiveIntensity = emissiveStrength;
-        }
-        this[$onUpdate$1]();
-    }
-    // KHR_materials_clearcoat
-    get clearcoatFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].clearcoat;
-    }
-    get clearcoatRoughnessFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].clearcoatRoughness;
-    }
-    get clearcoatTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.Clearcoat);
-    }
-    get clearcoatRoughnessTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.ClearcoatRoughness);
-    }
-    get clearcoatNormalTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.ClearcoatNormal);
-    }
-    get clearcoatNormalScale() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].clearcoatNormalScale.x;
-    }
-    setClearcoatFactor(clearcoatFactor) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.clearcoat = clearcoatFactor;
-        }
-        this[$onUpdate$1]();
-    }
-    setClearcoatRoughnessFactor(clearcoatRoughnessFactor) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.clearcoatRoughness = clearcoatRoughnessFactor;
-        }
-        this[$onUpdate$1]();
-    }
-    setClearcoatNormalScale(clearcoatNormalScale) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.clearcoatNormalScale =
-                new Vector2(clearcoatNormalScale, clearcoatNormalScale);
-        }
-        this[$onUpdate$1]();
-    }
-    // KHR_materials_ior
-    get ior() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].ior;
-    }
-    setIor(ior) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.ior = ior;
-        }
-        this[$onUpdate$1]();
-    }
-    // KHR_materials_sheen
-    get sheenColorFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].sheenColor.toArray();
-    }
-    get sheenColorTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.SheenColor);
-    }
-    get sheenRoughnessFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].sheenRoughness;
-    }
-    get sheenRoughnessTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.SheenRoughness);
-    }
-    setSheenColorFactor(rgb) {
-        this[$ensureMaterialIsLoaded]();
-        const color = this.colorFromRgb(rgb);
-        for (const material of this[$correlatedObjects]) {
-            material.sheenColor.set(color);
-            // Three.js GLTFExporter checks for internal sheen value.
-            material.sheen = 1;
-        }
-        this[$onUpdate$1]();
-    }
-    setSheenRoughnessFactor(roughness) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.sheenRoughness = roughness;
-            // Three.js GLTFExporter checks for internal sheen value.
-            material.sheen = 1;
-        }
-        this[$onUpdate$1]();
-    }
-    // KHR_materials_transmission
-    get transmissionFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].transmission;
-    }
-    get transmissionTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.Transmission);
-    }
-    setTransmissionFactor(transmission) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.transmission = transmission;
-        }
-        this[$onUpdate$1]();
-    }
-    // KHR_materials_volume
-    get thicknessFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].thickness;
-    }
-    get thicknessTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.Thickness);
-    }
-    get attenuationDistance() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].attenuationDistance;
-    }
-    get attenuationColor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].attenuationColor.toArray();
-    }
-    setThicknessFactor(thickness) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.thickness = thickness;
-        }
-        this[$onUpdate$1]();
-    }
-    setAttenuationDistance(attenuationDistance) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.attenuationDistance = attenuationDistance;
-        }
-        this[$onUpdate$1]();
-    }
-    setAttenuationColor(rgb) {
-        this[$ensureMaterialIsLoaded]();
-        const color = this.colorFromRgb(rgb);
-        for (const material of this[$correlatedObjects]) {
-            material.attenuationColor.set(color);
-        }
-        this[$onUpdate$1]();
-    }
-    // KHR_materials_specular
-    get specularFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].specularIntensity;
-    }
-    get specularTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.Specular);
-    }
-    get specularColorFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].specularColor.toArray();
-    }
-    get specularColorTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.SheenColor);
-    }
-    setSpecularFactor(specularFactor) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.specularIntensity = specularFactor;
-        }
-        this[$onUpdate$1]();
-    }
-    setSpecularColorFactor(rgb) {
-        this[$ensureMaterialIsLoaded]();
-        const color = this.colorFromRgb(rgb);
-        for (const material of this[$correlatedObjects]) {
-            material.specularColor.set(color);
-        }
-        this[$onUpdate$1]();
-    }
-    // KHR_materials_iridescence
-    get iridescenceFactor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].iridescence;
-    }
-    get iridescenceTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.Iridescence);
-    }
-    get iridescenceIor() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].iridescenceIOR;
-    }
-    get iridescenceThicknessMinimum() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].iridescenceThicknessRange[0];
-    }
-    get iridescenceThicknessMaximum() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].iridescenceThicknessRange[1];
-    }
-    get iridescenceThicknessTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.IridescenceThickness);
-    }
-    setIridescenceFactor(iridescence) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.iridescence = iridescence;
-        }
-        this[$onUpdate$1]();
-    }
-    setIridescenceIor(ior) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.iridescenceIOR = ior;
-        }
-        this[$onUpdate$1]();
-    }
-    setIridescenceThicknessMinimum(thicknessMin) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.iridescenceThicknessRange[0] = thicknessMin;
-        }
-        this[$onUpdate$1]();
-    }
-    setIridescenceThicknessMaximum(thicknessMax) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.iridescenceThicknessRange[1] = thicknessMax;
-        }
-        this[$onUpdate$1]();
-    }
-    // KHR_materials_anisotropy
-    get anisotropyStrength() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].anisotropy;
-    }
-    get anisotropyRotation() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$backingThreeMaterial].anisotropyRotation;
-    }
-    get anisotropyTexture() {
-        this[$ensureMaterialIsLoaded]();
-        return this[$pbrTextures].get(TextureUsage.Anisotropy);
-    }
-    setAnisotropyStrength(strength) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.anisotropy = strength;
-        }
-        this[$onUpdate$1]();
-    }
-    setAnisotropyRotation(rotation) {
-        this[$ensureMaterialIsLoaded]();
-        for (const material of this[$correlatedObjects]) {
-            material.anisotropyRotation = rotation;
-        }
-        this[$onUpdate$1]();
-    }
+	get [(_a$3 = $variantIndices, _b$3 = $pbrTextures, $backingThreeMaterial)]() {
+		return this[$correlatedObjects]
+			.values()
+			.next()
+			.value;
+	}
+	constructor(onUpdate, gltfIndex, isActive, modelVariants, correlatedMaterials, name, lazyLoadInfo = undefined) {
+		super(onUpdate, correlatedMaterials);
+		this[_a$3] = new Set();
+		this[_b$3] = new Map();
+		this[$gltfIndex] = gltfIndex;
+		this[$isActive] = isActive;
+		this[$modelVariants] = modelVariants;
+		this[$name] = name;
+		if (lazyLoadInfo == null) {
+			this[$initialize]();
+		}
+		else {
+			this[$lazyLoadGLTFInfo] = lazyLoadInfo;
+		}
+	}
+	[$initialize]() {
+		const onUpdate = this[$onUpdate$1];
+		const correlatedMaterials = this[$correlatedObjects];
+		this[$pbrMetallicRoughness] =
+			new PBRMetallicRoughness(onUpdate, correlatedMaterials);
+		const { normalMap, aoMap, emissiveMap } = correlatedMaterials.values().next().value;
+		this[$normalTexture] = new TextureInfo(onUpdate, TextureUsage.Normal, normalMap, correlatedMaterials);
+		this[$occlusionTexture] = new TextureInfo(onUpdate, TextureUsage.Occlusion, aoMap, correlatedMaterials);
+		this[$emissiveTexture] = new TextureInfo(onUpdate, TextureUsage.Emissive, emissiveMap, correlatedMaterials);
+		const createTextureInfo = (usage) => {
+			this[$pbrTextures].set(usage, new TextureInfo(onUpdate, usage, null, correlatedMaterials));
+		};
+		createTextureInfo(TextureUsage.Clearcoat);
+		createTextureInfo(TextureUsage.ClearcoatRoughness);
+		createTextureInfo(TextureUsage.ClearcoatNormal);
+		createTextureInfo(TextureUsage.SheenColor);
+		createTextureInfo(TextureUsage.SheenRoughness);
+		createTextureInfo(TextureUsage.Transmission);
+		createTextureInfo(TextureUsage.Thickness);
+		createTextureInfo(TextureUsage.Specular);
+		createTextureInfo(TextureUsage.SpecularColor);
+		createTextureInfo(TextureUsage.Iridescence);
+		createTextureInfo(TextureUsage.IridescenceThickness);
+		createTextureInfo(TextureUsage.Anisotropy);
+	}
+	async [$getLoadedMaterial]() {
+		if (this[$lazyLoadGLTFInfo] != null) {
+			const material = await this[$lazyLoadGLTFInfo].doLazyLoad();
+			this[$initialize]();
+			// Releases lazy load info.
+			this[$lazyLoadGLTFInfo] = undefined;
+			// Redefines the method as a noop method.
+			this.ensureLoaded = async () => { };
+			return material;
+		}
+		return null;
+	}
+	colorFromRgb(rgb) {
+		const color = new Color();
+		if (rgb instanceof Array) {
+			color.fromArray(rgb);
+		}
+		else {
+			color.set(rgb);
+		}
+		return color;
+	}
+	[$ensureMaterialIsLoaded]() {
+		if (this[$lazyLoadGLTFInfo] == null) {
+			return;
+		}
+		throw new Error(`Material "${this.name}" has not been loaded, call 'await
+	myMaterial.ensureLoaded()' before using an unloaded material.`);
+	}
+	async ensureLoaded() {
+		await this[$getLoadedMaterial]();
+	}
+	get isLoaded() {
+		return this[$lazyLoadGLTFInfo] == null;
+	}
+	get isActive() {
+		return this[$isActive];
+	}
+	[$setActive](isActive) {
+		this[$isActive] = isActive;
+	}
+	get name() {
+		return this[$name] || '';
+	}
+	set name(name) {
+		this[$name] = name;
+		if (this[$correlatedObjects] != null) {
+			for (const threeMaterial of this[$correlatedObjects]) {
+				threeMaterial.name = name;
+			}
+		}
+	}
+	get pbrMetallicRoughness() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrMetallicRoughness];
+	}
+	get normalTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$normalTexture];
+	}
+	get occlusionTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$occlusionTexture];
+	}
+	get emissiveTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$emissiveTexture];
+	}
+	get emissiveFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].emissive.toArray();
+	}
+	get index() {
+		return this[$gltfIndex];
+	}
+	hasVariant(name) {
+		const variantData = this[$modelVariants].get(name);
+		return variantData != null && this[$variantIndices].has(variantData.index);
+	}
+	setEmissiveFactor(rgb) {
+		this[$ensureMaterialIsLoaded]();
+		const color = this.colorFromRgb(rgb);
+		for (const material of this[$correlatedObjects]) {
+			material.emissive.set(color);
+		}
+		this[$onUpdate$1]();
+	}
+	[$getAlphaMode]() {
+		// Follows implementation of GLTFExporter from three.js
+		if (this[$backingThreeMaterial].transparent) {
+			return 'BLEND';
+		}
+		else {
+			if (this[$backingThreeMaterial].alphaTest > 0.0) {
+				return 'MASK';
+			}
+		}
+		return 'OPAQUE';
+	}
+	[$applyAlphaCutoff]() {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			if (this[$getAlphaMode]() === 'MASK') {
+				if (material.alphaTest == undefined) {
+					material.alphaTest = 0.5;
+				}
+			}
+			else {
+				material.alphaTest = undefined;
+			}
+			material.needsUpdate = true;
+		}
+	}
+	setAlphaCutoff(cutoff) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.alphaTest = cutoff;
+			material.needsUpdate = true;
+		}
+		// Set AlphaCutoff to undefined if AlphaMode is not MASK.
+		this[$applyAlphaCutoff]();
+		this[$onUpdate$1]();
+	}
+	getAlphaCutoff() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].alphaTest;
+	}
+	setDoubleSided(doubleSided) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			// When double-sided is disabled gltf spec dictates that Back-Face culling
+			// must be disabled, in three.js parlance that would mean FrontSide
+			// rendering only.
+			// https://github.com/KhronosGroup/glTF/tree/master/specification/2.0#double-sided
+			material.side = doubleSided ? DoubleSide : FrontSide;
+			material.needsUpdate = true;
+		}
+		this[$onUpdate$1]();
+	}
+	getDoubleSided() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].side == DoubleSide;
+	}
+	setAlphaMode(alphaMode) {
+		this[$ensureMaterialIsLoaded]();
+		const enableTransparency = (material, enabled) => {
+			material.transparent = enabled;
+			material.depthWrite = !enabled;
+		};
+		for (const material of this[$correlatedObjects]) {
+			enableTransparency(material, alphaMode === 'BLEND');
+			if (alphaMode === 'MASK') {
+				material.alphaTest = 0.5;
+			}
+			else {
+				material.alphaTest = undefined;
+			}
+			material.needsUpdate = true;
+		}
+		this[$onUpdate$1]();
+	}
+	getAlphaMode() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$getAlphaMode]();
+	}
+	/**
+	 * PBR Next properties.
+	 */
+	// KHR_materials_emissive_strength
+	get emissiveStrength() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].emissiveIntensity;
+	}
+	setEmissiveStrength(emissiveStrength) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.emissiveIntensity = emissiveStrength;
+		}
+		this[$onUpdate$1]();
+	}
+	// KHR_materials_clearcoat
+	get clearcoatFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].clearcoat;
+	}
+	get clearcoatRoughnessFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].clearcoatRoughness;
+	}
+	get clearcoatTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.Clearcoat);
+	}
+	get clearcoatRoughnessTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.ClearcoatRoughness);
+	}
+	get clearcoatNormalTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.ClearcoatNormal);
+	}
+	get clearcoatNormalScale() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].clearcoatNormalScale.x;
+	}
+	setClearcoatFactor(clearcoatFactor) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.clearcoat = clearcoatFactor;
+		}
+		this[$onUpdate$1]();
+	}
+	setClearcoatRoughnessFactor(clearcoatRoughnessFactor) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.clearcoatRoughness = clearcoatRoughnessFactor;
+		}
+		this[$onUpdate$1]();
+	}
+	setClearcoatNormalScale(clearcoatNormalScale) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.clearcoatNormalScale =
+				new Vector2(clearcoatNormalScale, clearcoatNormalScale);
+		}
+		this[$onUpdate$1]();
+	}
+	// KHR_materials_ior
+	get ior() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].ior;
+	}
+	setIor(ior) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.ior = ior;
+		}
+		this[$onUpdate$1]();
+	}
+	// KHR_materials_sheen
+	get sheenColorFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].sheenColor.toArray();
+	}
+	get sheenColorTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.SheenColor);
+	}
+	get sheenRoughnessFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].sheenRoughness;
+	}
+	get sheenRoughnessTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.SheenRoughness);
+	}
+	setSheenColorFactor(rgb) {
+		this[$ensureMaterialIsLoaded]();
+		const color = this.colorFromRgb(rgb);
+		for (const material of this[$correlatedObjects]) {
+			material.sheenColor.set(color);
+			// Three.js GLTFExporter checks for internal sheen value.
+			material.sheen = 1;
+		}
+		this[$onUpdate$1]();
+	}
+	setSheenRoughnessFactor(roughness) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.sheenRoughness = roughness;
+			// Three.js GLTFExporter checks for internal sheen value.
+			material.sheen = 1;
+		}
+		this[$onUpdate$1]();
+	}
+	// KHR_materials_transmission
+	get transmissionFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].transmission;
+	}
+	get transmissionTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.Transmission);
+	}
+	setTransmissionFactor(transmission) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.transmission = transmission;
+		}
+		this[$onUpdate$1]();
+	}
+	// KHR_materials_volume
+	get thicknessFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].thickness;
+	}
+	get thicknessTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.Thickness);
+	}
+	get attenuationDistance() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].attenuationDistance;
+	}
+	get attenuationColor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].attenuationColor.toArray();
+	}
+	setThicknessFactor(thickness) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.thickness = thickness;
+		}
+		this[$onUpdate$1]();
+	}
+	setAttenuationDistance(attenuationDistance) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.attenuationDistance = attenuationDistance;
+		}
+		this[$onUpdate$1]();
+	}
+	setAttenuationColor(rgb) {
+		this[$ensureMaterialIsLoaded]();
+		const color = this.colorFromRgb(rgb);
+		for (const material of this[$correlatedObjects]) {
+			material.attenuationColor.set(color);
+		}
+		this[$onUpdate$1]();
+	}
+	// KHR_materials_specular
+	get specularFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].specularIntensity;
+	}
+	get specularTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.Specular);
+	}
+	get specularColorFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].specularColor.toArray();
+	}
+	get specularColorTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.SheenColor);
+	}
+	setSpecularFactor(specularFactor) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.specularIntensity = specularFactor;
+		}
+		this[$onUpdate$1]();
+	}
+	setSpecularColorFactor(rgb) {
+		this[$ensureMaterialIsLoaded]();
+		const color = this.colorFromRgb(rgb);
+		for (const material of this[$correlatedObjects]) {
+			material.specularColor.set(color);
+		}
+		this[$onUpdate$1]();
+	}
+	// KHR_materials_iridescence
+	get iridescenceFactor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].iridescence;
+	}
+	get iridescenceTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.Iridescence);
+	}
+	get iridescenceIor() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].iridescenceIOR;
+	}
+	get iridescenceThicknessMinimum() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].iridescenceThicknessRange[0];
+	}
+	get iridescenceThicknessMaximum() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].iridescenceThicknessRange[1];
+	}
+	get iridescenceThicknessTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.IridescenceThickness);
+	}
+	setIridescenceFactor(iridescence) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.iridescence = iridescence;
+		}
+		this[$onUpdate$1]();
+	}
+	setIridescenceIor(ior) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.iridescenceIOR = ior;
+		}
+		this[$onUpdate$1]();
+	}
+	setIridescenceThicknessMinimum(thicknessMin) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.iridescenceThicknessRange[0] = thicknessMin;
+		}
+		this[$onUpdate$1]();
+	}
+	setIridescenceThicknessMaximum(thicknessMax) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.iridescenceThicknessRange[1] = thicknessMax;
+		}
+		this[$onUpdate$1]();
+	}
+	// KHR_materials_anisotropy
+	get anisotropyStrength() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].anisotropy;
+	}
+	get anisotropyRotation() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$backingThreeMaterial].anisotropyRotation;
+	}
+	get anisotropyTexture() {
+		this[$ensureMaterialIsLoaded]();
+		return this[$pbrTextures].get(TextureUsage.Anisotropy);
+	}
+	setAnisotropyStrength(strength) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.anisotropy = strength;
+		}
+		this[$onUpdate$1]();
+	}
+	setAnisotropyRotation(rotation) {
+		this[$ensureMaterialIsLoaded]();
+		for (const material of this[$correlatedObjects]) {
+			material.anisotropyRotation = rotation;
+		}
+		this[$onUpdate$1]();
+	}
 }
 
 // Defines the base level node methods and data.
 let Node$1 = class Node {
-    constructor(name) {
-        this.name = '';
-        this.children = new Array();
-        this.name = name;
-    }
+	constructor(name) {
+		this.name = '';
+		this.children = new Array();
+		this.name = name;
+	}
 };
 // Represents a primitive in a glTF mesh.
 class PrimitiveNode extends Node$1 {
-    constructor(mesh, mvMaterials, modelVariants, correlatedSceneGraph) {
-        super(mesh.name);
-        // Maps glTF material index number to a material that this primitive supports.
-        this.materials = new Map();
-        // Maps variant index to material.
-        this.variantToMaterialMap = new Map();
-        this.initialMaterialIdx = 0;
-        this.activeMaterialIdx = 0;
-        this.mesh = mesh;
-        const { gltf, threeGLTF, threeObjectMap } = correlatedSceneGraph;
-        this.parser = threeGLTF.parser;
-        this.modelVariants = modelVariants;
-        this.mesh.userData.variantData = modelVariants;
-        // Captures the primitive's initial material.
-        const materialMappings = threeObjectMap.get(mesh.material);
-        if (materialMappings.materials != null) {
-            this.initialMaterialIdx = this.activeMaterialIdx =
-                materialMappings.materials;
-        }
-        else {
-            console.error(`Primitive (${mesh.name}) missing initial material reference.`);
-        }
-        // Gets the mesh index from the node.
-        const associations = mesh.userData.associations ||
-            {};
-        if (associations.meshes == null) {
-            console.error('Mesh is missing primitive index association');
-            return;
-        }
-        // The gltf mesh array to sample from.
-        const meshElementArray = gltf['meshes'] || [];
-        // List of primitives under the mesh.
-        const gltfPrimitives = (meshElementArray[associations.meshes].primitives || []);
-        const gltfPrimitive = gltfPrimitives[associations.primitives];
-        if (gltfPrimitive == null) {
-            console.error('Mesh primitive definition is missing.');
-            return;
-        }
-        // Maps the gltfPrimitive default to a material.
-        if (gltfPrimitive.material != null) {
-            this.materials.set(gltfPrimitive.material, mvMaterials[gltfPrimitive.material]);
-        }
-        else {
-            const defaultIdx = mvMaterials.findIndex((mat) => {
-                return mat.name === 'Default';
-            });
-            if (defaultIdx >= 0) {
-                this.materials.set(defaultIdx, mvMaterials[defaultIdx]);
-            }
-            else {
-                console.warn('gltfPrimitive has no material!');
-            }
-        }
-        if (gltfPrimitive.extensions &&
-            gltfPrimitive.extensions['KHR_materials_variants']) {
-            const variantsExtension = gltfPrimitive.extensions['KHR_materials_variants'];
-            const extensions = threeGLTF.parser.json.extensions;
-            const variantNames = extensions['KHR_materials_variants'].variants;
-            // Provides definition now that we know there are variants to
-            // support.
-            for (const mapping of variantsExtension.mappings) {
-                const mvMaterial = mvMaterials[mapping.material];
-                // Maps variant indices to Materials.
-                this.materials.set(mapping.material, mvMaterial);
-                for (const variant of mapping.variants) {
-                    const { name } = variantNames[variant];
-                    this.variantToMaterialMap.set(variant, mvMaterial);
-                    // Provides variant info for material self lookup.
-                    mvMaterial[$variantIndices].add(variant);
-                    // Updates the models variant data.
-                    if (!modelVariants.has(name)) {
-                        modelVariants.set(name, { name, index: variant });
-                    }
-                }
-            }
-        }
-    }
-    async setActiveMaterial(material) {
-        const mvMaterial = this.materials.get(material);
-        if (material !== this.activeMaterialIdx) {
-            const backingMaterials = mvMaterial[$correlatedObjects];
-            const baseMaterial = await mvMaterial[$getLoadedMaterial]();
-            if (baseMaterial != null) {
-                this.mesh.material = baseMaterial;
-            }
-            else {
-                this.mesh.material = backingMaterials.values().next().value;
-            }
-            this.parser.assignFinalMaterial(this.mesh);
-            backingMaterials.add(this.mesh.material);
-            this.activeMaterialIdx = material;
-        }
-        return this.mesh.material;
-    }
-    getActiveMaterial() {
-        return this.materials.get(this.activeMaterialIdx);
-    }
-    getMaterial(index) {
-        return this.materials.get(index);
-    }
-    async enableVariant(name) {
-        if (name == null) {
-            return this.setActiveMaterial(this.initialMaterialIdx);
-        }
-        if (this.variantToMaterialMap != null && this.modelVariants.has(name)) {
-            const modelVariants = this.modelVariants.get(name);
-            return this.enableVariantHelper(modelVariants.index);
-        }
-        return null;
-    }
-    async enableVariantHelper(index) {
-        if (this.variantToMaterialMap != null && index != null) {
-            const material = this.variantToMaterialMap.get(index);
-            if (material != null) {
-                return this.setActiveMaterial(material.index);
-            }
-        }
-        return null;
-    }
-    async instantiateVariants() {
-        if (this.variantToMaterialMap == null) {
-            return;
-        }
-        for (const index of this.variantToMaterialMap.keys()) {
-            const variantMaterial = this.mesh.userData.variantMaterials.get(index);
-            if (variantMaterial.material != null) {
-                continue;
-            }
-            const threeMaterial = await this.enableVariantHelper(index);
-            if (threeMaterial != null) {
-                variantMaterial.material = threeMaterial;
-            }
-        }
-    }
-    get variantInfo() {
-        return this.variantToMaterialMap;
-    }
-    addVariant(materialVariant, variantName) {
-        if (!this.ensureVariantIsUnused(variantName)) {
-            return false;
-        }
-        // Adds the variant to the model variants if needed.
-        if (!this.modelVariants.has(variantName)) {
-            this.modelVariants.set(variantName, { name: variantName, index: this.modelVariants.size });
-        }
-        const modelVariantData = this.modelVariants.get(variantName);
-        const variantIndex = modelVariantData.index;
-        // Updates materials mapped to the variant.
-        materialVariant[$variantIndices].add(variantIndex);
-        // Updates internal mappings.
-        this.variantToMaterialMap.set(variantIndex, materialVariant);
-        this.materials.set(materialVariant.index, materialVariant);
-        this.updateVariantUserData(variantIndex, materialVariant);
-        return true;
-    }
-    deleteVariant(variantIndex) {
-        if (this.variantInfo.has(variantIndex)) {
-            this.variantInfo.delete(variantIndex);
-            const userDataMap = this.mesh.userData.variantMaterials;
-            if (userDataMap != null) {
-                userDataMap.delete(variantIndex);
-            }
-        }
-    }
-    updateVariantUserData(variantIndex, materialVariant) {
-        // Adds variants name to material variants set.
-        materialVariant[$variantIndices].add(variantIndex);
-        this.mesh.userData.variantData = this.modelVariants;
-        // Updates import data (see VariantMaterialLoaderPlugin.ts).
-        this.mesh.userData.variantMaterials = this.mesh.userData.variantMaterials ||
-            new Map();
-        const map = this.mesh.userData.variantMaterials;
-        map.set(variantIndex, {
-            material: materialVariant[$correlatedObjects].values().next().value,
-            gltfMaterialIndex: materialVariant.index,
-        });
-    }
-    ensureVariantIsUnused(variantName) {
-        const modelVariants = this.modelVariants.get(variantName);
-        if (modelVariants != null && this.variantInfo.has(modelVariants.index)) {
-            console.warn(`Primitive cannot add variant '${variantName}' for this material, it already exists.`);
-            return false;
-        }
-        return true;
-    }
+	constructor(mesh, mvMaterials, modelVariants, correlatedSceneGraph) {
+		super(mesh.name);
+		// Maps glTF material index number to a material that this primitive supports.
+		this.materials = new Map();
+		// Maps variant index to material.
+		this.variantToMaterialMap = new Map();
+		this.initialMaterialIdx = 0;
+		this.activeMaterialIdx = 0;
+		this.mesh = mesh;
+		const { gltf, threeGLTF, threeObjectMap } = correlatedSceneGraph;
+		this.parser = threeGLTF.parser;
+		this.modelVariants = modelVariants;
+		this.mesh.userData.variantData = modelVariants;
+		// Captures the primitive's initial material.
+		const materialMappings = threeObjectMap.get(mesh.material);
+		if (materialMappings.materials != null) {
+			this.initialMaterialIdx = this.activeMaterialIdx =
+				materialMappings.materials;
+		}
+		else {
+			console.error(`Primitive (${mesh.name}) missing initial material reference.`);
+		}
+		// Gets the mesh index from the node.
+		const associations = mesh.userData.associations ||
+			{};
+		if (associations.meshes == null) {
+			console.error('Mesh is missing primitive index association');
+			return;
+		}
+		// The gltf mesh array to sample from.
+		const meshElementArray = gltf['meshes'] || [];
+		// List of primitives under the mesh.
+		const gltfPrimitives = (meshElementArray[associations.meshes].primitives || []);
+		const gltfPrimitive = gltfPrimitives[associations.primitives];
+		if (gltfPrimitive == null) {
+			console.error('Mesh primitive definition is missing.');
+			return;
+		}
+		// Maps the gltfPrimitive default to a material.
+		if (gltfPrimitive.material != null) {
+			this.materials.set(gltfPrimitive.material, mvMaterials[gltfPrimitive.material]);
+		}
+		else {
+			const defaultIdx = mvMaterials.findIndex((mat) => {
+				return mat.name === 'Default';
+			});
+			if (defaultIdx >= 0) {
+				this.materials.set(defaultIdx, mvMaterials[defaultIdx]);
+			}
+			else {
+				console.warn('gltfPrimitive has no material!');
+			}
+		}
+		if (gltfPrimitive.extensions &&
+			gltfPrimitive.extensions['KHR_materials_variants']) {
+			const variantsExtension = gltfPrimitive.extensions['KHR_materials_variants'];
+			const extensions = threeGLTF.parser.json.extensions;
+			const variantNames = extensions['KHR_materials_variants'].variants;
+			// Provides definition now that we know there are variants to
+			// support.
+			for (const mapping of variantsExtension.mappings) {
+				const mvMaterial = mvMaterials[mapping.material];
+				// Maps variant indices to Materials.
+				this.materials.set(mapping.material, mvMaterial);
+				for (const variant of mapping.variants) {
+					const { name } = variantNames[variant];
+					this.variantToMaterialMap.set(variant, mvMaterial);
+					// Provides variant info for material self lookup.
+					mvMaterial[$variantIndices].add(variant);
+					// Updates the models variant data.
+					if (!modelVariants.has(name)) {
+						modelVariants.set(name, { name, index: variant });
+					}
+				}
+			}
+		}
+	}
+	async setActiveMaterial(material) {
+		const mvMaterial = this.materials.get(material);
+		if (material !== this.activeMaterialIdx) {
+			const backingMaterials = mvMaterial[$correlatedObjects];
+			const baseMaterial = await mvMaterial[$getLoadedMaterial]();
+			if (baseMaterial != null) {
+				this.mesh.material = baseMaterial;
+			}
+			else {
+				this.mesh.material = backingMaterials.values().next().value;
+			}
+			this.parser.assignFinalMaterial(this.mesh);
+			backingMaterials.add(this.mesh.material);
+			this.activeMaterialIdx = material;
+		}
+		return this.mesh.material;
+	}
+	getActiveMaterial() {
+		return this.materials.get(this.activeMaterialIdx);
+	}
+	getMaterial(index) {
+		return this.materials.get(index);
+	}
+	async enableVariant(name) {
+		if (name == null) {
+			return this.setActiveMaterial(this.initialMaterialIdx);
+		}
+		if (this.variantToMaterialMap != null && this.modelVariants.has(name)) {
+			const modelVariants = this.modelVariants.get(name);
+			return this.enableVariantHelper(modelVariants.index);
+		}
+		return null;
+	}
+	async enableVariantHelper(index) {
+		if (this.variantToMaterialMap != null && index != null) {
+			const material = this.variantToMaterialMap.get(index);
+			if (material != null) {
+				return this.setActiveMaterial(material.index);
+			}
+		}
+		return null;
+	}
+	async instantiateVariants() {
+		if (this.variantToMaterialMap == null) {
+			return;
+		}
+		for (const index of this.variantToMaterialMap.keys()) {
+			const variantMaterial = this.mesh.userData.variantMaterials.get(index);
+			if (variantMaterial.material != null) {
+				continue;
+			}
+			const threeMaterial = await this.enableVariantHelper(index);
+			if (threeMaterial != null) {
+				variantMaterial.material = threeMaterial;
+			}
+		}
+	}
+	get variantInfo() {
+		return this.variantToMaterialMap;
+	}
+	addVariant(materialVariant, variantName) {
+		if (!this.ensureVariantIsUnused(variantName)) {
+			return false;
+		}
+		// Adds the variant to the model variants if needed.
+		if (!this.modelVariants.has(variantName)) {
+			this.modelVariants.set(variantName, { name: variantName, index: this.modelVariants.size });
+		}
+		const modelVariantData = this.modelVariants.get(variantName);
+		const variantIndex = modelVariantData.index;
+		// Updates materials mapped to the variant.
+		materialVariant[$variantIndices].add(variantIndex);
+		// Updates internal mappings.
+		this.variantToMaterialMap.set(variantIndex, materialVariant);
+		this.materials.set(materialVariant.index, materialVariant);
+		this.updateVariantUserData(variantIndex, materialVariant);
+		return true;
+	}
+	deleteVariant(variantIndex) {
+		if (this.variantInfo.has(variantIndex)) {
+			this.variantInfo.delete(variantIndex);
+			const userDataMap = this.mesh.userData.variantMaterials;
+			if (userDataMap != null) {
+				userDataMap.delete(variantIndex);
+			}
+		}
+	}
+	updateVariantUserData(variantIndex, materialVariant) {
+		// Adds variants name to material variants set.
+		materialVariant[$variantIndices].add(variantIndex);
+		this.mesh.userData.variantData = this.modelVariants;
+		// Updates import data (see VariantMaterialLoaderPlugin.ts).
+		this.mesh.userData.variantMaterials = this.mesh.userData.variantMaterials ||
+			new Map();
+		const map = this.mesh.userData.variantMaterials;
+		map.set(variantIndex, {
+			material: materialVariant[$correlatedObjects].values().next().value,
+			gltfMaterialIndex: materialVariant.index,
+		});
+	}
+	ensureVariantIsUnused(variantName) {
+		const modelVariants = this.modelVariants.get(variantName);
+		if (modelVariants != null && this.variantInfo.has(modelVariants.index)) {
+			console.warn(`Primitive cannot add variant '${variantName}' for this material, it already exists.`);
+			return false;
+		}
+		return true;
+	}
 }
 
 /* @license
@@ -60096,12 +60171,12 @@ const $cloneMaterial = Symbol('cloneMaterial');
 // Holds onto temporary scene context information needed to perform lazy loading
 // of a resource.
 class LazyLoader {
-    constructor(gltf, gltfElementMap, mapKey, doLazyLoad) {
-        this.gltf = gltf;
-        this.gltfElementMap = gltfElementMap;
-        this.mapKey = mapKey;
-        this.doLazyLoad = doLazyLoad;
-    }
+	constructor(gltf, gltfElementMap, mapKey, doLazyLoad) {
+		this.gltf = gltf;
+		this.gltfElementMap = gltfElementMap;
+		this.mapKey = mapKey;
+		this.doLazyLoad = doLazyLoad;
+	}
 }
 /**
  * A Model facades the top-level GLTF object returned by Three.js' GLTFLoader.
@@ -60109,252 +60184,252 @@ class LazyLoader {
  * scene graph.
  */
 class Model {
-    constructor(correlatedSceneGraph, onUpdate = () => { }) {
-        this[_a$2] = new Array();
-        this[_b$2] = new Array();
-        this[_c$1] = new Array();
-        this[_d$1] = new Array();
-        this[_e$1] = () => { };
-        this[_f$1] = new Map();
-        this[$modelOnUpdate] = onUpdate;
-        const { gltf, threeGLTF, gltfElementMap } = correlatedSceneGraph;
-        for (const [i, material] of gltf.materials.entries()) {
-            const correlatedMaterial = gltfElementMap.get(material);
-            if (correlatedMaterial != null) {
-                this[$materials].push(new Material(onUpdate, i, true, this[$variantData], correlatedMaterial, material.name));
-            }
-            else {
-                const elementArray = gltf['materials'] || [];
-                const gltfMaterialDef = elementArray[i];
-                const threeMaterialSet = new Set();
-                gltfElementMap.set(gltfMaterialDef, threeMaterialSet);
-                const materialLoadCallback = async () => {
-                    const threeMaterial = await threeGLTF.parser.getDependency('material', i);
-                    threeMaterialSet.add(threeMaterial);
-                    return threeMaterial;
-                };
-                // Configures the material for lazy loading.
-                this[$materials].push(new Material(onUpdate, i, false, this[$variantData], threeMaterialSet, material.name, new LazyLoader(gltf, gltfElementMap, gltfMaterialDef, materialLoadCallback)));
-            }
-        }
-        // Creates a hierarchy of Nodes. Allows not just for switching which
-        // material is applied to a mesh but also exposes a way to provide API
-        // for switching materials and general assignment/modification.
-        // Prepares for scene iteration.
-        const parentMap = new Map();
-        const nodeStack = new Array();
-        for (const object of threeGLTF.scene.children) {
-            nodeStack.push(object);
-        }
-        // Walks the hierarchy and creates a node tree.
-        while (nodeStack.length > 0) {
-            const object = nodeStack.pop();
-            let node = null;
-            if (object instanceof Mesh) {
-                node = new PrimitiveNode(object, this.materials, this[$variantData], correlatedSceneGraph);
-                this[$primitivesList].push(node);
-            }
-            else {
-                node = new Node$1(object.name);
-            }
-            const parent = parentMap.get(object);
-            if (parent != null) {
-                parent.children.push(node);
-            }
-            else {
-                this[$roots].push(node);
-            }
-            this[$hierarchy].push(node);
-            for (const child of object.children) {
-                nodeStack.push(child);
-                parentMap.set(object, node);
-            }
-        }
-    }
-    /**
-     * Materials are listed in the order of the GLTF materials array, plus a
-     * default material at the end if one is used.
-     *
-     * TODO(#1003): How do we handle non-active scenes?
-     */
-    get materials() {
-        return this[$materials];
-    }
-    [(_a$2 = $materials, _b$2 = $hierarchy, _c$1 = $roots, _d$1 = $primitivesList, _e$1 = $modelOnUpdate, _f$1 = $variantData, $availableVariants)]() {
-        const variants = Array.from(this[$variantData].values());
-        variants.sort((a, b) => {
-            return a.index - b.index;
-        });
-        return variants.map((data) => {
-            return data.name;
-        });
-    }
-    getMaterialByName(name) {
-        const matches = this[$materials].filter(material => {
-            return material.name === name;
-        });
-        if (matches.length > 0) {
-            return matches[0];
-        }
-        return null;
-    }
-    [$nodeFromIndex](mesh, primitive) {
-        const found = this[$hierarchy].find((node) => {
-            if (node instanceof PrimitiveNode) {
-                const { meshes, primitives } = node.mesh.userData.associations;
-                if (meshes == mesh && primitives == primitive) {
-                    return true;
-                }
-            }
-            return false;
-        });
-        return found == null ? null : found;
-    }
-    [$nodeFromPoint](hit) {
-        return this[$hierarchy].find((node) => {
-            if (node instanceof PrimitiveNode) {
-                const primitive = node;
-                if (primitive.mesh === hit.object) {
-                    return true;
-                }
-            }
-            return false;
-        });
-    }
-    /**
-     * Intersects a ray with the Model and returns the first material whose
-     * object was intersected.
-     */
-    [$materialFromPoint](hit) {
-        return this[$nodeFromPoint](hit).getActiveMaterial();
-    }
-    /**
-     * Switches model variant to the variant name provided, or switches to
-     * default/initial materials if 'null' is provided.
-     */
-    async [$switchVariant](variantName) {
-        for (const primitive of this[$primitivesList]) {
-            await primitive.enableVariant(variantName);
-        }
-        for (const material of this.materials) {
-            material[$setActive](false);
-        }
-        // Marks the materials that are now in use after the variant switch.
-        for (const primitive of this[$primitivesList]) {
-            this.materials[primitive.getActiveMaterial().index][$setActive](true);
-        }
-    }
-    async [$prepareVariantsForExport]() {
-        const promises = new Array();
-        for (const primitive of this[$primitivesList]) {
-            promises.push(primitive.instantiateVariants());
-        }
-        await Promise.all(promises);
-    }
-    [$cloneMaterial](index, newMaterialName) {
-        const material = this.materials[index];
-        if (!material.isLoaded) {
-            console.error(`Cloning an unloaded material,
-           call 'material.ensureLoaded() before cloning the material.`);
-        }
-        const threeMaterialSet = material[$correlatedObjects];
-        const clonedSet = new Set();
-        for (const [i, threeMaterial] of threeMaterialSet.entries()) {
-            const clone = threeMaterial.clone();
-            clone.name =
-                newMaterialName + (threeMaterialSet.size > 1 ? '_inst' + i : '');
-            clonedSet.add(clone);
-        }
-        const clonedMaterial = new Material(this[$modelOnUpdate], this[$materials].length, false, // Cloned as inactive.
-        this[$variantData], clonedSet, newMaterialName);
-        this[$materials].push(clonedMaterial);
-        return clonedMaterial;
-    }
-    createMaterialInstanceForVariant(originalMaterialIndex, newMaterialName, variantName, activateVariant = true) {
-        let variantMaterialInstance = null;
-        for (const primitive of this[$primitivesList]) {
-            const variantData = this[$variantData].get(variantName);
-            // Skips the primitive if the variant already exists.
-            if (variantData != null && primitive.variantInfo.has(variantData.index)) {
-                continue;
-            }
-            // Skips the primitive if the source/original material does not exist.
-            if (primitive.getMaterial(originalMaterialIndex) == null) {
-                continue;
-            }
-            if (!this.hasVariant(variantName)) {
-                this.createVariant(variantName);
-            }
-            if (variantMaterialInstance == null) {
-                variantMaterialInstance =
-                    this[$cloneMaterial](originalMaterialIndex, newMaterialName);
-            }
-            primitive.addVariant(variantMaterialInstance, variantName);
-        }
-        if (activateVariant && variantMaterialInstance != null) {
-            variantMaterialInstance[$setActive](true);
-            this.materials[originalMaterialIndex][$setActive](false);
-            for (const primitive of this[$primitivesList]) {
-                primitive.enableVariant(variantName);
-            }
-        }
-        return variantMaterialInstance;
-    }
-    createVariant(variantName) {
-        if (!this[$variantData].has(variantName)) {
-            // Adds the name if it's not already in the list.
-            this[$variantData].set(variantName, { name: variantName, index: this[$variantData].size });
-        }
-        else {
-            console.warn(`Variant '${variantName}'' already exists`);
-        }
-    }
-    hasVariant(variantName) {
-        return this[$variantData].has(variantName);
-    }
-    setMaterialToVariant(materialIndex, targetVariantName) {
-        if (this[$availableVariants]().find(name => name === targetVariantName) ==
-            null) {
-            console.warn(`Can't add material to '${targetVariantName}', the variant does not exist.'`);
-            return;
-        }
-        if (materialIndex < 0 || materialIndex >= this.materials.length) {
-            console.error(`setMaterialToVariant(): materialIndex is out of bounds.`);
-            return;
-        }
-        for (const primitive of this[$primitivesList]) {
-            const material = primitive.getMaterial(materialIndex);
-            // Ensures the material exists on the primitive before setting it to a
-            // variant.
-            if (material != null) {
-                primitive.addVariant(material, targetVariantName);
-            }
-        }
-    }
-    updateVariantName(currentName, newName) {
-        const variantData = this[$variantData].get(currentName);
-        if (variantData == null) {
-            return;
-        }
-        variantData.name = newName;
-        this[$variantData].set(newName, variantData);
-        this[$variantData].delete(currentName);
-    }
-    deleteVariant(variantName) {
-        const variant = this[$variantData].get(variantName);
-        if (variant == null) {
-            return;
-        }
-        for (const material of this.materials) {
-            if (material.hasVariant(variantName)) {
-                material[$variantIndices].delete(variant.index);
-            }
-        }
-        for (const primitive of this[$primitivesList]) {
-            primitive.deleteVariant(variant.index);
-        }
-        this[$variantData].delete(variantName);
-    }
+	constructor(correlatedSceneGraph, onUpdate = () => { }) {
+		this[_a$2] = new Array();
+		this[_b$2] = new Array();
+		this[_c$1] = new Array();
+		this[_d$1] = new Array();
+		this[_e$1] = () => { };
+		this[_f$1] = new Map();
+		this[$modelOnUpdate] = onUpdate;
+		const { gltf, threeGLTF, gltfElementMap } = correlatedSceneGraph;
+		for (const [i, material] of gltf.materials.entries()) {
+			const correlatedMaterial = gltfElementMap.get(material);
+			if (correlatedMaterial != null) {
+				this[$materials].push(new Material(onUpdate, i, true, this[$variantData], correlatedMaterial, material.name));
+			}
+			else {
+				const elementArray = gltf['materials'] || [];
+				const gltfMaterialDef = elementArray[i];
+				const threeMaterialSet = new Set();
+				gltfElementMap.set(gltfMaterialDef, threeMaterialSet);
+				const materialLoadCallback = async () => {
+					const threeMaterial = await threeGLTF.parser.getDependency('material', i);
+					threeMaterialSet.add(threeMaterial);
+					return threeMaterial;
+				};
+				// Configures the material for lazy loading.
+				this[$materials].push(new Material(onUpdate, i, false, this[$variantData], threeMaterialSet, material.name, new LazyLoader(gltf, gltfElementMap, gltfMaterialDef, materialLoadCallback)));
+			}
+		}
+		// Creates a hierarchy of Nodes. Allows not just for switching which
+		// material is applied to a mesh but also exposes a way to provide API
+		// for switching materials and general assignment/modification.
+		// Prepares for scene iteration.
+		const parentMap = new Map();
+		const nodeStack = new Array();
+		for (const object of threeGLTF.scene.children) {
+			nodeStack.push(object);
+		}
+		// Walks the hierarchy and creates a node tree.
+		while (nodeStack.length > 0) {
+			const object = nodeStack.pop();
+			let node = null;
+			if (object instanceof Mesh) {
+				node = new PrimitiveNode(object, this.materials, this[$variantData], correlatedSceneGraph);
+				this[$primitivesList].push(node);
+			}
+			else {
+				node = new Node$1(object.name);
+			}
+			const parent = parentMap.get(object);
+			if (parent != null) {
+				parent.children.push(node);
+			}
+			else {
+				this[$roots].push(node);
+			}
+			this[$hierarchy].push(node);
+			for (const child of object.children) {
+				nodeStack.push(child);
+				parentMap.set(object, node);
+			}
+		}
+	}
+	/**
+	 * Materials are listed in the order of the GLTF materials array, plus a
+	 * default material at the end if one is used.
+	 *
+	 * TODO(#1003): How do we handle non-active scenes?
+	 */
+	get materials() {
+		return this[$materials];
+	}
+	[(_a$2 = $materials, _b$2 = $hierarchy, _c$1 = $roots, _d$1 = $primitivesList, _e$1 = $modelOnUpdate, _f$1 = $variantData, $availableVariants)]() {
+		const variants = Array.from(this[$variantData].values());
+		variants.sort((a, b) => {
+			return a.index - b.index;
+		});
+		return variants.map((data) => {
+			return data.name;
+		});
+	}
+	getMaterialByName(name) {
+		const matches = this[$materials].filter(material => {
+			return material.name === name;
+		});
+		if (matches.length > 0) {
+			return matches[0];
+		}
+		return null;
+	}
+	[$nodeFromIndex](mesh, primitive) {
+		const found = this[$hierarchy].find((node) => {
+			if (node instanceof PrimitiveNode) {
+				const { meshes, primitives } = node.mesh.userData.associations;
+				if (meshes == mesh && primitives == primitive) {
+					return true;
+				}
+			}
+			return false;
+		});
+		return found == null ? null : found;
+	}
+	[$nodeFromPoint](hit) {
+		return this[$hierarchy].find((node) => {
+			if (node instanceof PrimitiveNode) {
+				const primitive = node;
+				if (primitive.mesh === hit.object) {
+					return true;
+				}
+			}
+			return false;
+		});
+	}
+	/**
+	 * Intersects a ray with the Model and returns the first material whose
+	 * object was intersected.
+	 */
+	[$materialFromPoint](hit) {
+		return this[$nodeFromPoint](hit).getActiveMaterial();
+	}
+	/**
+	 * Switches model variant to the variant name provided, or switches to
+	 * default/initial materials if 'null' is provided.
+	 */
+	async [$switchVariant](variantName) {
+		for (const primitive of this[$primitivesList]) {
+			await primitive.enableVariant(variantName);
+		}
+		for (const material of this.materials) {
+			material[$setActive](false);
+		}
+		// Marks the materials that are now in use after the variant switch.
+		for (const primitive of this[$primitivesList]) {
+			this.materials[primitive.getActiveMaterial().index][$setActive](true);
+		}
+	}
+	async [$prepareVariantsForExport]() {
+		const promises = new Array();
+		for (const primitive of this[$primitivesList]) {
+			promises.push(primitive.instantiateVariants());
+		}
+		await Promise.all(promises);
+	}
+	[$cloneMaterial](index, newMaterialName) {
+		const material = this.materials[index];
+		if (!material.isLoaded) {
+			console.error(`Cloning an unloaded material,
+		   call 'material.ensureLoaded() before cloning the material.`);
+		}
+		const threeMaterialSet = material[$correlatedObjects];
+		const clonedSet = new Set();
+		for (const [i, threeMaterial] of threeMaterialSet.entries()) {
+			const clone = threeMaterial.clone();
+			clone.name =
+				newMaterialName + (threeMaterialSet.size > 1 ? '_inst' + i : '');
+			clonedSet.add(clone);
+		}
+		const clonedMaterial = new Material(this[$modelOnUpdate], this[$materials].length, false, // Cloned as inactive.
+		this[$variantData], clonedSet, newMaterialName);
+		this[$materials].push(clonedMaterial);
+		return clonedMaterial;
+	}
+	createMaterialInstanceForVariant(originalMaterialIndex, newMaterialName, variantName, activateVariant = true) {
+		let variantMaterialInstance = null;
+		for (const primitive of this[$primitivesList]) {
+			const variantData = this[$variantData].get(variantName);
+			// Skips the primitive if the variant already exists.
+			if (variantData != null && primitive.variantInfo.has(variantData.index)) {
+				continue;
+			}
+			// Skips the primitive if the source/original material does not exist.
+			if (primitive.getMaterial(originalMaterialIndex) == null) {
+				continue;
+			}
+			if (!this.hasVariant(variantName)) {
+				this.createVariant(variantName);
+			}
+			if (variantMaterialInstance == null) {
+				variantMaterialInstance =
+					this[$cloneMaterial](originalMaterialIndex, newMaterialName);
+			}
+			primitive.addVariant(variantMaterialInstance, variantName);
+		}
+		if (activateVariant && variantMaterialInstance != null) {
+			variantMaterialInstance[$setActive](true);
+			this.materials[originalMaterialIndex][$setActive](false);
+			for (const primitive of this[$primitivesList]) {
+				primitive.enableVariant(variantName);
+			}
+		}
+		return variantMaterialInstance;
+	}
+	createVariant(variantName) {
+		if (!this[$variantData].has(variantName)) {
+			// Adds the name if it's not already in the list.
+			this[$variantData].set(variantName, { name: variantName, index: this[$variantData].size });
+		}
+		else {
+			console.warn(`Variant '${variantName}'' already exists`);
+		}
+	}
+	hasVariant(variantName) {
+		return this[$variantData].has(variantName);
+	}
+	setMaterialToVariant(materialIndex, targetVariantName) {
+		if (this[$availableVariants]().find(name => name === targetVariantName) ==
+			null) {
+			console.warn(`Can't add material to '${targetVariantName}', the variant does not exist.'`);
+			return;
+		}
+		if (materialIndex < 0 || materialIndex >= this.materials.length) {
+			console.error(`setMaterialToVariant(): materialIndex is out of bounds.`);
+			return;
+		}
+		for (const primitive of this[$primitivesList]) {
+			const material = primitive.getMaterial(materialIndex);
+			// Ensures the material exists on the primitive before setting it to a
+			// variant.
+			if (material != null) {
+				primitive.addVariant(material, targetVariantName);
+			}
+		}
+	}
+	updateVariantName(currentName, newName) {
+		const variantData = this[$variantData].get(currentName);
+		if (variantData == null) {
+			return;
+		}
+		variantData.name = newName;
+		this[$variantData].set(newName, variantData);
+		this[$variantData].delete(currentName);
+	}
+	deleteVariant(variantName) {
+		const variant = this[$variantData].get(variantName);
+		if (variant == null) {
+			return;
+		}
+		for (const material of this.materials) {
+			if (material.hasVariant(variantName)) {
+				material[$variantIndices].delete(variant.index);
+			}
+		}
+		for (const primitive of this[$primitivesList]) {
+			primitive.deleteVariant(variant.index);
+		}
+		this[$variantData].delete(variantName);
+	}
 }
 
 /* @license
@@ -60372,9 +60447,9 @@ class Model {
  * limitations under the License.
  */
 var __decorate$5 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 const $currentGLTF = Symbol('currentGLTF');
 const $originalGltfJson = Symbol('originalGltfJson');
@@ -60386,182 +60461,182 @@ const $buildTexture = Symbol('buildTexture');
  * the <model-viewer> scene graph.
  */
 const SceneGraphMixin = (ModelViewerElement) => {
-    var _a, _b, _c;
-    class SceneGraphModelViewerElement extends ModelViewerElement {
-        constructor() {
-            super(...arguments);
-            this[_a] = undefined;
-            this[_b] = null;
-            this[_c] = null;
-            this.variantName = null;
-            this.orientation = '0 0 0';
-            this.scale = '1 1 1';
-        }
-        // Scene-graph API:
-        /** @export */
-        get model() {
-            return this[$model];
-        }
-        get availableVariants() {
-            return this.model ? this.model[$availableVariants]() : [];
-        }
-        /**
-         * Returns a deep copy of the gltf JSON as loaded. It will not reflect
-         * changes to the scene-graph, nor will editing it have any effect.
-         */
-        get originalGltfJson() {
-            return this[$originalGltfJson];
-        }
-        [(_a = $model, _b = $currentGLTF, _c = $originalGltfJson, $getOnUpdateMethod)]() {
-            return () => {
-                this[$needsRender]();
-            };
-        }
-        [$buildTexture](texture) {
-            // Applies glTF default settings.
-            texture.colorSpace = SRGBColorSpace;
-            texture.wrapS = RepeatWrapping;
-            texture.wrapT = RepeatWrapping;
-            return new Texture(this[$getOnUpdateMethod](), texture);
-        }
-        async createTexture(uri, type = 'image/png') {
-            const { textureUtils } = this[$renderer];
-            const texture = await textureUtils.loadImage(uri, this.withCredentials);
-            texture.userData.mimeType = type;
-            return this[$buildTexture](texture);
-        }
-        async createLottieTexture(uri, quality = 1) {
-            const { textureUtils } = this[$renderer];
-            const texture = await textureUtils.loadLottie(uri, quality, this.withCredentials);
-            return this[$buildTexture](texture);
-        }
-        createVideoTexture(uri) {
-            const video = document.createElement('video');
-            video.crossOrigin =
-                this.withCredentials ? 'use-credentials' : 'anonymous';
-            video.src = uri;
-            video.muted = true;
-            video.playsInline = true;
-            video.loop = true;
-            video.play();
-            const texture = new VideoTexture(video);
-            return this[$buildTexture](texture);
-        }
-        createCanvasTexture() {
-            const canvas = document.createElement('canvas');
-            const texture = new CanvasTexture(canvas);
-            return this[$buildTexture](texture);
-        }
-        async updated(changedProperties) {
-            super.updated(changedProperties);
-            if (changedProperties.has('variantName')) {
-                const updateVariantProgress = this[$progressTracker].beginActivity('variant-update');
-                updateVariantProgress(0.1);
-                const model = this[$model];
-                const { variantName } = this;
-                if (model != null) {
-                    await model[$switchVariant](variantName);
-                    this[$needsRender]();
-                    this.dispatchEvent(new CustomEvent('variant-applied'));
-                }
-                updateVariantProgress(1.0);
-            }
-            if (changedProperties.has('orientation') ||
-                changedProperties.has('scale')) {
-                if (!this.loaded) {
-                    return;
-                }
-                const scene = this[$scene];
-                scene.applyTransform();
-                scene.updateBoundingBox();
-                scene.updateShadow();
-                this[$renderer].arRenderer.onUpdateScene();
-                this[$needsRender]();
-            }
-        }
-        [$onModelLoad]() {
-            super[$onModelLoad]();
-            const { currentGLTF } = this[$scene];
-            if (currentGLTF != null) {
-                const { correlatedSceneGraph } = currentGLTF;
-                if (correlatedSceneGraph != null &&
-                    currentGLTF !== this[$currentGLTF]) {
-                    this[$model] =
-                        new Model(correlatedSceneGraph, this[$getOnUpdateMethod]());
-                    this[$originalGltfJson] =
-                        JSON.parse(JSON.stringify(correlatedSceneGraph.gltf));
-                }
-                // KHR_materials_variants extension spec:
-                // https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_variants
-                if ('variants' in currentGLTF.userData) {
-                    this.requestUpdate('variantName');
-                }
-            }
-            this[$currentGLTF] = currentGLTF;
-        }
-        /** @export */
-        async exportScene(options) {
-            const scene = this[$scene];
-            return new Promise(async (resolve, reject) => {
-                // Defaults
-                const opts = {
-                    binary: true,
-                    onlyVisible: true,
-                    maxTextureSize: Infinity,
-                    includeCustomExtensions: false,
-                    forceIndices: false
-                };
-                Object.assign(opts, options);
-                // Not configurable
-                opts.animations = scene.animations;
-                opts.truncateDrawRange = true;
-                const shadow = scene.shadow;
-                let visible = false;
-                // Remove shadow from export
-                if (shadow != null) {
-                    visible = shadow.visible;
-                    shadow.visible = false;
-                }
-                await this[$model][$prepareVariantsForExport]();
-                const exporter = new GLTFExporter()
-                    .register((writer) => new GLTFExporterMaterialsVariantsExtension(writer));
-                exporter.parse(scene.model, (gltf) => {
-                    return resolve(new Blob([opts.binary ? gltf : JSON.stringify(gltf)], {
-                        type: opts.binary ? 'application/octet-stream' :
-                            'application/json'
-                    }));
-                }, () => {
-                    return reject('glTF export failed');
-                }, opts);
-                if (shadow != null) {
-                    shadow.visible = visible;
-                }
-            });
-        }
-        materialFromPoint(pixelX, pixelY) {
-            const model = this[$model];
-            if (model == null) {
-                return null;
-            }
-            const scene = this[$scene];
-            const ndcCoords = scene.getNDC(pixelX, pixelY);
-            const hit = scene.hitFromPoint(ndcCoords);
-            if (hit == null || hit.face == null) {
-                return null;
-            }
-            return model[$materialFromPoint](hit);
-        }
-    }
-    __decorate$5([
-        n$2({ type: String, attribute: 'variant-name' })
-    ], SceneGraphModelViewerElement.prototype, "variantName", void 0);
-    __decorate$5([
-        n$2({ type: String, attribute: 'orientation' })
-    ], SceneGraphModelViewerElement.prototype, "orientation", void 0);
-    __decorate$5([
-        n$2({ type: String, attribute: 'scale' })
-    ], SceneGraphModelViewerElement.prototype, "scale", void 0);
-    return SceneGraphModelViewerElement;
+	var _a, _b, _c;
+	class SceneGraphModelViewerElement extends ModelViewerElement {
+		constructor() {
+			super(...arguments);
+			this[_a] = undefined;
+			this[_b] = null;
+			this[_c] = null;
+			this.variantName = null;
+			this.orientation = '0 0 0';
+			this.scale = '1 1 1';
+		}
+		// Scene-graph API:
+		/** @export */
+		get model() {
+			return this[$model];
+		}
+		get availableVariants() {
+			return this.model ? this.model[$availableVariants]() : [];
+		}
+		/**
+		 * Returns a deep copy of the gltf JSON as loaded. It will not reflect
+		 * changes to the scene-graph, nor will editing it have any effect.
+		 */
+		get originalGltfJson() {
+			return this[$originalGltfJson];
+		}
+		[(_a = $model, _b = $currentGLTF, _c = $originalGltfJson, $getOnUpdateMethod)]() {
+			return () => {
+				this[$needsRender]();
+			};
+		}
+		[$buildTexture](texture) {
+			// Applies glTF default settings.
+			texture.colorSpace = SRGBColorSpace;
+			texture.wrapS = RepeatWrapping;
+			texture.wrapT = RepeatWrapping;
+			return new Texture(this[$getOnUpdateMethod](), texture);
+		}
+		async createTexture(uri, type = 'image/png') {
+			const { textureUtils } = this[$renderer];
+			const texture = await textureUtils.loadImage(uri, this.withCredentials);
+			texture.userData.mimeType = type;
+			return this[$buildTexture](texture);
+		}
+		async createLottieTexture(uri, quality = 1) {
+			const { textureUtils } = this[$renderer];
+			const texture = await textureUtils.loadLottie(uri, quality, this.withCredentials);
+			return this[$buildTexture](texture);
+		}
+		createVideoTexture(uri) {
+			const video = document.createElement('video');
+			video.crossOrigin =
+				this.withCredentials ? 'use-credentials' : 'anonymous';
+			video.src = uri;
+			video.muted = true;
+			video.playsInline = true;
+			video.loop = true;
+			video.play();
+			const texture = new VideoTexture(video);
+			return this[$buildTexture](texture);
+		}
+		createCanvasTexture() {
+			const canvas = document.createElement('canvas');
+			const texture = new CanvasTexture(canvas);
+			return this[$buildTexture](texture);
+		}
+		async updated(changedProperties) {
+			super.updated(changedProperties);
+			if (changedProperties.has('variantName')) {
+				const updateVariantProgress = this[$progressTracker].beginActivity('variant-update');
+				updateVariantProgress(0.1);
+				const model = this[$model];
+				const { variantName } = this;
+				if (model != null) {
+					await model[$switchVariant](variantName);
+					this[$needsRender]();
+					this.dispatchEvent(new CustomEvent('variant-applied'));
+				}
+				updateVariantProgress(1.0);
+			}
+			if (changedProperties.has('orientation') ||
+				changedProperties.has('scale')) {
+				if (!this.loaded) {
+					return;
+				}
+				const scene = this[$scene];
+				scene.applyTransform();
+				scene.updateBoundingBox();
+				scene.updateShadow();
+				this[$renderer].arRenderer.onUpdateScene();
+				this[$needsRender]();
+			}
+		}
+		[$onModelLoad]() {
+			super[$onModelLoad]();
+			const { currentGLTF } = this[$scene];
+			if (currentGLTF != null) {
+				const { correlatedSceneGraph } = currentGLTF;
+				if (correlatedSceneGraph != null &&
+					currentGLTF !== this[$currentGLTF]) {
+					this[$model] =
+						new Model(correlatedSceneGraph, this[$getOnUpdateMethod]());
+					this[$originalGltfJson] =
+						JSON.parse(JSON.stringify(correlatedSceneGraph.gltf));
+				}
+				// KHR_materials_variants extension spec:
+				// https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Khronos/KHR_materials_variants
+				if ('variants' in currentGLTF.userData) {
+					this.requestUpdate('variantName');
+				}
+			}
+			this[$currentGLTF] = currentGLTF;
+		}
+		/** @export */
+		async exportScene(options) {
+			const scene = this[$scene];
+			return new Promise(async (resolve, reject) => {
+				// Defaults
+				const opts = {
+					binary: true,
+					onlyVisible: true,
+					maxTextureSize: Infinity,
+					includeCustomExtensions: false,
+					forceIndices: false
+				};
+				Object.assign(opts, options);
+				// Not configurable
+				opts.animations = scene.animations;
+				opts.truncateDrawRange = true;
+				const shadow = scene.shadow;
+				let visible = false;
+				// Remove shadow from export
+				if (shadow != null) {
+					visible = shadow.visible;
+					shadow.visible = false;
+				}
+				await this[$model][$prepareVariantsForExport]();
+				const exporter = new GLTFExporter()
+					.register((writer) => new GLTFExporterMaterialsVariantsExtension(writer));
+				exporter.parse(scene.model, (gltf) => {
+					return resolve(new Blob([opts.binary ? gltf : JSON.stringify(gltf)], {
+						type: opts.binary ? 'application/octet-stream' :
+							'application/json'
+					}));
+				}, () => {
+					return reject('glTF export failed');
+				}, opts);
+				if (shadow != null) {
+					shadow.visible = visible;
+				}
+			});
+		}
+		materialFromPoint(pixelX, pixelY) {
+			const model = this[$model];
+			if (model == null) {
+				return null;
+			}
+			const scene = this[$scene];
+			const ndcCoords = scene.getNDC(pixelX, pixelY);
+			const hit = scene.hitFromPoint(ndcCoords);
+			if (hit == null || hit.face == null) {
+				return null;
+			}
+			return model[$materialFromPoint](hit);
+		}
+	}
+	__decorate$5([
+		n$2({ type: String, attribute: 'variant-name' })
+	], SceneGraphModelViewerElement.prototype, "variantName", void 0);
+	__decorate$5([
+		n$2({ type: String, attribute: 'orientation' })
+	], SceneGraphModelViewerElement.prototype, "orientation", void 0);
+	__decorate$5([
+		n$2({ type: String, attribute: 'scale' })
+	], SceneGraphModelViewerElement.prototype, "scale", void 0);
+	return SceneGraphModelViewerElement;
 };
 
 /* @license
@@ -60579,53 +60654,53 @@ const SceneGraphMixin = (ModelViewerElement) => {
  * limitations under the License.
  */
 class GroundedSkybox extends Mesh {
-    constructor() {
-        super(undefined, new MeshBasicMaterial({ depthWrite: false }));
-        this.height = 0;
-        this.radius = 0;
-        this.resolution = 0;
-        this.userData.noHit = true;
-    }
-    get map() {
-        return this.material.map;
-    }
-    set map(skybox) {
-        this.material.map = skybox;
-    }
-    isUsable() {
-        return this.height > 0 && this.radius > 0 && this.geometry != null &&
-            this.map != null;
-    }
-    updateGeometry(height = this.height, radius = this.radius, resolution = 128) {
-        if (height != this.height || radius != this.radius ||
-            resolution != this.resolution) {
-            this.height = height;
-            this.radius = radius;
-            this.resolution = resolution;
-            if (height > 0 && radius > 0) {
-                this.geometry.dispose();
-                this.geometry = makeGeometry(height, radius, resolution);
-            }
-        }
-    }
+	constructor() {
+		super(undefined, new MeshBasicMaterial({ depthWrite: false }));
+		this.height = 0;
+		this.radius = 0;
+		this.resolution = 0;
+		this.userData.noHit = true;
+	}
+	get map() {
+		return this.material.map;
+	}
+	set map(skybox) {
+		this.material.map = skybox;
+	}
+	isUsable() {
+		return this.height > 0 && this.radius > 0 && this.geometry != null &&
+			this.map != null;
+	}
+	updateGeometry(height = this.height, radius = this.radius, resolution = 128) {
+		if (height != this.height || radius != this.radius ||
+			resolution != this.resolution) {
+			this.height = height;
+			this.radius = radius;
+			this.resolution = resolution;
+			if (height > 0 && radius > 0) {
+				this.geometry.dispose();
+				this.geometry = makeGeometry(height, radius, resolution);
+			}
+		}
+	}
 }
 function makeGeometry(height, radius, resolution) {
-    const geometry = new SphereGeometry(radius, 2 * resolution, resolution);
-    geometry.scale(1, 1, -1);
-    const pos = geometry.getAttribute('position');
-    const tmp = new Vector3();
-    for (let i = 0; i < pos.count; ++i) {
-        tmp.fromBufferAttribute(pos, i);
-        if (tmp.y < 0) {
-            // Smooth out the transition from flat floor to sphere:
-            const y1 = -height * 3 / 2;
-            const f = tmp.y < y1 ? -height / tmp.y : (1 - tmp.y * tmp.y / (3 * y1 * y1));
-            tmp.multiplyScalar(f);
-            tmp.toArray(pos.array, 3 * i);
-        }
-    }
-    pos.needsUpdate = true;
-    return geometry;
+	const geometry = new SphereGeometry(radius, 2 * resolution, resolution);
+	geometry.scale(1, 1, -1);
+	const pos = geometry.getAttribute('position');
+	const tmp = new Vector3();
+	for (let i = 0; i < pos.count; ++i) {
+		tmp.fromBufferAttribute(pos, i);
+		if (tmp.y < 0) {
+			// Smooth out the transition from flat floor to sphere:
+			const y1 = -height * 3 / 2;
+			const f = tmp.y < y1 ? -height / tmp.y : (1 - tmp.y * tmp.y / (3 * y1 * y1));
+			tmp.multiplyScalar(f);
+			tmp.toArray(pos.array, 3 * i);
+		}
+	}
+	pos.needsUpdate = true;
+	return geometry;
 }
 
 /* @license
@@ -60653,127 +60728,127 @@ const quat = new Quaternion();
  * it should be removed from the tree so it can be garbage-collected.
  */
 class Hotspot extends CSS2DObject {
-    constructor(config) {
-        super(document.createElement('div'));
-        this.normal = new Vector3(0, 1, 0);
-        this.initialized = false;
-        this.referenceCount = 1;
-        this.pivot = document.createElement('div');
-        this.slot = document.createElement('slot');
-        this.element.classList.add('annotation-wrapper');
-        this.slot.name = config.name;
-        this.element.appendChild(this.pivot);
-        this.pivot.appendChild(this.slot);
-        this.updatePosition(config.position);
-        this.updateNormal(config.normal);
-        this.surface = config.surface;
-    }
-    get facingCamera() {
-        return !this.element.classList.contains('hide');
-    }
-    /**
-     * Sets the hotspot to be in the highly visible foreground state.
-     */
-    show() {
-        if (!this.facingCamera || !this.initialized) {
-            this.updateVisibility(true);
-        }
-    }
-    /**
-     * Sets the hotspot to be in the diminished background state.
-     */
-    hide() {
-        if (this.facingCamera || !this.initialized) {
-            this.updateVisibility(false);
-        }
-    }
-    /**
-     * Call this when adding elements to the same slot to keep track.
-     */
-    increment() {
-        this.referenceCount++;
-    }
-    /**
-     * Call this when removing elements from the slot; returns true when the slot
-     * is unused.
-     */
-    decrement() {
-        if (this.referenceCount > 0) {
-            --this.referenceCount;
-        }
-        return this.referenceCount === 0;
-    }
-    /**
-     * Change the position of the hotspot to the input string, in the same format
-     * as the data-position attribute.
-     */
-    updatePosition(position) {
-        if (position == null)
-            return;
-        const positionNodes = parseExpressions(position)[0].terms;
-        for (let i = 0; i < 3; ++i) {
-            this.position.setComponent(i, normalizeUnit(positionNodes[i]).number);
-        }
-        this.updateMatrixWorld();
-    }
-    /**
-     * Change the hotspot's normal to the input string, in the same format as the
-     * data-normal attribute.
-     */
-    updateNormal(normal) {
-        if (normal == null)
-            return;
-        const normalNodes = parseExpressions(normal)[0].terms;
-        for (let i = 0; i < 3; ++i) {
-            this.normal.setComponent(i, normalNodes[i].number);
-        }
-    }
-    updateSurface() {
-        const { mesh, tri, bary } = this;
-        if (mesh == null || tri == null || bary == null) {
-            return;
-        }
-        mesh.getVertexPosition(tri.x, a);
-        mesh.getVertexPosition(tri.y, b);
-        mesh.getVertexPosition(tri.z, c);
-        a.toArray(mat.elements, 0);
-        b.toArray(mat.elements, 3);
-        c.toArray(mat.elements, 6);
-        this.position.copy(bary).applyMatrix3(mat);
-        const target = this.parent;
-        target.worldToLocal(mesh.localToWorld(this.position));
-        triangle.set(a, b, c);
-        triangle.getNormal(this.normal).transformDirection(mesh.matrixWorld);
-        const pivot = target.parent;
-        quat.setFromAxisAngle(a.set(0, 1, 0), -pivot.rotation.y);
-        this.normal.applyQuaternion(quat);
-    }
-    orient(radians) {
-        this.pivot.style.transform = `rotate(${radians}rad)`;
-    }
-    updateVisibility(show) {
-        this.element.classList.toggle('hide', !show);
-        // NOTE: ShadyDOM doesn't support slot.assignedElements, otherwise we could
-        // use that here.
-        this.slot.assignedNodes().forEach((node) => {
-            if (node.nodeType !== Node.ELEMENT_NODE) {
-                return;
-            }
-            const element = node;
-            // Visibility attribute can be configured per-node in the hotspot:
-            const visibilityAttribute = element.dataset.visibilityAttribute;
-            if (visibilityAttribute != null) {
-                const attributeName = `data-${visibilityAttribute}`;
-                element.toggleAttribute(attributeName, show);
-            }
-            element.dispatchEvent(new CustomEvent('hotspot-visibility', {
-                detail: {
-                    visible: show,
-                },
-            }));
-        });
-        this.initialized = true;
-    }
+	constructor(config) {
+		super(document.createElement('div'));
+		this.normal = new Vector3(0, 1, 0);
+		this.initialized = false;
+		this.referenceCount = 1;
+		this.pivot = document.createElement('div');
+		this.slot = document.createElement('slot');
+		this.element.classList.add('annotation-wrapper');
+		this.slot.name = config.name;
+		this.element.appendChild(this.pivot);
+		this.pivot.appendChild(this.slot);
+		this.updatePosition(config.position);
+		this.updateNormal(config.normal);
+		this.surface = config.surface;
+	}
+	get facingCamera() {
+		return !this.element.classList.contains('hide');
+	}
+	/**
+	 * Sets the hotspot to be in the highly visible foreground state.
+	 */
+	show() {
+		if (!this.facingCamera || !this.initialized) {
+			this.updateVisibility(true);
+		}
+	}
+	/**
+	 * Sets the hotspot to be in the diminished background state.
+	 */
+	hide() {
+		if (this.facingCamera || !this.initialized) {
+			this.updateVisibility(false);
+		}
+	}
+	/**
+	 * Call this when adding elements to the same slot to keep track.
+	 */
+	increment() {
+		this.referenceCount++;
+	}
+	/**
+	 * Call this when removing elements from the slot; returns true when the slot
+	 * is unused.
+	 */
+	decrement() {
+		if (this.referenceCount > 0) {
+			--this.referenceCount;
+		}
+		return this.referenceCount === 0;
+	}
+	/**
+	 * Change the position of the hotspot to the input string, in the same format
+	 * as the data-position attribute.
+	 */
+	updatePosition(position) {
+		if (position == null)
+			return;
+		const positionNodes = parseExpressions(position)[0].terms;
+		for (let i = 0; i < 3; ++i) {
+			this.position.setComponent(i, normalizeUnit(positionNodes[i]).number);
+		}
+		this.updateMatrixWorld();
+	}
+	/**
+	 * Change the hotspot's normal to the input string, in the same format as the
+	 * data-normal attribute.
+	 */
+	updateNormal(normal) {
+		if (normal == null)
+			return;
+		const normalNodes = parseExpressions(normal)[0].terms;
+		for (let i = 0; i < 3; ++i) {
+			this.normal.setComponent(i, normalNodes[i].number);
+		}
+	}
+	updateSurface() {
+		const { mesh, tri, bary } = this;
+		if (mesh == null || tri == null || bary == null) {
+			return;
+		}
+		mesh.getVertexPosition(tri.x, a);
+		mesh.getVertexPosition(tri.y, b);
+		mesh.getVertexPosition(tri.z, c);
+		a.toArray(mat.elements, 0);
+		b.toArray(mat.elements, 3);
+		c.toArray(mat.elements, 6);
+		this.position.copy(bary).applyMatrix3(mat);
+		const target = this.parent;
+		target.worldToLocal(mesh.localToWorld(this.position));
+		triangle.set(a, b, c);
+		triangle.getNormal(this.normal).transformDirection(mesh.matrixWorld);
+		const pivot = target.parent;
+		quat.setFromAxisAngle(a.set(0, 1, 0), -pivot.rotation.y);
+		this.normal.applyQuaternion(quat);
+	}
+	orient(radians) {
+		this.pivot.style.transform = `rotate(${radians}rad)`;
+	}
+	updateVisibility(show) {
+		this.element.classList.toggle('hide', !show);
+		// NOTE: ShadyDOM doesn't support slot.assignedElements, otherwise we could
+		// use that here.
+		this.slot.assignedNodes().forEach((node) => {
+			if (node.nodeType !== Node.ELEMENT_NODE) {
+				return;
+			}
+			const element = node;
+			// Visibility attribute can be configured per-node in the hotspot:
+			const visibilityAttribute = element.dataset.visibilityAttribute;
+			if (visibilityAttribute != null) {
+				const attributeName = `data-${visibilityAttribute}`;
+				element.toggleAttribute(attributeName, show);
+			}
+			element.dispatchEvent(new CustomEvent('hotspot-visibility', {
+				detail: {
+					visible: show,
+				},
+			}));
+		});
+		this.initialized = true;
+	}
 }
 
 /**
@@ -60940,246 +61015,246 @@ const DEFAULT_HARD_INTENSITY = 0.3;
  * softer shadows faster, but less precise.
  */
 class Shadow extends Object3D {
-    constructor(scene, softness, side) {
-        super();
-        this.camera = new OrthographicCamera();
-        // private cameraHelper = new CameraHelper(this.camera);
-        this.renderTarget = null;
-        this.renderTargetBlur = null;
-        this.depthMaterial = new MeshDepthMaterial();
-        this.horizontalBlurMaterial = new ShaderMaterial(HorizontalBlurShader);
-        this.verticalBlurMaterial = new ShaderMaterial(VerticalBlurShader);
-        this.intensity = 0;
-        this.softness = 1;
-        this.boundingBox = new Box3;
-        this.size = new Vector3;
-        this.maxDimension = 0;
-        this.isAnimated = false;
-        this.needsUpdate = false;
-        const { camera } = this;
-        camera.rotation.x = Math.PI / 2;
-        camera.left = -0.5;
-        camera.right = 0.5;
-        camera.bottom = -0.5;
-        camera.top = 0.5;
-        this.add(camera);
-        // this.add(this.cameraHelper);
-        // this.cameraHelper.updateMatrixWorld = function() {
-        //   this.matrixWorld = this.camera.matrixWorld;
-        // };
-        const plane = new PlaneGeometry();
-        const shadowMaterial = new MeshBasicMaterial({
-            // color: new Color(1, 0, 0),
-            opacity: 1,
-            transparent: true,
-            side: BackSide,
-        });
-        this.floor = new Mesh(plane, shadowMaterial);
-        this.floor.userData.noHit = true;
-        camera.add(this.floor);
-        // the plane onto which to blur the texture
-        this.blurPlane = new Mesh(plane);
-        this.blurPlane.visible = false;
-        camera.add(this.blurPlane);
-        scene.target.add(this);
-        // like MeshDepthMaterial, but goes from black to transparent
-        this.depthMaterial.onBeforeCompile = function (shader) {
-            shader.fragmentShader = shader.fragmentShader.replace('gl_FragColor = vec4( vec3( 1.0 - fragCoordZ ), opacity );', 'gl_FragColor = vec4( vec3( 0.0 ), ( 1.0 - fragCoordZ ) * opacity );');
-        };
-        // Render both sides, back sides face the light source and
-        // front sides supply depth information for soft shadows
-        this.depthMaterial.side = DoubleSide;
-        this.horizontalBlurMaterial.depthTest = false;
-        this.verticalBlurMaterial.depthTest = false;
-        this.setScene(scene, softness, side);
-    }
-    /**
-     * Update the shadow's size and position for a new scene. Softness is also
-     * needed, as this controls the shadow's resolution.
-     */
-    setScene(scene, softness, side) {
-        const { boundingBox, size, rotation, position } = this;
-        this.isAnimated = scene.animationNames.length > 0;
-        this.boundingBox.copy(scene.boundingBox);
-        this.size.copy(scene.size);
-        this.maxDimension = Math.max(size.x, size.y, size.z) *
-            (this.isAnimated ? ANIMATION_SCALING : 1);
-        this.boundingBox.getCenter(position);
-        if (side === 'back') {
-            const { min, max } = boundingBox;
-            [min.y, min.z] = [min.z, min.y];
-            [max.y, max.z] = [max.z, max.y];
-            [size.y, size.z] = [size.z, size.y];
-            rotation.x = Math.PI / 2;
-            rotation.y = Math.PI;
-        }
-        else {
-            rotation.x = 0;
-            rotation.y = 0;
-        }
-        if (this.isAnimated) {
-            const minY = boundingBox.min.y;
-            const maxY = boundingBox.max.y;
-            size.y = this.maxDimension;
-            boundingBox.expandByVector(size.subScalar(this.maxDimension).multiplyScalar(-0.5));
-            boundingBox.min.y = minY;
-            boundingBox.max.y = maxY;
-            size.set(this.maxDimension, maxY - minY, this.maxDimension);
-        }
-        if (side === 'bottom') {
-            position.y = boundingBox.min.y;
-        }
-        else {
-            position.z = boundingBox.min.y;
-        }
-        this.setSoftness(softness);
-    }
-    /**
-     * Update the shadow's resolution based on softness (between 0 and 1). Should
-     * not be called frequently, as this results in reallocation.
-     */
-    setSoftness(softness) {
-        this.softness = softness;
-        const { size, camera } = this;
-        const scaleY = (this.isAnimated ? ANIMATION_SCALING : 1);
-        const resolution = scaleY *
-            Math.pow(2, LOG_MAX_RESOLUTION -
-                softness * (LOG_MAX_RESOLUTION - LOG_MIN_RESOLUTION));
-        this.setMapSize(resolution);
-        const softFar = size.y / 2;
-        const hardFar = size.y * scaleY;
-        camera.near = 0;
-        camera.far = lerp(hardFar, softFar, softness);
-        // we have co-opted opacity to scale the depth to clip
-        this.depthMaterial.opacity = 1.0 / softness;
-        camera.updateProjectionMatrix();
-        // this.cameraHelper.update();
-        this.setIntensity(this.intensity);
-        this.setOffset(0);
-    }
-    /**
-     * Lower-level version of the above function.
-     */
-    setMapSize(maxMapSize) {
-        const { size } = this;
-        if (this.isAnimated) {
-            maxMapSize *= ANIMATION_SCALING;
-        }
-        const baseWidth = Math.floor(size.x > size.z ? maxMapSize : maxMapSize * size.x / size.z);
-        const baseHeight = Math.floor(size.x > size.z ? maxMapSize * size.z / size.x : maxMapSize);
-        // width of blur filter in pixels (not adjustable)
-        const TAP_WIDTH = 10;
-        const width = TAP_WIDTH + baseWidth;
-        const height = TAP_WIDTH + baseHeight;
-        if (this.renderTarget != null &&
-            (this.renderTarget.width !== width ||
-                this.renderTarget.height !== height)) {
-            this.renderTarget.dispose();
-            this.renderTarget = null;
-            this.renderTargetBlur.dispose();
-            this.renderTargetBlur = null;
-        }
-        if (this.renderTarget == null) {
-            const params = { format: RGBAFormat };
-            this.renderTarget = new WebGLRenderTarget(width, height, params);
-            this.renderTargetBlur = new WebGLRenderTarget(width, height, params);
-            this.floor.material.map =
-                this.renderTarget.texture;
-        }
-        // These pads account for the softening radius around the shadow.
-        this.camera.scale.set(size.x * (1 + TAP_WIDTH / baseWidth), size.z * (1 + TAP_WIDTH / baseHeight), 1);
-        this.needsUpdate = true;
-    }
-    /**
-     * Set the shadow's intensity (0 to 1), which is just its opacity. Turns off
-     * shadow rendering if zero.
-     */
-    setIntensity(intensity) {
-        this.intensity = intensity;
-        if (intensity > 0) {
-            this.visible = true;
-            this.floor.visible = true;
-            this.floor.material.opacity = intensity *
-                lerp(DEFAULT_HARD_INTENSITY, 1, this.softness * this.softness);
-        }
-        else {
-            this.visible = false;
-            this.floor.visible = false;
-        }
-    }
-    getIntensity() {
-        return this.intensity;
-    }
-    /**
-     * An offset can be specified to move the
-     * shadow vertically relative to the bottom of the scene. Positive is up, so
-     * values are generally negative. A small offset keeps our shadow from
-     * z-fighting with any baked-in shadow plane.
-     */
-    setOffset(offset) {
-        this.floor.position.z = -offset + this.gap();
-    }
-    gap() {
-        return 0.001 * this.maxDimension;
-    }
-    render(renderer, scene) {
-        // this.cameraHelper.visible = false;
-        // force the depthMaterial to everything
-        scene.overrideMaterial = this.depthMaterial;
-        // set renderer clear alpha
-        const initialClearAlpha = renderer.getClearAlpha();
-        renderer.setClearAlpha(0);
-        this.floor.visible = false;
-        // disable XR for offscreen rendering
-        const xrEnabled = renderer.xr.enabled;
-        renderer.xr.enabled = false;
-        // render to the render target to get the depths
-        const oldRenderTarget = renderer.getRenderTarget();
-        renderer.setRenderTarget(this.renderTarget);
-        renderer.render(scene, this.camera);
-        // and reset the override material
-        scene.overrideMaterial = null;
-        this.floor.visible = true;
-        this.blurShadow(renderer);
-        // reset and render the normal scene
-        renderer.xr.enabled = xrEnabled;
-        renderer.setRenderTarget(oldRenderTarget);
-        renderer.setClearAlpha(initialClearAlpha);
-        // this.cameraHelper.visible = true;
-    }
-    blurShadow(renderer) {
-        const { camera, horizontalBlurMaterial, verticalBlurMaterial, renderTarget, renderTargetBlur, blurPlane } = this;
-        blurPlane.visible = true;
-        // blur horizontally and draw in the renderTargetBlur
-        blurPlane.material = horizontalBlurMaterial;
-        horizontalBlurMaterial.uniforms.h.value = 1 / this.renderTarget.width;
-        horizontalBlurMaterial.uniforms.tDiffuse.value = this.renderTarget.texture;
-        renderer.setRenderTarget(renderTargetBlur);
-        renderer.render(blurPlane, camera);
-        // blur vertically and draw in the main renderTarget
-        blurPlane.material = verticalBlurMaterial;
-        verticalBlurMaterial.uniforms.v.value = 1 / this.renderTarget.height;
-        verticalBlurMaterial.uniforms.tDiffuse.value =
-            this.renderTargetBlur.texture;
-        renderer.setRenderTarget(renderTarget);
-        renderer.render(blurPlane, camera);
-        blurPlane.visible = false;
-    }
-    dispose() {
-        if (this.renderTarget != null) {
-            this.renderTarget.dispose();
-        }
-        if (this.renderTargetBlur != null) {
-            this.renderTargetBlur.dispose();
-        }
-        this.depthMaterial.dispose();
-        this.horizontalBlurMaterial.dispose();
-        this.verticalBlurMaterial.dispose();
-        this.floor.material.dispose();
-        this.floor.geometry.dispose();
-        this.blurPlane.geometry.dispose();
-        this.removeFromParent();
-    }
+	constructor(scene, softness, side) {
+		super();
+		this.camera = new OrthographicCamera();
+		// private cameraHelper = new CameraHelper(this.camera);
+		this.renderTarget = null;
+		this.renderTargetBlur = null;
+		this.depthMaterial = new MeshDepthMaterial();
+		this.horizontalBlurMaterial = new ShaderMaterial(HorizontalBlurShader);
+		this.verticalBlurMaterial = new ShaderMaterial(VerticalBlurShader);
+		this.intensity = 0;
+		this.softness = 1;
+		this.boundingBox = new Box3;
+		this.size = new Vector3;
+		this.maxDimension = 0;
+		this.isAnimated = false;
+		this.needsUpdate = false;
+		const { camera } = this;
+		camera.rotation.x = Math.PI / 2;
+		camera.left = -0.5;
+		camera.right = 0.5;
+		camera.bottom = -0.5;
+		camera.top = 0.5;
+		this.add(camera);
+		// this.add(this.cameraHelper);
+		// this.cameraHelper.updateMatrixWorld = function() {
+		//   this.matrixWorld = this.camera.matrixWorld;
+		// };
+		const plane = new PlaneGeometry();
+		const shadowMaterial = new MeshBasicMaterial({
+			// color: new Color(1, 0, 0),
+			opacity: 1,
+			transparent: true,
+			side: BackSide,
+		});
+		this.floor = new Mesh(plane, shadowMaterial);
+		this.floor.userData.noHit = true;
+		camera.add(this.floor);
+		// the plane onto which to blur the texture
+		this.blurPlane = new Mesh(plane);
+		this.blurPlane.visible = false;
+		camera.add(this.blurPlane);
+		scene.target.add(this);
+		// like MeshDepthMaterial, but goes from black to transparent
+		this.depthMaterial.onBeforeCompile = function (shader) {
+			shader.fragmentShader = shader.fragmentShader.replace('gl_FragColor = vec4( vec3( 1.0 - fragCoordZ ), opacity );', 'gl_FragColor = vec4( vec3( 0.0 ), ( 1.0 - fragCoordZ ) * opacity );');
+		};
+		// Render both sides, back sides face the light source and
+		// front sides supply depth information for soft shadows
+		this.depthMaterial.side = DoubleSide;
+		this.horizontalBlurMaterial.depthTest = false;
+		this.verticalBlurMaterial.depthTest = false;
+		this.setScene(scene, softness, side);
+	}
+	/**
+	 * Update the shadow's size and position for a new scene. Softness is also
+	 * needed, as this controls the shadow's resolution.
+	 */
+	setScene(scene, softness, side) {
+		const { boundingBox, size, rotation, position } = this;
+		this.isAnimated = scene.animationNames.length > 0;
+		this.boundingBox.copy(scene.boundingBox);
+		this.size.copy(scene.size);
+		this.maxDimension = Math.max(size.x, size.y, size.z) *
+			(this.isAnimated ? ANIMATION_SCALING : 1);
+		this.boundingBox.getCenter(position);
+		if (side === 'back') {
+			const { min, max } = boundingBox;
+			[min.y, min.z] = [min.z, min.y];
+			[max.y, max.z] = [max.z, max.y];
+			[size.y, size.z] = [size.z, size.y];
+			rotation.x = Math.PI / 2;
+			rotation.y = Math.PI;
+		}
+		else {
+			rotation.x = 0;
+			rotation.y = 0;
+		}
+		if (this.isAnimated) {
+			const minY = boundingBox.min.y;
+			const maxY = boundingBox.max.y;
+			size.y = this.maxDimension;
+			boundingBox.expandByVector(size.subScalar(this.maxDimension).multiplyScalar(-0.5));
+			boundingBox.min.y = minY;
+			boundingBox.max.y = maxY;
+			size.set(this.maxDimension, maxY - minY, this.maxDimension);
+		}
+		if (side === 'bottom') {
+			position.y = boundingBox.min.y;
+		}
+		else {
+			position.z = boundingBox.min.y;
+		}
+		this.setSoftness(softness);
+	}
+	/**
+	 * Update the shadow's resolution based on softness (between 0 and 1). Should
+	 * not be called frequently, as this results in reallocation.
+	 */
+	setSoftness(softness) {
+		this.softness = softness;
+		const { size, camera } = this;
+		const scaleY = (this.isAnimated ? ANIMATION_SCALING : 1);
+		const resolution = scaleY *
+			Math.pow(2, LOG_MAX_RESOLUTION -
+				softness * (LOG_MAX_RESOLUTION - LOG_MIN_RESOLUTION));
+		this.setMapSize(resolution);
+		const softFar = size.y / 2;
+		const hardFar = size.y * scaleY;
+		camera.near = 0;
+		camera.far = lerp(hardFar, softFar, softness);
+		// we have co-opted opacity to scale the depth to clip
+		this.depthMaterial.opacity = 1.0 / softness;
+		camera.updateProjectionMatrix();
+		// this.cameraHelper.update();
+		this.setIntensity(this.intensity);
+		this.setOffset(0);
+	}
+	/**
+	 * Lower-level version of the above function.
+	 */
+	setMapSize(maxMapSize) {
+		const { size } = this;
+		if (this.isAnimated) {
+			maxMapSize *= ANIMATION_SCALING;
+		}
+		const baseWidth = Math.floor(size.x > size.z ? maxMapSize : maxMapSize * size.x / size.z);
+		const baseHeight = Math.floor(size.x > size.z ? maxMapSize * size.z / size.x : maxMapSize);
+		// width of blur filter in pixels (not adjustable)
+		const TAP_WIDTH = 10;
+		const width = TAP_WIDTH + baseWidth;
+		const height = TAP_WIDTH + baseHeight;
+		if (this.renderTarget != null &&
+			(this.renderTarget.width !== width ||
+				this.renderTarget.height !== height)) {
+			this.renderTarget.dispose();
+			this.renderTarget = null;
+			this.renderTargetBlur.dispose();
+			this.renderTargetBlur = null;
+		}
+		if (this.renderTarget == null) {
+			const params = { format: RGBAFormat };
+			this.renderTarget = new WebGLRenderTarget(width, height, params);
+			this.renderTargetBlur = new WebGLRenderTarget(width, height, params);
+			this.floor.material.map =
+				this.renderTarget.texture;
+		}
+		// These pads account for the softening radius around the shadow.
+		this.camera.scale.set(size.x * (1 + TAP_WIDTH / baseWidth), size.z * (1 + TAP_WIDTH / baseHeight), 1);
+		this.needsUpdate = true;
+	}
+	/**
+	 * Set the shadow's intensity (0 to 1), which is just its opacity. Turns off
+	 * shadow rendering if zero.
+	 */
+	setIntensity(intensity) {
+		this.intensity = intensity;
+		if (intensity > 0) {
+			this.visible = true;
+			this.floor.visible = true;
+			this.floor.material.opacity = intensity *
+				lerp(DEFAULT_HARD_INTENSITY, 1, this.softness * this.softness);
+		}
+		else {
+			this.visible = false;
+			this.floor.visible = false;
+		}
+	}
+	getIntensity() {
+		return this.intensity;
+	}
+	/**
+	 * An offset can be specified to move the
+	 * shadow vertically relative to the bottom of the scene. Positive is up, so
+	 * values are generally negative. A small offset keeps our shadow from
+	 * z-fighting with any baked-in shadow plane.
+	 */
+	setOffset(offset) {
+		this.floor.position.z = -offset + this.gap();
+	}
+	gap() {
+		return 0.001 * this.maxDimension;
+	}
+	render(renderer, scene) {
+		// this.cameraHelper.visible = false;
+		// force the depthMaterial to everything
+		scene.overrideMaterial = this.depthMaterial;
+		// set renderer clear alpha
+		const initialClearAlpha = renderer.getClearAlpha();
+		renderer.setClearAlpha(0);
+		this.floor.visible = false;
+		// disable XR for offscreen rendering
+		const xrEnabled = renderer.xr.enabled;
+		renderer.xr.enabled = false;
+		// render to the render target to get the depths
+		const oldRenderTarget = renderer.getRenderTarget();
+		renderer.setRenderTarget(this.renderTarget);
+		renderer.render(scene, this.camera);
+		// and reset the override material
+		scene.overrideMaterial = null;
+		this.floor.visible = true;
+		this.blurShadow(renderer);
+		// reset and render the normal scene
+		renderer.xr.enabled = xrEnabled;
+		renderer.setRenderTarget(oldRenderTarget);
+		renderer.setClearAlpha(initialClearAlpha);
+		// this.cameraHelper.visible = true;
+	}
+	blurShadow(renderer) {
+		const { camera, horizontalBlurMaterial, verticalBlurMaterial, renderTarget, renderTargetBlur, blurPlane } = this;
+		blurPlane.visible = true;
+		// blur horizontally and draw in the renderTargetBlur
+		blurPlane.material = horizontalBlurMaterial;
+		horizontalBlurMaterial.uniforms.h.value = 1 / this.renderTarget.width;
+		horizontalBlurMaterial.uniforms.tDiffuse.value = this.renderTarget.texture;
+		renderer.setRenderTarget(renderTargetBlur);
+		renderer.render(blurPlane, camera);
+		// blur vertically and draw in the main renderTarget
+		blurPlane.material = verticalBlurMaterial;
+		verticalBlurMaterial.uniforms.v.value = 1 / this.renderTarget.height;
+		verticalBlurMaterial.uniforms.tDiffuse.value =
+			this.renderTargetBlur.texture;
+		renderer.setRenderTarget(renderTarget);
+		renderer.render(blurPlane, camera);
+		blurPlane.visible = false;
+	}
+	dispose() {
+		if (this.renderTarget != null) {
+			this.renderTarget.dispose();
+		}
+		if (this.renderTargetBlur != null) {
+			this.renderTargetBlur.dispose();
+		}
+		this.depthMaterial.dispose();
+		this.horizontalBlurMaterial.dispose();
+		this.verticalBlurMaterial.dispose();
+		this.floor.material.dispose();
+		this.floor.geometry.dispose();
+		this.blurPlane.geometry.dispose();
+		this.removeFromParent();
+	}
 }
 
 /* @license
@@ -61210,1089 +61285,1089 @@ const ndc = new Vector2();
  * Provides lights and cameras to be used in a renderer.
  */
 class ModelScene extends Scene {
-    constructor({ canvas, element, width, height }) {
-        super();
-        this.annotationRenderer = new CSS2DRenderer();
-        this.effectRenderer = null;
-        this.schemaElement = document.createElement('script');
-        this.width = 1;
-        this.height = 1;
-        this.aspect = 1;
-        this.scaleStep = 0;
-        this.renderCount = 0;
-        this.externalRenderer = null;
-        this.appendedAnimations = [];
-        this.markedAnimations = [];
-        // These default camera values are never used, as they are reset once the
-        // model is loaded and framing is computed.
-        this.camera = new PerspectiveCamera(45, 1, 0.1, 100);
-        this.xrCamera = null;
-        this.url = null;
-        this.pivot = new Object3D();
-        this.target = new Object3D();
-        this.animationNames = [];
-        this.boundingBox = new Box3();
-        this.boundingSphere = new Sphere();
-        this.size = new Vector3();
-        this.idealAspect = 0;
-        this.framedFoVDeg = 0;
-        this.shadow = null;
-        this.shadowIntensity = 0;
-        this.shadowSoftness = 1;
-        this.bakedShadows = new Set();
-        this.exposure = 1;
-        this.toneMapping = NeutralToneMapping;
-        this.canScale = true;
-        this.isDirty = false;
-        this.goalTarget = new Vector3();
-        this.targetDamperX = new Damper();
-        this.targetDamperY = new Damper();
-        this.targetDamperZ = new Damper();
-        this._currentGLTF = null;
-        this._model = null;
-        this.cancelPendingSourceChange = null;
-        this.animationsByName = new Map();
-        this.currentAnimationAction = null;
-        this.groundedSkybox = new GroundedSkybox();
-        this.name = 'ModelScene';
-        this.element = element;
-        this.canvas = canvas;
-        // These default camera values are never used, as they are reset once the
-        // model is loaded and framing is computed.
-        this.camera = new PerspectiveCamera(45, 1, 0.1, 100);
-        this.camera.name = 'MainCamera';
-        this.add(this.pivot);
-        this.pivot.name = 'Pivot';
-        this.pivot.add(this.target);
-        this.setSize(width, height);
-        this.target.name = 'Target';
-        this.mixer = new AnimationMixer(this.target);
-        const { domElement } = this.annotationRenderer;
-        const { style } = domElement;
-        style.display = 'none';
-        style.pointerEvents = 'none';
-        style.position = 'absolute';
-        style.top = '0';
-        this.element.shadowRoot.querySelector('.default').appendChild(domElement);
-        this.schemaElement.setAttribute('type', 'application/ld+json');
-    }
-    /**
-     * Function to create the context lazily, as when there is only one
-     * <model-viewer> element, the renderer's 3D context can be displayed
-     * directly. This extra context is necessary to copy the renderings into when
-     * there are more than one.
-     */
-    get context() {
-        return this.canvas.getContext('2d');
-    }
-    getCamera() {
-        return this.xrCamera != null ? this.xrCamera : this.camera;
-    }
-    queueRender() {
-        this.isDirty = true;
-    }
-    shouldRender() {
-        return this.isDirty;
-    }
-    hasRendered() {
-        this.isDirty = false;
-    }
-    forceRescale() {
-        this.scaleStep = -1;
-        this.queueRender();
-    }
-    /**
-     * Pass in a THREE.Object3D to be controlled
-     * by this model.
-     */
-    async setObject(model) {
-        this.reset();
-        this._model = model;
-        this.target.add(model);
-        await this.setupScene();
-    }
-    /**
-     * Sets the model via URL.
-     */
-    async setSource(url, progressCallback = () => { }) {
-        if (!url || url === this.url) {
-            progressCallback(1);
-            return;
-        }
-        this.reset();
-        this.url = url;
-        if (this.externalRenderer != null) {
-            const framingInfo = await this.externalRenderer.load(progressCallback);
-            this.boundingSphere.radius = framingInfo.framedRadius;
-            this.idealAspect = framingInfo.fieldOfViewAspect;
-            return;
-        }
-        // If we have pending work due to a previous source change in progress,
-        // cancel it so that we do not incur a race condition:
-        if (this.cancelPendingSourceChange != null) {
-            this.cancelPendingSourceChange();
-            this.cancelPendingSourceChange = null;
-        }
-        let gltf;
-        try {
-            gltf = await new Promise(async (resolve, reject) => {
-                this.cancelPendingSourceChange = () => reject();
-                try {
-                    const result = await this.element[$renderer].loader.load(url, this.element, progressCallback);
-                    resolve(result);
-                }
-                catch (error) {
-                    reject(error);
-                }
-            });
-        }
-        catch (error) {
-            if (error == null) {
-                // Loading was cancelled, so silently return
-                return;
-            }
-            throw error;
-        }
-        this.cancelPendingSourceChange = null;
-        this.reset();
-        this.url = url;
-        this._currentGLTF = gltf;
-        if (gltf != null) {
-            this._model = gltf.scene;
-            this.target.add(gltf.scene);
-        }
-        const { animations } = gltf;
-        const animationsByName = new Map();
-        const animationNames = [];
-        for (const animation of animations) {
-            animationsByName.set(animation.name, animation);
-            animationNames.push(animation.name);
-        }
-        this.animations = animations;
-        this.animationsByName = animationsByName;
-        this.animationNames = animationNames;
-        await this.setupScene();
-    }
-    async setupScene() {
-        this.applyTransform();
-        this.updateBoundingBox();
-        await this.updateFraming();
-        this.updateShadow();
-        this.setShadowIntensity(this.shadowIntensity);
-        this.setGroundedSkybox();
-    }
-    reset() {
-        this.url = null;
-        this.renderCount = 0;
-        this.queueRender();
-        if (this.shadow != null) {
-            this.shadow.setIntensity(0);
-        }
-        this.bakedShadows.clear();
-        const { _model } = this;
-        if (_model != null) {
-            _model.removeFromParent();
-            this._model = null;
-        }
-        const gltf = this._currentGLTF;
-        if (gltf != null) {
-            gltf.dispose();
-            this._currentGLTF = null;
-        }
-        if (this.currentAnimationAction != null) {
-            this.currentAnimationAction.stop();
-            this.currentAnimationAction = null;
-        }
-        this.mixer.stopAllAction();
-        this.mixer.uncacheRoot(this);
-    }
-    dispose() {
-        this.reset();
-        if (this.shadow != null) {
-            this.shadow.dispose();
-            this.shadow = null;
-        }
-        this.element[$currentGLTF] = null;
-        this.element[$originalGltfJson] = null;
-        this.element[$model] = null;
-    }
-    get currentGLTF() {
-        return this._currentGLTF;
-    }
-    /**
-     * Updates the ModelScene for a new container size in CSS pixels.
-     */
-    setSize(width, height) {
-        if (this.width === width && this.height === height) {
-            return;
-        }
-        this.width = Math.max(width, 1);
-        this.height = Math.max(height, 1);
-        this.annotationRenderer.setSize(width, height);
-        this.aspect = this.width / this.height;
-        if (this.externalRenderer != null) {
-            const dpr = window.devicePixelRatio;
-            this.externalRenderer.resize(width * dpr, height * dpr);
-        }
-        this.queueRender();
-    }
-    markBakedShadow(mesh) {
-        mesh.userData.noHit = true;
-        this.bakedShadows.add(mesh);
-    }
-    unmarkBakedShadow(mesh) {
-        mesh.userData.noHit = false;
-        mesh.visible = true;
-        this.bakedShadows.delete(mesh);
-        this.boundingBox.expandByObject(mesh);
-    }
-    findBakedShadows(group) {
-        const boundingBox = new Box3();
-        group.traverse((object) => {
-            const mesh = object;
-            if (!mesh.material) {
-                return;
-            }
-            const material = mesh.material;
-            if (!material.transparent) {
-                return;
-            }
-            boundingBox.setFromObject(mesh);
-            const size = boundingBox.getSize(vector3);
-            const minDim = Math.min(size.x, size.y, size.z);
-            const maxDim = Math.max(size.x, size.y, size.z);
-            if (maxDim < MIN_SHADOW_RATIO * minDim) {
-                return;
-            }
-            this.markBakedShadow(mesh);
-        });
-    }
-    checkBakedShadows() {
-        const { min, max } = this.boundingBox;
-        const shadowBox = new Box3();
-        this.boundingBox.getSize(this.size);
-        for (const mesh of this.bakedShadows) {
-            shadowBox.setFromObject(mesh);
-            if (shadowBox.min.y < min.y + this.size.y / MIN_SHADOW_RATIO &&
-                shadowBox.min.x <= min.x && shadowBox.max.x >= max.x &&
-                shadowBox.min.z <= min.z && shadowBox.max.z >= max.z) {
-                // floor shadow
-                continue;
-            }
-            if (shadowBox.min.z < min.z + this.size.z / MIN_SHADOW_RATIO &&
-                shadowBox.min.x <= min.x && shadowBox.max.x >= max.x &&
-                shadowBox.min.y <= min.y && shadowBox.max.y >= max.y) {
-                // wall shadow
-                continue;
-            }
-            this.unmarkBakedShadow(mesh);
-        }
-    }
-    applyTransform() {
-        const { model } = this;
-        if (model == null) {
-            return;
-        }
-        const orientation = parseExpressions(this.element.orientation)[0]
-            .terms;
-        const roll = normalizeUnit(orientation[0]).number;
-        const pitch = normalizeUnit(orientation[1]).number;
-        const yaw = normalizeUnit(orientation[2]).number;
-        model.quaternion.setFromEuler(new Euler(pitch, yaw, roll, 'YXZ'));
-        const scale = parseExpressions(this.element.scale)[0]
-            .terms;
-        model.scale.set(scale[0].number, scale[1].number, scale[2].number);
-    }
-    updateBoundingBox() {
-        const { model } = this;
-        if (model == null) {
-            return;
-        }
-        this.target.remove(model);
-        this.findBakedShadows(model);
-        const bound = (box, vertex) => {
-            return box.expandByPoint(vertex);
-        };
-        this.setBakedShadowVisibility(false);
-        this.boundingBox = reduceVertices(model, bound, new Box3());
-        // If there's nothing but the baked shadow, then it's not a baked shadow.
-        if (this.boundingBox.isEmpty()) {
-            this.setBakedShadowVisibility(true);
-            this.bakedShadows.forEach((mesh) => this.unmarkBakedShadow(mesh));
-            this.boundingBox = reduceVertices(model, bound, new Box3());
-        }
-        this.checkBakedShadows();
-        this.setBakedShadowVisibility();
-        this.boundingBox.getSize(this.size);
-        this.target.add(model);
-    }
-    /**
-     * Calculates the boundingSphere and idealAspect that allows the 3D
-     * object to be framed tightly in a 2D window of any aspect ratio without
-     * clipping at any camera orbit. The camera's center target point can be
-     * optionally specified. If no center is specified, it defaults to the center
-     * of the bounding box, which means asymmetric models will tend to be tight on
-     * one side instead of both. Proper choice of center can correct this.
-     */
-    async updateFraming() {
-        const { model } = this;
-        if (model == null) {
-            return;
-        }
-        this.target.remove(model);
-        this.setBakedShadowVisibility(false);
-        const { center } = this.boundingSphere;
-        this.element.requestUpdate('cameraTarget');
-        await this.element.updateComplete;
-        center.copy(this.getTarget());
-        const radiusSquared = (value, vertex) => {
-            return Math.max(value, center.distanceToSquared(vertex));
-        };
-        this.boundingSphere.radius =
-            Math.sqrt(reduceVertices(model, radiusSquared, 0));
-        const horizontalTanFov = (value, vertex) => {
-            vertex.sub(center);
-            const radiusXZ = Math.sqrt(vertex.x * vertex.x + vertex.z * vertex.z);
-            return Math.max(value, radiusXZ / (this.idealCameraDistance() - Math.abs(vertex.y)));
-        };
-        this.idealAspect = reduceVertices(model, horizontalTanFov, 0) /
-            Math.tan((this.framedFoVDeg / 2) * Math.PI / 180);
-        this.setBakedShadowVisibility();
-        this.target.add(model);
-    }
-    setBakedShadowVisibility(visible = this.shadowIntensity <= 0) {
-        for (const shadow of this.bakedShadows) {
-            shadow.visible = visible;
-        }
-    }
-    idealCameraDistance() {
-        const halfFovRad = (this.framedFoVDeg / 2) * Math.PI / 180;
-        return this.boundingSphere.radius / Math.sin(halfFovRad);
-    }
-    /**
-     * Set's the framedFieldOfView based on the aspect ratio of the window in
-     * order to keep the model fully visible at any camera orientation.
-     */
-    adjustedFoV(fovDeg) {
-        const vertical = Math.tan((fovDeg / 2) * Math.PI / 180) *
-            Math.max(1, this.idealAspect / this.aspect);
-        return 2 * Math.atan(vertical) * 180 / Math.PI;
-    }
-    getNDC(clientX, clientY) {
-        if (this.xrCamera != null) {
-            ndc.set(clientX / window.screen.width, clientY / window.screen.height);
-        }
-        else {
-            const rect = this.element.getBoundingClientRect();
-            ndc.set((clientX - rect.x) / this.width, (clientY - rect.y) / this.height);
-        }
-        ndc.multiplyScalar(2).subScalar(1);
-        ndc.y *= -1;
-        return ndc;
-    }
-    /**
-     * Returns the size of the corresponding canvas element.
-     */
-    getSize() {
-        return { width: this.width, height: this.height };
-    }
-    setEnvironmentAndSkybox(environment, skybox) {
-        if (this.element[$renderer].arRenderer.presentedScene === this) {
-            return;
-        }
-        this.environment = environment;
-        this.setBackground(skybox);
-        this.queueRender();
-    }
-    setBackground(skybox) {
-        this.groundedSkybox.map = skybox;
-        if (this.groundedSkybox.isUsable()) {
-            this.target.add(this.groundedSkybox);
-            this.background = null;
-        }
-        else {
-            this.target.remove(this.groundedSkybox);
-            this.background = skybox;
-        }
-    }
-    farRadius() {
-        return this.boundingSphere.radius *
-            (this.groundedSkybox.parent != null ? GROUNDED_SKYBOX_SIZE : 1);
-    }
-    setGroundedSkybox() {
-        const heightNode = parseExpressions(this.element.skyboxHeight)[0].terms[0];
-        const height = normalizeUnit(heightNode).number;
-        const radius = GROUNDED_SKYBOX_SIZE * this.boundingSphere.radius;
-        this.groundedSkybox.updateGeometry(height, radius);
-        this.groundedSkybox.position.y =
-            height - (this.shadow ? 2 * this.shadow.gap() : 0);
-        this.setBackground(this.groundedSkybox.map);
-    }
-    /**
-     * Sets the point in model coordinates the model should orbit/pivot around.
-     */
-    setTarget(modelX, modelY, modelZ) {
-        this.goalTarget.set(-modelX, -modelY, -modelZ);
-    }
-    /**
-     * Set the decay time of, affects the speed of target transitions.
-     */
-    setTargetDamperDecayTime(decayMilliseconds) {
-        this.targetDamperX.setDecayTime(decayMilliseconds);
-        this.targetDamperY.setDecayTime(decayMilliseconds);
-        this.targetDamperZ.setDecayTime(decayMilliseconds);
-    }
-    /**
-     * Gets the point in model coordinates the model should orbit/pivot around.
-     */
-    getTarget() {
-        return this.goalTarget.clone().multiplyScalar(-1);
-    }
-    /**
-     * Gets the current target point, which may not equal the goal returned by
-     * getTarget() due to finite input decay smoothing.
-     */
-    getDynamicTarget() {
-        return this.target.position.clone().multiplyScalar(-1);
-    }
-    /**
-     * Shifts the model to the target point immediately instead of easing in.
-     */
-    jumpToGoal() {
-        this.updateTarget(SETTLING_TIME);
-    }
-    /**
-     * This should be called every frame with the frame delta to cause the target
-     * to transition to its set point.
-     */
-    updateTarget(delta) {
-        const goal = this.goalTarget;
-        const target = this.target.position;
-        if (!goal.equals(target)) {
-            const normalization = this.boundingSphere.radius / 10;
-            let { x, y, z } = target;
-            x = this.targetDamperX.update(x, goal.x, delta, normalization);
-            y = this.targetDamperY.update(y, goal.y, delta, normalization);
-            z = this.targetDamperZ.update(z, goal.z, delta, normalization);
-            this.groundedSkybox.position.x = -x;
-            this.groundedSkybox.position.z = -z;
-            this.target.position.set(x, y, z);
-            this.target.updateMatrixWorld();
-            this.queueRender();
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-    /**
-     * Yaw the +z (front) of the model toward the indicated world coordinates.
-     */
-    pointTowards(worldX, worldZ) {
-        const { x, z } = this.position;
-        this.yaw = Math.atan2(worldX - x, worldZ - z);
-    }
-    get model() {
-        return this._model;
-    }
-    /**
-     * Yaw is the scene's orientation about the y-axis, around the rotation
-     * center.
-     */
-    set yaw(radiansY) {
-        this.pivot.rotation.y = radiansY;
-        this.groundedSkybox.rotation.y = -radiansY;
-        this.queueRender();
-    }
-    get yaw() {
-        return this.pivot.rotation.y;
-    }
-    set animationTime(value) {
-        this.mixer.setTime(value);
-        this.queueShadowRender();
-    }
-    get animationTime() {
-        if (this.currentAnimationAction != null) {
-            const loopCount = Math.max(this.currentAnimationAction._loopCount, 0);
-            if (this.currentAnimationAction.loop === LoopPingPong &&
-                (loopCount & 1) === 1) {
-                return this.duration - this.currentAnimationAction.time;
-            }
-            else {
-                return this.currentAnimationAction.time;
-            }
-        }
-        return 0;
-    }
-    set animationTimeScale(value) {
-        this.mixer.timeScale = value;
-    }
-    get animationTimeScale() {
-        return this.mixer.timeScale;
-    }
-    get duration() {
-        if (this.currentAnimationAction != null &&
-            this.currentAnimationAction.getClip()) {
-            return this.currentAnimationAction.getClip().duration;
-        }
-        return 0;
-    }
-    get hasActiveAnimation() {
-        return this.currentAnimationAction != null;
-    }
-    /**
-     * Plays an animation if there are any associated with the current model.
-     * Accepts an optional string name of an animation to play. If no name is
-     * provided, or if no animation is found by the given name, always falls back
-     * to playing the first animation.
-     */
-    playAnimation(name = null, crossfadeTime = 0, loopMode = LoopRepeat, repetitionCount = Infinity) {
-        if (this._currentGLTF == null) {
-            return;
-        }
-        const { animations } = this;
-        if (animations == null || animations.length === 0) {
-            return;
-        }
-        let animationClip = null;
-        if (name != null) {
-            animationClip = this.animationsByName.get(name);
-            if (animationClip == null) {
-                const parsedAnimationIndex = parseInt(name);
-                if (!isNaN(parsedAnimationIndex) && parsedAnimationIndex >= 0 &&
-                    parsedAnimationIndex < animations.length) {
-                    animationClip = animations[parsedAnimationIndex];
-                }
-            }
-        }
-        if (animationClip == null) {
-            animationClip = animations[0];
-        }
-        try {
-            const { currentAnimationAction: lastAnimationAction } = this;
-            const action = this.mixer.clipAction(animationClip, this);
-            // Reset animationAction timeScale
-            if (action.timeScale != this.element.timeScale) {
-                action.timeScale = this.element.timeScale;
-            }
-            this.currentAnimationAction = action;
-            if (this.element.paused) {
-                this.mixer.stopAllAction();
-            }
-            else {
-                action.paused = false;
-                if (lastAnimationAction != null && action !== lastAnimationAction) {
-                    action.crossFadeFrom(lastAnimationAction, crossfadeTime, false);
-                }
-                else if (this.animationTimeScale > 0 &&
-                    this.animationTime == this.duration) {
-                    // This is a workaround for what I believe is a three.js bug.
-                    this.animationTime = 0;
-                }
-            }
-            action.setLoop(loopMode, repetitionCount);
-            action.enabled = true;
-            action.clampWhenFinished = true;
-            action.play();
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-    appendAnimation(name = '', loopMode = LoopRepeat, repetitionCount = Infinity, weight = 1, timeScale = 1, fade = false, warp = false, relativeWarp = true, time = null, needsToStop = false) {
-        if (this._currentGLTF == null || name === this.element.animationName) {
-            return;
-        }
-        const { animations } = this;
-        if (animations == null || animations.length === 0) {
-            return;
-        }
-        let animationClip = null;
-        const defaultFade = 1.25;
-        if (name) {
-            animationClip = this.animationsByName.get(name);
-        }
-        if (animationClip == null) {
-            return;
-        }
-        // validate function parameters
-        if (typeof repetitionCount === 'string') {
-            if (!isNaN(repetitionCount)) {
-                repetitionCount = Math.max(parseInt(repetitionCount), 1);
-            }
-            else {
-                repetitionCount = Infinity;
-                console.warn('Invalid repetitionCount value, repetitionCount is set to Infinity');
-            }
-        }
-        else if (typeof repetitionCount === 'number' && repetitionCount < 1) {
-            repetitionCount = 1;
-        }
-        if (repetitionCount === 1 && loopMode !== LoopOnce) {
-            loopMode = LoopOnce;
-        }
-        if (typeof weight === 'string') {
-            if (!isNaN(weight)) {
-                weight = parseFloat(weight);
-            }
-            else {
-                weight = 1;
-                console.warn('Invalid weight value, weight is set to 1');
-            }
-        }
-        if (typeof timeScale === 'string') {
-            if (!isNaN(timeScale)) {
-                timeScale = parseFloat(timeScale);
-            }
-            else {
-                timeScale = 1;
-                console.warn('Invalid timeScale value, timeScale is set to 1');
-            }
-        }
-        if (typeof fade === 'string') {
-            // @ts-ignore: Unreachable code error
-            if (fade.toLowerCase().trim() === 'true') {
-                fade = true;
-                // @ts-ignore: Unreachable code error
-            }
-            else if (fade.toLowerCase().trim() === 'false') {
-                fade = false;
-            }
-            else if (!isNaN(fade)) {
-                fade = parseFloat(fade);
-            }
-            else {
-                fade = false;
-                console.warn('Invalid fade value, fade is set to false');
-            }
-        }
-        if (typeof warp === 'string') {
-            // @ts-ignore: Unreachable code error
-            if (warp.toLowerCase().trim() === 'true') {
-                warp = true;
-                // @ts-ignore: Unreachable code error
-            }
-            else if (warp.toLowerCase().trim() === 'false') {
-                warp = false;
-            }
-            else if (!isNaN(warp)) {
-                warp = parseFloat(warp);
-            }
-            else {
-                warp = false;
-                console.warn('Invalid warp value, warp is set to false');
-            }
-        }
-        if (typeof time === 'string') {
-            if (!isNaN(time)) {
-                time = parseFloat(time);
-            }
-        }
-        try {
-            const action = this.mixer.existingAction(animationClip) ||
-                this.mixer.clipAction(animationClip, this);
-            const currentTimeScale = action.timeScale;
-            if (needsToStop && this.appendedAnimations.includes(name)) {
-                if (!this.markedAnimations.map(e => e.name).includes(name)) {
-                    this.markedAnimations.push({ name, loopMode, repetitionCount });
-                }
-            }
-            if (typeof time === 'number') {
-                action.time = Math.min(Math.max(time, 0), animationClip.duration);
-            }
-            if (typeof fade === 'boolean' && fade) {
-                action.fadeIn(defaultFade);
-            }
-            else if (typeof fade === 'number') {
-                action.fadeIn(Math.max(fade, 0));
-            }
-            else {
-                if (weight >= 0) {
-                    action.weight = Math.min(Math.max(weight, 0), 1);
-                }
-            }
-            if (typeof warp === 'boolean' && warp) {
-                action.warp(relativeWarp ? currentTimeScale : 0, timeScale, defaultFade);
-            }
-            else if (typeof warp === 'number') {
-                action.warp(relativeWarp ? currentTimeScale : 0, timeScale, Math.max(warp, 0));
-            }
-            else {
-                action.timeScale = timeScale;
-            }
-            if (!action.isRunning()) {
-                if (action.time == animationClip.duration) {
-                    action.stop();
-                }
-                action.setLoop(loopMode, repetitionCount);
-                action.paused = false;
-                action.enabled = true;
-                action.clampWhenFinished = true;
-                action.play();
-            }
-            if (!this.appendedAnimations.includes(name)) {
-                this.element[$scene].appendedAnimations.push(name);
-            }
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-    detachAnimation(name = '', fade = true) {
-        if (this._currentGLTF == null || name === this.element.animationName) {
-            return;
-        }
-        const { animations } = this;
-        if (animations == null || animations.length === 0) {
-            return;
-        }
-        let animationClip = null;
-        const defaultFade = 1.5;
-        if (name) {
-            animationClip = this.animationsByName.get(name);
-        }
-        if (animationClip == null) {
-            return;
-        }
-        if (typeof fade === 'string') {
-            // @ts-ignore: Unreachable code error
-            if (fade.toLowerCase().trim() === 'true') {
-                fade = true;
-                // @ts-ignore: Unreachable code error
-            }
-            else if (fade.toLowerCase().trim() === 'false') {
-                fade = false;
-            }
-            else if (!isNaN(fade)) {
-                fade = parseFloat(fade);
-            }
-            else {
-                fade = true;
-                console.warn('Invalid fade value, fade is set to true');
-            }
-        }
-        try {
-            const action = this.mixer.existingAction(animationClip) ||
-                this.mixer.clipAction(animationClip, this);
-            if (typeof fade === 'boolean' && fade) {
-                action.fadeOut(defaultFade);
-            }
-            else if (typeof fade === 'number') {
-                action.fadeOut(Math.max(fade, 0));
-            }
-            else {
-                action.stop();
-            }
-            const result = this.element[$scene].appendedAnimations.filter(i => i !== name);
-            this.element[$scene].appendedAnimations = result;
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-    updateAnimationLoop(name = '', loopMode = LoopRepeat, repetitionCount = Infinity) {
-        if (this._currentGLTF == null || name === this.element.animationName) {
-            return;
-        }
-        const { animations } = this;
-        if (animations == null || animations.length === 0) {
-            return;
-        }
-        let animationClip = null;
-        if (name) {
-            animationClip = this.animationsByName.get(name);
-        }
-        if (animationClip == null) {
-            return;
-        }
-        try {
-            const action = this.mixer.existingAction(animationClip) ||
-                this.mixer.clipAction(animationClip, this);
-            action.stop();
-            action.setLoop(loopMode, repetitionCount);
-            action.play();
-        }
-        catch (error) {
-            console.error(error);
-        }
-    }
-    stopAnimation() {
-        this.currentAnimationAction = null;
-        this.mixer.stopAllAction();
-    }
-    updateAnimation(step) {
-        this.mixer.update(step);
-        this.queueShadowRender();
-    }
-    subscribeMixerEvent(event, callback) {
-        this.mixer.addEventListener(event, callback);
-    }
-    /**
-     * Call if the object has been changed in such a way that the shadow's
-     * shape has changed (not a rotation about the Y axis).
-     */
-    updateShadow() {
-        const shadow = this.shadow;
-        if (shadow != null) {
-            const side = this.element.arPlacement === 'wall' ? 'back' : 'bottom';
-            shadow.setScene(this, this.shadowSoftness, side);
-            shadow.needsUpdate = true;
-        }
-    }
-    renderShadow(renderer) {
-        const shadow = this.shadow;
-        if (shadow != null && shadow.needsUpdate == true) {
-            shadow.render(renderer, this);
-            shadow.needsUpdate = false;
-        }
-    }
-    queueShadowRender() {
-        if (this.shadow != null) {
-            this.shadow.needsUpdate = true;
-        }
-    }
-    /**
-     * Sets the shadow's intensity, lazily creating the shadow as necessary.
-     */
-    setShadowIntensity(shadowIntensity) {
-        this.shadowIntensity = shadowIntensity;
-        if (this._currentGLTF == null) {
-            return;
-        }
-        this.setBakedShadowVisibility();
-        if (shadowIntensity <= 0 && this.shadow == null) {
-            return;
-        }
-        if (this.shadow == null) {
-            const side = this.element.arPlacement === 'wall' ? 'back' : 'bottom';
-            this.shadow = new Shadow(this, this.shadowSoftness, side);
-        }
-        this.shadow.setIntensity(shadowIntensity);
-    }
-    /**
-     * Sets the shadow's softness by mapping a [0, 1] softness parameter to
-     * the shadow's resolution. This involves reallocation, so it should not
-     * be changed frequently. Softer shadows are cheaper to render.
-     */
-    setShadowSoftness(softness) {
-        this.shadowSoftness = softness;
-        const shadow = this.shadow;
-        if (shadow != null) {
-            shadow.setSoftness(softness);
-        }
-    }
-    /**
-     * Shift the floor vertically from the bottom of the model's bounding box
-     * by offset (should generally be negative).
-     */
-    setShadowOffset(offset) {
-        const shadow = this.shadow;
-        if (shadow != null) {
-            shadow.setOffset(offset);
-        }
-    }
-    getHit(object = this) {
-        const hits = raycaster.intersectObject(object, true);
-        return hits.find((hit) => hit.object.visible && !hit.object.userData.noHit);
-    }
-    hitFromController(controller, object = this) {
-        raycaster.setFromXRController(controller);
-        return this.getHit(object);
-    }
-    hitFromPoint(ndcPosition, object = this) {
-        raycaster.setFromCamera(ndcPosition, this.getCamera());
-        return this.getHit(object);
-    }
-    /**
-     * This method returns the world position, model-space normal and texture
-     * coordinate of the point on the mesh corresponding to the input pixel
-     * coordinates given relative to the model-viewer element. If the mesh
-     * is not hit, the result is null.
-     */
-    positionAndNormalFromPoint(ndcPosition, object = this) {
-        var _a;
-        const hit = this.hitFromPoint(ndcPosition, object);
-        if (hit == null) {
-            return null;
-        }
-        const position = hit.point;
-        const normal = hit.face != null ?
-            hit.face.normal.clone().applyNormalMatrix(new Matrix3().getNormalMatrix(hit.object.matrixWorld)) :
-            raycaster.ray.direction.clone().multiplyScalar(-1);
-        const uv = (_a = hit.uv) !== null && _a !== void 0 ? _a : null;
-        return { position, normal, uv };
-    }
-    /**
-     * This method returns a dynamic hotspot ID string of the point on the
-     * mesh corresponding to the input pixel coordinates given relative to the
-     * model-viewer element. The ID string can be used in the data-surface
-     * attribute of the hotspot to make it follow this point on the surface
-     * even as the model animates. If the mesh is not hit, the result is null.
-     */
-    surfaceFromPoint(ndcPosition, object = this) {
-        const model = this.element.model;
-        if (model == null) {
-            return null;
-        }
-        const hit = this.hitFromPoint(ndcPosition, object);
-        if (hit == null || hit.face == null) {
-            return null;
-        }
-        const node = model[$nodeFromPoint](hit);
-        const { meshes, primitives } = node.mesh.userData.associations;
-        const va = new Vector3();
-        const vb = new Vector3();
-        const vc = new Vector3();
-        const { a, b, c } = hit.face;
-        const mesh = hit.object;
-        mesh.getVertexPosition(a, va);
-        mesh.getVertexPosition(b, vb);
-        mesh.getVertexPosition(c, vc);
-        const tri = new Triangle(va, vb, vc);
-        const uvw = new Vector3();
-        tri.getBarycoord(mesh.worldToLocal(hit.point), uvw);
-        return `${meshes} ${primitives} ${a} ${b} ${c} ${uvw.x.toFixed(3)} ${uvw.y.toFixed(3)} ${uvw.z.toFixed(3)}`;
-    }
-    /**
-     * The following methods are for operating on the set of Hotspot objects
-     * attached to the scene. These come from DOM elements, provided to slots
-     * by the Annotation Mixin.
-     */
-    addHotspot(hotspot) {
-        this.target.add(hotspot);
-        // This happens automatically in render(), but we do it early so that
-        // the slots appear in the shadow DOM and the elements get attached,
-        // allowing us to dispatch events on them.
-        this.annotationRenderer.domElement.appendChild(hotspot.element);
-        this.updateSurfaceHotspot(hotspot);
-    }
-    removeHotspot(hotspot) {
-        this.target.remove(hotspot);
-    }
-    /**
-     * Helper method to apply a function to all hotspots.
-     */
-    forHotspots(func) {
-        const { children } = this.target;
-        for (let i = 0, l = children.length; i < l; i++) {
-            const hotspot = children[i];
-            if (hotspot instanceof Hotspot) {
-                func(hotspot);
-            }
-        }
-    }
-    /**
-     * Lazy initializer for surface hotspots - will only run once.
-     */
-    updateSurfaceHotspot(hotspot) {
-        if (hotspot.surface == null || this.element.model == null) {
-            return;
-        }
-        const nodes = parseExpressions(hotspot.surface)[0].terms;
-        if (nodes.length != 8) {
-            console.warn(hotspot.surface + ' does not have exactly 8 numbers.');
-            return;
-        }
-        const primitiveNode = this.element.model[$nodeFromIndex](nodes[0].number, nodes[1].number);
-        if (primitiveNode == null) {
-            console.warn(hotspot.surface +
-                ' does not match a node/primitive in this glTF! Skipping this hotspot.');
-            return;
-        }
-        const numVert = primitiveNode.mesh.geometry.attributes.position.count;
-        const tri = new Vector3(nodes[2].number, nodes[3].number, nodes[4].number);
-        if (tri.x >= numVert || tri.y >= numVert || tri.z >= numVert) {
-            console.warn(hotspot.surface +
-                ' vertex indices out of range in this glTF! Skipping this hotspot.');
-            return;
-        }
-        const bary = new Vector3(nodes[5].number, nodes[6].number, nodes[7].number);
-        hotspot.mesh = primitiveNode.mesh;
-        hotspot.tri = tri;
-        hotspot.bary = bary;
-        hotspot.updateSurface();
-    }
-    /**
-     * Update positions of surface hotspots to follow model animation.
-     */
-    animateSurfaceHotspots() {
-        if (this.element.paused) {
-            return;
-        }
-        this.forHotspots((hotspot) => {
-            hotspot.updateSurface();
-        });
-    }
-    /**
-     * Update the CSS visibility of the hotspots based on whether their
-     * normals point toward the camera.
-     */
-    updateHotspotsVisibility(viewerPosition) {
-        this.forHotspots((hotspot) => {
-            view.copy(viewerPosition);
-            target.setFromMatrixPosition(hotspot.matrixWorld);
-            view.sub(target);
-            normalWorld.copy(hotspot.normal)
-                .transformDirection(this.target.matrixWorld);
-            if (view.dot(normalWorld) < 0) {
-                hotspot.hide();
-            }
-            else {
-                hotspot.show();
-            }
-        });
-    }
-    /**
-     * Rotate all hotspots to an absolute orientation given by the input
-     * number of radians. Zero returns them to upright.
-     */
-    orientHotspots(radians) {
-        this.forHotspots((hotspot) => {
-            hotspot.orient(radians);
-        });
-    }
-    /**
-     * Set the rendering visibility of all hotspots. This is used to hide them
-     * during transitions and such.
-     */
-    setHotspotsVisibility(visible) {
-        this.forHotspots((hotspot) => {
-            hotspot.visible = visible;
-        });
-    }
-    updateSchema(src) {
-        var _a;
-        const { schemaElement, element } = this;
-        const { alt, poster, iosSrc } = element;
-        if (src != null) {
-            const encoding = [{
-                    '@type': 'MediaObject',
-                    contentUrl: src,
-                    encodingFormat: ((_a = src.split('.').pop()) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'gltf' ?
-                        'model/gltf+json' :
-                        'model/gltf-binary'
-                }];
-            if (iosSrc) {
-                encoding.push({
-                    '@type': 'MediaObject',
-                    contentUrl: iosSrc,
-                    encodingFormat: 'model/vnd.usdz+zip'
-                });
-            }
-            const structuredData = {
-                '@context': 'http://schema.org/',
-                '@type': '3DModel',
-                image: poster !== null && poster !== void 0 ? poster : undefined,
-                name: alt !== null && alt !== void 0 ? alt : undefined,
-                encoding
-            };
-            schemaElement.textContent = JSON.stringify(structuredData);
-            document.head.appendChild(schemaElement);
-        }
-        else if (schemaElement.parentElement != null) {
-            schemaElement.parentElement.removeChild(schemaElement);
-        }
-    }
+	constructor({ canvas, element, width, height }) {
+		super();
+		this.annotationRenderer = new CSS2DRenderer();
+		this.effectRenderer = null;
+		this.schemaElement = document.createElement('script');
+		this.width = 1;
+		this.height = 1;
+		this.aspect = 1;
+		this.scaleStep = 0;
+		this.renderCount = 0;
+		this.externalRenderer = null;
+		this.appendedAnimations = [];
+		this.markedAnimations = [];
+		// These default camera values are never used, as they are reset once the
+		// model is loaded and framing is computed.
+		this.camera = new PerspectiveCamera(45, 1, 0.1, 100);
+		this.xrCamera = null;
+		this.url = null;
+		this.pivot = new Object3D();
+		this.target = new Object3D();
+		this.animationNames = [];
+		this.boundingBox = new Box3();
+		this.boundingSphere = new Sphere();
+		this.size = new Vector3();
+		this.idealAspect = 0;
+		this.framedFoVDeg = 0;
+		this.shadow = null;
+		this.shadowIntensity = 0;
+		this.shadowSoftness = 1;
+		this.bakedShadows = new Set();
+		this.exposure = 1;
+		this.toneMapping = NeutralToneMapping;
+		this.canScale = true;
+		this.isDirty = false;
+		this.goalTarget = new Vector3();
+		this.targetDamperX = new Damper();
+		this.targetDamperY = new Damper();
+		this.targetDamperZ = new Damper();
+		this._currentGLTF = null;
+		this._model = null;
+		this.cancelPendingSourceChange = null;
+		this.animationsByName = new Map();
+		this.currentAnimationAction = null;
+		this.groundedSkybox = new GroundedSkybox();
+		this.name = 'ModelScene';
+		this.element = element;
+		this.canvas = canvas;
+		// These default camera values are never used, as they are reset once the
+		// model is loaded and framing is computed.
+		this.camera = new PerspectiveCamera(45, 1, 0.1, 100);
+		this.camera.name = 'MainCamera';
+		this.add(this.pivot);
+		this.pivot.name = 'Pivot';
+		this.pivot.add(this.target);
+		this.setSize(width, height);
+		this.target.name = 'Target';
+		this.mixer = new AnimationMixer(this.target);
+		const { domElement } = this.annotationRenderer;
+		const { style } = domElement;
+		style.display = 'none';
+		style.pointerEvents = 'none';
+		style.position = 'absolute';
+		style.top = '0';
+		this.element.shadowRoot.querySelector('.default').appendChild(domElement);
+		this.schemaElement.setAttribute('type', 'application/ld+json');
+	}
+	/**
+	 * Function to create the context lazily, as when there is only one
+	 * <model-viewer> element, the renderer's 3D context can be displayed
+	 * directly. This extra context is necessary to copy the renderings into when
+	 * there are more than one.
+	 */
+	get context() {
+		return this.canvas.getContext('2d');
+	}
+	getCamera() {
+		return this.xrCamera != null ? this.xrCamera : this.camera;
+	}
+	queueRender() {
+		this.isDirty = true;
+	}
+	shouldRender() {
+		return this.isDirty;
+	}
+	hasRendered() {
+		this.isDirty = false;
+	}
+	forceRescale() {
+		this.scaleStep = -1;
+		this.queueRender();
+	}
+	/**
+	 * Pass in a THREE.Object3D to be controlled
+	 * by this model.
+	 */
+	async setObject(model) {
+		this.reset();
+		this._model = model;
+		this.target.add(model);
+		await this.setupScene();
+	}
+	/**
+	 * Sets the model via URL.
+	 */
+	async setSource(url, progressCallback = () => { }) {
+		if (!url || url === this.url) {
+			progressCallback(1);
+			return;
+		}
+		this.reset();
+		this.url = url;
+		if (this.externalRenderer != null) {
+			const framingInfo = await this.externalRenderer.load(progressCallback);
+			this.boundingSphere.radius = framingInfo.framedRadius;
+			this.idealAspect = framingInfo.fieldOfViewAspect;
+			return;
+		}
+		// If we have pending work due to a previous source change in progress,
+		// cancel it so that we do not incur a race condition:
+		if (this.cancelPendingSourceChange != null) {
+			this.cancelPendingSourceChange();
+			this.cancelPendingSourceChange = null;
+		}
+		let gltf;
+		try {
+			gltf = await new Promise(async (resolve, reject) => {
+				this.cancelPendingSourceChange = () => reject();
+				try {
+					const result = await this.element[$renderer].loader.load(url, this.element, progressCallback);
+					resolve(result);
+				}
+				catch (error) {
+					reject(error);
+				}
+			});
+		}
+		catch (error) {
+			if (error == null) {
+				// Loading was cancelled, so silently return
+				return;
+			}
+			throw error;
+		}
+		this.cancelPendingSourceChange = null;
+		this.reset();
+		this.url = url;
+		this._currentGLTF = gltf;
+		if (gltf != null) {
+			this._model = gltf.scene;
+			this.target.add(gltf.scene);
+		}
+		const { animations } = gltf;
+		const animationsByName = new Map();
+		const animationNames = [];
+		for (const animation of animations) {
+			animationsByName.set(animation.name, animation);
+			animationNames.push(animation.name);
+		}
+		this.animations = animations;
+		this.animationsByName = animationsByName;
+		this.animationNames = animationNames;
+		await this.setupScene();
+	}
+	async setupScene() {
+		this.applyTransform();
+		this.updateBoundingBox();
+		await this.updateFraming();
+		this.updateShadow();
+		this.setShadowIntensity(this.shadowIntensity);
+		this.setGroundedSkybox();
+	}
+	reset() {
+		this.url = null;
+		this.renderCount = 0;
+		this.queueRender();
+		if (this.shadow != null) {
+			this.shadow.setIntensity(0);
+		}
+		this.bakedShadows.clear();
+		const { _model } = this;
+		if (_model != null) {
+			_model.removeFromParent();
+			this._model = null;
+		}
+		const gltf = this._currentGLTF;
+		if (gltf != null) {
+			gltf.dispose();
+			this._currentGLTF = null;
+		}
+		if (this.currentAnimationAction != null) {
+			this.currentAnimationAction.stop();
+			this.currentAnimationAction = null;
+		}
+		this.mixer.stopAllAction();
+		this.mixer.uncacheRoot(this);
+	}
+	dispose() {
+		this.reset();
+		if (this.shadow != null) {
+			this.shadow.dispose();
+			this.shadow = null;
+		}
+		this.element[$currentGLTF] = null;
+		this.element[$originalGltfJson] = null;
+		this.element[$model] = null;
+	}
+	get currentGLTF() {
+		return this._currentGLTF;
+	}
+	/**
+	 * Updates the ModelScene for a new container size in CSS pixels.
+	 */
+	setSize(width, height) {
+		if (this.width === width && this.height === height) {
+			return;
+		}
+		this.width = Math.max(width, 1);
+		this.height = Math.max(height, 1);
+		this.annotationRenderer.setSize(width, height);
+		this.aspect = this.width / this.height;
+		if (this.externalRenderer != null) {
+			const dpr = window.devicePixelRatio;
+			this.externalRenderer.resize(width * dpr, height * dpr);
+		}
+		this.queueRender();
+	}
+	markBakedShadow(mesh) {
+		mesh.userData.noHit = true;
+		this.bakedShadows.add(mesh);
+	}
+	unmarkBakedShadow(mesh) {
+		mesh.userData.noHit = false;
+		mesh.visible = true;
+		this.bakedShadows.delete(mesh);
+		this.boundingBox.expandByObject(mesh);
+	}
+	findBakedShadows(group) {
+		const boundingBox = new Box3();
+		group.traverse((object) => {
+			const mesh = object;
+			if (!mesh.material) {
+				return;
+			}
+			const material = mesh.material;
+			if (!material.transparent) {
+				return;
+			}
+			boundingBox.setFromObject(mesh);
+			const size = boundingBox.getSize(vector3);
+			const minDim = Math.min(size.x, size.y, size.z);
+			const maxDim = Math.max(size.x, size.y, size.z);
+			if (maxDim < MIN_SHADOW_RATIO * minDim) {
+				return;
+			}
+			this.markBakedShadow(mesh);
+		});
+	}
+	checkBakedShadows() {
+		const { min, max } = this.boundingBox;
+		const shadowBox = new Box3();
+		this.boundingBox.getSize(this.size);
+		for (const mesh of this.bakedShadows) {
+			shadowBox.setFromObject(mesh);
+			if (shadowBox.min.y < min.y + this.size.y / MIN_SHADOW_RATIO &&
+				shadowBox.min.x <= min.x && shadowBox.max.x >= max.x &&
+				shadowBox.min.z <= min.z && shadowBox.max.z >= max.z) {
+				// floor shadow
+				continue;
+			}
+			if (shadowBox.min.z < min.z + this.size.z / MIN_SHADOW_RATIO &&
+				shadowBox.min.x <= min.x && shadowBox.max.x >= max.x &&
+				shadowBox.min.y <= min.y && shadowBox.max.y >= max.y) {
+				// wall shadow
+				continue;
+			}
+			this.unmarkBakedShadow(mesh);
+		}
+	}
+	applyTransform() {
+		const { model } = this;
+		if (model == null) {
+			return;
+		}
+		const orientation = parseExpressions(this.element.orientation)[0]
+			.terms;
+		const roll = normalizeUnit(orientation[0]).number;
+		const pitch = normalizeUnit(orientation[1]).number;
+		const yaw = normalizeUnit(orientation[2]).number;
+		model.quaternion.setFromEuler(new Euler(pitch, yaw, roll, 'YXZ'));
+		const scale = parseExpressions(this.element.scale)[0]
+			.terms;
+		model.scale.set(scale[0].number, scale[1].number, scale[2].number);
+	}
+	updateBoundingBox() {
+		const { model } = this;
+		if (model == null) {
+			return;
+		}
+		this.target.remove(model);
+		this.findBakedShadows(model);
+		const bound = (box, vertex) => {
+			return box.expandByPoint(vertex);
+		};
+		this.setBakedShadowVisibility(false);
+		this.boundingBox = reduceVertices(model, bound, new Box3());
+		// If there's nothing but the baked shadow, then it's not a baked shadow.
+		if (this.boundingBox.isEmpty()) {
+			this.setBakedShadowVisibility(true);
+			this.bakedShadows.forEach((mesh) => this.unmarkBakedShadow(mesh));
+			this.boundingBox = reduceVertices(model, bound, new Box3());
+		}
+		this.checkBakedShadows();
+		this.setBakedShadowVisibility();
+		this.boundingBox.getSize(this.size);
+		this.target.add(model);
+	}
+	/**
+	 * Calculates the boundingSphere and idealAspect that allows the 3D
+	 * object to be framed tightly in a 2D window of any aspect ratio without
+	 * clipping at any camera orbit. The camera's center target point can be
+	 * optionally specified. If no center is specified, it defaults to the center
+	 * of the bounding box, which means asymmetric models will tend to be tight on
+	 * one side instead of both. Proper choice of center can correct this.
+	 */
+	async updateFraming() {
+		const { model } = this;
+		if (model == null) {
+			return;
+		}
+		this.target.remove(model);
+		this.setBakedShadowVisibility(false);
+		const { center } = this.boundingSphere;
+		this.element.requestUpdate('cameraTarget');
+		await this.element.updateComplete;
+		center.copy(this.getTarget());
+		const radiusSquared = (value, vertex) => {
+			return Math.max(value, center.distanceToSquared(vertex));
+		};
+		this.boundingSphere.radius =
+			Math.sqrt(reduceVertices(model, radiusSquared, 0));
+		const horizontalTanFov = (value, vertex) => {
+			vertex.sub(center);
+			const radiusXZ = Math.sqrt(vertex.x * vertex.x + vertex.z * vertex.z);
+			return Math.max(value, radiusXZ / (this.idealCameraDistance() - Math.abs(vertex.y)));
+		};
+		this.idealAspect = reduceVertices(model, horizontalTanFov, 0) /
+			Math.tan((this.framedFoVDeg / 2) * Math.PI / 180);
+		this.setBakedShadowVisibility();
+		this.target.add(model);
+	}
+	setBakedShadowVisibility(visible = this.shadowIntensity <= 0) {
+		for (const shadow of this.bakedShadows) {
+			shadow.visible = visible;
+		}
+	}
+	idealCameraDistance() {
+		const halfFovRad = (this.framedFoVDeg / 2) * Math.PI / 180;
+		return this.boundingSphere.radius / Math.sin(halfFovRad);
+	}
+	/**
+	 * Set's the framedFieldOfView based on the aspect ratio of the window in
+	 * order to keep the model fully visible at any camera orientation.
+	 */
+	adjustedFoV(fovDeg) {
+		const vertical = Math.tan((fovDeg / 2) * Math.PI / 180) *
+			Math.max(1, this.idealAspect / this.aspect);
+		return 2 * Math.atan(vertical) * 180 / Math.PI;
+	}
+	getNDC(clientX, clientY) {
+		if (this.xrCamera != null) {
+			ndc.set(clientX / window.screen.width, clientY / window.screen.height);
+		}
+		else {
+			const rect = this.element.getBoundingClientRect();
+			ndc.set((clientX - rect.x) / this.width, (clientY - rect.y) / this.height);
+		}
+		ndc.multiplyScalar(2).subScalar(1);
+		ndc.y *= -1;
+		return ndc;
+	}
+	/**
+	 * Returns the size of the corresponding canvas element.
+	 */
+	getSize() {
+		return { width: this.width, height: this.height };
+	}
+	setEnvironmentAndSkybox(environment, skybox) {
+		if (this.element[$renderer].arRenderer.presentedScene === this) {
+			return;
+		}
+		this.environment = environment;
+		this.setBackground(skybox);
+		this.queueRender();
+	}
+	setBackground(skybox) {
+		this.groundedSkybox.map = skybox;
+		if (this.groundedSkybox.isUsable()) {
+			this.target.add(this.groundedSkybox);
+			this.background = null;
+		}
+		else {
+			this.target.remove(this.groundedSkybox);
+			this.background = skybox;
+		}
+	}
+	farRadius() {
+		return this.boundingSphere.radius *
+			(this.groundedSkybox.parent != null ? GROUNDED_SKYBOX_SIZE : 1);
+	}
+	setGroundedSkybox() {
+		const heightNode = parseExpressions(this.element.skyboxHeight)[0].terms[0];
+		const height = normalizeUnit(heightNode).number;
+		const radius = GROUNDED_SKYBOX_SIZE * this.boundingSphere.radius;
+		this.groundedSkybox.updateGeometry(height, radius);
+		this.groundedSkybox.position.y =
+			height - (this.shadow ? 2 * this.shadow.gap() : 0);
+		this.setBackground(this.groundedSkybox.map);
+	}
+	/**
+	 * Sets the point in model coordinates the model should orbit/pivot around.
+	 */
+	setTarget(modelX, modelY, modelZ) {
+		this.goalTarget.set(-modelX, -modelY, -modelZ);
+	}
+	/**
+	 * Set the decay time of, affects the speed of target transitions.
+	 */
+	setTargetDamperDecayTime(decayMilliseconds) {
+		this.targetDamperX.setDecayTime(decayMilliseconds);
+		this.targetDamperY.setDecayTime(decayMilliseconds);
+		this.targetDamperZ.setDecayTime(decayMilliseconds);
+	}
+	/**
+	 * Gets the point in model coordinates the model should orbit/pivot around.
+	 */
+	getTarget() {
+		return this.goalTarget.clone().multiplyScalar(-1);
+	}
+	/**
+	 * Gets the current target point, which may not equal the goal returned by
+	 * getTarget() due to finite input decay smoothing.
+	 */
+	getDynamicTarget() {
+		return this.target.position.clone().multiplyScalar(-1);
+	}
+	/**
+	 * Shifts the model to the target point immediately instead of easing in.
+	 */
+	jumpToGoal() {
+		this.updateTarget(SETTLING_TIME);
+	}
+	/**
+	 * This should be called every frame with the frame delta to cause the target
+	 * to transition to its set point.
+	 */
+	updateTarget(delta) {
+		const goal = this.goalTarget;
+		const target = this.target.position;
+		if (!goal.equals(target)) {
+			const normalization = this.boundingSphere.radius / 10;
+			let { x, y, z } = target;
+			x = this.targetDamperX.update(x, goal.x, delta, normalization);
+			y = this.targetDamperY.update(y, goal.y, delta, normalization);
+			z = this.targetDamperZ.update(z, goal.z, delta, normalization);
+			this.groundedSkybox.position.x = -x;
+			this.groundedSkybox.position.z = -z;
+			this.target.position.set(x, y, z);
+			this.target.updateMatrixWorld();
+			this.queueRender();
+			return true;
+		}
+		else {
+			return false;
+		}
+	}
+	/**
+	 * Yaw the +z (front) of the model toward the indicated world coordinates.
+	 */
+	pointTowards(worldX, worldZ) {
+		const { x, z } = this.position;
+		this.yaw = Math.atan2(worldX - x, worldZ - z);
+	}
+	get model() {
+		return this._model;
+	}
+	/**
+	 * Yaw is the scene's orientation about the y-axis, around the rotation
+	 * center.
+	 */
+	set yaw(radiansY) {
+		this.pivot.rotation.y = radiansY;
+		this.groundedSkybox.rotation.y = -radiansY;
+		this.queueRender();
+	}
+	get yaw() {
+		return this.pivot.rotation.y;
+	}
+	set animationTime(value) {
+		this.mixer.setTime(value);
+		this.queueShadowRender();
+	}
+	get animationTime() {
+		if (this.currentAnimationAction != null) {
+			const loopCount = Math.max(this.currentAnimationAction._loopCount, 0);
+			if (this.currentAnimationAction.loop === LoopPingPong &&
+				(loopCount & 1) === 1) {
+				return this.duration - this.currentAnimationAction.time;
+			}
+			else {
+				return this.currentAnimationAction.time;
+			}
+		}
+		return 0;
+	}
+	set animationTimeScale(value) {
+		this.mixer.timeScale = value;
+	}
+	get animationTimeScale() {
+		return this.mixer.timeScale;
+	}
+	get duration() {
+		if (this.currentAnimationAction != null &&
+			this.currentAnimationAction.getClip()) {
+			return this.currentAnimationAction.getClip().duration;
+		}
+		return 0;
+	}
+	get hasActiveAnimation() {
+		return this.currentAnimationAction != null;
+	}
+	/**
+	 * Plays an animation if there are any associated with the current model.
+	 * Accepts an optional string name of an animation to play. If no name is
+	 * provided, or if no animation is found by the given name, always falls back
+	 * to playing the first animation.
+	 */
+	playAnimation(name = null, crossfadeTime = 0, loopMode = LoopRepeat, repetitionCount = Infinity) {
+		if (this._currentGLTF == null) {
+			return;
+		}
+		const { animations } = this;
+		if (animations == null || animations.length === 0) {
+			return;
+		}
+		let animationClip = null;
+		if (name != null) {
+			animationClip = this.animationsByName.get(name);
+			if (animationClip == null) {
+				const parsedAnimationIndex = parseInt(name);
+				if (!isNaN(parsedAnimationIndex) && parsedAnimationIndex >= 0 &&
+					parsedAnimationIndex < animations.length) {
+					animationClip = animations[parsedAnimationIndex];
+				}
+			}
+		}
+		if (animationClip == null) {
+			animationClip = animations[0];
+		}
+		try {
+			const { currentAnimationAction: lastAnimationAction } = this;
+			const action = this.mixer.clipAction(animationClip, this);
+			// Reset animationAction timeScale
+			if (action.timeScale != this.element.timeScale) {
+				action.timeScale = this.element.timeScale;
+			}
+			this.currentAnimationAction = action;
+			if (this.element.paused) {
+				this.mixer.stopAllAction();
+			}
+			else {
+				action.paused = false;
+				if (lastAnimationAction != null && action !== lastAnimationAction) {
+					action.crossFadeFrom(lastAnimationAction, crossfadeTime, false);
+				}
+				else if (this.animationTimeScale > 0 &&
+					this.animationTime == this.duration) {
+					// This is a workaround for what I believe is a three.js bug.
+					this.animationTime = 0;
+				}
+			}
+			action.setLoop(loopMode, repetitionCount);
+			action.enabled = true;
+			action.clampWhenFinished = true;
+			action.play();
+		}
+		catch (error) {
+			console.error(error);
+		}
+	}
+	appendAnimation(name = '', loopMode = LoopRepeat, repetitionCount = Infinity, weight = 1, timeScale = 1, fade = false, warp = false, relativeWarp = true, time = null, needsToStop = false) {
+		if (this._currentGLTF == null || name === this.element.animationName) {
+			return;
+		}
+		const { animations } = this;
+		if (animations == null || animations.length === 0) {
+			return;
+		}
+		let animationClip = null;
+		const defaultFade = 1.25;
+		if (name) {
+			animationClip = this.animationsByName.get(name);
+		}
+		if (animationClip == null) {
+			return;
+		}
+		// validate function parameters
+		if (typeof repetitionCount === 'string') {
+			if (!isNaN(repetitionCount)) {
+				repetitionCount = Math.max(parseInt(repetitionCount), 1);
+			}
+			else {
+				repetitionCount = Infinity;
+				console.warn('Invalid repetitionCount value, repetitionCount is set to Infinity');
+			}
+		}
+		else if (typeof repetitionCount === 'number' && repetitionCount < 1) {
+			repetitionCount = 1;
+		}
+		if (repetitionCount === 1 && loopMode !== LoopOnce) {
+			loopMode = LoopOnce;
+		}
+		if (typeof weight === 'string') {
+			if (!isNaN(weight)) {
+				weight = parseFloat(weight);
+			}
+			else {
+				weight = 1;
+				console.warn('Invalid weight value, weight is set to 1');
+			}
+		}
+		if (typeof timeScale === 'string') {
+			if (!isNaN(timeScale)) {
+				timeScale = parseFloat(timeScale);
+			}
+			else {
+				timeScale = 1;
+				console.warn('Invalid timeScale value, timeScale is set to 1');
+			}
+		}
+		if (typeof fade === 'string') {
+			// @ts-ignore: Unreachable code error
+			if (fade.toLowerCase().trim() === 'true') {
+				fade = true;
+				// @ts-ignore: Unreachable code error
+			}
+			else if (fade.toLowerCase().trim() === 'false') {
+				fade = false;
+			}
+			else if (!isNaN(fade)) {
+				fade = parseFloat(fade);
+			}
+			else {
+				fade = false;
+				console.warn('Invalid fade value, fade is set to false');
+			}
+		}
+		if (typeof warp === 'string') {
+			// @ts-ignore: Unreachable code error
+			if (warp.toLowerCase().trim() === 'true') {
+				warp = true;
+				// @ts-ignore: Unreachable code error
+			}
+			else if (warp.toLowerCase().trim() === 'false') {
+				warp = false;
+			}
+			else if (!isNaN(warp)) {
+				warp = parseFloat(warp);
+			}
+			else {
+				warp = false;
+				console.warn('Invalid warp value, warp is set to false');
+			}
+		}
+		if (typeof time === 'string') {
+			if (!isNaN(time)) {
+				time = parseFloat(time);
+			}
+		}
+		try {
+			const action = this.mixer.existingAction(animationClip) ||
+				this.mixer.clipAction(animationClip, this);
+			const currentTimeScale = action.timeScale;
+			if (needsToStop && this.appendedAnimations.includes(name)) {
+				if (!this.markedAnimations.map(e => e.name).includes(name)) {
+					this.markedAnimations.push({ name, loopMode, repetitionCount });
+				}
+			}
+			if (typeof time === 'number') {
+				action.time = Math.min(Math.max(time, 0), animationClip.duration);
+			}
+			if (typeof fade === 'boolean' && fade) {
+				action.fadeIn(defaultFade);
+			}
+			else if (typeof fade === 'number') {
+				action.fadeIn(Math.max(fade, 0));
+			}
+			else {
+				if (weight >= 0) {
+					action.weight = Math.min(Math.max(weight, 0), 1);
+				}
+			}
+			if (typeof warp === 'boolean' && warp) {
+				action.warp(relativeWarp ? currentTimeScale : 0, timeScale, defaultFade);
+			}
+			else if (typeof warp === 'number') {
+				action.warp(relativeWarp ? currentTimeScale : 0, timeScale, Math.max(warp, 0));
+			}
+			else {
+				action.timeScale = timeScale;
+			}
+			if (!action.isRunning()) {
+				if (action.time == animationClip.duration) {
+					action.stop();
+				}
+				action.setLoop(loopMode, repetitionCount);
+				action.paused = false;
+				action.enabled = true;
+				action.clampWhenFinished = true;
+				action.play();
+			}
+			if (!this.appendedAnimations.includes(name)) {
+				this.element[$scene].appendedAnimations.push(name);
+			}
+		}
+		catch (error) {
+			console.error(error);
+		}
+	}
+	detachAnimation(name = '', fade = true) {
+		if (this._currentGLTF == null || name === this.element.animationName) {
+			return;
+		}
+		const { animations } = this;
+		if (animations == null || animations.length === 0) {
+			return;
+		}
+		let animationClip = null;
+		const defaultFade = 1.5;
+		if (name) {
+			animationClip = this.animationsByName.get(name);
+		}
+		if (animationClip == null) {
+			return;
+		}
+		if (typeof fade === 'string') {
+			// @ts-ignore: Unreachable code error
+			if (fade.toLowerCase().trim() === 'true') {
+				fade = true;
+				// @ts-ignore: Unreachable code error
+			}
+			else if (fade.toLowerCase().trim() === 'false') {
+				fade = false;
+			}
+			else if (!isNaN(fade)) {
+				fade = parseFloat(fade);
+			}
+			else {
+				fade = true;
+				console.warn('Invalid fade value, fade is set to true');
+			}
+		}
+		try {
+			const action = this.mixer.existingAction(animationClip) ||
+				this.mixer.clipAction(animationClip, this);
+			if (typeof fade === 'boolean' && fade) {
+				action.fadeOut(defaultFade);
+			}
+			else if (typeof fade === 'number') {
+				action.fadeOut(Math.max(fade, 0));
+			}
+			else {
+				action.stop();
+			}
+			const result = this.element[$scene].appendedAnimations.filter(i => i !== name);
+			this.element[$scene].appendedAnimations = result;
+		}
+		catch (error) {
+			console.error(error);
+		}
+	}
+	updateAnimationLoop(name = '', loopMode = LoopRepeat, repetitionCount = Infinity) {
+		if (this._currentGLTF == null || name === this.element.animationName) {
+			return;
+		}
+		const { animations } = this;
+		if (animations == null || animations.length === 0) {
+			return;
+		}
+		let animationClip = null;
+		if (name) {
+			animationClip = this.animationsByName.get(name);
+		}
+		if (animationClip == null) {
+			return;
+		}
+		try {
+			const action = this.mixer.existingAction(animationClip) ||
+				this.mixer.clipAction(animationClip, this);
+			action.stop();
+			action.setLoop(loopMode, repetitionCount);
+			action.play();
+		}
+		catch (error) {
+			console.error(error);
+		}
+	}
+	stopAnimation() {
+		this.currentAnimationAction = null;
+		this.mixer.stopAllAction();
+	}
+	updateAnimation(step) {
+		this.mixer.update(step);
+		this.queueShadowRender();
+	}
+	subscribeMixerEvent(event, callback) {
+		this.mixer.addEventListener(event, callback);
+	}
+	/**
+	 * Call if the object has been changed in such a way that the shadow's
+	 * shape has changed (not a rotation about the Y axis).
+	 */
+	updateShadow() {
+		const shadow = this.shadow;
+		if (shadow != null) {
+			const side = this.element.arPlacement === 'wall' ? 'back' : 'bottom';
+			shadow.setScene(this, this.shadowSoftness, side);
+			shadow.needsUpdate = true;
+		}
+	}
+	renderShadow(renderer) {
+		const shadow = this.shadow;
+		if (shadow != null && shadow.needsUpdate == true) {
+			shadow.render(renderer, this);
+			shadow.needsUpdate = false;
+		}
+	}
+	queueShadowRender() {
+		if (this.shadow != null) {
+			this.shadow.needsUpdate = true;
+		}
+	}
+	/**
+	 * Sets the shadow's intensity, lazily creating the shadow as necessary.
+	 */
+	setShadowIntensity(shadowIntensity) {
+		this.shadowIntensity = shadowIntensity;
+		if (this._currentGLTF == null) {
+			return;
+		}
+		this.setBakedShadowVisibility();
+		if (shadowIntensity <= 0 && this.shadow == null) {
+			return;
+		}
+		if (this.shadow == null) {
+			const side = this.element.arPlacement === 'wall' ? 'back' : 'bottom';
+			this.shadow = new Shadow(this, this.shadowSoftness, side);
+		}
+		this.shadow.setIntensity(shadowIntensity);
+	}
+	/**
+	 * Sets the shadow's softness by mapping a [0, 1] softness parameter to
+	 * the shadow's resolution. This involves reallocation, so it should not
+	 * be changed frequently. Softer shadows are cheaper to render.
+	 */
+	setShadowSoftness(softness) {
+		this.shadowSoftness = softness;
+		const shadow = this.shadow;
+		if (shadow != null) {
+			shadow.setSoftness(softness);
+		}
+	}
+	/**
+	 * Shift the floor vertically from the bottom of the model's bounding box
+	 * by offset (should generally be negative).
+	 */
+	setShadowOffset(offset) {
+		const shadow = this.shadow;
+		if (shadow != null) {
+			shadow.setOffset(offset);
+		}
+	}
+	getHit(object = this) {
+		const hits = raycaster.intersectObject(object, true);
+		return hits.find((hit) => hit.object.visible && !hit.object.userData.noHit);
+	}
+	hitFromController(controller, object = this) {
+		raycaster.setFromXRController(controller);
+		return this.getHit(object);
+	}
+	hitFromPoint(ndcPosition, object = this) {
+		raycaster.setFromCamera(ndcPosition, this.getCamera());
+		return this.getHit(object);
+	}
+	/**
+	 * This method returns the world position, model-space normal and texture
+	 * coordinate of the point on the mesh corresponding to the input pixel
+	 * coordinates given relative to the model-viewer element. If the mesh
+	 * is not hit, the result is null.
+	 */
+	positionAndNormalFromPoint(ndcPosition, object = this) {
+		var _a;
+		const hit = this.hitFromPoint(ndcPosition, object);
+		if (hit == null) {
+			return null;
+		}
+		const position = hit.point;
+		const normal = hit.face != null ?
+			hit.face.normal.clone().applyNormalMatrix(new Matrix3().getNormalMatrix(hit.object.matrixWorld)) :
+			raycaster.ray.direction.clone().multiplyScalar(-1);
+		const uv = (_a = hit.uv) !== null && _a !== void 0 ? _a : null;
+		return { position, normal, uv };
+	}
+	/**
+	 * This method returns a dynamic hotspot ID string of the point on the
+	 * mesh corresponding to the input pixel coordinates given relative to the
+	 * model-viewer element. The ID string can be used in the data-surface
+	 * attribute of the hotspot to make it follow this point on the surface
+	 * even as the model animates. If the mesh is not hit, the result is null.
+	 */
+	surfaceFromPoint(ndcPosition, object = this) {
+		const model = this.element.model;
+		if (model == null) {
+			return null;
+		}
+		const hit = this.hitFromPoint(ndcPosition, object);
+		if (hit == null || hit.face == null) {
+			return null;
+		}
+		const node = model[$nodeFromPoint](hit);
+		const { meshes, primitives } = node.mesh.userData.associations;
+		const va = new Vector3();
+		const vb = new Vector3();
+		const vc = new Vector3();
+		const { a, b, c } = hit.face;
+		const mesh = hit.object;
+		mesh.getVertexPosition(a, va);
+		mesh.getVertexPosition(b, vb);
+		mesh.getVertexPosition(c, vc);
+		const tri = new Triangle(va, vb, vc);
+		const uvw = new Vector3();
+		tri.getBarycoord(mesh.worldToLocal(hit.point), uvw);
+		return `${meshes} ${primitives} ${a} ${b} ${c} ${uvw.x.toFixed(3)} ${uvw.y.toFixed(3)} ${uvw.z.toFixed(3)}`;
+	}
+	/**
+	 * The following methods are for operating on the set of Hotspot objects
+	 * attached to the scene. These come from DOM elements, provided to slots
+	 * by the Annotation Mixin.
+	 */
+	addHotspot(hotspot) {
+		this.target.add(hotspot);
+		// This happens automatically in render(), but we do it early so that
+		// the slots appear in the shadow DOM and the elements get attached,
+		// allowing us to dispatch events on them.
+		this.annotationRenderer.domElement.appendChild(hotspot.element);
+		this.updateSurfaceHotspot(hotspot);
+	}
+	removeHotspot(hotspot) {
+		this.target.remove(hotspot);
+	}
+	/**
+	 * Helper method to apply a function to all hotspots.
+	 */
+	forHotspots(func) {
+		const { children } = this.target;
+		for (let i = 0, l = children.length; i < l; i++) {
+			const hotspot = children[i];
+			if (hotspot instanceof Hotspot) {
+				func(hotspot);
+			}
+		}
+	}
+	/**
+	 * Lazy initializer for surface hotspots - will only run once.
+	 */
+	updateSurfaceHotspot(hotspot) {
+		if (hotspot.surface == null || this.element.model == null) {
+			return;
+		}
+		const nodes = parseExpressions(hotspot.surface)[0].terms;
+		if (nodes.length != 8) {
+			console.warn(hotspot.surface + ' does not have exactly 8 numbers.');
+			return;
+		}
+		const primitiveNode = this.element.model[$nodeFromIndex](nodes[0].number, nodes[1].number);
+		if (primitiveNode == null) {
+			console.warn(hotspot.surface +
+				' does not match a node/primitive in this glTF! Skipping this hotspot.');
+			return;
+		}
+		const numVert = primitiveNode.mesh.geometry.attributes.position.count;
+		const tri = new Vector3(nodes[2].number, nodes[3].number, nodes[4].number);
+		if (tri.x >= numVert || tri.y >= numVert || tri.z >= numVert) {
+			console.warn(hotspot.surface +
+				' vertex indices out of range in this glTF! Skipping this hotspot.');
+			return;
+		}
+		const bary = new Vector3(nodes[5].number, nodes[6].number, nodes[7].number);
+		hotspot.mesh = primitiveNode.mesh;
+		hotspot.tri = tri;
+		hotspot.bary = bary;
+		hotspot.updateSurface();
+	}
+	/**
+	 * Update positions of surface hotspots to follow model animation.
+	 */
+	animateSurfaceHotspots() {
+		if (this.element.paused) {
+			return;
+		}
+		this.forHotspots((hotspot) => {
+			hotspot.updateSurface();
+		});
+	}
+	/**
+	 * Update the CSS visibility of the hotspots based on whether their
+	 * normals point toward the camera.
+	 */
+	updateHotspotsVisibility(viewerPosition) {
+		this.forHotspots((hotspot) => {
+			view.copy(viewerPosition);
+			target.setFromMatrixPosition(hotspot.matrixWorld);
+			view.sub(target);
+			normalWorld.copy(hotspot.normal)
+				.transformDirection(this.target.matrixWorld);
+			if (view.dot(normalWorld) < 0) {
+				hotspot.hide();
+			}
+			else {
+				hotspot.show();
+			}
+		});
+	}
+	/**
+	 * Rotate all hotspots to an absolute orientation given by the input
+	 * number of radians. Zero returns them to upright.
+	 */
+	orientHotspots(radians) {
+		this.forHotspots((hotspot) => {
+			hotspot.orient(radians);
+		});
+	}
+	/**
+	 * Set the rendering visibility of all hotspots. This is used to hide them
+	 * during transitions and such.
+	 */
+	setHotspotsVisibility(visible) {
+		this.forHotspots((hotspot) => {
+			hotspot.visible = visible;
+		});
+	}
+	updateSchema(src) {
+		var _a;
+		const { schemaElement, element } = this;
+		const { alt, poster, iosSrc } = element;
+		if (src != null) {
+			const encoding = [{
+					'@type': 'MediaObject',
+					contentUrl: src,
+					encodingFormat: ((_a = src.split('.').pop()) === null || _a === void 0 ? void 0 : _a.toLowerCase()) === 'gltf' ?
+						'model/gltf+json' :
+						'model/gltf-binary'
+				}];
+			if (iosSrc) {
+				encoding.push({
+					'@type': 'MediaObject',
+					contentUrl: iosSrc,
+					encodingFormat: 'model/vnd.usdz+zip'
+				});
+			}
+			const structuredData = {
+				'@context': 'http://schema.org/',
+				'@type': '3DModel',
+				image: poster !== null && poster !== void 0 ? poster : undefined,
+				name: alt !== null && alt !== void 0 ? alt : undefined,
+				encoding
+			};
+			schemaElement.textContent = JSON.stringify(structuredData);
+			document.head.appendChild(schemaElement);
+		}
+		else if (schemaElement.parentElement != null) {
+			schemaElement.parentElement.removeChild(schemaElement);
+		}
+	}
 }
 
 /* @license
@@ -62330,76 +62405,76 @@ class ModelScene extends Scene {
  * completed.
  */
 class ProgressTracker extends EventTarget {
-    constructor() {
-        super(...arguments);
-        this.ongoingActivities = new Set();
-        this.totalProgress = 0;
-    }
-    /**
-     * The total number of activities currently being tracked.
-     */
-    get ongoingActivityCount() {
-        return this.ongoingActivities.size;
-    }
-    /**
-     * Registers a new activity to be tracked by the progress tracker. The method
-     * returns a special callback that should be invoked whenever new progress is
-     * ready to be reported. The progress should be reported as a value between 0
-     * and 1, where 0 would represent the beginning of the action and 1 would
-     * represent its completion.
-     *
-     * There is no built-in notion of a time-out for ongoing activities, so once
-     * an ongoing activity is begun, it is up to the consumer of this API to
-     * update the progress until that activity is no longer ongoing.
-     *
-     * Progress is only allowed to move forward for any given activity. If a lower
-     * progress is reported than the previously reported progress, it will be
-     * ignored.
-     */
-    beginActivity(reason) {
-        const activity = { progress: 0, completed: false };
-        this.ongoingActivities.add(activity);
-        if (this.ongoingActivityCount === 1) {
-            // Announce the first progress event (which should always be 0 / 1
-            // total progress):
-            this.announceTotalProgress(activity, 0, reason);
-        }
-        return (progress) => {
-            let nextProgress;
-            nextProgress = Math.max(clamp(progress, 0, 1), activity.progress);
-            if (nextProgress !== activity.progress) {
-                this.announceTotalProgress(activity, nextProgress, reason);
-            }
-            return activity.progress;
-        };
-    }
-    announceTotalProgress(updatedActivity, nextProgress, reason) {
-        let progressLeft = 0;
-        let completedActivities = 0;
-        if (nextProgress == 1.0)
-            updatedActivity.completed = true;
-        for (const activity of this.ongoingActivities) {
-            const { progress } = activity;
-            progressLeft += 1.0 - progress;
-            if (activity.completed) {
-                completedActivities++;
-            }
-        }
-        const lastProgress = updatedActivity.progress;
-        updatedActivity.progress = nextProgress;
-        // Advance the total progress by the fraction of total remaining progress
-        // due to this activity.
-        this.totalProgress += (nextProgress - lastProgress) *
-            (1.0 - this.totalProgress) / progressLeft;
-        const totalProgress = completedActivities === this.ongoingActivityCount ?
-            1.0 :
-            this.totalProgress;
-        this.dispatchEvent(new CustomEvent('progress', { detail: { totalProgress, reason } }));
-        if (completedActivities === this.ongoingActivityCount) {
-            this.totalProgress = 0.0;
-            this.ongoingActivities.clear();
-        }
-    }
+	constructor() {
+		super(...arguments);
+		this.ongoingActivities = new Set();
+		this.totalProgress = 0;
+	}
+	/**
+	 * The total number of activities currently being tracked.
+	 */
+	get ongoingActivityCount() {
+		return this.ongoingActivities.size;
+	}
+	/**
+	 * Registers a new activity to be tracked by the progress tracker. The method
+	 * returns a special callback that should be invoked whenever new progress is
+	 * ready to be reported. The progress should be reported as a value between 0
+	 * and 1, where 0 would represent the beginning of the action and 1 would
+	 * represent its completion.
+	 *
+	 * There is no built-in notion of a time-out for ongoing activities, so once
+	 * an ongoing activity is begun, it is up to the consumer of this API to
+	 * update the progress until that activity is no longer ongoing.
+	 *
+	 * Progress is only allowed to move forward for any given activity. If a lower
+	 * progress is reported than the previously reported progress, it will be
+	 * ignored.
+	 */
+	beginActivity(reason) {
+		const activity = { progress: 0, completed: false };
+		this.ongoingActivities.add(activity);
+		if (this.ongoingActivityCount === 1) {
+			// Announce the first progress event (which should always be 0 / 1
+			// total progress):
+			this.announceTotalProgress(activity, 0, reason);
+		}
+		return (progress) => {
+			let nextProgress;
+			nextProgress = Math.max(clamp(progress, 0, 1), activity.progress);
+			if (nextProgress !== activity.progress) {
+				this.announceTotalProgress(activity, nextProgress, reason);
+			}
+			return activity.progress;
+		};
+	}
+	announceTotalProgress(updatedActivity, nextProgress, reason) {
+		let progressLeft = 0;
+		let completedActivities = 0;
+		if (nextProgress == 1.0)
+			updatedActivity.completed = true;
+		for (const activity of this.ongoingActivities) {
+			const { progress } = activity;
+			progressLeft += 1.0 - progress;
+			if (activity.completed) {
+				completedActivities++;
+			}
+		}
+		const lastProgress = updatedActivity.progress;
+		updatedActivity.progress = nextProgress;
+		// Advance the total progress by the fraction of total remaining progress
+		// due to this activity.
+		this.totalProgress += (nextProgress - lastProgress) *
+			(1.0 - this.totalProgress) / progressLeft;
+		const totalProgress = completedActivities === this.ongoingActivityCount ?
+			1.0 :
+			this.totalProgress;
+		this.dispatchEvent(new CustomEvent('progress', { detail: { totalProgress, reason } }));
+		if (completedActivities === this.ongoingActivityCount) {
+			this.totalProgress = 0.0;
+			this.ongoingActivities.clear();
+		}
+	}
 }
 
 /* @license
@@ -62417,9 +62492,9 @@ class ProgressTracker extends EventTarget {
  * limitations under the License.
  */
 var __decorate$4 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 var _a$1, _b$1, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
 const CLEAR_MODEL_TIMEOUT_MS = 10;
@@ -62462,452 +62537,452 @@ const $getLoaded = Symbol('getLoaded');
 const $getModelIsVisible = Symbol('getModelIsVisible');
 const $shouldAttemptPreload = Symbol('shouldAttemptPreload');
 const toVector3D = (v) => {
-    return {
-        x: v.x,
-        y: v.y,
-        z: v.z,
-        toString() {
-            return `${this.x}m ${this.y}m ${this.z}m`;
-        }
-    };
+	return {
+		x: v.x,
+		y: v.y,
+		z: v.z,
+		toString() {
+			return `${this.x}m ${this.y}m ${this.z}m`;
+		}
+	};
 };
 const toVector2D = (v) => {
-    return {
-        u: v.x,
-        v: v.y,
-        toString() {
-            return `${this.u} ${this.v}`;
-        }
-    };
+	return {
+		u: v.x,
+		v: v.y,
+		toString() {
+			return `${this.u} ${this.v}`;
+		}
+	};
 };
 /**
  * Definition for a basic <model-viewer> element.
  */
 class ModelViewerElementBase extends b$1 {
-    static get is() {
-        return 'model-viewer';
-    }
-    /** @export */
-    static set modelCacheSize(value) {
-        CachingGLTFLoader[$evictionPolicy].evictionThreshold = value;
-    }
-    /** @export */
-    static get modelCacheSize() {
-        return CachingGLTFLoader[$evictionPolicy].evictionThreshold;
-    }
-    /** @export */
-    static set minimumRenderScale(value) {
-        if (value > 1) {
-            console.warn('<model-viewer> minimumRenderScale has been clamped to a maximum value of 1.');
-        }
-        if (value <= 0) {
-            console.warn('<model-viewer> minimumRenderScale has been clamped to a minimum value of 0.25.');
-        }
-        Renderer.singleton.minScale = value;
-    }
-    /** @export */
-    static get minimumRenderScale() {
-        return Renderer.singleton.minScale;
-    }
-    /** @export */
-    get loaded() {
-        return this[$getLoaded]();
-    }
-    get [(_a$1 = $isElementInViewport, _b$1 = $loaded, _c = $loadedTime, _d = $status, _e = $clearModelTimeout, _f = $fallbackResizeHandler, _g = $announceModelVisibility, _h = $resizeObserver, _j = $intersectionObserver, _k = $progressTracker, $renderer)]() {
-        return Renderer.singleton;
-    }
-    /** @export */
-    get modelIsVisible() {
-        return this[$getModelIsVisible]();
-    }
-    /**
-     * Creates a new ModelViewerElement.
-     */
-    constructor() {
-        super();
-        this.alt = null;
-        this.src = null;
-        this.withCredentials = false;
-        /**
-         * Generates a 3D model schema https://schema.org/3DModel associated with
-         * the loaded src and inserts it into the header of the page for search
-         * engines to crawl.
-         */
-        this.generateSchema = false;
-        this[_a$1] = false;
-        this[_b$1] = false;
-        this[_c] = 0;
-        this[_d] = '';
-        this[_e] = null;
-        this[_f] = debounce(() => {
-            const boundingRect = this.getBoundingClientRect();
-            this[$updateSize](boundingRect);
-        }, FALLBACK_SIZE_UPDATE_THRESHOLD_MS);
-        this[_g] = debounce((oldVisibility) => {
-            const newVisibility = this.modelIsVisible;
-            if (newVisibility !== oldVisibility) {
-                this.dispatchEvent(new CustomEvent('model-visibility', { detail: { visible: newVisibility } }));
-            }
-        }, ANNOUNCE_MODEL_VISIBILITY_DEBOUNCE_THRESHOLD);
-        this[_h] = null;
-        this[_j] = null;
-        this[_k] = new ProgressTracker();
-        this[_l] = () => {
-            this[$statusElement].textContent = this[$status];
-        };
-        this[_m] = () => {
-            this[$statusElement].textContent = '';
-        };
-        this[_o] = (event) => {
-            this.dispatchEvent(new CustomEvent('error', { detail: { type: 'webglcontextlost', sourceError: event.sourceEvent } }));
-        };
-        this.attachShadow({ mode: 'open' });
-        const shadowRoot = this.shadowRoot;
-        makeTemplate(shadowRoot);
-        this[$container] = shadowRoot.querySelector('.container');
-        this[$userInputElement] =
-            shadowRoot.querySelector('.userInput');
-        this[$canvas] = shadowRoot.querySelector('canvas');
-        this[$statusElement] =
-            shadowRoot.querySelector('#status');
-        this[$defaultAriaLabel] =
-            this[$userInputElement].getAttribute('aria-label');
-        // Because of potential race conditions related to invoking the constructor
-        // we only use the bounding rect to set the initial size if the element is
-        // already connected to the document:
-        let width, height;
-        if (this.isConnected) {
-            const rect = this.getBoundingClientRect();
-            width = rect.width;
-            height = rect.height;
-        }
-        else {
-            width = UNSIZED_MEDIA_WIDTH;
-            height = UNSIZED_MEDIA_HEIGHT;
-        }
-        // Create the underlying ModelScene.
-        this[$scene] =
-            new ModelScene({ canvas: this[$canvas], element: this, width, height });
-        // Update initial size on microtask timing so that subclasses have a
-        // chance to initialize
-        Promise.resolve().then(() => {
-            this[$updateSize](this.getBoundingClientRect());
-        });
-        if (HAS_RESIZE_OBSERVER) {
-            // Set up a resize observer so we can scale our canvas
-            // if our <model-viewer> changes
-            this[$resizeObserver] =
-                new ResizeObserver((entries) => {
-                    // Don't resize anything if in AR mode; otherwise the canvas
-                    // scaling to fullscreen on entering AR will clobber the flat/2d
-                    // dimensions of the element.
-                    if (this[$renderer].isPresenting) {
-                        return;
-                    }
-                    for (let entry of entries) {
-                        if (entry.target === this) {
-                            this[$updateSize](entry.contentRect);
-                        }
-                    }
-                });
-        }
-        if (HAS_INTERSECTION_OBSERVER) {
-            this[$intersectionObserver] = new IntersectionObserver(entries => {
-                for (let entry of entries) {
-                    if (entry.target === this) {
-                        const oldVisibility = this.modelIsVisible;
-                        this[$isElementInViewport] = entry.isIntersecting;
-                        this[$announceModelVisibility](oldVisibility);
-                        if (this[$isElementInViewport] && !this.loaded) {
-                            this[$updateSource]();
-                        }
-                    }
-                }
-            }, {
-                root: null,
-                // We used to have margin here, but it was causing animated models below
-                // the fold to steal the frame budget. Weirder still, it would also
-                // cause input events to be swallowed, sometimes for seconds on the
-                // model above the fold, but only when the animated model was completely
-                // below. Setting this margin to zero fixed it.
-                rootMargin: '0px',
-                // With zero threshold, an element adjacent to but not intersecting the
-                // viewport will be reported as intersecting, which will cause
-                // unnecessary rendering. Any slight positive threshold alleviates this.
-                threshold: 0.00001,
-            });
-        }
-        else {
-            // If there is no intersection observer, then all models should be visible
-            // at all times:
-            this[$isElementInViewport] = true;
-        }
-    }
-    connectedCallback() {
-        super.connectedCallback && super.connectedCallback();
-        if (HAS_RESIZE_OBSERVER) {
-            this[$resizeObserver].observe(this);
-        }
-        else {
-            self.addEventListener('resize', this[$fallbackResizeHandler]);
-        }
-        if (HAS_INTERSECTION_OBSERVER) {
-            this[$intersectionObserver].observe(this);
-        }
-        this.addEventListener('focus', this[$onFocus]);
-        this.addEventListener('blur', this[$onBlur]);
-        const renderer = this[$renderer];
-        renderer.addEventListener('contextlost', this[$onContextLost]);
-        renderer.registerScene(this[$scene]);
-        if (this[$clearModelTimeout] != null) {
-            self.clearTimeout(this[$clearModelTimeout]);
-            this[$clearModelTimeout] = null;
-            // Force an update in case the model has been evicted from our GLTF cache
-            // @see https://lit-element.polymer-project.org/guide/lifecycle#requestupdate
-            this.requestUpdate('src', null);
-        }
-    }
-    disconnectedCallback() {
-        super.disconnectedCallback && super.disconnectedCallback();
-        if (HAS_RESIZE_OBSERVER) {
-            this[$resizeObserver].unobserve(this);
-        }
-        else {
-            self.removeEventListener('resize', this[$fallbackResizeHandler]);
-        }
-        if (HAS_INTERSECTION_OBSERVER) {
-            this[$intersectionObserver].unobserve(this);
-        }
-        this.removeEventListener('focus', this[$onFocus]);
-        this.removeEventListener('blur', this[$onBlur]);
-        const renderer = this[$renderer];
-        renderer.removeEventListener('contextlost', this[$onContextLost]);
-        renderer.unregisterScene(this[$scene]);
-        this[$clearModelTimeout] = self.setTimeout(() => {
-            this[$scene].dispose();
-            this[$clearModelTimeout] = null;
-        }, CLEAR_MODEL_TIMEOUT_MS);
-    }
-    updated(changedProperties) {
-        super.updated(changedProperties);
-        // NOTE(cdata): If a property changes from values A -> B -> A in the space
-        // of a microtask, LitElement/UpdatingElement will notify of a change even
-        // though the value has effectively not changed, so we need to check to make
-        // sure that the value has actually changed before changing the loaded flag.
-        if (changedProperties.has('src')) {
-            if (this.src == null) {
-                this[$loaded] = false;
-                this[$loadedTime] = 0;
-                this[$scene].reset();
-            }
-            else if (this.src !== this[$scene].url) {
-                this[$loaded] = false;
-                this[$loadedTime] = 0;
-                this[$updateSource]();
-            }
-        }
-        if (changedProperties.has('alt')) {
-            this[$userInputElement].setAttribute('aria-label', this[$ariaLabel]);
-        }
-        if (changedProperties.has('generateSchema')) {
-            if (this.generateSchema) {
-                this[$scene].updateSchema(this.src);
-            }
-            else {
-                this[$scene].updateSchema(null);
-            }
-        }
-    }
-    /** @export */
-    toDataURL(type, encoderOptions) {
-        return this[$renderer]
-            .displayCanvas(this[$scene])
-            .toDataURL(type, encoderOptions);
-    }
-    /** @export */
-    async toBlob(options) {
-        const mimeType = options ? options.mimeType : undefined;
-        const qualityArgument = options ? options.qualityArgument : undefined;
-        const useIdealAspect = options ? options.idealAspect : undefined;
-        const { width, height, idealAspect, aspect } = this[$scene];
-        const { dpr, scaleFactor } = this[$renderer];
-        let outputWidth = width * scaleFactor * dpr;
-        let outputHeight = height * scaleFactor * dpr;
-        let offsetX = 0;
-        let offsetY = 0;
-        if (useIdealAspect === true) {
-            if (idealAspect > aspect) {
-                const oldHeight = outputHeight;
-                outputHeight = Math.round(outputWidth / idealAspect);
-                offsetY = (oldHeight - outputHeight) / 2;
-            }
-            else {
-                const oldWidth = outputWidth;
-                outputWidth = Math.round(outputHeight * idealAspect);
-                offsetX = (oldWidth - outputWidth) / 2;
-            }
-        }
-        blobCanvas.width = outputWidth;
-        blobCanvas.height = outputHeight;
-        try {
-            return new Promise(async (resolve, reject) => {
-                blobCanvas.getContext('2d').drawImage(this[$renderer].displayCanvas(this[$scene]), offsetX, offsetY, outputWidth, outputHeight, 0, 0, outputWidth, outputHeight);
-                blobCanvas.toBlob((blob) => {
-                    if (!blob) {
-                        return reject(new Error('Unable to retrieve canvas blob'));
-                    }
-                    resolve(blob);
-                }, mimeType, qualityArgument);
-            });
-        }
-        finally {
-            this[$updateSize]({ width, height });
-        }
-    }
-    /**
-     * Registers a new EffectComposer as the main rendering pipeline,
-     * instead of the default ThreeJs renderer.
-     * This method also calls setRenderer, setMainScene, and setMainCamera on
-     * your effectComposer.
-     * @param effectComposer An EffectComposer from `pmndrs/postprocessing`
-     */
-    registerEffectComposer(effectComposer) {
-        effectComposer.setRenderer(this[$renderer].threeRenderer);
-        effectComposer.setMainCamera(this[$scene].getCamera());
-        effectComposer.setMainScene(this[$scene]);
-        this[$scene].effectRenderer = effectComposer;
-    }
-    /**
-     * Removes the registered EffectComposer
-     */
-    unregisterEffectComposer() {
-        this[$scene].effectRenderer = null;
-    }
-    registerRenderer(renderer) {
-        this[$scene].externalRenderer = renderer;
-    }
-    unregisterRenderer() {
-        this[$scene].externalRenderer = null;
-    }
-    get [$ariaLabel]() {
-        return this[$altDefaulted];
-    }
-    get [$altDefaulted]() {
-        return (this.alt == null || this.alt === 'null') ? this[$defaultAriaLabel] :
-            this.alt;
-    }
-    // NOTE(cdata): Although this may seem extremely redundant, it is required in
-    // order to support overloading when TypeScript is compiled to ES5
-    // @see https://github.com/Polymer/lit-element/pull/745
-    // @see https://github.com/microsoft/TypeScript/issues/338
-    [$getLoaded]() {
-        return this[$loaded];
-    }
-    // @see [$getLoaded]
-    [$getModelIsVisible]() {
-        return this.loaded && this[$isElementInViewport];
-    }
-    [$shouldAttemptPreload]() {
-        return !!this.src && this[$isElementInViewport];
-    }
-    /**
-     * Called on initialization and when the resize observer fires.
-     */
-    [$updateSize]({ width, height }) {
-        if (width === 0 || height === 0) {
-            return;
-        }
-        this[$container].style.width = `${width}px`;
-        this[$container].style.height = `${height}px`;
-        this[$onResize]({ width, height });
-    }
-    [$tick](time, delta) {
-        var _p;
-        (_p = this[$scene].effectRenderer) === null || _p === void 0 ? void 0 : _p.beforeRender(time, delta);
-    }
-    [$markLoaded]() {
-        if (this[$loaded]) {
-            return;
-        }
-        this[$loaded] = true;
-        this[$loadedTime] = performance.now();
-    }
-    [$needsRender]() {
-        this[$scene].queueRender();
-    }
-    [$onModelLoad]() {
-    }
-    [$updateStatus](status) {
-        this[$status] = status;
-        const rootNode = this.getRootNode();
-        // Only change the aria-label if <model-viewer> is currently focused:
-        if (rootNode != null && rootNode.activeElement === this &&
-            this[$statusElement].textContent != status) {
-            this[$statusElement].textContent = status;
-        }
-    }
-    [(_l = $onFocus, _m = $onBlur, $onResize)](e) {
-        this[$scene].setSize(e.width, e.height);
-    }
-    /**
-     * Parses the element for an appropriate source URL and
-     * sets the views to use the new model based.
-     */
-    async [(_o = $onContextLost, $updateSource)]() {
-        const scene = this[$scene];
-        if (this.loaded || !this[$shouldAttemptPreload]() ||
-            this.src === scene.url) {
-            return;
-        }
-        if (this.generateSchema) {
-            scene.updateSchema(this.src);
-        }
-        this[$updateStatus]('Loading');
-        // If we are loading a new model, we need to stop the animation of
-        // the current one (if any is playing). Otherwise, we might lose
-        // the reference to the scene root and running actions start to
-        // throw exceptions and/or behave in unexpected ways:
-        scene.stopAnimation();
-        const updateSourceProgress = this[$progressTracker].beginActivity('model-load');
-        const source = this.src;
-        try {
-            const srcUpdated = scene.setSource(source, (progress) => updateSourceProgress(clamp(progress, 0, 1) * 0.95));
-            const envUpdated = this[$updateEnvironment]();
-            await Promise.all([srcUpdated, envUpdated]);
-            this[$markLoaded]();
-            this[$onModelLoad]();
-            this.updateComplete.then(() => {
-                this.dispatchEvent(new CustomEvent('before-render'));
-            });
-            // Wait for shaders to compile and pixels to be drawn.
-            await new Promise(resolve => {
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        this.dispatchEvent(new CustomEvent('load', { detail: { url: source } }));
-                        resolve();
-                    });
-                });
-            });
-        }
-        catch (error) {
-            this.dispatchEvent(new CustomEvent('error', { detail: { type: 'loadfailure', sourceError: error } }));
-        }
-        finally {
-            updateSourceProgress(1.0);
-        }
-    }
+	static get is() {
+		return 'model-viewer';
+	}
+	/** @export */
+	static set modelCacheSize(value) {
+		CachingGLTFLoader[$evictionPolicy].evictionThreshold = value;
+	}
+	/** @export */
+	static get modelCacheSize() {
+		return CachingGLTFLoader[$evictionPolicy].evictionThreshold;
+	}
+	/** @export */
+	static set minimumRenderScale(value) {
+		if (value > 1) {
+			console.warn('<model-viewer> minimumRenderScale has been clamped to a maximum value of 1.');
+		}
+		if (value <= 0) {
+			console.warn('<model-viewer> minimumRenderScale has been clamped to a minimum value of 0.25.');
+		}
+		Renderer.singleton.minScale = value;
+	}
+	/** @export */
+	static get minimumRenderScale() {
+		return Renderer.singleton.minScale;
+	}
+	/** @export */
+	get loaded() {
+		return this[$getLoaded]();
+	}
+	get [(_a$1 = $isElementInViewport, _b$1 = $loaded, _c = $loadedTime, _d = $status, _e = $clearModelTimeout, _f = $fallbackResizeHandler, _g = $announceModelVisibility, _h = $resizeObserver, _j = $intersectionObserver, _k = $progressTracker, $renderer)]() {
+		return Renderer.singleton;
+	}
+	/** @export */
+	get modelIsVisible() {
+		return this[$getModelIsVisible]();
+	}
+	/**
+	 * Creates a new ModelViewerElement.
+	 */
+	constructor() {
+		super();
+		this.alt = null;
+		this.src = null;
+		this.withCredentials = false;
+		/**
+		 * Generates a 3D model schema https://schema.org/3DModel associated with
+		 * the loaded src and inserts it into the header of the page for search
+		 * engines to crawl.
+		 */
+		this.generateSchema = false;
+		this[_a$1] = false;
+		this[_b$1] = false;
+		this[_c] = 0;
+		this[_d] = '';
+		this[_e] = null;
+		this[_f] = debounce(() => {
+			const boundingRect = this.getBoundingClientRect();
+			this[$updateSize](boundingRect);
+		}, FALLBACK_SIZE_UPDATE_THRESHOLD_MS);
+		this[_g] = debounce((oldVisibility) => {
+			const newVisibility = this.modelIsVisible;
+			if (newVisibility !== oldVisibility) {
+				this.dispatchEvent(new CustomEvent('model-visibility', { detail: { visible: newVisibility } }));
+			}
+		}, ANNOUNCE_MODEL_VISIBILITY_DEBOUNCE_THRESHOLD);
+		this[_h] = null;
+		this[_j] = null;
+		this[_k] = new ProgressTracker();
+		this[_l] = () => {
+			this[$statusElement].textContent = this[$status];
+		};
+		this[_m] = () => {
+			this[$statusElement].textContent = '';
+		};
+		this[_o] = (event) => {
+			this.dispatchEvent(new CustomEvent('error', { detail: { type: 'webglcontextlost', sourceError: event.sourceEvent } }));
+		};
+		this.attachShadow({ mode: 'open' });
+		const shadowRoot = this.shadowRoot;
+		makeTemplate(shadowRoot);
+		this[$container] = shadowRoot.querySelector('.container');
+		this[$userInputElement] =
+			shadowRoot.querySelector('.userInput');
+		this[$canvas] = shadowRoot.querySelector('canvas');
+		this[$statusElement] =
+			shadowRoot.querySelector('#status');
+		this[$defaultAriaLabel] =
+			this[$userInputElement].getAttribute('aria-label');
+		// Because of potential race conditions related to invoking the constructor
+		// we only use the bounding rect to set the initial size if the element is
+		// already connected to the document:
+		let width, height;
+		if (this.isConnected) {
+			const rect = this.getBoundingClientRect();
+			width = rect.width;
+			height = rect.height;
+		}
+		else {
+			width = UNSIZED_MEDIA_WIDTH;
+			height = UNSIZED_MEDIA_HEIGHT;
+		}
+		// Create the underlying ModelScene.
+		this[$scene] =
+			new ModelScene({ canvas: this[$canvas], element: this, width, height });
+		// Update initial size on microtask timing so that subclasses have a
+		// chance to initialize
+		Promise.resolve().then(() => {
+			this[$updateSize](this.getBoundingClientRect());
+		});
+		if (HAS_RESIZE_OBSERVER) {
+			// Set up a resize observer so we can scale our canvas
+			// if our <model-viewer> changes
+			this[$resizeObserver] =
+				new ResizeObserver((entries) => {
+					// Don't resize anything if in AR mode; otherwise the canvas
+					// scaling to fullscreen on entering AR will clobber the flat/2d
+					// dimensions of the element.
+					if (this[$renderer].isPresenting) {
+						return;
+					}
+					for (let entry of entries) {
+						if (entry.target === this) {
+							this[$updateSize](entry.contentRect);
+						}
+					}
+				});
+		}
+		if (HAS_INTERSECTION_OBSERVER) {
+			this[$intersectionObserver] = new IntersectionObserver(entries => {
+				for (let entry of entries) {
+					if (entry.target === this) {
+						const oldVisibility = this.modelIsVisible;
+						this[$isElementInViewport] = entry.isIntersecting;
+						this[$announceModelVisibility](oldVisibility);
+						if (this[$isElementInViewport] && !this.loaded) {
+							this[$updateSource]();
+						}
+					}
+				}
+			}, {
+				root: null,
+				// We used to have margin here, but it was causing animated models below
+				// the fold to steal the frame budget. Weirder still, it would also
+				// cause input events to be swallowed, sometimes for seconds on the
+				// model above the fold, but only when the animated model was completely
+				// below. Setting this margin to zero fixed it.
+				rootMargin: '0px',
+				// With zero threshold, an element adjacent to but not intersecting the
+				// viewport will be reported as intersecting, which will cause
+				// unnecessary rendering. Any slight positive threshold alleviates this.
+				threshold: 0.00001,
+			});
+		}
+		else {
+			// If there is no intersection observer, then all models should be visible
+			// at all times:
+			this[$isElementInViewport] = true;
+		}
+	}
+	connectedCallback() {
+		super.connectedCallback && super.connectedCallback();
+		if (HAS_RESIZE_OBSERVER) {
+			this[$resizeObserver].observe(this);
+		}
+		else {
+			self.addEventListener('resize', this[$fallbackResizeHandler]);
+		}
+		if (HAS_INTERSECTION_OBSERVER) {
+			this[$intersectionObserver].observe(this);
+		}
+		this.addEventListener('focus', this[$onFocus]);
+		this.addEventListener('blur', this[$onBlur]);
+		const renderer = this[$renderer];
+		renderer.addEventListener('contextlost', this[$onContextLost]);
+		renderer.registerScene(this[$scene]);
+		if (this[$clearModelTimeout] != null) {
+			self.clearTimeout(this[$clearModelTimeout]);
+			this[$clearModelTimeout] = null;
+			// Force an update in case the model has been evicted from our GLTF cache
+			// @see https://lit-element.polymer-project.org/guide/lifecycle#requestupdate
+			this.requestUpdate('src', null);
+		}
+	}
+	disconnectedCallback() {
+		super.disconnectedCallback && super.disconnectedCallback();
+		if (HAS_RESIZE_OBSERVER) {
+			this[$resizeObserver].unobserve(this);
+		}
+		else {
+			self.removeEventListener('resize', this[$fallbackResizeHandler]);
+		}
+		if (HAS_INTERSECTION_OBSERVER) {
+			this[$intersectionObserver].unobserve(this);
+		}
+		this.removeEventListener('focus', this[$onFocus]);
+		this.removeEventListener('blur', this[$onBlur]);
+		const renderer = this[$renderer];
+		renderer.removeEventListener('contextlost', this[$onContextLost]);
+		renderer.unregisterScene(this[$scene]);
+		this[$clearModelTimeout] = self.setTimeout(() => {
+			this[$scene].dispose();
+			this[$clearModelTimeout] = null;
+		}, CLEAR_MODEL_TIMEOUT_MS);
+	}
+	updated(changedProperties) {
+		super.updated(changedProperties);
+		// NOTE(cdata): If a property changes from values A -> B -> A in the space
+		// of a microtask, LitElement/UpdatingElement will notify of a change even
+		// though the value has effectively not changed, so we need to check to make
+		// sure that the value has actually changed before changing the loaded flag.
+		if (changedProperties.has('src')) {
+			if (this.src == null) {
+				this[$loaded] = false;
+				this[$loadedTime] = 0;
+				this[$scene].reset();
+			}
+			else if (this.src !== this[$scene].url) {
+				this[$loaded] = false;
+				this[$loadedTime] = 0;
+				this[$updateSource]();
+			}
+		}
+		if (changedProperties.has('alt')) {
+			this[$userInputElement].setAttribute('aria-label', this[$ariaLabel]);
+		}
+		if (changedProperties.has('generateSchema')) {
+			if (this.generateSchema) {
+				this[$scene].updateSchema(this.src);
+			}
+			else {
+				this[$scene].updateSchema(null);
+			}
+		}
+	}
+	/** @export */
+	toDataURL(type, encoderOptions) {
+		return this[$renderer]
+			.displayCanvas(this[$scene])
+			.toDataURL(type, encoderOptions);
+	}
+	/** @export */
+	async toBlob(options) {
+		const mimeType = options ? options.mimeType : undefined;
+		const qualityArgument = options ? options.qualityArgument : undefined;
+		const useIdealAspect = options ? options.idealAspect : undefined;
+		const { width, height, idealAspect, aspect } = this[$scene];
+		const { dpr, scaleFactor } = this[$renderer];
+		let outputWidth = width * scaleFactor * dpr;
+		let outputHeight = height * scaleFactor * dpr;
+		let offsetX = 0;
+		let offsetY = 0;
+		if (useIdealAspect === true) {
+			if (idealAspect > aspect) {
+				const oldHeight = outputHeight;
+				outputHeight = Math.round(outputWidth / idealAspect);
+				offsetY = (oldHeight - outputHeight) / 2;
+			}
+			else {
+				const oldWidth = outputWidth;
+				outputWidth = Math.round(outputHeight * idealAspect);
+				offsetX = (oldWidth - outputWidth) / 2;
+			}
+		}
+		blobCanvas.width = outputWidth;
+		blobCanvas.height = outputHeight;
+		try {
+			return new Promise(async (resolve, reject) => {
+				blobCanvas.getContext('2d').drawImage(this[$renderer].displayCanvas(this[$scene]), offsetX, offsetY, outputWidth, outputHeight, 0, 0, outputWidth, outputHeight);
+				blobCanvas.toBlob((blob) => {
+					if (!blob) {
+						return reject(new Error('Unable to retrieve canvas blob'));
+					}
+					resolve(blob);
+				}, mimeType, qualityArgument);
+			});
+		}
+		finally {
+			this[$updateSize]({ width, height });
+		}
+	}
+	/**
+	 * Registers a new EffectComposer as the main rendering pipeline,
+	 * instead of the default ThreeJs renderer.
+	 * This method also calls setRenderer, setMainScene, and setMainCamera on
+	 * your effectComposer.
+	 * @param effectComposer An EffectComposer from `pmndrs/postprocessing`
+	 */
+	registerEffectComposer(effectComposer) {
+		effectComposer.setRenderer(this[$renderer].threeRenderer);
+		effectComposer.setMainCamera(this[$scene].getCamera());
+		effectComposer.setMainScene(this[$scene]);
+		this[$scene].effectRenderer = effectComposer;
+	}
+	/**
+	 * Removes the registered EffectComposer
+	 */
+	unregisterEffectComposer() {
+		this[$scene].effectRenderer = null;
+	}
+	registerRenderer(renderer) {
+		this[$scene].externalRenderer = renderer;
+	}
+	unregisterRenderer() {
+		this[$scene].externalRenderer = null;
+	}
+	get [$ariaLabel]() {
+		return this[$altDefaulted];
+	}
+	get [$altDefaulted]() {
+		return (this.alt == null || this.alt === 'null') ? this[$defaultAriaLabel] :
+			this.alt;
+	}
+	// NOTE(cdata): Although this may seem extremely redundant, it is required in
+	// order to support overloading when TypeScript is compiled to ES5
+	// @see https://github.com/Polymer/lit-element/pull/745
+	// @see https://github.com/microsoft/TypeScript/issues/338
+	[$getLoaded]() {
+		return this[$loaded];
+	}
+	// @see [$getLoaded]
+	[$getModelIsVisible]() {
+		return this.loaded && this[$isElementInViewport];
+	}
+	[$shouldAttemptPreload]() {
+		return !!this.src && this[$isElementInViewport];
+	}
+	/**
+	 * Called on initialization and when the resize observer fires.
+	 */
+	[$updateSize]({ width, height }) {
+		if (width === 0 || height === 0) {
+			return;
+		}
+		this[$container].style.width = `${width}px`;
+		this[$container].style.height = `${height}px`;
+		this[$onResize]({ width, height });
+	}
+	[$tick](time, delta) {
+		var _p;
+		(_p = this[$scene].effectRenderer) === null || _p === void 0 ? void 0 : _p.beforeRender(time, delta);
+	}
+	[$markLoaded]() {
+		if (this[$loaded]) {
+			return;
+		}
+		this[$loaded] = true;
+		this[$loadedTime] = performance.now();
+	}
+	[$needsRender]() {
+		this[$scene].queueRender();
+	}
+	[$onModelLoad]() {
+	}
+	[$updateStatus](status) {
+		this[$status] = status;
+		const rootNode = this.getRootNode();
+		// Only change the aria-label if <model-viewer> is currently focused:
+		if (rootNode != null && rootNode.activeElement === this &&
+			this[$statusElement].textContent != status) {
+			this[$statusElement].textContent = status;
+		}
+	}
+	[(_l = $onFocus, _m = $onBlur, $onResize)](e) {
+		this[$scene].setSize(e.width, e.height);
+	}
+	/**
+	 * Parses the element for an appropriate source URL and
+	 * sets the views to use the new model based.
+	 */
+	async [(_o = $onContextLost, $updateSource)]() {
+		const scene = this[$scene];
+		if (this.loaded || !this[$shouldAttemptPreload]() ||
+			this.src === scene.url) {
+			return;
+		}
+		if (this.generateSchema) {
+			scene.updateSchema(this.src);
+		}
+		this[$updateStatus]('Loading');
+		// If we are loading a new model, we need to stop the animation of
+		// the current one (if any is playing). Otherwise, we might lose
+		// the reference to the scene root and running actions start to
+		// throw exceptions and/or behave in unexpected ways:
+		scene.stopAnimation();
+		const updateSourceProgress = this[$progressTracker].beginActivity('model-load');
+		const source = this.src;
+		try {
+			const srcUpdated = scene.setSource(source, (progress) => updateSourceProgress(clamp(progress, 0, 1) * 0.95));
+			const envUpdated = this[$updateEnvironment]();
+			await Promise.all([srcUpdated, envUpdated]);
+			this[$markLoaded]();
+			this[$onModelLoad]();
+			this.updateComplete.then(() => {
+				this.dispatchEvent(new CustomEvent('before-render'));
+			});
+			// Wait for shaders to compile and pixels to be drawn.
+			await new Promise(resolve => {
+				requestAnimationFrame(() => {
+					requestAnimationFrame(() => {
+						this.dispatchEvent(new CustomEvent('load', { detail: { url: source } }));
+						resolve();
+					});
+				});
+			});
+		}
+		catch (error) {
+			this.dispatchEvent(new CustomEvent('error', { detail: { type: 'loadfailure', sourceError: error } }));
+		}
+		finally {
+			updateSourceProgress(1.0);
+		}
+	}
 }
 __decorate$4([
-    n$2({ type: String })
+	n$2({ type: String })
 ], ModelViewerElementBase.prototype, "alt", void 0);
 __decorate$4([
-    n$2({ type: String })
+	n$2({ type: String })
 ], ModelViewerElementBase.prototype, "src", void 0);
 __decorate$4([
-    n$2({ type: Boolean, attribute: 'with-credentials' })
+	n$2({ type: Boolean, attribute: 'with-credentials' })
 ], ModelViewerElementBase.prototype, "withCredentials", void 0);
 __decorate$4([
-    n$2({ type: Boolean, attribute: 'generate-schema' })
+	n$2({ type: Boolean, attribute: 'generate-schema' })
 ], ModelViewerElementBase.prototype, "generateSchema", void 0);
 
 /* @license
@@ -62925,9 +63000,9 @@ __decorate$4([
  * limitations under the License.
  */
 var __decorate$3 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 const MILLISECONDS_PER_SECOND = 1000.0;
 const $changeAnimation = Symbol('changeAnimation');
@@ -62935,190 +63010,190 @@ const $appendAnimation = Symbol('appendAnimation');
 const $detachAnimation = Symbol('detachAnimation');
 const $paused = Symbol('paused');
 const DEFAULT_PLAY_OPTIONS = {
-    repetitions: Infinity,
-    pingpong: false
+	repetitions: Infinity,
+	pingpong: false
 };
 const DEFAULT_APPEND_OPTIONS = {
-    pingpong: false,
-    repetitions: null,
-    weight: 1,
-    timeScale: 1,
-    fade: false,
-    warp: false,
-    relativeWarp: true,
-    time: null
+	pingpong: false,
+	repetitions: null,
+	weight: 1,
+	timeScale: 1,
+	fade: false,
+	warp: false,
+	relativeWarp: true,
+	time: null
 };
 const DEFAULT_DETACH_OPTIONS = {
-    fade: true
+	fade: true
 };
 const AnimationMixin = (ModelViewerElement) => {
-    var _a;
-    class AnimationModelViewerElement extends ModelViewerElement {
-        constructor(...args) {
-            super(args);
-            this.autoplay = false;
-            this.animationName = undefined;
-            this.animationCrossfadeDuration = 300;
-            this[_a] = true;
-            this[$scene].subscribeMixerEvent('loop', (e) => {
-                const count = e.action._loopCount;
-                const name = e.action._clip.name;
-                const uuid = e.action._clip.uuid;
-                const targetAnimation = this[$scene].markedAnimations.find(e => e.name === name);
-                if (targetAnimation) {
-                    this[$scene].updateAnimationLoop(targetAnimation.name, targetAnimation.loopMode, targetAnimation.repetitionCount);
-                    const filtredArr = this[$scene].markedAnimations.filter(e => e.name !== name);
-                    this[$scene].markedAnimations = filtredArr;
-                }
-                this.dispatchEvent(new CustomEvent('loop', { detail: { count, name, uuid } }));
-            });
-            this[$scene].subscribeMixerEvent('finished', (e) => {
-                if (!this[$scene].appendedAnimations.includes(e.action._clip.name)) {
-                    this[$paused] = true;
-                }
-                else {
-                    const filterdList = this[$scene].appendedAnimations.filter(i => i !== e.action._clip.name);
-                    this[$scene].appendedAnimations = filterdList;
-                }
-                this.dispatchEvent(new CustomEvent('finished'));
-            });
-        }
-        /**
-         * Returns an array
-         */
-        get availableAnimations() {
-            if (this.loaded) {
-                return this[$scene].animationNames;
-            }
-            return [];
-        }
-        get duration() {
-            return this[$scene].duration;
-        }
-        get paused() {
-            return this[$paused];
-        }
-        get currentTime() {
-            return this[$scene].animationTime;
-        }
-        get appendedAnimations() {
-            return this[$scene].appendedAnimations;
-        }
-        set currentTime(value) {
-            this[$scene].animationTime = value;
-            this[$needsRender]();
-        }
-        get timeScale() {
-            return this[$scene].animationTimeScale;
-        }
-        set timeScale(value) {
-            this[$scene].animationTimeScale = value;
-        }
-        pause() {
-            if (this[$paused]) {
-                return;
-            }
-            this[$paused] = true;
-            this.dispatchEvent(new CustomEvent('pause'));
-        }
-        play(options) {
-            if (this.availableAnimations.length > 0) {
-                this[$paused] = false;
-                this[$changeAnimation](options);
-                this.dispatchEvent(new CustomEvent('play'));
-            }
-        }
-        appendAnimation(animationName, options) {
-            if (this.availableAnimations.length > 0) {
-                this[$paused] = false;
-                this[$appendAnimation](animationName, options);
-                this.dispatchEvent(new CustomEvent('append-animation'));
-            }
-        }
-        detachAnimation(animationName, options) {
-            if (this.availableAnimations.length > 0) {
-                this[$paused] = false;
-                this[$detachAnimation](animationName, options);
-                this.dispatchEvent(new CustomEvent('detach-animation'));
-            }
-        }
-        [(_a = $paused, $onModelLoad)]() {
-            super[$onModelLoad]();
-            this[$paused] = true;
-            if (this.animationName != null) {
-                this[$changeAnimation]();
-            }
-            if (this.autoplay) {
-                this.play();
-            }
-        }
-        [$tick](_time, delta) {
-            super[$tick](_time, delta);
-            if (this[$paused] ||
-                (!this[$getModelIsVisible]() && !this[$renderer].isPresenting)) {
-                return;
-            }
-            this[$scene].updateAnimation(delta / MILLISECONDS_PER_SECOND);
-            this[$needsRender]();
-        }
-        updated(changedProperties) {
-            super.updated(changedProperties);
-            if (changedProperties.has('autoplay') && this.autoplay) {
-                this.play();
-            }
-            if (changedProperties.has('animationName')) {
-                this[$changeAnimation]();
-            }
-        }
-        [$changeAnimation](options = DEFAULT_PLAY_OPTIONS) {
-            var _b;
-            const repetitions = (_b = options.repetitions) !== null && _b !== void 0 ? _b : Infinity;
-            const mode = options.pingpong ?
-                LoopPingPong :
-                (repetitions === 1 ? LoopOnce : LoopRepeat);
-            this[$scene].playAnimation(this.animationName, this.animationCrossfadeDuration / MILLISECONDS_PER_SECOND, mode, repetitions);
-            // If we are currently paused, we need to force a render so that
-            // the scene updates to the first frame of the new animation
-            if (this[$paused]) {
-                this[$scene].updateAnimation(0);
-                this[$needsRender]();
-            }
-        }
-        [$appendAnimation](animationName = '', options = DEFAULT_APPEND_OPTIONS) {
-            var _b;
-            const repetitions = (_b = options.repetitions) !== null && _b !== void 0 ? _b : Infinity;
-            const mode = options.pingpong ?
-                LoopPingPong :
-                (repetitions === 1 ? LoopOnce : LoopRepeat);
-            const needsToStop = !!options.repetitions || 'pingpong' in options;
-            this[$scene].appendAnimation(animationName ? animationName : this.animationName, mode, repetitions, options.weight, options.timeScale, options.fade, options.warp, options.relativeWarp, options.time, needsToStop);
-            // If we are currently paused, we need to force a render so that
-            // the scene updates to the first frame of the new animation
-            if (this[$paused]) {
-                this[$scene].updateAnimation(0);
-                this[$needsRender]();
-            }
-        }
-        [$detachAnimation](animationName = '', options = DEFAULT_DETACH_OPTIONS) {
-            this[$scene].detachAnimation(animationName ? animationName : this.animationName, options.fade);
-            // If we are currently paused, we need to force a render so that
-            // the scene updates to the first frame of the new animation
-            if (this[$paused]) {
-                this[$scene].updateAnimation(0);
-                this[$needsRender]();
-            }
-        }
-    }
-    __decorate$3([
-        n$2({ type: Boolean })
-    ], AnimationModelViewerElement.prototype, "autoplay", void 0);
-    __decorate$3([
-        n$2({ type: String, attribute: 'animation-name' })
-    ], AnimationModelViewerElement.prototype, "animationName", void 0);
-    __decorate$3([
-        n$2({ type: Number, attribute: 'animation-crossfade-duration' })
-    ], AnimationModelViewerElement.prototype, "animationCrossfadeDuration", void 0);
-    return AnimationModelViewerElement;
+	var _a;
+	class AnimationModelViewerElement extends ModelViewerElement {
+		constructor(...args) {
+			super(args);
+			this.autoplay = false;
+			this.animationName = undefined;
+			this.animationCrossfadeDuration = 300;
+			this[_a] = true;
+			this[$scene].subscribeMixerEvent('loop', (e) => {
+				const count = e.action._loopCount;
+				const name = e.action._clip.name;
+				const uuid = e.action._clip.uuid;
+				const targetAnimation = this[$scene].markedAnimations.find(e => e.name === name);
+				if (targetAnimation) {
+					this[$scene].updateAnimationLoop(targetAnimation.name, targetAnimation.loopMode, targetAnimation.repetitionCount);
+					const filtredArr = this[$scene].markedAnimations.filter(e => e.name !== name);
+					this[$scene].markedAnimations = filtredArr;
+				}
+				this.dispatchEvent(new CustomEvent('loop', { detail: { count, name, uuid } }));
+			});
+			this[$scene].subscribeMixerEvent('finished', (e) => {
+				if (!this[$scene].appendedAnimations.includes(e.action._clip.name)) {
+					this[$paused] = true;
+				}
+				else {
+					const filterdList = this[$scene].appendedAnimations.filter(i => i !== e.action._clip.name);
+					this[$scene].appendedAnimations = filterdList;
+				}
+				this.dispatchEvent(new CustomEvent('finished'));
+			});
+		}
+		/**
+		 * Returns an array
+		 */
+		get availableAnimations() {
+			if (this.loaded) {
+				return this[$scene].animationNames;
+			}
+			return [];
+		}
+		get duration() {
+			return this[$scene].duration;
+		}
+		get paused() {
+			return this[$paused];
+		}
+		get currentTime() {
+			return this[$scene].animationTime;
+		}
+		get appendedAnimations() {
+			return this[$scene].appendedAnimations;
+		}
+		set currentTime(value) {
+			this[$scene].animationTime = value;
+			this[$needsRender]();
+		}
+		get timeScale() {
+			return this[$scene].animationTimeScale;
+		}
+		set timeScale(value) {
+			this[$scene].animationTimeScale = value;
+		}
+		pause() {
+			if (this[$paused]) {
+				return;
+			}
+			this[$paused] = true;
+			this.dispatchEvent(new CustomEvent('pause'));
+		}
+		play(options) {
+			if (this.availableAnimations.length > 0) {
+				this[$paused] = false;
+				this[$changeAnimation](options);
+				this.dispatchEvent(new CustomEvent('play'));
+			}
+		}
+		appendAnimation(animationName, options) {
+			if (this.availableAnimations.length > 0) {
+				this[$paused] = false;
+				this[$appendAnimation](animationName, options);
+				this.dispatchEvent(new CustomEvent('append-animation'));
+			}
+		}
+		detachAnimation(animationName, options) {
+			if (this.availableAnimations.length > 0) {
+				this[$paused] = false;
+				this[$detachAnimation](animationName, options);
+				this.dispatchEvent(new CustomEvent('detach-animation'));
+			}
+		}
+		[(_a = $paused, $onModelLoad)]() {
+			super[$onModelLoad]();
+			this[$paused] = true;
+			if (this.animationName != null) {
+				this[$changeAnimation]();
+			}
+			if (this.autoplay) {
+				this.play();
+			}
+		}
+		[$tick](_time, delta) {
+			super[$tick](_time, delta);
+			if (this[$paused] ||
+				(!this[$getModelIsVisible]() && !this[$renderer].isPresenting)) {
+				return;
+			}
+			this[$scene].updateAnimation(delta / MILLISECONDS_PER_SECOND);
+			this[$needsRender]();
+		}
+		updated(changedProperties) {
+			super.updated(changedProperties);
+			if (changedProperties.has('autoplay') && this.autoplay) {
+				this.play();
+			}
+			if (changedProperties.has('animationName')) {
+				this[$changeAnimation]();
+			}
+		}
+		[$changeAnimation](options = DEFAULT_PLAY_OPTIONS) {
+			var _b;
+			const repetitions = (_b = options.repetitions) !== null && _b !== void 0 ? _b : Infinity;
+			const mode = options.pingpong ?
+				LoopPingPong :
+				(repetitions === 1 ? LoopOnce : LoopRepeat);
+			this[$scene].playAnimation(this.animationName, this.animationCrossfadeDuration / MILLISECONDS_PER_SECOND, mode, repetitions);
+			// If we are currently paused, we need to force a render so that
+			// the scene updates to the first frame of the new animation
+			if (this[$paused]) {
+				this[$scene].updateAnimation(0);
+				this[$needsRender]();
+			}
+		}
+		[$appendAnimation](animationName = '', options = DEFAULT_APPEND_OPTIONS) {
+			var _b;
+			const repetitions = (_b = options.repetitions) !== null && _b !== void 0 ? _b : Infinity;
+			const mode = options.pingpong ?
+				LoopPingPong :
+				(repetitions === 1 ? LoopOnce : LoopRepeat);
+			const needsToStop = !!options.repetitions || 'pingpong' in options;
+			this[$scene].appendAnimation(animationName ? animationName : this.animationName, mode, repetitions, options.weight, options.timeScale, options.fade, options.warp, options.relativeWarp, options.time, needsToStop);
+			// If we are currently paused, we need to force a render so that
+			// the scene updates to the first frame of the new animation
+			if (this[$paused]) {
+				this[$scene].updateAnimation(0);
+				this[$needsRender]();
+			}
+		}
+		[$detachAnimation](animationName = '', options = DEFAULT_DETACH_OPTIONS) {
+			this[$scene].detachAnimation(animationName ? animationName : this.animationName, options.fade);
+			// If we are currently paused, we need to force a render so that
+			// the scene updates to the first frame of the new animation
+			if (this[$paused]) {
+				this[$scene].updateAnimation(0);
+				this[$needsRender]();
+			}
+		}
+	}
+	__decorate$3([
+		n$2({ type: Boolean })
+	], AnimationModelViewerElement.prototype, "autoplay", void 0);
+	__decorate$3([
+		n$2({ type: String, attribute: 'animation-name' })
+	], AnimationModelViewerElement.prototype, "animationName", void 0);
+	__decorate$3([
+		n$2({ type: Number, attribute: 'animation-crossfade-duration' })
+	], AnimationModelViewerElement.prototype, "animationCrossfadeDuration", void 0);
+	return AnimationModelViewerElement;
 };
 
 /* @license
@@ -63149,190 +63224,190 @@ const worldToModel = new Matrix4();
  * track the specified model coordinates.
  */
 const AnnotationMixin = (ModelViewerElement) => {
-    var _a, _b, _c;
-    class AnnotationModelViewerElement extends ModelViewerElement {
-        constructor() {
-            super(...arguments);
-            this[_a] = new Map();
-            this[_b] = (mutations) => {
-                mutations.forEach((mutation) => {
-                    // NOTE: Be wary that in ShadyDOM cases, the MutationRecord
-                    // only has addedNodes and removedNodes (and no other details).
-                    if (!(mutation instanceof MutationRecord) ||
-                        mutation.type === 'childList') {
-                        mutation.addedNodes.forEach((node) => {
-                            this[$addHotspot](node);
-                        });
-                        mutation.removedNodes.forEach((node) => {
-                            this[$removeHotspot](node);
-                        });
-                        this[$needsRender]();
-                    }
-                });
-            };
-            this[_c] = new MutationObserver(this[$mutationCallback]);
-        }
-        connectedCallback() {
-            super.connectedCallback();
-            for (let i = 0; i < this.children.length; ++i) {
-                this[$addHotspot](this.children[i]);
-            }
-            const { ShadyDOM } = self;
-            if (ShadyDOM == null) {
-                this[$observer].observe(this, { childList: true });
-            }
-            else {
-                this[$observer] =
-                    ShadyDOM.observeChildren(this, this[$mutationCallback]);
-            }
-        }
-        disconnectedCallback() {
-            super.disconnectedCallback();
-            const { ShadyDOM } = self;
-            if (ShadyDOM == null) {
-                this[$observer].disconnect();
-            }
-            else {
-                ShadyDOM.unobserveChildren(this[$observer]);
-            }
-        }
-        [(_a = $hotspotMap, _b = $mutationCallback, _c = $observer, $onModelLoad)]() {
-            super[$onModelLoad]();
-            const scene = this[$scene];
-            scene.forHotspots((hotspot) => {
-                scene.updateSurfaceHotspot(hotspot);
-            });
-        }
-        [$tick](time, delta) {
-            super[$tick](time, delta);
-            const scene = this[$scene];
-            const { annotationRenderer } = scene;
-            const camera = scene.getCamera();
-            if (scene.shouldRender()) {
-                scene.animateSurfaceHotspots();
-                scene.updateHotspotsVisibility(camera.position);
-                annotationRenderer.domElement.style.display = '';
-                annotationRenderer.render(scene, camera);
-            }
-        }
-        /**
-         * Since the data-position and data-normal attributes are not observed, use
-         * this method to move a hotspot. Keep in mind that all hotspots with the
-         * same slot name use a single location and the first definition takes
-         * precedence, until updated with this method.
-         */
-        updateHotspot(config) {
-            const hotspot = this[$hotspotMap].get(config.name);
-            if (hotspot == null) {
-                return;
-            }
-            hotspot.updatePosition(config.position);
-            hotspot.updateNormal(config.normal);
-            hotspot.surface = config.surface;
-            this[$scene].updateSurfaceHotspot(hotspot);
-            this[$needsRender]();
-        }
-        /**
-         * This method returns in-scene data about a requested hotspot including
-         * its position in screen (canvas) space and its current visibility.
-         */
-        queryHotspot(name) {
-            const hotspot = this[$hotspotMap].get(name);
-            if (hotspot == null) {
-                return null;
-            }
-            const position = toVector3D(hotspot.position);
-            const normal = toVector3D(hotspot.normal);
-            const facingCamera = hotspot.facingCamera;
-            const scene = this[$scene];
-            const camera = scene.getCamera();
-            const vector = new Vector3();
-            vector.setFromMatrixPosition(hotspot.matrixWorld);
-            vector.project(camera);
-            const widthHalf = scene.width / 2;
-            const heightHalf = scene.height / 2;
-            vector.x = (vector.x * widthHalf) + widthHalf;
-            vector.y = -(vector.y * heightHalf) + heightHalf;
-            const canvasPosition = toVector3D(new Vector3(vector.x, vector.y, vector.z));
-            if (!Number.isFinite(canvasPosition.x) ||
-                !Number.isFinite(canvasPosition.y)) {
-                return null;
-            }
-            return { position, normal, canvasPosition, facingCamera };
-        }
-        /**
-         * This method returns the model position, normal and texture coordinate
-         * of the point on the mesh corresponding to the input pixel coordinates
-         * given relative to the model-viewer element. The position and normal
-         * are returned as strings in the format suitable for putting in a
-         * hotspot's data-position and data-normal attributes. If the mesh is
-         * not hit, the result is null.
-         */
-        positionAndNormalFromPoint(pixelX, pixelY) {
-            const scene = this[$scene];
-            const ndcPosition = scene.getNDC(pixelX, pixelY);
-            const hit = scene.positionAndNormalFromPoint(ndcPosition);
-            if (hit == null) {
-                return null;
-            }
-            worldToModel.copy(scene.target.matrixWorld).invert();
-            const position = toVector3D(hit.position.applyMatrix4(worldToModel));
-            const normal = toVector3D(hit.normal.transformDirection(worldToModel));
-            let uv = null;
-            if (hit.uv != null) {
-                uv = toVector2D(hit.uv);
-            }
-            return { position: position, normal: normal, uv: uv };
-        }
-        /**
-         * This method returns a dynamic hotspot ID string of the point on the mesh
-         * corresponding to the input pixel coordinates given relative to the
-         * model-viewer element. The ID string can be used in the data-surface
-         * attribute of the hotspot to make it follow this point on the surface even
-         * as the model animates. If the mesh is not hit, the result is null.
-         */
-        surfaceFromPoint(pixelX, pixelY) {
-            const scene = this[$scene];
-            const ndcPosition = scene.getNDC(pixelX, pixelY);
-            return scene.surfaceFromPoint(ndcPosition);
-        }
-        [$addHotspot](node) {
-            if (!(node instanceof HTMLElement &&
-                node.slot.indexOf('hotspot') === 0)) {
-                return;
-            }
-            let hotspot = this[$hotspotMap].get(node.slot);
-            if (hotspot != null) {
-                hotspot.increment();
-            }
-            else {
-                hotspot = new Hotspot({
-                    name: node.slot,
-                    position: node.dataset.position,
-                    normal: node.dataset.normal,
-                    surface: node.dataset.surface,
-                });
-                this[$hotspotMap].set(node.slot, hotspot);
-                this[$scene].addHotspot(hotspot);
-            }
-            this[$scene].queueRender();
-        }
-        [$removeHotspot](node) {
-            if (!(node instanceof HTMLElement)) {
-                return;
-            }
-            const hotspot = this[$hotspotMap].get(node.slot);
-            if (!hotspot) {
-                return;
-            }
-            if (hotspot.decrement()) {
-                this[$scene].removeHotspot(hotspot);
-                this[$hotspotMap].delete(node.slot);
-            }
-            this[$scene].queueRender();
-        }
-    }
-    return AnnotationModelViewerElement;
+	var _a, _b, _c;
+	class AnnotationModelViewerElement extends ModelViewerElement {
+		constructor() {
+			super(...arguments);
+			this[_a] = new Map();
+			this[_b] = (mutations) => {
+				mutations.forEach((mutation) => {
+					// NOTE: Be wary that in ShadyDOM cases, the MutationRecord
+					// only has addedNodes and removedNodes (and no other details).
+					if (!(mutation instanceof MutationRecord) ||
+						mutation.type === 'childList') {
+						mutation.addedNodes.forEach((node) => {
+							this[$addHotspot](node);
+						});
+						mutation.removedNodes.forEach((node) => {
+							this[$removeHotspot](node);
+						});
+						this[$needsRender]();
+					}
+				});
+			};
+			this[_c] = new MutationObserver(this[$mutationCallback]);
+		}
+		connectedCallback() {
+			super.connectedCallback();
+			for (let i = 0; i < this.children.length; ++i) {
+				this[$addHotspot](this.children[i]);
+			}
+			const { ShadyDOM } = self;
+			if (ShadyDOM == null) {
+				this[$observer].observe(this, { childList: true });
+			}
+			else {
+				this[$observer] =
+					ShadyDOM.observeChildren(this, this[$mutationCallback]);
+			}
+		}
+		disconnectedCallback() {
+			super.disconnectedCallback();
+			const { ShadyDOM } = self;
+			if (ShadyDOM == null) {
+				this[$observer].disconnect();
+			}
+			else {
+				ShadyDOM.unobserveChildren(this[$observer]);
+			}
+		}
+		[(_a = $hotspotMap, _b = $mutationCallback, _c = $observer, $onModelLoad)]() {
+			super[$onModelLoad]();
+			const scene = this[$scene];
+			scene.forHotspots((hotspot) => {
+				scene.updateSurfaceHotspot(hotspot);
+			});
+		}
+		[$tick](time, delta) {
+			super[$tick](time, delta);
+			const scene = this[$scene];
+			const { annotationRenderer } = scene;
+			const camera = scene.getCamera();
+			if (scene.shouldRender()) {
+				scene.animateSurfaceHotspots();
+				scene.updateHotspotsVisibility(camera.position);
+				annotationRenderer.domElement.style.display = '';
+				annotationRenderer.render(scene, camera);
+			}
+		}
+		/**
+		 * Since the data-position and data-normal attributes are not observed, use
+		 * this method to move a hotspot. Keep in mind that all hotspots with the
+		 * same slot name use a single location and the first definition takes
+		 * precedence, until updated with this method.
+		 */
+		updateHotspot(config) {
+			const hotspot = this[$hotspotMap].get(config.name);
+			if (hotspot == null) {
+				return;
+			}
+			hotspot.updatePosition(config.position);
+			hotspot.updateNormal(config.normal);
+			hotspot.surface = config.surface;
+			this[$scene].updateSurfaceHotspot(hotspot);
+			this[$needsRender]();
+		}
+		/**
+		 * This method returns in-scene data about a requested hotspot including
+		 * its position in screen (canvas) space and its current visibility.
+		 */
+		queryHotspot(name) {
+			const hotspot = this[$hotspotMap].get(name);
+			if (hotspot == null) {
+				return null;
+			}
+			const position = toVector3D(hotspot.position);
+			const normal = toVector3D(hotspot.normal);
+			const facingCamera = hotspot.facingCamera;
+			const scene = this[$scene];
+			const camera = scene.getCamera();
+			const vector = new Vector3();
+			vector.setFromMatrixPosition(hotspot.matrixWorld);
+			vector.project(camera);
+			const widthHalf = scene.width / 2;
+			const heightHalf = scene.height / 2;
+			vector.x = (vector.x * widthHalf) + widthHalf;
+			vector.y = -(vector.y * heightHalf) + heightHalf;
+			const canvasPosition = toVector3D(new Vector3(vector.x, vector.y, vector.z));
+			if (!Number.isFinite(canvasPosition.x) ||
+				!Number.isFinite(canvasPosition.y)) {
+				return null;
+			}
+			return { position, normal, canvasPosition, facingCamera };
+		}
+		/**
+		 * This method returns the model position, normal and texture coordinate
+		 * of the point on the mesh corresponding to the input pixel coordinates
+		 * given relative to the model-viewer element. The position and normal
+		 * are returned as strings in the format suitable for putting in a
+		 * hotspot's data-position and data-normal attributes. If the mesh is
+		 * not hit, the result is null.
+		 */
+		positionAndNormalFromPoint(pixelX, pixelY) {
+			const scene = this[$scene];
+			const ndcPosition = scene.getNDC(pixelX, pixelY);
+			const hit = scene.positionAndNormalFromPoint(ndcPosition);
+			if (hit == null) {
+				return null;
+			}
+			worldToModel.copy(scene.target.matrixWorld).invert();
+			const position = toVector3D(hit.position.applyMatrix4(worldToModel));
+			const normal = toVector3D(hit.normal.transformDirection(worldToModel));
+			let uv = null;
+			if (hit.uv != null) {
+				uv = toVector2D(hit.uv);
+			}
+			return { position: position, normal: normal, uv: uv };
+		}
+		/**
+		 * This method returns a dynamic hotspot ID string of the point on the mesh
+		 * corresponding to the input pixel coordinates given relative to the
+		 * model-viewer element. The ID string can be used in the data-surface
+		 * attribute of the hotspot to make it follow this point on the surface even
+		 * as the model animates. If the mesh is not hit, the result is null.
+		 */
+		surfaceFromPoint(pixelX, pixelY) {
+			const scene = this[$scene];
+			const ndcPosition = scene.getNDC(pixelX, pixelY);
+			return scene.surfaceFromPoint(ndcPosition);
+		}
+		[$addHotspot](node) {
+			if (!(node instanceof HTMLElement &&
+				node.slot.indexOf('hotspot') === 0)) {
+				return;
+			}
+			let hotspot = this[$hotspotMap].get(node.slot);
+			if (hotspot != null) {
+				hotspot.increment();
+			}
+			else {
+				hotspot = new Hotspot({
+					name: node.slot,
+					position: node.dataset.position,
+					normal: node.dataset.normal,
+					surface: node.dataset.surface,
+				});
+				this[$hotspotMap].set(node.slot, hotspot);
+				this[$scene].addHotspot(hotspot);
+			}
+			this[$scene].queueRender();
+		}
+		[$removeHotspot](node) {
+			if (!(node instanceof HTMLElement)) {
+				return;
+			}
+			const hotspot = this[$hotspotMap].get(node.slot);
+			if (!hotspot) {
+				return;
+			}
+			if (hotspot.decrement()) {
+				this[$scene].removeHotspot(hotspot);
+				this[$hotspotMap].delete(node.slot);
+			}
+			this[$scene].queueRender();
+		}
+	}
+	return AnnotationModelViewerElement;
 };
 
 /*!
@@ -63353,18 +63428,18 @@ var fdeb = new u8([0, 0, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9
 var clim = new u8([16, 17, 18, 0, 8, 7, 9, 6, 10, 5, 11, 4, 12, 3, 13, 2, 14, 1, 15]);
 // get base, reverse index map from extra bits
 var freb = function (eb, start) {
-    var b = new u16(31);
-    for (var i = 0; i < 31; ++i) {
-        b[i] = start += 1 << eb[i - 1];
-    }
-    // numbers here are at max 18 bits
-    var r = new i32(b[30]);
-    for (var i = 1; i < 30; ++i) {
-        for (var j = b[i]; j < b[i + 1]; ++j) {
-            r[j] = ((j - b[i]) << 5) | i;
-        }
-    }
-    return { b: b, r: r };
+	var b = new u16(31);
+	for (var i = 0; i < 31; ++i) {
+		b[i] = start += 1 << eb[i - 1];
+	}
+	// numbers here are at max 18 bits
+	var r = new i32(b[30]);
+	for (var i = 1; i < 30; ++i) {
+		for (var j = b[i]; j < b[i + 1]; ++j) {
+			r[j] = ((j - b[i]) << 5) | i;
+		}
+	}
+	return { b: b, r: r };
 };
 var _a = freb(fleb, 2), fl = _a.b, revfl = _a.r;
 // we can ignore the fact that the other numbers are wrong; they never happen anyway
@@ -63373,78 +63448,78 @@ var _b = freb(fdeb, 0), revfd = _b.r;
 // map of value to reverse (assuming 16 bits)
 var rev = new u16(32768);
 for (var i = 0; i < 32768; ++i) {
-    // reverse table algorithm from SO
-    var x = ((i & 0xAAAA) >> 1) | ((i & 0x5555) << 1);
-    x = ((x & 0xCCCC) >> 2) | ((x & 0x3333) << 2);
-    x = ((x & 0xF0F0) >> 4) | ((x & 0x0F0F) << 4);
-    rev[i] = (((x & 0xFF00) >> 8) | ((x & 0x00FF) << 8)) >> 1;
+	// reverse table algorithm from SO
+	var x = ((i & 0xAAAA) >> 1) | ((i & 0x5555) << 1);
+	x = ((x & 0xCCCC) >> 2) | ((x & 0x3333) << 2);
+	x = ((x & 0xF0F0) >> 4) | ((x & 0x0F0F) << 4);
+	rev[i] = (((x & 0xFF00) >> 8) | ((x & 0x00FF) << 8)) >> 1;
 }
 // create huffman tree from u8 "map": index -> code length for code index
 // mb (max bits) must be at most 15
 // TODO: optimize/split up?
 var hMap = (function (cd, mb, r) {
-    var s = cd.length;
-    // index
-    var i = 0;
-    // u16 "map": index -> # of codes with bit length = index
-    var l = new u16(mb);
-    // length of cd must be 288 (total # of codes)
-    for (; i < s; ++i) {
-        if (cd[i])
-            ++l[cd[i] - 1];
-    }
-    // u16 "map": index -> minimum code for bit length = index
-    var le = new u16(mb);
-    for (i = 1; i < mb; ++i) {
-        le[i] = (le[i - 1] + l[i - 1]) << 1;
-    }
-    var co;
-    if (r) {
-        // u16 "map": index -> number of actual bits, symbol for code
-        co = new u16(1 << mb);
-        // bits to remove for reverser
-        var rvb = 15 - mb;
-        for (i = 0; i < s; ++i) {
-            // ignore 0 lengths
-            if (cd[i]) {
-                // num encoding both symbol and bits read
-                var sv = (i << 4) | cd[i];
-                // free bits
-                var r_1 = mb - cd[i];
-                // start value
-                var v = le[cd[i] - 1]++ << r_1;
-                // m is end value
-                for (var m = v | ((1 << r_1) - 1); v <= m; ++v) {
-                    // every 16 bit value starting with the code yields the same result
-                    co[rev[v] >> rvb] = sv;
-                }
-            }
-        }
-    }
-    else {
-        co = new u16(s);
-        for (i = 0; i < s; ++i) {
-            if (cd[i]) {
-                co[i] = rev[le[cd[i] - 1]++] >> (15 - cd[i]);
-            }
-        }
-    }
-    return co;
+	var s = cd.length;
+	// index
+	var i = 0;
+	// u16 "map": index -> # of codes with bit length = index
+	var l = new u16(mb);
+	// length of cd must be 288 (total # of codes)
+	for (; i < s; ++i) {
+		if (cd[i])
+			++l[cd[i] - 1];
+	}
+	// u16 "map": index -> minimum code for bit length = index
+	var le = new u16(mb);
+	for (i = 1; i < mb; ++i) {
+		le[i] = (le[i - 1] + l[i - 1]) << 1;
+	}
+	var co;
+	if (r) {
+		// u16 "map": index -> number of actual bits, symbol for code
+		co = new u16(1 << mb);
+		// bits to remove for reverser
+		var rvb = 15 - mb;
+		for (i = 0; i < s; ++i) {
+			// ignore 0 lengths
+			if (cd[i]) {
+				// num encoding both symbol and bits read
+				var sv = (i << 4) | cd[i];
+				// free bits
+				var r_1 = mb - cd[i];
+				// start value
+				var v = le[cd[i] - 1]++ << r_1;
+				// m is end value
+				for (var m = v | ((1 << r_1) - 1); v <= m; ++v) {
+					// every 16 bit value starting with the code yields the same result
+					co[rev[v] >> rvb] = sv;
+				}
+			}
+		}
+	}
+	else {
+		co = new u16(s);
+		for (i = 0; i < s; ++i) {
+			if (cd[i]) {
+				co[i] = rev[le[cd[i] - 1]++] >> (15 - cd[i]);
+			}
+		}
+	}
+	return co;
 });
 // fixed length tree
 var flt = new u8(288);
 for (var i = 0; i < 144; ++i)
-    flt[i] = 8;
+	flt[i] = 8;
 for (var i = 144; i < 256; ++i)
-    flt[i] = 9;
+	flt[i] = 9;
 for (var i = 256; i < 280; ++i)
-    flt[i] = 7;
+	flt[i] = 7;
 for (var i = 280; i < 288; ++i)
-    flt[i] = 8;
+	flt[i] = 8;
 // fixed distance tree
 var fdt = new u8(32);
 for (var i = 0; i < 32; ++i)
-    fdt[i] = 5;
+	fdt[i] = 5;
 // fixed length map
 var flm = /*#__PURE__*/ hMap(flt, 9, 0);
 // fixed distance map
@@ -63454,261 +63529,261 @@ var shft = function (p) { return ((p + 7) / 8) | 0; };
 // typed array slice - allows garbage collector to free original reference,
 // while being more compatible than .slice
 var slc = function (v, s, e) {
-    if (e == null || e > v.length)
-        e = v.length;
-    // can't use .constructor in case user-supplied
-    return new u8(v.subarray(s, e));
+	if (e == null || e > v.length)
+		e = v.length;
+	// can't use .constructor in case user-supplied
+	return new u8(v.subarray(s, e));
 };
 // error codes
 var ec = [
-    'unexpected EOF',
-    'invalid block type',
-    'invalid length/literal',
-    'invalid distance',
-    'stream finished',
-    'no stream handler',
-    ,
-    'no callback',
-    'invalid UTF-8 data',
-    'extra field too long',
-    'date not in range 1980-2099',
-    'filename too long',
-    'stream finishing',
-    'invalid zip data'
-    // determined by unknown compression method
+	'unexpected EOF',
+	'invalid block type',
+	'invalid length/literal',
+	'invalid distance',
+	'stream finished',
+	'no stream handler',
+	,
+	'no callback',
+	'invalid UTF-8 data',
+	'extra field too long',
+	'date not in range 1980-2099',
+	'filename too long',
+	'stream finishing',
+	'invalid zip data'
+	// determined by unknown compression method
 ];
 var err = function (ind, msg, nt) {
-    var e = new Error(msg || ec[ind]);
-    e.code = ind;
-    if (Error.captureStackTrace)
-        Error.captureStackTrace(e, err);
-    if (!nt)
-        throw e;
-    return e;
+	var e = new Error(msg || ec[ind]);
+	e.code = ind;
+	if (Error.captureStackTrace)
+		Error.captureStackTrace(e, err);
+	if (!nt)
+		throw e;
+	return e;
 };
 // starting at p, write the minimum number of bits that can hold v to d
 var wbits = function (d, p, v) {
-    v <<= p & 7;
-    var o = (p / 8) | 0;
-    d[o] |= v;
-    d[o + 1] |= v >> 8;
+	v <<= p & 7;
+	var o = (p / 8) | 0;
+	d[o] |= v;
+	d[o + 1] |= v >> 8;
 };
 // starting at p, write the minimum number of bits (>8) that can hold v to d
 var wbits16 = function (d, p, v) {
-    v <<= p & 7;
-    var o = (p / 8) | 0;
-    d[o] |= v;
-    d[o + 1] |= v >> 8;
-    d[o + 2] |= v >> 16;
+	v <<= p & 7;
+	var o = (p / 8) | 0;
+	d[o] |= v;
+	d[o + 1] |= v >> 8;
+	d[o + 2] |= v >> 16;
 };
 // creates code lengths from a frequency table
 var hTree = function (d, mb) {
-    // Need extra info to make a tree
-    var t = [];
-    for (var i = 0; i < d.length; ++i) {
-        if (d[i])
-            t.push({ s: i, f: d[i] });
-    }
-    var s = t.length;
-    var t2 = t.slice();
-    if (!s)
-        return { t: et, l: 0 };
-    if (s == 1) {
-        var v = new u8(t[0].s + 1);
-        v[t[0].s] = 1;
-        return { t: v, l: 1 };
-    }
-    t.sort(function (a, b) { return a.f - b.f; });
-    // after i2 reaches last ind, will be stopped
-    // freq must be greater than largest possible number of symbols
-    t.push({ s: -1, f: 25001 });
-    var l = t[0], r = t[1], i0 = 0, i1 = 1, i2 = 2;
-    t[0] = { s: -1, f: l.f + r.f, l: l, r: r };
-    // efficient algorithm from UZIP.js
-    // i0 is lookbehind, i2 is lookahead - after processing two low-freq
-    // symbols that combined have high freq, will start processing i2 (high-freq,
-    // non-composite) symbols instead
-    // see https://reddit.com/r/photopea/comments/ikekht/uzipjs_questions/
-    while (i1 != s - 1) {
-        l = t[t[i0].f < t[i2].f ? i0++ : i2++];
-        r = t[i0 != i1 && t[i0].f < t[i2].f ? i0++ : i2++];
-        t[i1++] = { s: -1, f: l.f + r.f, l: l, r: r };
-    }
-    var maxSym = t2[0].s;
-    for (var i = 1; i < s; ++i) {
-        if (t2[i].s > maxSym)
-            maxSym = t2[i].s;
-    }
-    // code lengths
-    var tr = new u16(maxSym + 1);
-    // max bits in tree
-    var mbt = ln(t[i1 - 1], tr, 0);
-    if (mbt > mb) {
-        // more algorithms from UZIP.js
-        // TODO: find out how this code works (debt)
-        //  ind    debt
-        var i = 0, dt = 0;
-        //    left            cost
-        var lft = mbt - mb, cst = 1 << lft;
-        t2.sort(function (a, b) { return tr[b.s] - tr[a.s] || a.f - b.f; });
-        for (; i < s; ++i) {
-            var i2_1 = t2[i].s;
-            if (tr[i2_1] > mb) {
-                dt += cst - (1 << (mbt - tr[i2_1]));
-                tr[i2_1] = mb;
-            }
-            else
-                break;
-        }
-        dt >>= lft;
-        while (dt > 0) {
-            var i2_2 = t2[i].s;
-            if (tr[i2_2] < mb)
-                dt -= 1 << (mb - tr[i2_2]++ - 1);
-            else
-                ++i;
-        }
-        for (; i >= 0 && dt; --i) {
-            var i2_3 = t2[i].s;
-            if (tr[i2_3] == mb) {
-                --tr[i2_3];
-                ++dt;
-            }
-        }
-        mbt = mb;
-    }
-    return { t: new u8(tr), l: mbt };
+	// Need extra info to make a tree
+	var t = [];
+	for (var i = 0; i < d.length; ++i) {
+		if (d[i])
+			t.push({ s: i, f: d[i] });
+	}
+	var s = t.length;
+	var t2 = t.slice();
+	if (!s)
+		return { t: et, l: 0 };
+	if (s == 1) {
+		var v = new u8(t[0].s + 1);
+		v[t[0].s] = 1;
+		return { t: v, l: 1 };
+	}
+	t.sort(function (a, b) { return a.f - b.f; });
+	// after i2 reaches last ind, will be stopped
+	// freq must be greater than largest possible number of symbols
+	t.push({ s: -1, f: 25001 });
+	var l = t[0], r = t[1], i0 = 0, i1 = 1, i2 = 2;
+	t[0] = { s: -1, f: l.f + r.f, l: l, r: r };
+	// efficient algorithm from UZIP.js
+	// i0 is lookbehind, i2 is lookahead - after processing two low-freq
+	// symbols that combined have high freq, will start processing i2 (high-freq,
+	// non-composite) symbols instead
+	// see https://reddit.com/r/photopea/comments/ikekht/uzipjs_questions/
+	while (i1 != s - 1) {
+		l = t[t[i0].f < t[i2].f ? i0++ : i2++];
+		r = t[i0 != i1 && t[i0].f < t[i2].f ? i0++ : i2++];
+		t[i1++] = { s: -1, f: l.f + r.f, l: l, r: r };
+	}
+	var maxSym = t2[0].s;
+	for (var i = 1; i < s; ++i) {
+		if (t2[i].s > maxSym)
+			maxSym = t2[i].s;
+	}
+	// code lengths
+	var tr = new u16(maxSym + 1);
+	// max bits in tree
+	var mbt = ln(t[i1 - 1], tr, 0);
+	if (mbt > mb) {
+		// more algorithms from UZIP.js
+		// TODO: find out how this code works (debt)
+		//  ind    debt
+		var i = 0, dt = 0;
+		//    left            cost
+		var lft = mbt - mb, cst = 1 << lft;
+		t2.sort(function (a, b) { return tr[b.s] - tr[a.s] || a.f - b.f; });
+		for (; i < s; ++i) {
+			var i2_1 = t2[i].s;
+			if (tr[i2_1] > mb) {
+				dt += cst - (1 << (mbt - tr[i2_1]));
+				tr[i2_1] = mb;
+			}
+			else
+				break;
+		}
+		dt >>= lft;
+		while (dt > 0) {
+			var i2_2 = t2[i].s;
+			if (tr[i2_2] < mb)
+				dt -= 1 << (mb - tr[i2_2]++ - 1);
+			else
+				++i;
+		}
+		for (; i >= 0 && dt; --i) {
+			var i2_3 = t2[i].s;
+			if (tr[i2_3] == mb) {
+				--tr[i2_3];
+				++dt;
+			}
+		}
+		mbt = mb;
+	}
+	return { t: new u8(tr), l: mbt };
 };
 // get the max length and assign length codes
 var ln = function (n, l, d) {
-    return n.s == -1
-        ? Math.max(ln(n.l, l, d + 1), ln(n.r, l, d + 1))
-        : (l[n.s] = d);
+	return n.s == -1
+		? Math.max(ln(n.l, l, d + 1), ln(n.r, l, d + 1))
+		: (l[n.s] = d);
 };
 // length codes generation
 var lc = function (c) {
-    var s = c.length;
-    // Note that the semicolon was intentional
-    while (s && !c[--s])
-        ;
-    var cl = new u16(++s);
-    //  ind      num         streak
-    var cli = 0, cln = c[0], cls = 1;
-    var w = function (v) { cl[cli++] = v; };
-    for (var i = 1; i <= s; ++i) {
-        if (c[i] == cln && i != s)
-            ++cls;
-        else {
-            if (!cln && cls > 2) {
-                for (; cls > 138; cls -= 138)
-                    w(32754);
-                if (cls > 2) {
-                    w(cls > 10 ? ((cls - 11) << 5) | 28690 : ((cls - 3) << 5) | 12305);
-                    cls = 0;
-                }
-            }
-            else if (cls > 3) {
-                w(cln), --cls;
-                for (; cls > 6; cls -= 6)
-                    w(8304);
-                if (cls > 2)
-                    w(((cls - 3) << 5) | 8208), cls = 0;
-            }
-            while (cls--)
-                w(cln);
-            cls = 1;
-            cln = c[i];
-        }
-    }
-    return { c: cl.subarray(0, cli), n: s };
+	var s = c.length;
+	// Note that the semicolon was intentional
+	while (s && !c[--s])
+		;
+	var cl = new u16(++s);
+	//  ind      num         streak
+	var cli = 0, cln = c[0], cls = 1;
+	var w = function (v) { cl[cli++] = v; };
+	for (var i = 1; i <= s; ++i) {
+		if (c[i] == cln && i != s)
+			++cls;
+		else {
+			if (!cln && cls > 2) {
+				for (; cls > 138; cls -= 138)
+					w(32754);
+				if (cls > 2) {
+					w(cls > 10 ? ((cls - 11) << 5) | 28690 : ((cls - 3) << 5) | 12305);
+					cls = 0;
+				}
+			}
+			else if (cls > 3) {
+				w(cln), --cls;
+				for (; cls > 6; cls -= 6)
+					w(8304);
+				if (cls > 2)
+					w(((cls - 3) << 5) | 8208), cls = 0;
+			}
+			while (cls--)
+				w(cln);
+			cls = 1;
+			cln = c[i];
+		}
+	}
+	return { c: cl.subarray(0, cli), n: s };
 };
 // calculate the length of output from tree, code lengths
 var clen = function (cf, cl) {
-    var l = 0;
-    for (var i = 0; i < cl.length; ++i)
-        l += cf[i] * cl[i];
-    return l;
+	var l = 0;
+	for (var i = 0; i < cl.length; ++i)
+		l += cf[i] * cl[i];
+	return l;
 };
 // writes a fixed block
 // returns the new bit pos
 var wfblk = function (out, pos, dat) {
-    // no need to write 00 as type: TypedArray defaults to 0
-    var s = dat.length;
-    var o = shft(pos + 2);
-    out[o] = s & 255;
-    out[o + 1] = s >> 8;
-    out[o + 2] = out[o] ^ 255;
-    out[o + 3] = out[o + 1] ^ 255;
-    for (var i = 0; i < s; ++i)
-        out[o + i + 4] = dat[i];
-    return (o + 4 + s) * 8;
+	// no need to write 00 as type: TypedArray defaults to 0
+	var s = dat.length;
+	var o = shft(pos + 2);
+	out[o] = s & 255;
+	out[o + 1] = s >> 8;
+	out[o + 2] = out[o] ^ 255;
+	out[o + 3] = out[o + 1] ^ 255;
+	for (var i = 0; i < s; ++i)
+		out[o + i + 4] = dat[i];
+	return (o + 4 + s) * 8;
 };
 // writes a block
 var wblk = function (dat, out, final, syms, lf, df, eb, li, bs, bl, p) {
-    wbits(out, p++, final);
-    ++lf[256];
-    var _a = hTree(lf, 15), dlt = _a.t, mlb = _a.l;
-    var _b = hTree(df, 15), ddt = _b.t, mdb = _b.l;
-    var _c = lc(dlt), lclt = _c.c, nlc = _c.n;
-    var _d = lc(ddt), lcdt = _d.c, ndc = _d.n;
-    var lcfreq = new u16(19);
-    for (var i = 0; i < lclt.length; ++i)
-        ++lcfreq[lclt[i] & 31];
-    for (var i = 0; i < lcdt.length; ++i)
-        ++lcfreq[lcdt[i] & 31];
-    var _e = hTree(lcfreq, 7), lct = _e.t, mlcb = _e.l;
-    var nlcc = 19;
-    for (; nlcc > 4 && !lct[clim[nlcc - 1]]; --nlcc)
-        ;
-    var flen = (bl + 5) << 3;
-    var ftlen = clen(lf, flt) + clen(df, fdt) + eb;
-    var dtlen = clen(lf, dlt) + clen(df, ddt) + eb + 14 + 3 * nlcc + clen(lcfreq, lct) + 2 * lcfreq[16] + 3 * lcfreq[17] + 7 * lcfreq[18];
-    if (bs >= 0 && flen <= ftlen && flen <= dtlen)
-        return wfblk(out, p, dat.subarray(bs, bs + bl));
-    var lm, ll, dm, dl;
-    wbits(out, p, 1 + (dtlen < ftlen)), p += 2;
-    if (dtlen < ftlen) {
-        lm = hMap(dlt, mlb, 0), ll = dlt, dm = hMap(ddt, mdb, 0), dl = ddt;
-        var llm = hMap(lct, mlcb, 0);
-        wbits(out, p, nlc - 257);
-        wbits(out, p + 5, ndc - 1);
-        wbits(out, p + 10, nlcc - 4);
-        p += 14;
-        for (var i = 0; i < nlcc; ++i)
-            wbits(out, p + 3 * i, lct[clim[i]]);
-        p += 3 * nlcc;
-        var lcts = [lclt, lcdt];
-        for (var it = 0; it < 2; ++it) {
-            var clct = lcts[it];
-            for (var i = 0; i < clct.length; ++i) {
-                var len = clct[i] & 31;
-                wbits(out, p, llm[len]), p += lct[len];
-                if (len > 15)
-                    wbits(out, p, (clct[i] >> 5) & 127), p += clct[i] >> 12;
-            }
-        }
-    }
-    else {
-        lm = flm, ll = flt, dm = fdm, dl = fdt;
-    }
-    for (var i = 0; i < li; ++i) {
-        var sym = syms[i];
-        if (sym > 255) {
-            var len = (sym >> 18) & 31;
-            wbits16(out, p, lm[len + 257]), p += ll[len + 257];
-            if (len > 7)
-                wbits(out, p, (sym >> 23) & 31), p += fleb[len];
-            var dst = sym & 31;
-            wbits16(out, p, dm[dst]), p += dl[dst];
-            if (dst > 3)
-                wbits16(out, p, (sym >> 5) & 8191), p += fdeb[dst];
-        }
-        else {
-            wbits16(out, p, lm[sym]), p += ll[sym];
-        }
-    }
-    wbits16(out, p, lm[256]);
-    return p + ll[256];
+	wbits(out, p++, final);
+	++lf[256];
+	var _a = hTree(lf, 15), dlt = _a.t, mlb = _a.l;
+	var _b = hTree(df, 15), ddt = _b.t, mdb = _b.l;
+	var _c = lc(dlt), lclt = _c.c, nlc = _c.n;
+	var _d = lc(ddt), lcdt = _d.c, ndc = _d.n;
+	var lcfreq = new u16(19);
+	for (var i = 0; i < lclt.length; ++i)
+		++lcfreq[lclt[i] & 31];
+	for (var i = 0; i < lcdt.length; ++i)
+		++lcfreq[lcdt[i] & 31];
+	var _e = hTree(lcfreq, 7), lct = _e.t, mlcb = _e.l;
+	var nlcc = 19;
+	for (; nlcc > 4 && !lct[clim[nlcc - 1]]; --nlcc)
+		;
+	var flen = (bl + 5) << 3;
+	var ftlen = clen(lf, flt) + clen(df, fdt) + eb;
+	var dtlen = clen(lf, dlt) + clen(df, ddt) + eb + 14 + 3 * nlcc + clen(lcfreq, lct) + 2 * lcfreq[16] + 3 * lcfreq[17] + 7 * lcfreq[18];
+	if (bs >= 0 && flen <= ftlen && flen <= dtlen)
+		return wfblk(out, p, dat.subarray(bs, bs + bl));
+	var lm, ll, dm, dl;
+	wbits(out, p, 1 + (dtlen < ftlen)), p += 2;
+	if (dtlen < ftlen) {
+		lm = hMap(dlt, mlb, 0), ll = dlt, dm = hMap(ddt, mdb, 0), dl = ddt;
+		var llm = hMap(lct, mlcb, 0);
+		wbits(out, p, nlc - 257);
+		wbits(out, p + 5, ndc - 1);
+		wbits(out, p + 10, nlcc - 4);
+		p += 14;
+		for (var i = 0; i < nlcc; ++i)
+			wbits(out, p + 3 * i, lct[clim[i]]);
+		p += 3 * nlcc;
+		var lcts = [lclt, lcdt];
+		for (var it = 0; it < 2; ++it) {
+			var clct = lcts[it];
+			for (var i = 0; i < clct.length; ++i) {
+				var len = clct[i] & 31;
+				wbits(out, p, llm[len]), p += lct[len];
+				if (len > 15)
+					wbits(out, p, (clct[i] >> 5) & 127), p += clct[i] >> 12;
+			}
+		}
+	}
+	else {
+		lm = flm, ll = flt, dm = fdm, dl = fdt;
+	}
+	for (var i = 0; i < li; ++i) {
+		var sym = syms[i];
+		if (sym > 255) {
+			var len = (sym >> 18) & 31;
+			wbits16(out, p, lm[len + 257]), p += ll[len + 257];
+			if (len > 7)
+				wbits(out, p, (sym >> 23) & 31), p += fleb[len];
+			var dst = sym & 31;
+			wbits16(out, p, dm[dst]), p += dl[dst];
+			if (dst > 3)
+				wbits16(out, p, (sym >> 5) & 8191), p += fdeb[dst];
+		}
+		else {
+			wbits16(out, p, lm[sym]), p += ll[sym];
+		}
+	}
+	wbits16(out, p, lm[256]);
+	return p + ll[256];
 };
 // deflate options (nice << 13) | chain
 var deo = /*#__PURE__*/ new i32([65540, 131080, 131088, 131104, 262176, 1048704, 1048832, 2114560, 2117632]);
@@ -63716,184 +63791,184 @@ var deo = /*#__PURE__*/ new i32([65540, 131080, 131088, 131104, 262176, 1048704,
 var et = /*#__PURE__*/ new u8(0);
 // compresses data into a raw DEFLATE buffer
 var dflt = function (dat, lvl, plvl, pre, post, st) {
-    var s = st.z || dat.length;
-    var o = new u8(pre + s + 5 * (1 + Math.ceil(s / 7000)) + post);
-    // writing to this writes to the output buffer
-    var w = o.subarray(pre, o.length - post);
-    var lst = st.l;
-    var pos = (st.r || 0) & 7;
-    if (lvl) {
-        if (pos)
-            w[0] = st.r >> 3;
-        var opt = deo[lvl - 1];
-        var n = opt >> 13, c = opt & 8191;
-        var msk_1 = (1 << plvl) - 1;
-        //    prev 2-byte val map    curr 2-byte val map
-        var prev = st.p || new u16(32768), head = st.h || new u16(msk_1 + 1);
-        var bs1_1 = Math.ceil(plvl / 3), bs2_1 = 2 * bs1_1;
-        var hsh = function (i) { return (dat[i] ^ (dat[i + 1] << bs1_1) ^ (dat[i + 2] << bs2_1)) & msk_1; };
-        // 24576 is an arbitrary number of maximum symbols per block
-        // 424 buffer for last block
-        var syms = new i32(25000);
-        // length/literal freq   distance freq
-        var lf = new u16(288), df = new u16(32);
-        //  l/lcnt  exbits  index          l/lind  waitdx          blkpos
-        var lc_1 = 0, eb = 0, i = st.i || 0, li = 0, wi = st.w || 0, bs = 0;
-        for (; i + 2 < s; ++i) {
-            // hash value
-            var hv = hsh(i);
-            // index mod 32768    previous index mod
-            var imod = i & 32767, pimod = head[hv];
-            prev[imod] = pimod;
-            head[hv] = imod;
-            // We always should modify head and prev, but only add symbols if
-            // this data is not yet processed ("wait" for wait index)
-            if (wi <= i) {
-                // bytes remaining
-                var rem = s - i;
-                if ((lc_1 > 7000 || li > 24576) && (rem > 423 || !lst)) {
-                    pos = wblk(dat, w, 0, syms, lf, df, eb, li, bs, i - bs, pos);
-                    li = lc_1 = eb = 0, bs = i;
-                    for (var j = 0; j < 286; ++j)
-                        lf[j] = 0;
-                    for (var j = 0; j < 30; ++j)
-                        df[j] = 0;
-                }
-                //  len    dist   chain
-                var l = 2, d = 0, ch_1 = c, dif = imod - pimod & 32767;
-                if (rem > 2 && hv == hsh(i - dif)) {
-                    var maxn = Math.min(n, rem) - 1;
-                    var maxd = Math.min(32767, i);
-                    // max possible length
-                    // not capped at dif because decompressors implement "rolling" index population
-                    var ml = Math.min(258, rem);
-                    while (dif <= maxd && --ch_1 && imod != pimod) {
-                        if (dat[i + l] == dat[i + l - dif]) {
-                            var nl = 0;
-                            for (; nl < ml && dat[i + nl] == dat[i + nl - dif]; ++nl)
-                                ;
-                            if (nl > l) {
-                                l = nl, d = dif;
-                                // break out early when we reach "nice" (we are satisfied enough)
-                                if (nl > maxn)
-                                    break;
-                                // now, find the rarest 2-byte sequence within this
-                                // length of literals and search for that instead.
-                                // Much faster than just using the start
-                                var mmd = Math.min(dif, nl - 2);
-                                var md = 0;
-                                for (var j = 0; j < mmd; ++j) {
-                                    var ti = i - dif + j & 32767;
-                                    var pti = prev[ti];
-                                    var cd = ti - pti & 32767;
-                                    if (cd > md)
-                                        md = cd, pimod = ti;
-                                }
-                            }
-                        }
-                        // check the previous match
-                        imod = pimod, pimod = prev[imod];
-                        dif += imod - pimod & 32767;
-                    }
-                }
-                // d will be nonzero only when a match was found
-                if (d) {
-                    // store both dist and len data in one int32
-                    // Make sure this is recognized as a len/dist with 28th bit (2^28)
-                    syms[li++] = 268435456 | (revfl[l] << 18) | revfd[d];
-                    var lin = revfl[l] & 31, din = revfd[d] & 31;
-                    eb += fleb[lin] + fdeb[din];
-                    ++lf[257 + lin];
-                    ++df[din];
-                    wi = i + l;
-                    ++lc_1;
-                }
-                else {
-                    syms[li++] = dat[i];
-                    ++lf[dat[i]];
-                }
-            }
-        }
-        for (i = Math.max(i, wi); i < s; ++i) {
-            syms[li++] = dat[i];
-            ++lf[dat[i]];
-        }
-        pos = wblk(dat, w, lst, syms, lf, df, eb, li, bs, i - bs, pos);
-        if (!lst) {
-            st.r = (pos & 7) | w[(pos / 8) | 0] << 3;
-            // shft(pos) now 1 less if pos & 7 != 0
-            pos -= 7;
-            st.h = head, st.p = prev, st.i = i, st.w = wi;
-        }
-    }
-    else {
-        for (var i = st.w || 0; i < s + lst; i += 65535) {
-            // end
-            var e = i + 65535;
-            if (e >= s) {
-                // write final block
-                w[(pos / 8) | 0] = lst;
-                e = s;
-            }
-            pos = wfblk(w, pos + 1, dat.subarray(i, e));
-        }
-        st.i = s;
-    }
-    return slc(o, 0, pre + shft(pos) + post);
+	var s = st.z || dat.length;
+	var o = new u8(pre + s + 5 * (1 + Math.ceil(s / 7000)) + post);
+	// writing to this writes to the output buffer
+	var w = o.subarray(pre, o.length - post);
+	var lst = st.l;
+	var pos = (st.r || 0) & 7;
+	if (lvl) {
+		if (pos)
+			w[0] = st.r >> 3;
+		var opt = deo[lvl - 1];
+		var n = opt >> 13, c = opt & 8191;
+		var msk_1 = (1 << plvl) - 1;
+		//    prev 2-byte val map    curr 2-byte val map
+		var prev = st.p || new u16(32768), head = st.h || new u16(msk_1 + 1);
+		var bs1_1 = Math.ceil(plvl / 3), bs2_1 = 2 * bs1_1;
+		var hsh = function (i) { return (dat[i] ^ (dat[i + 1] << bs1_1) ^ (dat[i + 2] << bs2_1)) & msk_1; };
+		// 24576 is an arbitrary number of maximum symbols per block
+		// 424 buffer for last block
+		var syms = new i32(25000);
+		// length/literal freq   distance freq
+		var lf = new u16(288), df = new u16(32);
+		//  l/lcnt  exbits  index          l/lind  waitdx          blkpos
+		var lc_1 = 0, eb = 0, i = st.i || 0, li = 0, wi = st.w || 0, bs = 0;
+		for (; i + 2 < s; ++i) {
+			// hash value
+			var hv = hsh(i);
+			// index mod 32768    previous index mod
+			var imod = i & 32767, pimod = head[hv];
+			prev[imod] = pimod;
+			head[hv] = imod;
+			// We always should modify head and prev, but only add symbols if
+			// this data is not yet processed ("wait" for wait index)
+			if (wi <= i) {
+				// bytes remaining
+				var rem = s - i;
+				if ((lc_1 > 7000 || li > 24576) && (rem > 423 || !lst)) {
+					pos = wblk(dat, w, 0, syms, lf, df, eb, li, bs, i - bs, pos);
+					li = lc_1 = eb = 0, bs = i;
+					for (var j = 0; j < 286; ++j)
+						lf[j] = 0;
+					for (var j = 0; j < 30; ++j)
+						df[j] = 0;
+				}
+				//  len    dist   chain
+				var l = 2, d = 0, ch_1 = c, dif = imod - pimod & 32767;
+				if (rem > 2 && hv == hsh(i - dif)) {
+					var maxn = Math.min(n, rem) - 1;
+					var maxd = Math.min(32767, i);
+					// max possible length
+					// not capped at dif because decompressors implement "rolling" index population
+					var ml = Math.min(258, rem);
+					while (dif <= maxd && --ch_1 && imod != pimod) {
+						if (dat[i + l] == dat[i + l - dif]) {
+							var nl = 0;
+							for (; nl < ml && dat[i + nl] == dat[i + nl - dif]; ++nl)
+								;
+							if (nl > l) {
+								l = nl, d = dif;
+								// break out early when we reach "nice" (we are satisfied enough)
+								if (nl > maxn)
+									break;
+								// now, find the rarest 2-byte sequence within this
+								// length of literals and search for that instead.
+								// Much faster than just using the start
+								var mmd = Math.min(dif, nl - 2);
+								var md = 0;
+								for (var j = 0; j < mmd; ++j) {
+									var ti = i - dif + j & 32767;
+									var pti = prev[ti];
+									var cd = ti - pti & 32767;
+									if (cd > md)
+										md = cd, pimod = ti;
+								}
+							}
+						}
+						// check the previous match
+						imod = pimod, pimod = prev[imod];
+						dif += imod - pimod & 32767;
+					}
+				}
+				// d will be nonzero only when a match was found
+				if (d) {
+					// store both dist and len data in one int32
+					// Make sure this is recognized as a len/dist with 28th bit (2^28)
+					syms[li++] = 268435456 | (revfl[l] << 18) | revfd[d];
+					var lin = revfl[l] & 31, din = revfd[d] & 31;
+					eb += fleb[lin] + fdeb[din];
+					++lf[257 + lin];
+					++df[din];
+					wi = i + l;
+					++lc_1;
+				}
+				else {
+					syms[li++] = dat[i];
+					++lf[dat[i]];
+				}
+			}
+		}
+		for (i = Math.max(i, wi); i < s; ++i) {
+			syms[li++] = dat[i];
+			++lf[dat[i]];
+		}
+		pos = wblk(dat, w, lst, syms, lf, df, eb, li, bs, i - bs, pos);
+		if (!lst) {
+			st.r = (pos & 7) | w[(pos / 8) | 0] << 3;
+			// shft(pos) now 1 less if pos & 7 != 0
+			pos -= 7;
+			st.h = head, st.p = prev, st.i = i, st.w = wi;
+		}
+	}
+	else {
+		for (var i = st.w || 0; i < s + lst; i += 65535) {
+			// end
+			var e = i + 65535;
+			if (e >= s) {
+				// write final block
+				w[(pos / 8) | 0] = lst;
+				e = s;
+			}
+			pos = wfblk(w, pos + 1, dat.subarray(i, e));
+		}
+		st.i = s;
+	}
+	return slc(o, 0, pre + shft(pos) + post);
 };
 // CRC32 table
 var crct = /*#__PURE__*/ (function () {
-    var t = new Int32Array(256);
-    for (var i = 0; i < 256; ++i) {
-        var c = i, k = 9;
-        while (--k)
-            c = ((c & 1) && -306674912) ^ (c >>> 1);
-        t[i] = c;
-    }
-    return t;
+	var t = new Int32Array(256);
+	for (var i = 0; i < 256; ++i) {
+		var c = i, k = 9;
+		while (--k)
+			c = ((c & 1) && -306674912) ^ (c >>> 1);
+		t[i] = c;
+	}
+	return t;
 })();
 // CRC32
 var crc = function () {
-    var c = -1;
-    return {
-        p: function (d) {
-            // closures have awful performance
-            var cr = c;
-            for (var i = 0; i < d.length; ++i)
-                cr = crct[(cr & 255) ^ d[i]] ^ (cr >>> 8);
-            c = cr;
-        },
-        d: function () { return ~c; }
-    };
+	var c = -1;
+	return {
+		p: function (d) {
+			// closures have awful performance
+			var cr = c;
+			for (var i = 0; i < d.length; ++i)
+				cr = crct[(cr & 255) ^ d[i]] ^ (cr >>> 8);
+			c = cr;
+		},
+		d: function () { return ~c; }
+	};
 };
 // deflate with opts
 var dopt = function (dat, opt, pre, post, st) {
-    if (!st) {
-        st = { l: 1 };
-        if (opt.dictionary) {
-            var dict = opt.dictionary.subarray(-32768);
-            var newDat = new u8(dict.length + dat.length);
-            newDat.set(dict);
-            newDat.set(dat, dict.length);
-            dat = newDat;
-            st.w = dict.length;
-        }
-    }
-    return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? (st.l ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 20) : (12 + opt.mem), pre, post, st);
+	if (!st) {
+		st = { l: 1 };
+		if (opt.dictionary) {
+			var dict = opt.dictionary.subarray(-32768);
+			var newDat = new u8(dict.length + dat.length);
+			newDat.set(dict);
+			newDat.set(dat, dict.length);
+			dat = newDat;
+			st.w = dict.length;
+		}
+	}
+	return dflt(dat, opt.level == null ? 6 : opt.level, opt.mem == null ? (st.l ? Math.ceil(Math.max(8, Math.min(13, Math.log(dat.length))) * 1.5) : 20) : (12 + opt.mem), pre, post, st);
 };
 // Walmart object spread
 var mrg = function (a, b) {
-    var o = {};
-    for (var k in a)
-        o[k] = a[k];
-    for (var k in b)
-        o[k] = b[k];
-    return o;
+	var o = {};
+	for (var k in a)
+		o[k] = a[k];
+	for (var k in b)
+		o[k] = b[k];
+	return o;
 };
 // write bytes
 var wbytes = function (d, b, v) {
-    for (; v; ++b)
-        d[b] = v, v >>>= 8;
+	for (; v; ++b)
+		d[b] = v, v >>>= 8;
 };
 /**
  * Compresses data with DEFLATE without any wrapper
@@ -63902,21 +63977,21 @@ var wbytes = function (d, b, v) {
  * @returns The deflated version of the data
  */
 function deflateSync(data, opts) {
-    return dopt(data, opts || {}, 0, 0);
+	return dopt(data, opts || {}, 0, 0);
 }
 // flatten a directory structure
 var fltn = function (d, p, t, o) {
-    for (var k in d) {
-        var val = d[k], n = p + k, op = o;
-        if (Array.isArray(val))
-            op = mrg(o, val[1]), val = val[0];
-        if (val instanceof u8)
-            t[n] = [val, op];
-        else {
-            t[n += '/'] = [new u8(0), op];
-            fltn(val, n, t, o);
-        }
-    }
+	for (var k in d) {
+		var val = d[k], n = p + k, op = o;
+		if (Array.isArray(val))
+			op = mrg(o, val[1]), val = val[0];
+		if (val instanceof u8)
+			t[n] = [val, op];
+		else {
+			t[n += '/'] = [new u8(0), op];
+			fltn(val, n, t, o);
+		}
+	}
 };
 // text encoder
 var te = typeof TextEncoder != 'undefined' && /*#__PURE__*/ new TextEncoder();
@@ -63925,8 +64000,8 @@ var td = typeof TextDecoder != 'undefined' && /*#__PURE__*/ new TextDecoder();
 // text decoder stream
 var tds = 0;
 try {
-    td.decode(et, { stream: true });
-    tds = 1;
+	td.decode(et, { stream: true });
+	tds = 1;
 }
 catch (e) { }
 /**
@@ -63937,92 +64012,92 @@ catch (e) { }
  * @returns The string encoded in UTF-8/Latin-1 binary
  */
 function strToU8(str, latin1) {
-    var i; 
-    if (te)
-        return te.encode(str);
-    var l = str.length;
-    var ar = new u8(str.length + (str.length >> 1));
-    var ai = 0;
-    var w = function (v) { ar[ai++] = v; };
-    for (var i = 0; i < l; ++i) {
-        if (ai + 5 > ar.length) {
-            var n = new u8(ai + 8 + ((l - i) << 1));
-            n.set(ar);
-            ar = n;
-        }
-        var c = str.charCodeAt(i);
-        if (c < 128 || latin1)
-            w(c);
-        else if (c < 2048)
-            w(192 | (c >> 6)), w(128 | (c & 63));
-        else if (c > 55295 && c < 57344)
-            c = 65536 + (c & 1023 << 10) | (str.charCodeAt(++i) & 1023),
-                w(240 | (c >> 18)), w(128 | ((c >> 12) & 63)), w(128 | ((c >> 6) & 63)), w(128 | (c & 63));
-        else
-            w(224 | (c >> 12)), w(128 | ((c >> 6) & 63)), w(128 | (c & 63));
-    }
-    return slc(ar, 0, ai);
+	var i; 
+	if (te)
+		return te.encode(str);
+	var l = str.length;
+	var ar = new u8(str.length + (str.length >> 1));
+	var ai = 0;
+	var w = function (v) { ar[ai++] = v; };
+	for (var i = 0; i < l; ++i) {
+		if (ai + 5 > ar.length) {
+			var n = new u8(ai + 8 + ((l - i) << 1));
+			n.set(ar);
+			ar = n;
+		}
+		var c = str.charCodeAt(i);
+		if (c < 128 || latin1)
+			w(c);
+		else if (c < 2048)
+			w(192 | (c >> 6)), w(128 | (c & 63));
+		else if (c > 55295 && c < 57344)
+			c = 65536 + (c & 1023 << 10) | (str.charCodeAt(++i) & 1023),
+				w(240 | (c >> 18)), w(128 | ((c >> 12) & 63)), w(128 | ((c >> 6) & 63)), w(128 | (c & 63));
+		else
+			w(224 | (c >> 12)), w(128 | ((c >> 6) & 63)), w(128 | (c & 63));
+	}
+	return slc(ar, 0, ai);
 }
 // extra field length
 var exfl = function (ex) {
-    var le = 0;
-    if (ex) {
-        for (var k in ex) {
-            var l = ex[k].length;
-            if (l > 65535)
-                err(9);
-            le += l + 4;
-        }
-    }
-    return le;
+	var le = 0;
+	if (ex) {
+		for (var k in ex) {
+			var l = ex[k].length;
+			if (l > 65535)
+				err(9);
+			le += l + 4;
+		}
+	}
+	return le;
 };
 // write zip header
 var wzh = function (d, b, f, fn, u, c, ce, co) {
-    var fl = fn.length, ex = f.extra, col = co && co.length;
-    var exl = exfl(ex);
-    wbytes(d, b, ce != null ? 0x2014B50 : 0x4034B50), b += 4;
-    if (ce != null)
-        d[b++] = 20, d[b++] = f.os;
-    d[b] = 20, b += 2; // spec compliance? what's that?
-    d[b++] = (f.flag << 1) | (c < 0 && 8), d[b++] = u && 8;
-    d[b++] = f.compression & 255, d[b++] = f.compression >> 8;
-    var dt = new Date(f.mtime == null ? Date.now() : f.mtime), y = dt.getFullYear() - 1980;
-    if (y < 0 || y > 119)
-        err(10);
-    wbytes(d, b, (y << 25) | ((dt.getMonth() + 1) << 21) | (dt.getDate() << 16) | (dt.getHours() << 11) | (dt.getMinutes() << 5) | (dt.getSeconds() >> 1)), b += 4;
-    if (c != -1) {
-        wbytes(d, b, f.crc);
-        wbytes(d, b + 4, c < 0 ? -c - 2 : c);
-        wbytes(d, b + 8, f.size);
-    }
-    wbytes(d, b + 12, fl);
-    wbytes(d, b + 14, exl), b += 16;
-    if (ce != null) {
-        wbytes(d, b, col);
-        wbytes(d, b + 6, f.attrs);
-        wbytes(d, b + 10, ce), b += 14;
-    }
-    d.set(fn, b);
-    b += fl;
-    if (exl) {
-        for (var k in ex) {
-            var exf = ex[k], l = exf.length;
-            wbytes(d, b, +k);
-            wbytes(d, b + 2, l);
-            d.set(exf, b + 4), b += 4 + l;
-        }
-    }
-    if (col)
-        d.set(co, b), b += col;
-    return b;
+	var fl = fn.length, ex = f.extra, col = co && co.length;
+	var exl = exfl(ex);
+	wbytes(d, b, ce != null ? 0x2014B50 : 0x4034B50), b += 4;
+	if (ce != null)
+		d[b++] = 20, d[b++] = f.os;
+	d[b] = 20, b += 2; // spec compliance? what's that?
+	d[b++] = (f.flag << 1) | (c < 0 && 8), d[b++] = u && 8;
+	d[b++] = f.compression & 255, d[b++] = f.compression >> 8;
+	var dt = new Date(f.mtime == null ? Date.now() : f.mtime), y = dt.getFullYear() - 1980;
+	if (y < 0 || y > 119)
+		err(10);
+	wbytes(d, b, (y << 25) | ((dt.getMonth() + 1) << 21) | (dt.getDate() << 16) | (dt.getHours() << 11) | (dt.getMinutes() << 5) | (dt.getSeconds() >> 1)), b += 4;
+	if (c != -1) {
+		wbytes(d, b, f.crc);
+		wbytes(d, b + 4, c < 0 ? -c - 2 : c);
+		wbytes(d, b + 8, f.size);
+	}
+	wbytes(d, b + 12, fl);
+	wbytes(d, b + 14, exl), b += 16;
+	if (ce != null) {
+		wbytes(d, b, col);
+		wbytes(d, b + 6, f.attrs);
+		wbytes(d, b + 10, ce), b += 14;
+	}
+	d.set(fn, b);
+	b += fl;
+	if (exl) {
+		for (var k in ex) {
+			var exf = ex[k], l = exf.length;
+			wbytes(d, b, +k);
+			wbytes(d, b + 2, l);
+			d.set(exf, b + 4), b += 4 + l;
+		}
+	}
+	if (col)
+		d.set(co, b), b += col;
+	return b;
 };
 // write zip footer (end of central directory)
 var wzf = function (o, b, c, d, e) {
-    wbytes(o, b, 0x6054B50); // skip disk
-    wbytes(o, b + 8, c);
-    wbytes(o, b + 10, c);
-    wbytes(o, b + 12, d);
-    wbytes(o, b + 16, e);
+	wbytes(o, b, 0x6054B50); // skip disk
+	wbytes(o, b + 8, c);
+	wbytes(o, b + 10, c);
+	wbytes(o, b + 12, d);
+	wbytes(o, b + 16, e);
 };
 /**
  * Synchronously creates a ZIP file. Prefer using `zip` for better performance
@@ -64032,47 +64107,47 @@ var wzf = function (o, b, c, d, e) {
  * @returns The generated ZIP archive
  */
 function zipSync(data, opts) {
-    if (!opts)
-        opts = {};
-    var r = {};
-    var files = [];
-    fltn(data, '', r, opts);
-    var o = 0;
-    var tot = 0;
-    for (var fn in r) {
-        var _a = r[fn], file = _a[0], p = _a[1];
-        var compression = p.level == 0 ? 0 : 8;
-        var f = strToU8(fn), s = f.length;
-        var com = p.comment, m = com && strToU8(com), ms = m && m.length;
-        var exl = exfl(p.extra);
-        if (s > 65535)
-            err(11);
-        var d = compression ? deflateSync(file, p) : file, l = d.length;
-        var c = crc();
-        c.p(file);
-        files.push(mrg(p, {
-            size: file.length,
-            crc: c.d(),
-            c: d,
-            f: f,
-            m: m,
-            u: s != fn.length || (m && (com.length != ms)),
-            o: o,
-            compression: compression
-        }));
-        o += 30 + s + exl + l;
-        tot += 76 + 2 * (s + exl) + (ms || 0) + l;
-    }
-    var out = new u8(tot + 22), oe = o, cdl = tot - o;
-    for (var i = 0; i < files.length; ++i) {
-        var f = files[i];
-        wzh(out, f.o, f, f.f, f.u, f.c.length);
-        var badd = 30 + f.f.length + exfl(f.extra);
-        out.set(f.c, f.o + badd);
-        wzh(out, o, f, f.f, f.u, f.c.length, f.o, f.m), o += 16 + badd + (f.m ? f.m.length : 0);
-    }
-    wzf(out, o, files.length, cdl, oe);
-    return out;
+	if (!opts)
+		opts = {};
+	var r = {};
+	var files = [];
+	fltn(data, '', r, opts);
+	var o = 0;
+	var tot = 0;
+	for (var fn in r) {
+		var _a = r[fn], file = _a[0], p = _a[1];
+		var compression = p.level == 0 ? 0 : 8;
+		var f = strToU8(fn), s = f.length;
+		var com = p.comment, m = com && strToU8(com), ms = m && m.length;
+		var exl = exfl(p.extra);
+		if (s > 65535)
+			err(11);
+		var d = compression ? deflateSync(file, p) : file, l = d.length;
+		var c = crc();
+		c.p(file);
+		files.push(mrg(p, {
+			size: file.length,
+			crc: c.d(),
+			c: d,
+			f: f,
+			m: m,
+			u: s != fn.length || (m && (com.length != ms)),
+			o: o,
+			compression: compression
+		}));
+		o += 30 + s + exl + l;
+		tot += 76 + 2 * (s + exl) + (ms || 0) + l;
+	}
+	var out = new u8(tot + 22), oe = o, cdl = tot - o;
+	for (var i = 0; i < files.length; ++i) {
+		var f = files[i];
+		wzh(out, f.o, f, f.f, f.u, f.c.length);
+		var badd = 30 + f.f.length + exfl(f.extra);
+		out.set(f.c, f.o + badd);
+		wzh(out, o, f, f.f, f.u, f.c.length, f.o, f.m), o += 16 + badd + (f.m ? f.m.length : 0);
+	}
+	wzf(out, o, files.length, cdl, oe);
+	return out;
 }
 
 class USDZExporter {
@@ -64880,17 +64955,17 @@ function buildCamera( camera ) {
  * ]);
  */
 const enumerationDeserializer = (allowedNames) => (valueString) => {
-    try {
-        const expressions = parseExpressions(valueString);
-        const names = (expressions.length ? expressions[0].terms : [])
-            .filter((valueNode) => valueNode && valueNode.type === 'ident')
-            .map(valueNode => valueNode.value)
-            .filter(name => allowedNames.indexOf(name) > -1);
-        return new Set(names);
-    }
-    catch (_error) {
-    }
-    return new Set();
+	try {
+		const expressions = parseExpressions(valueString);
+		const names = (expressions.length ? expressions[0].terms : [])
+			.filter((valueNode) => valueNode && valueNode.type === 'ident')
+			.map(valueNode => valueNode.value)
+			.filter(name => allowedNames.indexOf(name) > -1);
+		return new Set(names);
+	}
+	catch (_error) {
+	}
+	return new Set();
 };
 
 /* @license
@@ -64908,9 +64983,9 @@ const enumerationDeserializer = (allowedNames) => (valueString) => {
  * limitations under the License.
  */
 var __decorate$2 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 let isWebXRBlocked = false;
 let isSceneViewerBlocked = false;
@@ -64918,10 +64993,10 @@ const noArViewerSigil = '#model-viewer-no-ar-fallback';
 const deserializeARModes = enumerationDeserializer(['quick-look', 'scene-viewer', 'webxr', 'none']);
 const DEFAULT_AR_MODES = 'webxr scene-viewer quick-look';
 const ARMode = {
-    QUICK_LOOK: 'quick-look',
-    SCENE_VIEWER: 'scene-viewer',
-    WEBXR: 'webxr',
-    NONE: 'none'
+	QUICK_LOOK: 'quick-look',
+	SCENE_VIEWER: 'scene-viewer',
+	WEBXR: 'webxr',
+	NONE: 'none'
 };
 const $arButtonContainer = Symbol('arButtonContainer');
 const $enterARWithWebXR = Symbol('enterARWithWebXR');
@@ -64939,347 +65014,354 @@ const $onARTap = Symbol('onARTap');
 const $selectARMode = Symbol('selectARMode');
 const $triggerLoad = Symbol('triggerLoad');
 const ARMixin = (ModelViewerElement) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
-    class ARModelViewerElement extends ModelViewerElement {
-        constructor() {
-            super(...arguments);
-            this.ar = false;
-            this.arScale = 'auto';
-            this.arUsdzMaxTextureSize = 'auto';
-            this.arPlacement = 'floor';
-            this.arModes = DEFAULT_AR_MODES;
-            this.iosSrc = null;
-            this.xrEnvironment = false;
-            this[_a] = false;
-            // TODO: Add this to the shadow root as part of this mixin's
-            // implementation:
-            this[_b] = this.shadowRoot.querySelector('.ar-button');
-            this[_c] = document.createElement('a');
-            this[_d] = new Set();
-            this[_e] = ARMode.NONE;
-            this[_f] = false;
-            this[_g] = (event) => {
-                event.preventDefault();
-                this.activateAR();
-            };
-            this[_h] = ({ status }) => {
-                if (status === ARStatus.NOT_PRESENTING ||
-                    this[$renderer].arRenderer.presentedScene === this[$scene]) {
-                    this.setAttribute('ar-status', status);
-                    this.dispatchEvent(new CustomEvent('ar-status', { detail: { status } }));
-                    if (status === ARStatus.NOT_PRESENTING) {
-                        this.removeAttribute('ar-tracking');
-                    }
-                    else if (status === ARStatus.SESSION_STARTED) {
-                        this.setAttribute('ar-tracking', ARTracking.TRACKING);
-                    }
-                }
-            };
-            this[_j] = ({ status }) => {
-                this.setAttribute('ar-tracking', status);
-                this.dispatchEvent(new CustomEvent('ar-tracking', { detail: { status } }));
-            };
-            this[_k] = (event) => {
-                if (event.data == '_apple_ar_quicklook_button_tapped') {
-                    this.dispatchEvent(new CustomEvent('quick-look-button-tapped'));
-                }
-            };
-        }
-        get canActivateAR() {
-            return this[$arMode] !== ARMode.NONE;
-        }
-        connectedCallback() {
-            super.connectedCallback();
-            this[$renderer].arRenderer.addEventListener('status', this[$onARStatus]);
-            this.setAttribute('ar-status', ARStatus.NOT_PRESENTING);
-            this[$renderer].arRenderer.addEventListener('tracking', this[$onARTracking]);
-            this[$arAnchor].addEventListener('message', this[$onARTap]);
-        }
-        disconnectedCallback() {
-            super.disconnectedCallback();
-            this[$renderer].arRenderer.removeEventListener('status', this[$onARStatus]);
-            this[$renderer].arRenderer.removeEventListener('tracking', this[$onARTracking]);
-            this[$arAnchor].removeEventListener('message', this[$onARTap]);
-        }
-        update(changedProperties) {
-            super.update(changedProperties);
-            if (changedProperties.has('arScale')) {
-                this[$scene].canScale = this.arScale !== 'fixed';
-            }
-            if (changedProperties.has('arPlacement')) {
-                this[$scene].updateShadow();
-                this[$needsRender]();
-            }
-            if (changedProperties.has('arModes')) {
-                this[$arModes] = deserializeARModes(this.arModes);
-            }
-            if (changedProperties.has('ar') || changedProperties.has('arModes') ||
-                changedProperties.has('src') || changedProperties.has('iosSrc') ||
-                changedProperties.has('arUsdzMaxTextureSize')) {
-                this[$selectARMode]();
-            }
-        }
-        /**
-         * Activates AR. Note that for any mode that is not WebXR-based, this
-         * method most likely has to be called synchronous from a user
-         * interaction handler. Otherwise, attempts to activate modes that
-         * require user interaction will most likely be ignored.
-         */
-        async activateAR() {
-            switch (this[$arMode]) {
-                case ARMode.QUICK_LOOK:
-                    await this[$openIOSARQuickLook]();
-                    break;
-                case ARMode.WEBXR:
-                    await this[$enterARWithWebXR]();
-                    break;
-                case ARMode.SCENE_VIEWER:
-                    this[$openSceneViewer]();
-                    break;
-                default:
-                    console.warn('No AR Mode can be activated. This is probably due to missing \
+	var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
+	class ARModelViewerElement extends ModelViewerElement {
+		constructor() {
+			super(...arguments);
+			this.ar = false;
+			this.arScale = 'auto';
+			this.arUsdzMaxTextureSize = 'auto';
+			this.arPlacement = 'floor';
+			this.arModes = DEFAULT_AR_MODES;
+			this.iosSrc = null;
+			this.xrEnvironment = false;
+			this[_a] = false;
+			// TODO: Add this to the shadow root as part of this mixin's
+			// implementation:
+			this[_b] = this.shadowRoot.querySelector('.ar-button');
+			this[_c] = document.createElement('a');
+			this[_d] = new Set();
+			this[_e] = ARMode.NONE;
+			this[_f] = false;
+			this[_g] = (event) => {
+				event.preventDefault();
+				this.activateAR();
+			};
+			this[_h] = ({ status }) => {
+				if (status === ARStatus.NOT_PRESENTING ||
+					this[$renderer].arRenderer.presentedScene === this[$scene]) {
+					this.setAttribute('ar-status', status);
+					this.dispatchEvent(new CustomEvent('ar-status', { detail: { status } }));
+					if (status === ARStatus.NOT_PRESENTING) {
+						this.removeAttribute('ar-tracking');
+					}
+					else if (status === ARStatus.SESSION_STARTED) {
+						this.setAttribute('ar-tracking', ARTracking.TRACKING);
+					}
+				}
+			};
+			this[_j] = ({ status }) => {
+				this.setAttribute('ar-tracking', status);
+				this.dispatchEvent(new CustomEvent('ar-tracking', { detail: { status } }));
+			};
+			this[_k] = (event) => {
+				if (event.data == '_apple_ar_quicklook_button_tapped') {
+					this.dispatchEvent(new CustomEvent('quick-look-button-tapped'));
+				}
+			};
+		}
+		get canActivateAR() {
+			return this[$arMode] !== ARMode.NONE;
+		}
+		connectedCallback() {
+			super.connectedCallback();
+			this[$renderer].arRenderer.addEventListener('status', this[$onARStatus]);
+			this.setAttribute('ar-status', ARStatus.NOT_PRESENTING);
+			this[$renderer].arRenderer.addEventListener('tracking', this[$onARTracking]);
+			this[$arAnchor].addEventListener('message', this[$onARTap]);
+		}
+		disconnectedCallback() {
+			super.disconnectedCallback();
+			this[$renderer].arRenderer.removeEventListener('status', this[$onARStatus]);
+			this[$renderer].arRenderer.removeEventListener('tracking', this[$onARTracking]);
+			this[$arAnchor].removeEventListener('message', this[$onARTap]);
+		}
+		update(changedProperties) {
+			super.update(changedProperties);
+			if (changedProperties.has('arScale')) {
+				this[$scene].canScale = this.arScale !== 'fixed';
+			}
+			if (changedProperties.has('arPlacement')) {
+				this[$scene].updateShadow();
+				this[$needsRender]();
+			}
+			if (changedProperties.has('arModes')) {
+				this[$arModes] = deserializeARModes(this.arModes);
+			}
+			if (changedProperties.has('ar') || changedProperties.has('arModes') ||
+				changedProperties.has('src') || changedProperties.has('iosSrc') ||
+				changedProperties.has('arUsdzMaxTextureSize')) {
+				this[$selectARMode]();
+			}
+		}
+		/**
+		 * Activates AR. Note that for any mode that is not WebXR-based, this
+		 * method most likely has to be called synchronous from a user
+		 * interaction handler. Otherwise, attempts to activate modes that
+		 * require user interaction will most likely be ignored.
+		 */
+		async activateAR() {
+			switch (this[$arMode]) {
+				case ARMode.QUICK_LOOK:
+					await this[$openIOSARQuickLook]();
+					break;
+				case ARMode.WEBXR:
+					await this[$enterARWithWebXR]();
+					break;
+				case ARMode.SCENE_VIEWER:
+					this[$openSceneViewer]();
+					break;
+				default:
+					console.warn('No AR Mode can be activated. This is probably due to missing \
 configuration or device capabilities');
-                    break;
-            }
-        }
-        async [(_a = $canActivateAR, _b = $arButtonContainer, _c = $arAnchor, _d = $arModes, _e = $arMode, _f = $preload, _g = $onARButtonContainerClick, _h = $onARStatus, _j = $onARTracking, _k = $onARTap, $selectARMode)]() {
-            var _l;
-            let arMode = ARMode.NONE;
-            if (this.ar) {
-                if (this.src != null) {
-                    for (const value of this[$arModes]) {
-                        if (value === 'webxr' && IS_WEBXR_AR_CANDIDATE && !isWebXRBlocked &&
-                            await this[$renderer].arRenderer.supportsPresentation()) {
-                            arMode = ARMode.WEBXR;
-                            break;
-                        }
-                        if (value === 'scene-viewer' && !isSceneViewerBlocked &&
-                            (IS_SCENEVIEWER_CANDIDATE ||
-                                (navigator.userAgentData &&
-                                    navigator.userAgentData.getHighEntropyValues &&
-                                    ((_l = (await navigator.userAgentData.getHighEntropyValues([
-                                        'formFactor'
-                                    ])).formFactor) === null || _l === void 0 ? void 0 : _l.includes('XR'))))) {
-                            arMode = ARMode.SCENE_VIEWER;
-                            break;
-                        }
-                        if (value === 'quick-look' && IS_AR_QUICKLOOK_CANDIDATE) {
-                            arMode = ARMode.QUICK_LOOK;
-                            break;
-                        }
-                    }
-                }
-                // The presence of ios-src overrides the absence of quick-look
-                // ar-mode.
-                if (arMode === ARMode.NONE && this.iosSrc != null &&
-                    IS_AR_QUICKLOOK_CANDIDATE) {
-                    arMode = ARMode.QUICK_LOOK;
-                }
-            }
-            if (arMode !== ARMode.NONE) {
-                this[$arButtonContainer].classList.add('enabled');
-                this[$arButtonContainer].addEventListener('click', this[$onARButtonContainerClick]);
-            }
-            else if (this[$arButtonContainer].classList.contains('enabled')) {
-                this[$arButtonContainer].removeEventListener('click', this[$onARButtonContainerClick]);
-                this[$arButtonContainer].classList.remove('enabled');
-                // If AR went from working to not, notify the element.
-                const status = ARStatus.FAILED;
-                this.setAttribute('ar-status', status);
-                this.dispatchEvent(new CustomEvent('ar-status', { detail: { status } }));
-            }
-            this[$arMode] = arMode;
-        }
-        async [$enterARWithWebXR]() {
-            console.log('Attempting to present in AR with WebXR...');
-            await this[$triggerLoad]();
-            try {
-                this[$arButtonContainer].removeEventListener('click', this[$onARButtonContainerClick]);
-                const { arRenderer } = this[$renderer];
-                arRenderer.placeOnWall = this.arPlacement === 'wall';
-                await arRenderer.present(this[$scene], this.xrEnvironment);
-            }
-            catch (error) {
-                console.warn('Error while trying to present in AR with WebXR');
-                console.error(error);
-                await this[$renderer].arRenderer.stopPresenting();
-                isWebXRBlocked = true;
-                console.warn('Falling back to next ar-mode');
-                await this[$selectARMode]();
-                this.activateAR();
-            }
-            finally {
-                this[$selectARMode]();
-            }
-        }
-        async [$triggerLoad]() {
-            if (!this.loaded) {
-                this[$preload] = true;
-                this[$updateSource]();
-                await waitForEvent(this, 'load');
-                this[$preload] = false;
-            }
-        }
-        [$shouldAttemptPreload]() {
-            return super[$shouldAttemptPreload]() || this[$preload];
-        }
-        /**
-         * Takes a URL and a title string, and attempts to launch Scene Viewer on
-         * the current device.
-         */
-        [$openSceneViewer]() {
-            const location = self.location.toString();
-            const locationUrl = new URL(location);
-            const modelUrl = new URL(this.src, location);
-            if (modelUrl.hash)
-                modelUrl.hash = '';
-            const params = new URLSearchParams(modelUrl.search);
-            locationUrl.hash = noArViewerSigil;
-            // modelUrl can contain title/link/sound etc.
-            params.set('mode', 'ar_preferred');
-            if (!params.has('disable_occlusion')) {
-                params.set('disable_occlusion', 'true');
-            }
-            if (this.arScale === 'fixed') {
-                params.set('resizable', 'false');
-            }
-            if (this.arPlacement === 'wall') {
-                params.set('enable_vertical_placement', 'true');
-            }
-            if (params.has('sound')) {
-                const soundUrl = new URL(params.get('sound'), location);
-                params.set('sound', soundUrl.toString());
-            }
-            if (params.has('link')) {
-                const linkUrl = new URL(params.get('link'), location);
-                params.set('link', linkUrl.toString());
-            }
-            const intent = `intent://arvr.google.com/scene-viewer/1.2?${params.toString() + '&file=' +
-                encodeURIComponent(modelUrl
-                    .toString())}#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodeURIComponent(locationUrl.toString())};end;`;
-            const undoHashChange = () => {
-                if (self.location.hash === noArViewerSigil) {
-                    isSceneViewerBlocked = true;
-                    // The new history will be the current URL with a new hash.
-                    // Go back one step so that we reset to the expected URL.
-                    // NOTE(cdata): this should not invoke any browser-level navigation
-                    // because hash-only changes modify the URL in-place without
-                    // navigating:
-                    self.history.back();
-                    console.warn('Error while trying to present in AR with Scene Viewer');
-                    console.warn('Falling back to next ar-mode');
-                    this[$selectARMode]();
-                    // Would be nice to activateAR() here, but webXR fails due to not
-                    // seeing a user activation.
-                }
-            };
-            self.addEventListener('hashchange', undoHashChange, { once: true });
-            this[$arAnchor].setAttribute('href', intent);
-            console.log('Attempting to present in AR with Scene Viewer...');
-            this[$arAnchor].click();
-        }
-        /**
-         * Takes a URL to a USDZ file and sets the appropriate fields so that
-         * Safari iOS can intent to their AR Quick Look.
-         */
-        async [$openIOSARQuickLook]() {
-            const generateUsdz = !this.iosSrc;
-            this[$arButtonContainer].classList.remove('enabled');
-            const objectURL = generateUsdz ? await this.prepareUSDZ() : this.iosSrc;
-            const modelUrl = new URL(objectURL, self.location.toString());
-            if (generateUsdz) {
-                const location = self.location.toString();
-                const locationUrl = new URL(location);
-                const srcUrl = new URL(this.src, locationUrl);
-                if (srcUrl.hash) {
-                    modelUrl.hash = srcUrl.hash;
-                }
-            }
-            if (this.arScale === 'fixed') {
-                if (modelUrl.hash) {
-                    modelUrl.hash += '&';
-                }
-                modelUrl.hash += 'allowsContentScaling=0';
-            }
-            const anchor = this[$arAnchor];
-            anchor.setAttribute('rel', 'ar');
-            const img = document.createElement('img');
-            anchor.appendChild(img);
-            anchor.setAttribute('href', modelUrl.toString());
-            if (generateUsdz) {
-                anchor.setAttribute('download', 'model.usdz');
-            }
-            // attach anchor to shadow DOM to ensure iOS16 ARQL banner click message
-            // event propagation
-            anchor.style.display = 'none';
-            if (!anchor.isConnected)
-                this.shadowRoot.appendChild(anchor);
-            console.log('Attempting to present in AR with Quick Look...');
-            anchor.click();
-            anchor.removeChild(img);
-            if (generateUsdz) {
-                URL.revokeObjectURL(objectURL);
-            }
-            this[$arButtonContainer].classList.add('enabled');
-        }
-        async prepareUSDZ() {
-            const updateSourceProgress = this[$progressTracker].beginActivity('usdz-conversion');
-            await this[$triggerLoad]();
-            const { model, shadow, target } = this[$scene];
-            if (model == null) {
-                return '';
-            }
-            let visible = false;
-            // Remove shadow from export
-            if (shadow != null) {
-                visible = shadow.visible;
-                shadow.visible = false;
-            }
-            updateSourceProgress(0.2);
-            const exporter = new USDZExporter();
-            target.remove(model);
-            model.position.copy(target.position);
-            model.updateWorldMatrix(false, true);
-            const arraybuffer = await exporter.parseAsync(model, {
-                maxTextureSize: isNaN(this.arUsdzMaxTextureSize) ?
-                    Infinity :
-                    Math.max(parseInt(this.arUsdzMaxTextureSize), 16),
-            });
-            model.position.set(0, 0, 0);
-            target.add(model);
-            const blob = new Blob([arraybuffer], {
-                type: 'model/vnd.usdz+zip',
-            });
-            const url = URL.createObjectURL(blob);
-            updateSourceProgress(1);
-            if (shadow != null) {
-                shadow.visible = visible;
-            }
-            return url;
-        }
-    }
-    __decorate$2([
-        n$2({ type: Boolean, attribute: 'ar' })
-    ], ARModelViewerElement.prototype, "ar", void 0);
-    __decorate$2([
-        n$2({ type: String, attribute: 'ar-scale' })
-    ], ARModelViewerElement.prototype, "arScale", void 0);
-    __decorate$2([
-        n$2({ type: String, attribute: 'ar-usdz-max-texture-size' })
-    ], ARModelViewerElement.prototype, "arUsdzMaxTextureSize", void 0);
-    __decorate$2([
-        n$2({ type: String, attribute: 'ar-placement' })
-    ], ARModelViewerElement.prototype, "arPlacement", void 0);
-    __decorate$2([
-        n$2({ type: String, attribute: 'ar-modes' })
-    ], ARModelViewerElement.prototype, "arModes", void 0);
-    __decorate$2([
-        n$2({ type: String, attribute: 'ios-src' })
-    ], ARModelViewerElement.prototype, "iosSrc", void 0);
-    __decorate$2([
-        n$2({ type: Boolean, attribute: 'xr-environment' })
-    ], ARModelViewerElement.prototype, "xrEnvironment", void 0);
-    return ARModelViewerElement;
+					break;
+			}
+		}
+		async [(_a = $canActivateAR, _b = $arButtonContainer, _c = $arAnchor, _d = $arModes, _e = $arMode, _f = $preload, _g = $onARButtonContainerClick, _h = $onARStatus, _j = $onARTracking, _k = $onARTap, $selectARMode)]() {
+			var _l;
+			let arMode = ARMode.NONE;
+			if (this.ar) {
+				if (this.src != null) {
+					for (const value of this[$arModes]) {
+						if (value === 'webxr' && IS_WEBXR_AR_CANDIDATE && !isWebXRBlocked &&
+							await this[$renderer].arRenderer.supportsPresentation()) {
+							Bugfender.log('arMode = ARMode.WEBXR');
+							arMode = ARMode.WEBXR;
+							break;
+						}
+						if (value === 'scene-viewer' && !isSceneViewerBlocked &&
+							(IS_SCENEVIEWER_CANDIDATE ||
+								(navigator.userAgentData &&
+									navigator.userAgentData.getHighEntropyValues &&
+									((_l = (await navigator.userAgentData.getHighEntropyValues([
+										'formFactor'
+									])).formFactor) === null || _l === void 0 ? void 0 : _l.includes('XR'))))) {
+							Bugfender.log('arMode = ARMode.SCENE_VIEWER');
+							arMode = ARMode.SCENE_VIEWER;
+							break;
+						}
+						if (value === 'quick-look' && IS_AR_QUICKLOOK_CANDIDATE) {
+							IOS_AR = true;
+							Bugfender.log('arMode = ARMode.QUICK_LOOK');
+							arMode = ARMode.QUICK_LOOK;
+							break;
+						}
+					}
+				}
+				// The presence of ios-src overrides the absence of quick-look
+				// ar-mode.
+				if (arMode === ARMode.NONE && this.iosSrc != null &&
+					IS_AR_QUICKLOOK_CANDIDATE) {
+					IOS_AR = true;
+					Bugfender.log('arMode = ARMode.QUICK_LOOK (iosSrc)');
+					arMode = ARMode.QUICK_LOOK;
+				}
+			}
+			if (arMode !== ARMode.NONE) {
+				this[$arButtonContainer].classList.add('enabled');
+				this[$arButtonContainer].addEventListener('click', this[$onARButtonContainerClick]);
+			}
+			else if (this[$arButtonContainer].classList.contains('enabled')) {
+				this[$arButtonContainer].removeEventListener('click', this[$onARButtonContainerClick]);
+				this[$arButtonContainer].classList.remove('enabled');
+				// If AR went from working to not, notify the element.
+				const status = ARStatus.FAILED;
+				this.setAttribute('ar-status', status);
+				this.dispatchEvent(new CustomEvent('ar-status', { detail: { status } }));
+			}
+			Bugfender.log('arMode = ' + arMode);
+			this[$arMode] = arMode;
+		}
+		async [$enterARWithWebXR]() {
+			console.log('Attempting to present in AR with WebXR...');
+			await this[$triggerLoad]();
+			try {
+				this[$arButtonContainer].removeEventListener('click', this[$onARButtonContainerClick]);
+				const { arRenderer } = this[$renderer];
+				arRenderer.placeOnWall = this.arPlacement === 'wall';
+				await arRenderer.present(this[$scene], this.xrEnvironment);
+			}
+			catch (error) {
+				console.warn('Error while trying to present in AR with WebXR');
+				console.error(error);
+				await this[$renderer].arRenderer.stopPresenting();
+				isWebXRBlocked = true;
+				console.warn('Falling back to next ar-mode');
+				await this[$selectARMode]();
+				this.activateAR();
+			}
+			finally {
+				this[$selectARMode]();
+			}
+		}
+		async [$triggerLoad]() {
+			if (!this.loaded) {
+				this[$preload] = true;
+				this[$updateSource]();
+				await waitForEvent(this, 'load');
+				this[$preload] = false;
+			}
+		}
+		[$shouldAttemptPreload]() {
+			return super[$shouldAttemptPreload]() || this[$preload];
+		}
+		/**
+		 * Takes a URL and a title string, and attempts to launch Scene Viewer on
+		 * the current device.
+		 */
+		[$openSceneViewer]() {
+			const location = self.location.toString();
+			const locationUrl = new URL(location);
+			const modelUrl = new URL(this.src, location);
+			if (modelUrl.hash)
+				modelUrl.hash = '';
+			const params = new URLSearchParams(modelUrl.search);
+			locationUrl.hash = noArViewerSigil;
+			// modelUrl can contain title/link/sound etc.
+			params.set('mode', 'ar_preferred');
+			if (!params.has('disable_occlusion')) {
+				params.set('disable_occlusion', 'true');
+			}
+			if (this.arScale === 'fixed') {
+				params.set('resizable', 'false');
+			}
+			if (this.arPlacement === 'wall') {
+				params.set('enable_vertical_placement', 'true');
+			}
+			if (params.has('sound')) {
+				const soundUrl = new URL(params.get('sound'), location);
+				params.set('sound', soundUrl.toString());
+			}
+			if (params.has('link')) {
+				const linkUrl = new URL(params.get('link'), location);
+				params.set('link', linkUrl.toString());
+			}
+			const intent = `intent://arvr.google.com/scene-viewer/1.2?${params.toString() + '&file=' +
+				encodeURIComponent(modelUrl
+					.toString())}#Intent;scheme=https;package=com.google.android.googlequicksearchbox;action=android.intent.action.VIEW;S.browser_fallback_url=${encodeURIComponent(locationUrl.toString())};end;`;
+			const undoHashChange = () => {
+				if (self.location.hash === noArViewerSigil) {
+					isSceneViewerBlocked = true;
+					// The new history will be the current URL with a new hash.
+					// Go back one step so that we reset to the expected URL.
+					// NOTE(cdata): this should not invoke any browser-level navigation
+					// because hash-only changes modify the URL in-place without
+					// navigating:
+					self.history.back();
+					console.warn('Error while trying to present in AR with Scene Viewer');
+					console.warn('Falling back to next ar-mode');
+					this[$selectARMode]();
+					// Would be nice to activateAR() here, but webXR fails due to not
+					// seeing a user activation.
+				}
+			};
+			self.addEventListener('hashchange', undoHashChange, { once: true });
+			this[$arAnchor].setAttribute('href', intent);
+			console.log('Attempting to present in AR with Scene Viewer...');
+			this[$arAnchor].click();
+		}
+		/**
+		 * Takes a URL to a USDZ file and sets the appropriate fields so that
+		 * Safari iOS can intent to their AR Quick Look.
+		 */
+		async [$openIOSARQuickLook]() {
+			const generateUsdz = !this.iosSrc;
+			this[$arButtonContainer].classList.remove('enabled');
+			const objectURL = generateUsdz ? await this.prepareUSDZ() : this.iosSrc;
+			const modelUrl = new URL(objectURL, self.location.toString());
+			if (generateUsdz) {
+				const location = self.location.toString();
+				const locationUrl = new URL(location);
+				const srcUrl = new URL(this.src, locationUrl);
+				if (srcUrl.hash) {
+					modelUrl.hash = srcUrl.hash;
+				}
+			}
+			if (this.arScale === 'fixed') {
+				if (modelUrl.hash) {
+					modelUrl.hash += '&';
+				}
+				modelUrl.hash += 'allowsContentScaling=0';
+			}
+			const anchor = this[$arAnchor];
+			anchor.setAttribute('rel', 'ar');
+			const img = document.createElement('img');
+			anchor.appendChild(img);
+			anchor.setAttribute('href', modelUrl.toString());
+			if (generateUsdz) {
+				anchor.setAttribute('download', 'model.usdz');
+			}
+			// attach anchor to shadow DOM to ensure iOS16 ARQL banner click message
+			// event propagation
+			anchor.style.display = 'none';
+			if (!anchor.isConnected)
+				this.shadowRoot.appendChild(anchor);
+			console.log('Attempting to present in AR with Quick Look...');
+			anchor.click();
+			anchor.removeChild(img);
+			if (generateUsdz) {
+				URL.revokeObjectURL(objectURL);
+			}
+			this[$arButtonContainer].classList.add('enabled');
+		}
+		async prepareUSDZ() {
+			const updateSourceProgress = this[$progressTracker].beginActivity('usdz-conversion');
+			await this[$triggerLoad]();
+			const { model, shadow, target } = this[$scene];
+			if (model == null) {
+				return '';
+			}
+			let visible = false;
+			// Remove shadow from export
+			if (shadow != null) {
+				visible = shadow.visible;
+				shadow.visible = false;
+			}
+			updateSourceProgress(0.2);
+			const exporter = new USDZExporter();
+			target.remove(model);
+			model.position.copy(target.position);
+			model.updateWorldMatrix(false, true);
+			const arraybuffer = await exporter.parseAsync(model, {
+				maxTextureSize: isNaN(this.arUsdzMaxTextureSize) ?
+					Infinity :
+					Math.max(parseInt(this.arUsdzMaxTextureSize), 16),
+			});
+			model.position.set(0, 0, 0);
+			target.add(model);
+			const blob = new Blob([arraybuffer], {
+				type: 'model/vnd.usdz+zip',
+			});
+			const url = URL.createObjectURL(blob);
+			updateSourceProgress(1);
+			if (shadow != null) {
+				shadow.visible = visible;
+			}
+			return url;
+		}
+	}
+	__decorate$2([
+		n$2({ type: Boolean, attribute: 'ar' })
+	], ARModelViewerElement.prototype, "ar", void 0);
+	__decorate$2([
+		n$2({ type: String, attribute: 'ar-scale' })
+	], ARModelViewerElement.prototype, "arScale", void 0);
+	__decorate$2([
+		n$2({ type: String, attribute: 'ar-usdz-max-texture-size' })
+	], ARModelViewerElement.prototype, "arUsdzMaxTextureSize", void 0);
+	__decorate$2([
+		n$2({ type: String, attribute: 'ar-placement' })
+	], ARModelViewerElement.prototype, "arPlacement", void 0);
+	__decorate$2([
+		n$2({ type: String, attribute: 'ar-modes' })
+	], ARModelViewerElement.prototype, "arModes", void 0);
+	__decorate$2([
+		n$2({ type: String, attribute: 'ios-src' })
+	], ARModelViewerElement.prototype, "iosSrc", void 0);
+	__decorate$2([
+		n$2({ type: Boolean, attribute: 'xr-environment' })
+	], ARModelViewerElement.prototype, "xrEnvironment", void 0);
+	return ARModelViewerElement;
 };
 
 /* @license
@@ -65297,19 +65379,19 @@ configuration or device capabilities');
  * limitations under the License.
  */
 var __decorate$1 = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 const PROGRESS_BAR_UPDATE_THRESHOLD = 100;
 const DEFAULT_DRACO_DECODER_LOCATION = 'https://www.gstatic.com/draco/versioned/decoders/1.5.6/';
 const DEFAULT_KTX2_TRANSCODER_LOCATION = 'https://www.gstatic.com/basis-universal/versioned/2021-04-15-ba1c3e4/';
 const DEFAULT_LOTTIE_LOADER_LOCATION = 'https://cdn.jsdelivr.net/npm/three@0.149.0/examples/jsm/loaders/LottieLoader.js';
 const RevealStrategy = {
-    AUTO: 'auto'};
+	AUTO: 'auto'};
 const LoadingStrategy = {
-    AUTO: 'auto',
-    EAGER: 'eager'
+	AUTO: 'auto',
+	EAGER: 'eager'
 };
 const $defaultProgressBarElement = Symbol('defaultProgressBarElement');
 const $posterContainerElement = Symbol('posterContainerElement');
@@ -65370,230 +65452,230 @@ const $onProgress = Symbol('onProgress');
  * the decoder to be loaded from an alternative, acceptable location.
  */
 const LoadingMixin = (ModelViewerElement) => {
-    var _a, _b, _c, _d, _e, _f, _g, _h;
-    class LoadingModelViewerElement extends ModelViewerElement {
-        static set dracoDecoderLocation(value) {
-            CachingGLTFLoader.setDRACODecoderLocation(value);
-        }
-        static get dracoDecoderLocation() {
-            return CachingGLTFLoader.getDRACODecoderLocation();
-        }
-        static set ktx2TranscoderLocation(value) {
-            CachingGLTFLoader.setKTX2TranscoderLocation(value);
-        }
-        static get ktx2TranscoderLocation() {
-            return CachingGLTFLoader.getKTX2TranscoderLocation();
-        }
-        static set meshoptDecoderLocation(value) {
-            CachingGLTFLoader.setMeshoptDecoderLocation(value);
-        }
-        static get meshoptDecoderLocation() {
-            return CachingGLTFLoader.getMeshoptDecoderLocation();
-        }
-        static set lottieLoaderLocation(value) {
-            Renderer.singleton.textureUtils.lottieLoaderUrl = value;
-        }
-        static get lottieLoaderLocation() {
-            return Renderer.singleton.textureUtils.lottieLoaderUrl;
-        }
-        /**
-         * If provided, the callback will be passed each resource URL before a
-         * request is sent. The callback may return the original URL, or a new URL
-         * to override loading behavior. This behavior can be used to load assets
-         * from .ZIP files, drag-and-drop APIs, and Data URIs.
-         */
-        static mapURLs(callback) {
-            Renderer.singleton.loader[$loader].manager.setURLModifier(callback);
-        }
-        /**
-         * Dismisses the poster, causing the model to load and render if
-         * necessary. This is currently effectively the same as interacting with
-         * the poster via user input.
-         */
-        dismissPoster() {
-            if (this.loaded) {
-                this[$hidePoster]();
-            }
-            else {
-                this[$shouldDismissPoster] = true;
-                this[$updateSource]();
-            }
-        }
-        /**
-         * Displays the poster, hiding the 3D model. If this is called after the 3D
-         * model has been revealed, then it must be dismissed by a call to
-         * dismissPoster().
-         */
-        showPoster() {
-            const posterContainerElement = this[$posterContainerElement];
-            if (posterContainerElement.classList.contains('show')) {
-                return;
-            }
-            posterContainerElement.classList.add('show');
-            this[$userInputElement].classList.remove('show');
-            const defaultPosterElement = this[$defaultPosterElement];
-            defaultPosterElement.removeAttribute('tabindex');
-            defaultPosterElement.removeAttribute('aria-hidden');
-            const oldVisibility = this.modelIsVisible;
-            this[$modelIsRevealed] = false;
-            this[$announceModelVisibility](oldVisibility);
-        }
-        /**
-         * Returns the model's bounding box dimensions in meters, independent of
-         * turntable rotation.
-         */
-        getDimensions() {
-            return toVector3D(this[$scene].size);
-        }
-        getBoundingBoxCenter() {
-            return toVector3D(this[$scene].boundingBox.getCenter(new Vector3()));
-        }
-        constructor(...args) {
-            super(...args);
-            /**
-             * A URL pointing to the image to use as a poster in scenarios where the
-             * <model-viewer> is not ready to reveal a rendered model to the viewer.
-             */
-            this.poster = null;
-            /**
-             * An enumerable attribute describing under what conditions the
-             * <model-viewer> should reveal a model to the viewer.
-             *
-             * The default value is "auto". The only supported alternative values is
-             * "manual".
-             */
-            this.reveal = RevealStrategy.AUTO;
-            /**
-             * An enumerable attribute describing under what conditions the
-             * <model-viewer> should preload a model.
-             *
-             * The default value is "auto". The only supported alternative values are
-             * "lazy" and "eager". Auto is equivalent to lazy, which loads the model
-             * when it is near the viewport for reveal = "auto", and when interacted
-             * with for reveal = "interaction". Eager loads the model immediately.
-             */
-            this.loading = LoadingStrategy.AUTO;
-            this[_a] = false;
-            this[_b] = false;
-            // TODO: Add this to the shadow root as part of this mixin's
-            // implementation:
-            this[_c] = this.shadowRoot.querySelector('.slot.poster');
-            this[_d] = this.shadowRoot.querySelector('#default-poster');
-            this[_e] = this.shadowRoot.querySelector('#default-progress-bar > .bar');
-            this[_f] = this[$defaultPosterElement].getAttribute('aria-label');
-            this[_g] = throttle((progress) => {
-                const parentNode = this[$defaultProgressBarElement].parentNode;
-                requestAnimationFrame(() => {
-                    this[$defaultProgressBarElement].style.transform =
-                        `scaleX(${progress})`;
-                    if (progress === 0) {
-                        // NOTE(cdata): We remove and re-append the progress bar in this
-                        // condition so that the progress bar does not appear to
-                        // transition backwards from the right when we reset to 0 (or
-                        // otherwise <1) progress after having already reached 1 progress
-                        // previously.
-                        parentNode.removeChild(this[$defaultProgressBarElement]);
-                        parentNode.appendChild(this[$defaultProgressBarElement]);
-                    }
-                    this[$defaultProgressBarElement].classList.toggle('hide', progress === 1.0);
-                });
-            }, PROGRESS_BAR_UPDATE_THRESHOLD);
-            this[_h] = (event) => {
-                const progress = event.detail.totalProgress;
-                const reason = event.detail.reason;
-                if (progress === 1.0) {
-                    this[$updateProgressBar].flush();
-                    if (this.loaded &&
-                        (this[$shouldDismissPoster] ||
-                            this.reveal === RevealStrategy.AUTO)) {
-                        this[$hidePoster]();
-                    }
-                }
-                this[$updateProgressBar](progress);
-                this.dispatchEvent(new CustomEvent('progress', { detail: { totalProgress: progress, reason } }));
-            };
-            const ModelViewerElement = self.ModelViewerElement || {};
-            const dracoDecoderLocation = ModelViewerElement.dracoDecoderLocation ||
-                DEFAULT_DRACO_DECODER_LOCATION;
-            CachingGLTFLoader.setDRACODecoderLocation(dracoDecoderLocation);
-            const ktx2TranscoderLocation = ModelViewerElement.ktx2TranscoderLocation ||
-                DEFAULT_KTX2_TRANSCODER_LOCATION;
-            CachingGLTFLoader.setKTX2TranscoderLocation(ktx2TranscoderLocation);
-            if (ModelViewerElement.meshoptDecoderLocation) {
-                CachingGLTFLoader.setMeshoptDecoderLocation(ModelViewerElement.meshoptDecoderLocation);
-            }
-            const lottieLoaderLocation = ModelViewerElement.lottieLoaderLocation ||
-                DEFAULT_LOTTIE_LOADER_LOCATION;
-            Renderer.singleton.textureUtils.lottieLoaderUrl = lottieLoaderLocation;
-        }
-        connectedCallback() {
-            super.connectedCallback();
-            if (!this.loaded) {
-                this.showPoster();
-            }
-            this[$progressTracker].addEventListener('progress', this[$onProgress]);
-        }
-        disconnectedCallback() {
-            super.disconnectedCallback();
-            this[$progressTracker].removeEventListener('progress', this[$onProgress]);
-        }
-        async updated(changedProperties) {
-            super.updated(changedProperties);
-            if (changedProperties.has('poster') && this.poster != null) {
-                this[$defaultPosterElement].style.backgroundImage =
-                    `url(${this.poster})`;
-            }
-            if (changedProperties.has('alt')) {
-                this[$defaultPosterElement].setAttribute('aria-label', this[$altDefaulted]);
-            }
-            if (changedProperties.has('reveal') || changedProperties.has('loading')) {
-                this[$updateSource]();
-            }
-        }
-        [(_a = $modelIsRevealed, _b = $shouldDismissPoster, _c = $posterContainerElement, _d = $defaultPosterElement, _e = $defaultProgressBarElement, _f = $ariaLabelCallToAction, _g = $updateProgressBar, _h = $onProgress, $shouldAttemptPreload)]() {
-            return !!this.src &&
-                (this[$shouldDismissPoster] ||
-                    this.loading === LoadingStrategy.EAGER ||
-                    (this.reveal === RevealStrategy.AUTO && this[$isElementInViewport]));
-        }
-        [$hidePoster]() {
-            this[$shouldDismissPoster] = false;
-            const posterContainerElement = this[$posterContainerElement];
-            if (!posterContainerElement.classList.contains('show')) {
-                return;
-            }
-            posterContainerElement.classList.remove('show');
-            this[$userInputElement].classList.add('show');
-            const oldVisibility = this.modelIsVisible;
-            this[$modelIsRevealed] = true;
-            this[$announceModelVisibility](oldVisibility);
-            const root = this.getRootNode();
-            // If the <model-viewer> is still focused, forward the focus to
-            // the canvas that has just been revealed
-            if (root && root.activeElement === this) {
-                this[$userInputElement].focus();
-            }
-            // Ensure that the poster is no longer focusable or visible to
-            // screen readers
-            const defaultPosterElement = this[$defaultPosterElement];
-            defaultPosterElement.setAttribute('aria-hidden', 'true');
-            defaultPosterElement.tabIndex = -1;
-            this.dispatchEvent(new CustomEvent('poster-dismissed'));
-        }
-        [$getModelIsVisible]() {
-            return super[$getModelIsVisible]() && this[$modelIsRevealed];
-        }
-    }
-    __decorate$1([
-        n$2({ type: String })
-    ], LoadingModelViewerElement.prototype, "poster", void 0);
-    __decorate$1([
-        n$2({ type: String })
-    ], LoadingModelViewerElement.prototype, "reveal", void 0);
-    __decorate$1([
-        n$2({ type: String })
-    ], LoadingModelViewerElement.prototype, "loading", void 0);
-    return LoadingModelViewerElement;
+	var _a, _b, _c, _d, _e, _f, _g, _h;
+	class LoadingModelViewerElement extends ModelViewerElement {
+		static set dracoDecoderLocation(value) {
+			CachingGLTFLoader.setDRACODecoderLocation(value);
+		}
+		static get dracoDecoderLocation() {
+			return CachingGLTFLoader.getDRACODecoderLocation();
+		}
+		static set ktx2TranscoderLocation(value) {
+			CachingGLTFLoader.setKTX2TranscoderLocation(value);
+		}
+		static get ktx2TranscoderLocation() {
+			return CachingGLTFLoader.getKTX2TranscoderLocation();
+		}
+		static set meshoptDecoderLocation(value) {
+			CachingGLTFLoader.setMeshoptDecoderLocation(value);
+		}
+		static get meshoptDecoderLocation() {
+			return CachingGLTFLoader.getMeshoptDecoderLocation();
+		}
+		static set lottieLoaderLocation(value) {
+			Renderer.singleton.textureUtils.lottieLoaderUrl = value;
+		}
+		static get lottieLoaderLocation() {
+			return Renderer.singleton.textureUtils.lottieLoaderUrl;
+		}
+		/**
+		 * If provided, the callback will be passed each resource URL before a
+		 * request is sent. The callback may return the original URL, or a new URL
+		 * to override loading behavior. This behavior can be used to load assets
+		 * from .ZIP files, drag-and-drop APIs, and Data URIs.
+		 */
+		static mapURLs(callback) {
+			Renderer.singleton.loader[$loader].manager.setURLModifier(callback);
+		}
+		/**
+		 * Dismisses the poster, causing the model to load and render if
+		 * necessary. This is currently effectively the same as interacting with
+		 * the poster via user input.
+		 */
+		dismissPoster() {
+			if (this.loaded) {
+				this[$hidePoster]();
+			}
+			else {
+				this[$shouldDismissPoster] = true;
+				this[$updateSource]();
+			}
+		}
+		/**
+		 * Displays the poster, hiding the 3D model. If this is called after the 3D
+		 * model has been revealed, then it must be dismissed by a call to
+		 * dismissPoster().
+		 */
+		showPoster() {
+			const posterContainerElement = this[$posterContainerElement];
+			if (posterContainerElement.classList.contains('show')) {
+				return;
+			}
+			posterContainerElement.classList.add('show');
+			this[$userInputElement].classList.remove('show');
+			const defaultPosterElement = this[$defaultPosterElement];
+			defaultPosterElement.removeAttribute('tabindex');
+			defaultPosterElement.removeAttribute('aria-hidden');
+			const oldVisibility = this.modelIsVisible;
+			this[$modelIsRevealed] = false;
+			this[$announceModelVisibility](oldVisibility);
+		}
+		/**
+		 * Returns the model's bounding box dimensions in meters, independent of
+		 * turntable rotation.
+		 */
+		getDimensions() {
+			return toVector3D(this[$scene].size);
+		}
+		getBoundingBoxCenter() {
+			return toVector3D(this[$scene].boundingBox.getCenter(new Vector3()));
+		}
+		constructor(...args) {
+			super(...args);
+			/**
+			 * A URL pointing to the image to use as a poster in scenarios where the
+			 * <model-viewer> is not ready to reveal a rendered model to the viewer.
+			 */
+			this.poster = null;
+			/**
+			 * An enumerable attribute describing under what conditions the
+			 * <model-viewer> should reveal a model to the viewer.
+			 *
+			 * The default value is "auto". The only supported alternative values is
+			 * "manual".
+			 */
+			this.reveal = RevealStrategy.AUTO;
+			/**
+			 * An enumerable attribute describing under what conditions the
+			 * <model-viewer> should preload a model.
+			 *
+			 * The default value is "auto". The only supported alternative values are
+			 * "lazy" and "eager". Auto is equivalent to lazy, which loads the model
+			 * when it is near the viewport for reveal = "auto", and when interacted
+			 * with for reveal = "interaction". Eager loads the model immediately.
+			 */
+			this.loading = LoadingStrategy.AUTO;
+			this[_a] = false;
+			this[_b] = false;
+			// TODO: Add this to the shadow root as part of this mixin's
+			// implementation:
+			this[_c] = this.shadowRoot.querySelector('.slot.poster');
+			this[_d] = this.shadowRoot.querySelector('#default-poster');
+			this[_e] = this.shadowRoot.querySelector('#default-progress-bar > .bar');
+			this[_f] = this[$defaultPosterElement].getAttribute('aria-label');
+			this[_g] = throttle((progress) => {
+				const parentNode = this[$defaultProgressBarElement].parentNode;
+				requestAnimationFrame(() => {
+					this[$defaultProgressBarElement].style.transform =
+						`scaleX(${progress})`;
+					if (progress === 0) {
+						// NOTE(cdata): We remove and re-append the progress bar in this
+						// condition so that the progress bar does not appear to
+						// transition backwards from the right when we reset to 0 (or
+						// otherwise <1) progress after having already reached 1 progress
+						// previously.
+						parentNode.removeChild(this[$defaultProgressBarElement]);
+						parentNode.appendChild(this[$defaultProgressBarElement]);
+					}
+					this[$defaultProgressBarElement].classList.toggle('hide', progress === 1.0);
+				});
+			}, PROGRESS_BAR_UPDATE_THRESHOLD);
+			this[_h] = (event) => {
+				const progress = event.detail.totalProgress;
+				const reason = event.detail.reason;
+				if (progress === 1.0) {
+					this[$updateProgressBar].flush();
+					if (this.loaded &&
+						(this[$shouldDismissPoster] ||
+							this.reveal === RevealStrategy.AUTO)) {
+						this[$hidePoster]();
+					}
+				}
+				this[$updateProgressBar](progress);
+				this.dispatchEvent(new CustomEvent('progress', { detail: { totalProgress: progress, reason } }));
+			};
+			const ModelViewerElement = self.ModelViewerElement || {};
+			const dracoDecoderLocation = ModelViewerElement.dracoDecoderLocation ||
+				DEFAULT_DRACO_DECODER_LOCATION;
+			CachingGLTFLoader.setDRACODecoderLocation(dracoDecoderLocation);
+			const ktx2TranscoderLocation = ModelViewerElement.ktx2TranscoderLocation ||
+				DEFAULT_KTX2_TRANSCODER_LOCATION;
+			CachingGLTFLoader.setKTX2TranscoderLocation(ktx2TranscoderLocation);
+			if (ModelViewerElement.meshoptDecoderLocation) {
+				CachingGLTFLoader.setMeshoptDecoderLocation(ModelViewerElement.meshoptDecoderLocation);
+			}
+			const lottieLoaderLocation = ModelViewerElement.lottieLoaderLocation ||
+				DEFAULT_LOTTIE_LOADER_LOCATION;
+			Renderer.singleton.textureUtils.lottieLoaderUrl = lottieLoaderLocation;
+		}
+		connectedCallback() {
+			super.connectedCallback();
+			if (!this.loaded) {
+				this.showPoster();
+			}
+			this[$progressTracker].addEventListener('progress', this[$onProgress]);
+		}
+		disconnectedCallback() {
+			super.disconnectedCallback();
+			this[$progressTracker].removeEventListener('progress', this[$onProgress]);
+		}
+		async updated(changedProperties) {
+			super.updated(changedProperties);
+			if (changedProperties.has('poster') && this.poster != null) {
+				this[$defaultPosterElement].style.backgroundImage =
+					`url(${this.poster})`;
+			}
+			if (changedProperties.has('alt')) {
+				this[$defaultPosterElement].setAttribute('aria-label', this[$altDefaulted]);
+			}
+			if (changedProperties.has('reveal') || changedProperties.has('loading')) {
+				this[$updateSource]();
+			}
+		}
+		[(_a = $modelIsRevealed, _b = $shouldDismissPoster, _c = $posterContainerElement, _d = $defaultPosterElement, _e = $defaultProgressBarElement, _f = $ariaLabelCallToAction, _g = $updateProgressBar, _h = $onProgress, $shouldAttemptPreload)]() {
+			return !!this.src &&
+				(this[$shouldDismissPoster] ||
+					this.loading === LoadingStrategy.EAGER ||
+					(this.reveal === RevealStrategy.AUTO && this[$isElementInViewport]));
+		}
+		[$hidePoster]() {
+			this[$shouldDismissPoster] = false;
+			const posterContainerElement = this[$posterContainerElement];
+			if (!posterContainerElement.classList.contains('show')) {
+				return;
+			}
+			posterContainerElement.classList.remove('show');
+			this[$userInputElement].classList.add('show');
+			const oldVisibility = this.modelIsVisible;
+			this[$modelIsRevealed] = true;
+			this[$announceModelVisibility](oldVisibility);
+			const root = this.getRootNode();
+			// If the <model-viewer> is still focused, forward the focus to
+			// the canvas that has just been revealed
+			if (root && root.activeElement === this) {
+				this[$userInputElement].focus();
+			}
+			// Ensure that the poster is no longer focusable or visible to
+			// screen readers
+			const defaultPosterElement = this[$defaultPosterElement];
+			defaultPosterElement.setAttribute('aria-hidden', 'true');
+			defaultPosterElement.tabIndex = -1;
+			this.dispatchEvent(new CustomEvent('poster-dismissed'));
+		}
+		[$getModelIsVisible]() {
+			return super[$getModelIsVisible]() && this[$modelIsRevealed];
+		}
+	}
+	__decorate$1([
+		n$2({ type: String })
+	], LoadingModelViewerElement.prototype, "poster", void 0);
+	__decorate$1([
+		n$2({ type: String })
+	], LoadingModelViewerElement.prototype, "reveal", void 0);
+	__decorate$1([
+		n$2({ type: String })
+	], LoadingModelViewerElement.prototype, "loading", void 0);
+	return LoadingModelViewerElement;
 };
 
 /* @license
@@ -65611,91 +65693,91 @@ const LoadingMixin = (ModelViewerElement) => {
  * limitations under the License.
  */
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
+	var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+	for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+	return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 // How much the model will rotate per
 // second in radians:
 const DEFAULT_ROTATION_SPEED = Math.PI / 32;
 const AUTO_ROTATE_DELAY_DEFAULT = 3000;
 const rotationRateIntrinsics = {
-    basis: [degreesToRadians(numberNode(DEFAULT_ROTATION_SPEED, 'rad'))],
-    keywords: { auto: [null] }
+	basis: [degreesToRadians(numberNode(DEFAULT_ROTATION_SPEED, 'rad'))],
+	keywords: { auto: [null] }
 };
 const $autoRotateStartTime = Symbol('autoRotateStartTime');
 const $radiansPerSecond = Symbol('radiansPerSecond');
 const $syncRotationRate = Symbol('syncRotationRate');
 const $onCameraChange = Symbol('onCameraChange');
 const StagingMixin = (ModelViewerElement) => {
-    var _a, _b, _c;
-    class StagingModelViewerElement extends ModelViewerElement {
-        constructor() {
-            super(...arguments);
-            this.autoRotate = false;
-            this.autoRotateDelay = AUTO_ROTATE_DELAY_DEFAULT;
-            this.rotationPerSecond = 'auto';
-            this[_a] = performance.now();
-            this[_b] = 0;
-            this[_c] = (event) => {
-                if (!this.autoRotate) {
-                    return;
-                }
-                if (event.detail.source === 'user-interaction') {
-                    this[$autoRotateStartTime] = performance.now();
-                }
-            };
-        }
-        connectedCallback() {
-            super.connectedCallback();
-            this.addEventListener('camera-change', this[$onCameraChange]);
-            this[$autoRotateStartTime] = performance.now();
-        }
-        disconnectedCallback() {
-            super.disconnectedCallback();
-            this.removeEventListener('camera-change', this[$onCameraChange]);
-            this[$autoRotateStartTime] = performance.now();
-        }
-        updated(changedProperties) {
-            super.updated(changedProperties);
-            if (changedProperties.has('autoRotate')) {
-                this[$autoRotateStartTime] = performance.now();
-            }
-        }
-        [(_a = $autoRotateStartTime, _b = $radiansPerSecond, $syncRotationRate)](style) {
-            this[$radiansPerSecond] = style[0];
-        }
-        [$tick](time, delta) {
-            super[$tick](time, delta);
-            if (!this.autoRotate || !this[$getModelIsVisible]() ||
-                this[$renderer].isPresenting) {
-                return;
-            }
-            const rotationDelta = Math.min(delta, time - this[$autoRotateStartTime] - this.autoRotateDelay);
-            if (rotationDelta > 0) {
-                this[$scene].yaw = this.turntableRotation +
-                    this[$radiansPerSecond] * rotationDelta * 0.001;
-            }
-        }
-        get turntableRotation() {
-            return this[$scene].yaw;
-        }
-        resetTurntableRotation(theta = 0) {
-            this[$scene].yaw = theta;
-        }
-    }
-    _c = $onCameraChange;
-    __decorate([
-        n$2({ type: Boolean, attribute: 'auto-rotate' })
-    ], StagingModelViewerElement.prototype, "autoRotate", void 0);
-    __decorate([
-        n$2({ type: Number, attribute: 'auto-rotate-delay' })
-    ], StagingModelViewerElement.prototype, "autoRotateDelay", void 0);
-    __decorate([
-        style({ intrinsics: rotationRateIntrinsics, updateHandler: $syncRotationRate }),
-        n$2({ type: String, attribute: 'rotation-per-second' })
-    ], StagingModelViewerElement.prototype, "rotationPerSecond", void 0);
-    return StagingModelViewerElement;
+	var _a, _b, _c;
+	class StagingModelViewerElement extends ModelViewerElement {
+		constructor() {
+			super(...arguments);
+			this.autoRotate = false;
+			this.autoRotateDelay = AUTO_ROTATE_DELAY_DEFAULT;
+			this.rotationPerSecond = 'auto';
+			this[_a] = performance.now();
+			this[_b] = 0;
+			this[_c] = (event) => {
+				if (!this.autoRotate) {
+					return;
+				}
+				if (event.detail.source === 'user-interaction') {
+					this[$autoRotateStartTime] = performance.now();
+				}
+			};
+		}
+		connectedCallback() {
+			super.connectedCallback();
+			this.addEventListener('camera-change', this[$onCameraChange]);
+			this[$autoRotateStartTime] = performance.now();
+		}
+		disconnectedCallback() {
+			super.disconnectedCallback();
+			this.removeEventListener('camera-change', this[$onCameraChange]);
+			this[$autoRotateStartTime] = performance.now();
+		}
+		updated(changedProperties) {
+			super.updated(changedProperties);
+			if (changedProperties.has('autoRotate')) {
+				this[$autoRotateStartTime] = performance.now();
+			}
+		}
+		[(_a = $autoRotateStartTime, _b = $radiansPerSecond, $syncRotationRate)](style) {
+			this[$radiansPerSecond] = style[0];
+		}
+		[$tick](time, delta) {
+			super[$tick](time, delta);
+			if (!this.autoRotate || !this[$getModelIsVisible]() ||
+				this[$renderer].isPresenting) {
+				return;
+			}
+			const rotationDelta = Math.min(delta, time - this[$autoRotateStartTime] - this.autoRotateDelay);
+			if (rotationDelta > 0) {
+				this[$scene].yaw = this.turntableRotation +
+					this[$radiansPerSecond] * rotationDelta * 0.001;
+			}
+		}
+		get turntableRotation() {
+			return this[$scene].yaw;
+		}
+		resetTurntableRotation(theta = 0) {
+			this[$scene].yaw = theta;
+		}
+	}
+	_c = $onCameraChange;
+	__decorate([
+		n$2({ type: Boolean, attribute: 'auto-rotate' })
+	], StagingModelViewerElement.prototype, "autoRotate", void 0);
+	__decorate([
+		n$2({ type: Number, attribute: 'auto-rotate-delay' })
+	], StagingModelViewerElement.prototype, "autoRotateDelay", void 0);
+	__decorate([
+		style({ intrinsics: rotationRateIntrinsics, updateHandler: $syncRotationRate }),
+		n$2({ type: String, attribute: 'rotation-per-second' })
+	], StagingModelViewerElement.prototype, "rotationPerSecond", void 0);
+	return StagingModelViewerElement;
 };
 
 /* @license

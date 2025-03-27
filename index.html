@@ -1,34 +1,40 @@
-<!doctype html>
-<html lang="en">
-
+<!DOCTYPE html>
+<html>
 <head>
-  <title>&lt;model-viewer&gt; template</title>
-  <meta charset="utf-8">
-  <meta name="description" content="&lt;model-viewer&gt; template">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link type="text/css" href="./CSS/styles.css" rel="stylesheet" />
-</head>
-
-<body>
-  <!-- <model-viewer> HTML element -->
-  <model-viewer src="./3D/Nitro-V_parallax_menor.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls
-    poster="./images/Nitro_V.png" shadow-intensity="1">
-    <div class="progress-bar hide" slot="progress-bar">
-      <div class="update-bar"></div>
-    </div>
-    <button slot="ar-button" id="ar-button">
-      Ver no seu espaço
-    </button>
-    <div id="ar-prompt">
-      <img src="./images/ar_hand_prompt.png">
-    </div>
-  </model-viewer>
-
+    <title>Three_js</title>
   <script defer src="https://js.bugfender.com/bugfender-v2.js"></script>
-  <script src="./JS/script.js"></script>
-  <!-- Loads <model-viewer> for browsers: -->
-  <script defer type="module" src="./JS/model-viewer.js"></script>
-
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.7.1/dist/es-module-shims.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.173.0/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.173.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script type="module" src="JS/model-viewer.js"></script>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        model-viewer {
+            width: 80%;
+            height: 80%;
+            margin: auto;
+            display: block;
+        }
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>Notebooks ACER</h1>
+    <model-viewer src="3D/Nitro-V_parallax_menor.glb" alt="Modelo" ar camera-controls></model-viewer>
 </body>
-
 </html>

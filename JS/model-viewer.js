@@ -9,6 +9,8 @@ Bugfender.init({
 	// build: '',
 });
 
+Bugfender.log('iniciou model-viewer.js')
+
 import { ARButtonCustom } from './ARButtonCustom.js';
 
 const TEXT_DEFAULT = "";

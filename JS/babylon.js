@@ -1,8 +1,8 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function () {
     const canvas = document.getElementById('renderCanvas');
     const engine = new BABYLON.Engine(canvas, true);
 
-    const createScene = function() {
+    const createScene = async function () {
         const scene = new BABYLON.Scene(engine);
 
         const camera = new BABYLON.ArcRotateCamera("camera", -Math.PI / 2, Math.PI / 2, 5, BABYLON.Vector3.Zero(), scene);
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const light = new BABYLON.HemisphericLight("light", new BABYLON.Vector3(0, 1, 0), scene);
         light.intensity = 0.7;
 
-        const box = BABYLON.MeshBuilder.CreateBox("cube", {size: 2}, scene);
+        const box = BABYLON.MeshBuilder.CreateBox("cube", { size: 2 }, scene);
 
         // Create parallax mapping material
         const material = new BABYLON.StandardMaterial("parallaxMaterial", scene);
@@ -30,16 +30,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
         box.material = material;
 
+        // Initialize WebXR
+        const xr = await scene.createDefaultXRExperienceAsync({
+            // ask for an ar-session
+            uiOptions: {
+                sessionMode: "immersive-ar",
+            },
+        });
+
         return scene;
     };
 
-    const scene = createScene();
+    const scene = await createScene();
 
-    engine.runRenderLoop(function() {
+    engine.runRenderLoop(function () {
         scene.render();
     });
 
-    window.addEventListener('resize', function() {
+    window.addEventListener('resize', function () {
         engine.resize();
     });
 });

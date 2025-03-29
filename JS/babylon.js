@@ -20,8 +20,8 @@ document.addEventListener('DOMContentLoaded', async function () {
 
         // Create parallax mapping material
         const material = new BABYLON.StandardMaterial("parallaxMaterial", scene);
-        material.diffuseTexture = new BABYLON.Texture("images/map_stone.png", scene);
-        material.bumpTexture = new BABYLON.Texture("images/normalMap_stone.png", scene);
+        material.diffuseTexture = new BABYLON.Texture("../images/map_stone.png", scene);
+        material.bumpTexture = new BABYLON.Texture("../images/normalMap_stone.png", scene);
         material.parallaxScaleBias = 0.1;
         material.useParallax = true;
         material.useParallaxOcclusion = true;

@@ -21,12 +21,12 @@ document.addEventListener('DOMContentLoaded', async function () {
         // Create parallax mapping material
         const material = new BABYLON.StandardMaterial("parallaxMaterial", scene);
         material.diffuseTexture = new BABYLON.Texture("../images/map_stone.png", scene);
-        material.bumpTexture = new BABYLON.Texture("../images/normalMap_stone.png", scene);
-        material.parallaxScaleBias = 0.1;
-        material.useParallax = true;
-        material.useParallaxOcclusion = true;
-        material.specularPower = 1000.0;
-        material.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
+        // material.bumpTexture = new BABYLON.Texture("../images/normalMap_stone.png", scene);
+        // material.parallaxScaleBias = 0.1;
+        // material.useParallax = true;
+        // material.useParallaxOcclusion = true;
+        // material.specularPower = 1000.0;
+        // material.specularColor = new BABYLON.Color3(0.5, 0.5, 0.5);
 
         box.material = material;
 

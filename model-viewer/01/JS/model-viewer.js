@@ -71,7 +71,7 @@ window.addEventListener('load', async () => {
             this.renderer = new THREE.WebGLRenderer( { antialias: true } );
             this.renderer.setSize( modelViewer.clientWidth, modelViewer.clientHeight );
             this.renderer.setClearColor(0xFFFFFF); // Set background color to gray
-            this.renderer.setAnimationLoop( animate_ar );
+            // this.renderer.setAnimationLoop( animate_ar );
             this.renderer.xr.enabled = true;
             this.renderer.gammaInput = true;
             this.renderer.gammaOutput = true;
@@ -132,6 +132,8 @@ window.addEventListener('load', async () => {
             this.controller = this.renderer.xr.getController( 0 );
             this.controller.addEventListener( 'select', onSelect );
             this.scene.add( this.controller );
+
+            requestAnimationFrame(animate_ar);
 
         }
 
@@ -527,95 +529,97 @@ window.addEventListener('load', async () => {
     var threeJSRenderer = new ThreeJSRenderer();
     modelViewer.registerRenderer(threeJSRenderer);
 
-    function animate_ar(timestamp, frame) {
+    // function animate_ar(timestamp, frame) {
+    function animate_ar(timestamp) {
         Bugfender.log('iniciou animate_ar')
 
-        try {
-            if ( frame ) {
+        // try {
+        //     if ( frame ) {
 
-                Bugfender.log('frame = true')
+        //         Bugfender.log('frame = true')
 
-                const referenceSpace = threeJSRenderer.renderer.xr.getReferenceSpace();
-                const session = threeJSRenderer.renderer.xr.getSession();
+        //         const referenceSpace = threeJSRenderer.renderer.xr.getReferenceSpace();
+        //         const session = threeJSRenderer.renderer.xr.getSession();
 
-                if ( threeJSRenderer.hitTestSourceRequested === false ) {
-                    session.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
-                        session.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
-                            threeJSRenderer.hitTestSource = source;
-                        } );
-                    } );
-                    session.addEventListener( 'end', function () {
-                        threeJSRenderer.hitTestSourceRequested = false;
-                        threeJSRenderer.hitTestSource = null;
-                    } );
-                    threeJSRenderer.hitTestSourceRequested = true;
-                }
+        //         if ( threeJSRenderer.hitTestSourceRequested === false ) {
+        //             session.requestReferenceSpace( 'viewer' ).then( function ( referenceSpace ) {
+        //                 session.requestHitTestSource( { space: referenceSpace } ).then( function ( source ) {
+        //                     threeJSRenderer.hitTestSource = source;
+        //                 } );
+        //             } );
+        //             session.addEventListener( 'end', function () {
+        //                 threeJSRenderer.hitTestSourceRequested = false;
+        //                 threeJSRenderer.hitTestSource = null;
+        //             } );
+        //             threeJSRenderer.hitTestSourceRequested = true;
+        //         }
 
-                Bugfender.log('passou pelo if do hitTestSource')
+        //         Bugfender.log('passou pelo if do hitTestSource')
 
-                if ( ! threeJSRenderer.using_ar ) {
-                    threeJSRenderer.scene.remove(threeJSRenderer.object_instance);
-                    threeJSRenderer.updateReticleGeometry();
+        //         if ( ! threeJSRenderer.using_ar ) {
+        //             threeJSRenderer.scene.remove(threeJSRenderer.object_instance);
+        //             threeJSRenderer.updateReticleGeometry();
 
-                    Bugfender.log('mudou para com AR');
-                }
+        //             Bugfender.log('mudou para com AR');
+        //         }
 
-                threeJSRenderer.using_ar = true;
+        //         threeJSRenderer.using_ar = true;
 
-                Bugfender.log('threeJSRenderer.using_ar = true')
+        //         Bugfender.log('threeJSRenderer.using_ar = true')
 
-                // Desenha um circulo de referencia (opcional)
+        //         // Desenha um circulo de referencia (opcional)
 
-                if ( threeJSRenderer.hitTestSource ) {
-                    const hitTestResults = frame.getHitTestResults( threeJSRenderer.hitTestSource );
-                    if ( hitTestResults.length && ! threeJSRenderer.notebook_ar_visible ) {
-                        const hit = hitTestResults[ 0 ];
-                        threeJSRenderer.reticle.visible = true;
-                        threeJSRenderer.reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
+        //         if ( threeJSRenderer.hitTestSource ) {
+        //             const hitTestResults = frame.getHitTestResults( threeJSRenderer.hitTestSource );
+        //             if ( hitTestResults.length && ! threeJSRenderer.notebook_ar_visible ) {
+        //                 const hit = hitTestResults[ 0 ];
+        //                 threeJSRenderer.reticle.visible = true;
+        //                 threeJSRenderer.reticle.matrix.fromArray( hit.getPose( referenceSpace ).transform.matrix );
 
-                        threeJSRenderer.change_message_ar(TEXT_RENDER_OBJECT);
-                    } else {
-                        threeJSRenderer.reticle.visible = false;
+        //                 threeJSRenderer.change_message_ar(TEXT_RENDER_OBJECT);
+        //             } else {
+        //                 threeJSRenderer.reticle.visible = false;
 
-                        if ( ! threeJSRenderer.notebook_ar_visible ) {
-                            threeJSRenderer.change_message_ar(TEXT_RECOGNIZE_SURFACE);
-                        }
-                    }
-                }
+        //                 if ( ! threeJSRenderer.notebook_ar_visible ) {
+        //                     threeJSRenderer.change_message_ar(TEXT_RECOGNIZE_SURFACE);
+        //                 }
+        //             }
+        //         }
 
-                Bugfender.log('passou pelo if da atualização do reticle')
+        //         Bugfender.log('passou pelo if da atualização do reticle')
 
-            }
+        //     }
 
-            else {
+        //     else {
 
-                Bugfender.log('frame = false')
+        //         Bugfender.log('frame = false')
 
-                if ( threeJSRenderer.using_ar && ! threeJSRenderer.renderer.xr.isPresenting ) {
-                    threeJSRenderer.scene.remove(threeJSRenderer.object_instance);
-                    threeJSRenderer.object_instance = null;
+        //         if ( threeJSRenderer.using_ar && ! threeJSRenderer.renderer.xr.isPresenting ) {
+        //             threeJSRenderer.scene.remove(threeJSRenderer.object_instance);
+        //             threeJSRenderer.object_instance = null;
 
-                    threeJSRenderer.using_ar = false;
+        //             threeJSRenderer.using_ar = false;
 
-                    Bugfender.log('mudou para sem AR');
-                }
+        //             Bugfender.log('mudou para sem AR');
+        //         }
 
-                Bugfender.log('passou pelo if da finalização do AR')
+        //         Bugfender.log('passou pelo if da finalização do AR')
 
-                if (threeJSRenderer.object_instance == null) {
-                    threeJSRenderer.object_instance = 1;
-                    threeJSRenderer.carregar_glb(modelViewer.src);
-                }
+        //         if (threeJSRenderer.object_instance == null) {
+        //             threeJSRenderer.object_instance = 1;
+        //             threeJSRenderer.carregar_glb(modelViewer.src);
+        //         }
 
-                Bugfender.log('carregou glb no modo web')
-            }
-        } catch (error) {
-			Bugfender.log('try/catch animate_ar:')
-			Bugfender.log(error)
-        }
+        //         Bugfender.log('carregou glb no modo web')
+        //     }
+        // } catch (error) {
+		// 	Bugfender.log('try/catch animate_ar:')
+		// 	Bugfender.log(error)
+        // }
 
         Bugfender.log('chamando a renderização do threejs')
 
         threeJSRenderer.render_three_js();
+        requestAnimationFrame(animate_ar)
     }
 });

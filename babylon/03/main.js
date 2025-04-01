@@ -8,52 +8,56 @@ Bugfender.init({
 // import "@babylonjs/loaders/glTF";
 // import { TrackingPrompt } from "./tracking-prompt.js";
 
-var engine,
-  scene,
-  engineMat,
-  mats,
-  canvas = null;
-let placed,
-  placeRequest = false;
-let time = 0;
+try {
+  var engine,
+    scene,
+    engineMat,
+    mats,
+    canvas = null;
+  let placed,
+    placeRequest = false;
+  let time = 0;
 
-// check for webxr session support
-if ("xr" in navigator) {
-  navigator.xr.isSessionSupported("immersive-ar").then((supported) => {
-    if (supported) {
-      //hide "ar-not-supported"
-      document.getElementById("ar-not-supported").style.display = "none";
-      init();
-    }
-  });
+  // check for webxr session support
+  if ("xr" in navigator) {
+    navigator.xr.isSessionSupported("immersive-ar").then((supported) => {
+      if (supported) {
+        //hide "ar-not-supported"
+        document.getElementById("ar-not-supported").style.display = "none";
+        init();
+      }
+    });
+  }
+
+  const init = async () => {
+    canvas = document.getElementById("renderCanvas");
+
+    engine = new BABYLON.Engine(canvas, true, {
+      preserveDrawingBuffer: true,
+      stencil: true,
+      disableWebGL2Support: false,
+    });
+
+    engine.displayLoadingUI();
+
+    scene = new BABYLON.Scene(engine);
+    await createScene();
+
+    engine.runRenderLoop(function () {
+      if (scene && scene.activeCamera) {
+        scene.render();
+      }
+    });
+
+    // Resize
+    window.addEventListener("resize", () => {
+      if (!engine) return;
+      engine.resize();
+    });
+  };
+} catch (error) {
+  Bugfender.log('Erro no inicio do main.js: ' + error)
 }
-
-const init = async () => {
-  canvas = document.getElementById("renderCanvas");
-
-  engine = new BABYLON.Engine(canvas, true, {
-    preserveDrawingBuffer: true,
-    stencil: true,
-    disableWebGL2Support: false,
-  });
-
-  engine.displayLoadingUI();
-
-  scene = new BABYLON.Scene(engine);
-  await createScene();
-
-  engine.runRenderLoop(function () {
-    if (scene && scene.activeCamera) {
-      scene.render();
-    }
-  });
-
-  // Resize
-  window.addEventListener("resize", () => {
-    if (!engine) return;
-    engine.resize();
-  });
-};
 
 const createScene = async () => {
   try {
@@ -242,12 +246,16 @@ const createScene = async () => {
 
     return scene;
   } catch (error) {
-    Bugfender.log(error)
+    Bugfender.log('Erro em createScene: ' + error)
   }
 };
 
-const setTransparency = (transparent) => {
-  mats.forEach((mat) => {
-    if (mat.name !== "engines") mat.alpha = transparent ? 0.5 : 1;
-  });
-};
+try {
+  const setTransparency = (transparent) => {
+    mats.forEach((mat) => {
+      if (mat.name !== "engines") mat.alpha = transparent ? 0.5 : 1;
+    });
+  };
+} catch (error) {
+  Bugfender.log('Erro pós createScene: ' + error)
+}

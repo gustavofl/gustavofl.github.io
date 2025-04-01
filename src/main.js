@@ -65,7 +65,7 @@ const createScene = async () => {
   camera.attachControl(canvas, true);
 
   const hdrTexture = BABYLON.CubeTexture.CreateFromPrefilteredData(
-    "/environmentSpecular.env",
+    "../public/environmentSpecular.env",
     scene
   );
   scene.environmentTexture = hdrTexture;
@@ -115,7 +115,7 @@ const createScene = async () => {
   const model = await BABYLON.SceneLoader.ImportMeshAsync(
     "",
     "",
-    "speeder.glb",
+    "../public/speeder.glb",
     scene
   );
 

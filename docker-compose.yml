@@ -1,0 +1,18 @@
+services:
+  web:
+    image: nginx:latest
+    container_name: web_server
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - .:/usr/share/nginx/html
+      - ./docker_config/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker_config/certs:/etc/nginx/certs
+      - ../gerador_automatizado:/usr/share/nginx/html/gerador_automatizado
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    driver: bridge

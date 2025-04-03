@@ -84,7 +84,7 @@ class ARButtonCustom {
 			button.style.left = '25%';
 			button.style.width = '50%';
 
-			button.textContent = 'Carregando Modelo 3D ...';
+			button.textContent = 'Iniciar AR';
 
 			button.onmouseenter = function () {
 
@@ -178,8 +178,8 @@ class ARButtonCustom {
 			element.style.padding = '12px 6px';
 			element.style.border = '0.1em solid #000';
 			element.style.borderRadius = '0.6em';
-			// element.style.background = 'rgba(13, 78, 255)';
-			element.style.background = 'rgba(150, 150, 150)';
+			element.style.background = 'rgba(13, 78, 255)';
+			// element.style.background = 'rgba(150, 150, 150)';
 			element.style.color = '#fff';
 			element.style.font = 'normal 3.5em sans-serif';
 			element.style.textAlign = 'center';

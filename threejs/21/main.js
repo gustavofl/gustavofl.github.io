@@ -444,7 +444,7 @@ window.addEventListener('load', async () => {
           reticleParent.matrix.compose(position, quaternion, scale);
           reticleParent.updateMatrixWorld(true);
 
-            let log_text = z
+            let log_text =
             "reticlePosition: [" + position.x.toFixed(3) + ", " + position.y.toFixed(3) + ", " + position.z.toFixed(3) + "]\n" +
             "reticleQuaternion: [" + quaternion.x.toFixed(3) + ", " + quaternion.y.toFixed(3) + ", " + quaternion.z.toFixed(3) + ", " + quaternion.w.toFixed(3) + "]\n" +
             "reticleScale: [" + scale.x.toFixed(3) + ", " + scale.y.toFixed(3) + ", " + scale.z.toFixed(3) + "]\n" +

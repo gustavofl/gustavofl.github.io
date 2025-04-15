@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Variant Launch ThreeJS Example</title>
+
+  <script type="importmap">
+      {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.173.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.173.0/examples/jsm/"
+        }
+      }
+    </script>
+
+  <script src="https://launchar.app/sdk/v1?key=OtsijVXoXefORgoG7KM4M8yCFtN8vQHM&redirect=true"></script>
+  <script defer src="https://js.bugfender.com/bugfender-v2.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    #threejs_canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #glbSelector {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 40px;
+      position: absolute;
+      padding: 12px 24px;
+      border: 0.1em solid #000;
+      border-color: rgba(196, 196, 196, 0.67);
+      border-radius: 1em;
+      background: rgb(255, 255, 255);
+      color: rgba(13, 161, 0, 0.74);
+      font: normal 2.5em sans-serif;
+      text-align: center;
+      opacity: 1;
+      outline: none;
+      z-index: 999;
+    }
+
+    @keyframes circle {
+      from { transform: translateX(-50%) rotate(0deg) translateX(50px) rotate(0deg); }
+      to { transform: translateX(-50%) rotate(360deg) translateX(50px) rotate(-360deg); }
+    }
+
+    @keyframes elongate {
+      from { transform: translateX(100px); }
+      to { transform: translateX(-100px); }
+    }
+
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0);
+      display: none; /* Hidden by default */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+    }
+
+    .loader {
+      /* border: 16px solid #f3f3f3;
+      border-top: 16px solid #3498db; */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      /* animation: spin 2s linear infinite; */
+    }
+
+    .loader-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+    }
+
+    .loader-track {
+      stroke-dasharray: 377; /* Circumference of the circle */
+      stroke-dashoffset: 377;
+      fill: none;
+      stroke: #f3f3f3;
+      stroke-width: 16;
+      r: 52;
+      cx: 60;
+      cy: 60;
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+
+    .loader-circle {
+      stroke-dasharray: 377; /* Circumference of the circle */
+      stroke-dashoffset: 377;
+      fill: none;
+      stroke: #3498db;
+      stroke-width: 16;
+      r: 52;
+      cx: 60;
+      cy: 60;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      animation: none; /* Remove the spin animation */
+      transition: stroke-dashoffset 0.3s linear; /* Smooth transition */
+    }
+
+    #loading-percentage {
+      color: white;
+      font-size: 1.5em;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <select id="glbSelector">
+    <option value="Aspire-3-15-A315-24P-R31Z.glb" selected>Aspire-3-15-A315-24P-R31Z</option>
+    <option value="Aspire-5-A515-57-57T3.glb">Aspire-5-A515-57-57T3</option>
+    <option value="Aspire5_A515-45.glb">Aspire5_A515-45</option>
+    <option value="Nitro-5-AN515-45.glb">Nitro-5-AN515-45</option>
+    <option value="Nitro-V.glb">Nitro-V</option>
+    <option value="Nitro-AN515-46-R5WF.glb">Nitro-AN515-46-R5WF</option>
+    <option value="Nitro-V_parallax_menor.glb">Nitro-V_parallax_menor</option>
+    <option value="Swift-Go-14-SFG14-71-52TV.glb">Swift-Go-14-SFG14-71-52TV</option>
+    <option value="Swift-X-SFX14-41G-FP.glb">Swift-X-SFX14-41G-FP</option>
+    <option value="TravelMate-P2-14.glb">TravelMate-P2-14</option>
+    <option value="acer-aspire-spin-14-asp14-51.glb">acer-aspire-spin-14-asp14-51</option>
+    <option value="swift-5-SF514-56T-50WL.glb">swift-5-SF514-56T-50WL</option>
+  </select>
+
+  <div id="loading-overlay">
+    <div class="loader-container">
+      <svg class="loader">
+        <circle class="loader-track" cx="60" cy="60" r="52" stroke-width="8"></circle>
+        <circle class="loader-circle" cx="60" cy="60" r="52" stroke-width="8"></circle>
+      </svg>
+      <div id="loading-percentage">0%</div>
+    </div>
+  </div>
+
+  <div id="threejs_canvas"></div>
+  <script defer type="module" src="main.js"></script>
+</body>
+
+</html>

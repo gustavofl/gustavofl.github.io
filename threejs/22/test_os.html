@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Texto Centralizado</title>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #f0f0f0;
+        }
+        #central-text {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #222;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="central-text">Indentificando...</div>
+    <script>
+        const IS_IOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !self.MSStream) ||
+        (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+        const IS_WKWEBVIEW = Boolean(window.webkit && window.webkit.messageHandlers);
+
+        const IS_AR_QUICKLOOK_CANDIDATE = (() => {
+            if (IS_IOS) {
+                if (!IS_WKWEBVIEW) {
+                    const tempAnchor = document.createElement('a');
+                    return Boolean(tempAnchor.relList && tempAnchor.relList.supports &&
+                        tempAnchor.relList.supports('ar'));
+                }
+                else {
+                    return Boolean(/CriOS\/|EdgiOS\/|FxiOS\/|GSA\/|DuckDuckGo\//.test(navigator.userAgent));
+                }
+            }
+            else {
+                return false;
+            }
+        })();
+
+        if (IS_AR_QUICKLOOK_CANDIDATE) {
+            document.getElementById('central-text').textContent = 'É iOS.';
+        } else {
+            document.getElementById('central-text').textContent = 'Não é iOS.';
+        }
+        </script>
+</body>
+</html>

@@ -16,7 +16,7 @@
             width: 80%;
             height: 80%;
             margin: auto;
-            display: block;
+            display: none;
         }
 
         #threejs_canvas {
@@ -25,6 +25,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            display: none;
         }
 
         #glbSelector {
@@ -159,6 +160,10 @@
         </div>
     </div>
 
+    <model-viewer src="../examples/glb/Nitro-V_parallax_menor.glb" auto-rotate camera-controls ar></model-viewer>
+
+    <div id="threejs_canvas" glb_file="../examples/glb/Nitro-V_parallax_menor.glb"></div>
+
     <script>
         const IS_IOS = (/iPad|iPhone|iPod/.test(navigator.userAgent) && !self.MSStream) ||
             (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
@@ -184,13 +189,8 @@
         if (IS_AR_QUICKLOOK_CANDIDATE) {
             import('https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js');
 
-            modelViewerElement = document.createElement("model-viewer");
-            modelViewerElement.setAttribute("src", '../examples/glb/Nitro-V_parallax_menor.glb');
-            modelViewerElement.setAttribute("auto-rotate", "");
-            modelViewerElement.setAttribute("camera-controls", "");
-            modelViewerElement.setAttribute("ar", "");
-
-            document.body.appendChild(modelViewerElement);
+            const modelViewer = document.querySelector('model-viewer');
+            modelViewer.style.display = 'block';
         } else {
             // Dynamically add importmap script
             const importmapScript = document.createElement('script');
@@ -203,10 +203,8 @@
             }, null, 4);
             document.currentScript.after(importmapScript);
 
-            const threejsCanvas = document.createElement('div');
-            threejsCanvas.id = 'threejs_canvas';
-            threejsCanvas.setAttribute("glb_file", '../examples/glb/Nitro-V_parallax_menor.glb');
-            document.body.appendChild(threejsCanvas);
+            const threejsCanvas = document.getElementById('threejs_canvas');
+            threejsCanvas.style.display = 'block';
 
             const mainScript = document.createElement('script');
             mainScript.type = 'module';

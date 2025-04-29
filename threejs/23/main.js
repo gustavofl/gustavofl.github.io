@@ -343,6 +343,8 @@ window.addEventListener('load', async () => {
     const selectedFile = glbSelector.value;
     const glbPath = "../examples/glb/" + selectedFile;
 
+    Bugfender.log(glbPath);
+
     load_glb(glbPath);
 
     controller = renderer.xr.getController(0);

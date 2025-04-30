@@ -11,6 +11,18 @@ services:
       - ./docker_config/certs:/etc/nginx/certs
     networks:
       - webnet
+  
+  logserver:
+    build: 
+      dockerfile: ./docker_config/logserver/Dockerfile
+      context: ./docker_config/logserver
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./docker_config/logserver/app.py:/app/app.py
+      - ./docker_config/logserver/app.log:/app/app.log
+    networks:
+      - webnet
 
 networks:
   webnet:

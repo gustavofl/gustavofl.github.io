@@ -6,7 +6,7 @@ Bugfender.init({
 
 Bugfender.log('inicio')
 
-const DEBUG = true;
+const DEBUG = false;
 
 function enviarLog(mensagem) {
   if (DEBUG) {

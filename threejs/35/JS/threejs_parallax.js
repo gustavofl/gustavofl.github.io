@@ -2,79 +2,6 @@ import { ARButton } from './ARButton.js';
 
 console.log('inicio')
 
-const neutral_lighting = {
-    topLight: {
-        intensity: 3.9603,
-        position: [0.5, 14.0, 0.5],
-    },
-    room: {
-        position: [0.0, 13.2, 0.0],
-        scale: [31.5, 28.5, 31.5],
-    },
-    boxes: [
-        {
-            position: [-10.906, -1, 1.846],
-            rotation: -0.195,
-            scale: [2.328, 7.905, 4.651],
-        },
-        {
-            position: [-5.607, -0.754, -0.758],
-            rotation: 0.994,
-            scale: [1.970, 1.534, 3.955],
-        },
-        {
-            position: [6.167, -0.16, 7.803],
-            rotation: 0.561,
-            scale: [3.927, 6.285, 3.687],
-        },
-        {
-            position: [-2.017, 0.018, 6.124],
-            rotation: 0.333,
-            scale: [2.002, 4.566, 2.064],
-        },
-        {
-            position: [2.291, -0.756, -2.621],
-            rotation: -0.286,
-            scale: [1.546, 1.552, 1.496],
-        },
-        {
-            position: [-2.193, -0.369, -5.547],
-            rotation: 0.516,
-            scale: [3.875, 3.487, 2.986],
-        },
-    ],
-    lights: [
-        {
-            intensity: 1.9512,
-            position: [-14, 10.0, 8.0],
-        },
-        {
-            intensity: 1.9512,
-            position: [-14, 14.0, -4],
-        },
-        {
-            intensity: 0.5609,
-            position: [14.0, 12.0, 0.0],
-        },
-        {
-            intensity: 6.0975,
-            position: [0.0, 2.0, 14.0],
-        },
-        {
-            intensity: 1.9512,
-            position: [7.0, 8.0, -14],
-        },
-        {
-            intensity: 1.9512,
-            position: [-7, 16.0, -14],
-        },
-        {
-            intensity: 0.0244,
-            position: [0.0, 20.0, 0.0],
-        },
-    ]
-};
-
 window.addEventListener('load', async () => {
   const THREE = await import('three');
   const GLTFLoaderModule = await import('three/addons/loaders/GLTFLoader.js');
@@ -83,6 +10,79 @@ window.addEventListener('load', async () => {
   const OrbitControls = OrbitControlsModule.OrbitControls;
   const DRACOLoaderModule = await import('three/addons/loaders/DRACOLoader.js');
   const DRACOLoader = DRACOLoaderModule.DRACOLoader;
+
+  const neutral_lighting = {
+    topLight: {
+      intensity: 3.9603,
+      position: [0.5, 14.0, 0.5],
+    },
+    room: {
+      position: [0.0, 13.2, 0.0],
+      scale: [31.5, 28.5, 31.5],
+    },
+    boxes: [
+      {
+        position: [-10.906, -1, 1.846],
+        rotation: -0.195,
+        scale: [2.328, 7.905, 4.651],
+      },
+      {
+        position: [-5.607, -0.754, -0.758],
+        rotation: 0.994,
+        scale: [1.970, 1.534, 3.955],
+      },
+      {
+        position: [6.167, -0.16, 7.803],
+        rotation: 0.561,
+        scale: [3.927, 6.285, 3.687],
+      },
+      {
+        position: [-2.017, 0.018, 6.124],
+        rotation: 0.333,
+        scale: [2.002, 4.566, 2.064],
+      },
+      {
+        position: [2.291, -0.756, -2.621],
+        rotation: -0.286,
+        scale: [1.546, 1.552, 1.496],
+      },
+      {
+        position: [-2.193, -0.369, -5.547],
+        rotation: 0.516,
+        scale: [3.875, 3.487, 2.986],
+      },
+    ],
+    lights: [
+      {
+        intensity: 1.9512,
+        position: [-14, 10.0, 8.0],
+      },
+      {
+        intensity: 1.9512,
+        position: [-14, 14.0, -4],
+      },
+      {
+        intensity: 0.5609,
+        position: [14.0, 12.0, 0.0],
+      },
+      {
+        intensity: 6.0975,
+        position: [0.0, 2.0, 14.0],
+      },
+      {
+        intensity: 1.9512,
+        position: [7.0, 8.0, -14],
+      },
+      {
+        intensity: 1.9512,
+        position: [-7, 16.0, -14],
+      },
+      {
+        intensity: 0.0244,
+        position: [0.0, 20.0, 0.0],
+      },
+    ]
+  };
 
   class EnvironmentScene extends THREE.Scene {
       constructor() {

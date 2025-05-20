@@ -117,38 +117,38 @@ window.addEventListener('load', async () => {
     }
 
     createEnvironment() {
-        this.room = new THREE.Mesh(this.geometry, this.roomMaterial);
-        this.room.position.set(...this.data.room.position);
-        this.room.scale.set(...this.data.room.scale);
-        this.room.visible = false;
-        this.add(this.room);
+        // this.room = new THREE.Mesh(this.geometry, this.roomMaterial);
+        // this.room.position.set(...this.data.room.position);
+        // this.room.scale.set(...this.data.room.scale);
+        // this.room.visible = false;
+        // this.add(this.room);
 
-        this.boxes = [];
-        for (const box of this.data.boxes) {
-            const mesh = new THREE.Mesh(this.geometry, this.boxMaterial);
-            mesh.position.set(...box.position);
-            mesh.rotation.set(0, box.rotation, 0);
-            mesh.scale.set(...box.scale);
-            mesh.visible = false;
-            this.add(mesh);
-            this.boxes.push(mesh);
-        }
+        // this.boxes = [];
+        // for (const box of this.data.boxes) {
+        //     const mesh = new THREE.Mesh(this.geometry, this.boxMaterial);
+        //     mesh.position.set(...box.position);
+        //     mesh.rotation.set(0, box.rotation, 0);
+        //     mesh.scale.set(...box.scale);
+        //     mesh.visible = false;
+        //     this.add(mesh);
+        //     this.boxes.push(mesh);
+        // }
     }
 
     removeEnvironment() {
-        if (this.room) {
-            this.remove(this.room);
-            this.room.geometry.dispose();
-            this.room.material.dispose();
-            this.room = null;
-        }
+        // if (this.room) {
+        //     this.remove(this.room);
+        //     this.room.geometry.dispose();
+        //     this.room.material.dispose();
+        //     this.room = null;
+        // }
 
-        for (const box of this.boxes) {
-            this.remove(box);
-            box.geometry.dispose();
-            box.material.dispose();
-        }
-        this.boxes = [];
+        // for (const box of this.boxes) {
+        //     this.remove(box);
+        //     box.geometry.dispose();
+        //     box.material.dispose();
+        // }
+        // this.boxes = [];
     }
 }
 

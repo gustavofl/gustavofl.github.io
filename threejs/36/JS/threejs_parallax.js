@@ -482,7 +482,7 @@ window.addEventListener('load', async () => {
     document.body.appendChild(container);
 
     scene = new EnvironmentScene();
-    scene.background = new THREE.Color(0xffffff);
+    // scene.background = new THREE.Color(0xffffff);
 
     camera = new THREE.PerspectiveCamera(
       camera_fov,

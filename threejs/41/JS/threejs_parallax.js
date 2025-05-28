@@ -220,11 +220,17 @@ window.addEventListener('load', async () => {
     
     scene.add(mesh);
 
-    hitPlane = new THREE.Mesh(new THREE.PlaneGeometry(0.001, 0.001));
+    // const RADIUS = 0.2;
+    // const { size, boundingBox } = scene;
+    // const x = size.x / 2;
+    // const y = size.y / 2;
+    hitPlane = new THREE.Mesh(new THREE.PlaneGeometry(1,1));
     hitPlane.position.copy(mesh.position);
     hitPlane.rotation.x = -Math.PI / 2;
     hitPlane.visible = false;
     hitPlane.material.side = THREE.DoubleSide;
+    hitPlane.material.transparent = true;
+    hitPlane.material.opacity = 0.0;
 
     scene.add(hitPlane);
 
@@ -717,8 +723,8 @@ window.addEventListener('load', async () => {
           hitPlane.scale.set(1000, 1000, 1000);
           hitPlane.updateMatrixWorld();
           let location = positionAndNormalFromPoint(vector2, hitPlane);
-          hitPlane.scale.set(0.001, 0.001, 0.001);
-          hitPlane.updateMatrixWorld();
+          hitPlane.scale.set(1, 1, 1);
+          // hitPlane.updateMatrixWorld();
           hitPlane.visible = false;
 
           if (!location) {

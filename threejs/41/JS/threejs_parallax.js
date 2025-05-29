@@ -93,45 +93,71 @@ window.addEventListener('load', async () => {
   const DRACOLoader = DRACOLoaderModule.DRACOLoader;
 
   class EnvironmentScene extends THREE.Scene {
-      constructor() {
-          super();
-          // this.position.y = -3.5;
-          const geometry = new THREE.BoxGeometry();
-          geometry.deleteAttribute('uv');
-          const roomMaterial = new THREE.MeshStandardMaterial({ metalness: 0, side: THREE.BackSide });
-          const boxMaterial = new THREE.MeshStandardMaterial({ metalness: 0 });
-          const data = neutral_lighting;
+    constructor() {
+      super();
 
-          const mainLight = new THREE.AmbientLight(0xffffff, data.topLight.intensity);
-          mainLight.position.set(...data.topLight.position);
-          this.add(mainLight);
+      this.room = null;
+      this.boxes = [];
 
-          const room = new THREE.Mesh(geometry, roomMaterial);
-          room.position.set(...data.room.position);
-          room.scale.set(...data.room.scale);
-          room.visible = false;
-          this.add(room);
+      this.geometry = new THREE.BoxGeometry();
+      this.geometry.deleteAttribute('uv');
 
-          for (const box of data.boxes) {
-              const box1 = new THREE.Mesh(geometry, boxMaterial);
-              box1.position.set(...box.position);
-              box1.rotation.set(0, box.rotation, 0);
-              box1.scale.set(...box.scale);
-              box1.visible = false;
-              this.add(box1);
-          }
+      this.roomMaterial = new THREE.MeshStandardMaterial({ metalness: 0, side: THREE.BackSide });
+      this.boxMaterial = new THREE.MeshStandardMaterial({ metalness: 0 });
 
-          for (const light of data.lights) {
-              const light1 = new THREE.DirectionalLight(0xffffff, light.intensity);
-              light1.position.set(...light.position);
-              this.add(light1);
-          }
+      this.data = neutral_lighting;
+
+      this.setupLights();
+
+      this.createEnvironment();
+    }
+
+    setupLights() {
+      const mainLight = new THREE.AmbientLight(0xffffff, this.data.topLight.intensity);
+      mainLight.position.set(...this.data.topLight.position);
+      this.add(mainLight);
+
+      for (const light of this.data.lights) {
+          const dirLight = new THREE.DirectionalLight(0xffffff, light.intensity);
+          dirLight.position.set(...light.position);
+          this.add(dirLight);
       }
-      createAreaLightMaterial(intensity) {
-          const material = new THREE.MeshBasicMaterial();
-          material.color.setScalar(intensity);
-          return material;
+    }
+
+    createEnvironment() {
+      this.room = new THREE.Mesh(this.geometry, this.roomMaterial);
+      this.room.position.set(...this.data.room.position);
+      this.room.scale.set(...this.data.room.scale);
+      this.room.visible = false;
+      this.add(this.room);
+
+      this.boxes = [];
+      for (const box of this.data.boxes) {
+          const mesh = new THREE.Mesh(this.geometry, this.boxMaterial);
+          mesh.position.set(...box.position);
+          mesh.rotation.set(0, box.rotation, 0);
+          mesh.scale.set(...box.scale);
+          mesh.visible = false;
+          this.add(mesh);
+          this.boxes.push(mesh);
       }
+    }
+
+    removeEnvironment() {
+      if (this.room) {
+          this.remove(this.room);
+          this.room.geometry.dispose();
+          this.room.material.dispose();
+          this.room = null;
+      }
+
+      for (const box of this.boxes) {
+          this.remove(box);
+          box.geometry.dispose();
+          box.material.dispose();
+      }
+      this.boxes = [];
+    }
   }
 
   const dracoLoader = new DRACOLoader();
@@ -549,6 +575,8 @@ window.addEventListener('load', async () => {
 
         create_note();
         mesh_note.visible = false;
+
+        scene.removeEnvironment();
       }
 
       if (! overlay_listeners_created) {
@@ -762,6 +790,8 @@ window.addEventListener('load', async () => {
       if (rodando_ar === true) {
         remove_note();
         create_note();
+
+        scene.createEnvironment();
 
         rodando_ar = false;
       }

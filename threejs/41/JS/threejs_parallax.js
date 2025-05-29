@@ -220,17 +220,19 @@ window.addEventListener('load', async () => {
     
     scene.add(mesh);
 
-    // const RADIUS = 0.2;
-    // const { size, boundingBox } = scene;
-    // const x = size.x / 2;
-    // const y = size.y / 2;
-    hitPlane = new THREE.Mesh(new THREE.PlaneGeometry(1,1));
+    const textureLoader = new THREE.TextureLoader();
+    const transparentTexture = textureLoader.load('../examples/image/tranparencia.png');
+
+    hitPlane = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.36, 0.24).rotateX(-Math.PI / 2),
+      new THREE.MeshBasicMaterial({ map: transparentTexture, transparent: true })
+    );
     hitPlane.position.copy(mesh.position);
-    hitPlane.rotation.x = -Math.PI / 2;
+    // hitPlane.rotation.x = -Math.PI / 2;
     hitPlane.visible = false;
-    hitPlane.material.side = THREE.DoubleSide;
-    hitPlane.material.transparent = true;
-    hitPlane.material.opacity = 0.0;
+    // hitPlane.material.side = THREE.DoubleSide;
+    // hitPlane.material.transparent = true;
+    // hitPlane.material.opacity = 0.0;
 
     scene.add(hitPlane);
 

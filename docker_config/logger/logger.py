@@ -1,10 +1,14 @@
 from flask import Flask, request
+from datetime import datetime
+import pytz
 
 app = Flask(__name__)
 
 def log(message):
+    recife_tz = pytz.timezone('America/Recife')
+    now = datetime.now(recife_tz).strftime('%Y-%m-%d %H:%M:%S')
     with open('/app/request.log', 'a') as log_file:
-        log_file.write(f"{message}\n")
+        log_file.write(f"[{now}] {message}\n")
 
 @app.route('/', methods=['GET','POST', 'PUT', 'PATCH'])
 def log_request():

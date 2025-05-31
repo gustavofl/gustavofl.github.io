@@ -15,7 +15,7 @@ services:
     volumes:
       - ./docker_config/logger:/app
     command: >
-      sh -c "pip install flask && python -u /app/logger.py"
+      sh -c "pip install flask pytz && python -u /app/logger.py"
     ports:
       - "5000:5000"
     working_dir: /app

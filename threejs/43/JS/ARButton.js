@@ -63,9 +63,9 @@ class ARButton {
 				promptsContainer.style.justifyContent = 'space-between'; // Distribuir o espaço verticalmente
 				promptsContainer.style.display = 'none';
 
-				// Criar o elemento div com o id "tap-prompt"
+				// Criar o elemento div com o id "message-div"
 				const messageDiv = document.createElement('div');
-				messageDiv.id = 'tap-prompt';
+				messageDiv.id = 'message-div';
 				messageDiv.style.width = '100%';
 				messageDiv.style.height = '60%';
 				messageDiv.style.backgroundColor = 'rgba(220, 220, 220, 0.5)';

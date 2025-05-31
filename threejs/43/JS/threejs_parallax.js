@@ -262,9 +262,9 @@ window.addEventListener('load', async () => {
     const textureLoader = new THREE.TextureLoader();
     const transparentTexture = textureLoader.load('../examples/image/tranparencia.png');
 
+    const fator = 1.2;
     hitPlane = new THREE.Mesh(
-      new THREE.PlaneGeometry(0.36, 0.24).rotateX(-Math.PI / 2),
-      // new THREE.MeshBasicMaterial({ map: transparentTexture, transparent: true })
+      new THREE.PlaneGeometry(0.36*fator, 0.24*fator).rotateX(-Math.PI / 2),
       new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 })
     );
     hitPlane.position.copy(mesh.position);
@@ -588,11 +588,19 @@ window.addEventListener('load', async () => {
   }
 
   function hitPlane_getHit(scene, screenX, screenY) {
-    const vector2$1 = new THREE.Vector2(screenX, screenY);
-    hitPlane.visible = true;
-    const hitResult = scene.positionAndNormalFromPoint(vector2$1, hitPlane);
-    hitPlane.visible = false;
+    const vector2$1 = new THREE.Vector2(screenX, -screenY);
+    // hitPlane.visible = true;
+    const hitResult = positionAndNormalFromPoint(vector2$1, hitPlane);
+    // hitPlane.visible = false;
     return hitResult == null ? null : hitResult.position;
+  }
+
+  function hitPlane_getExpandedHit(scene, screenX, screenY) {
+    hitPlane.scale.set(1000, 1000, 1000);
+    hitPlane.updateMatrixWorld();
+    const hitResult = hitPlane_getHit(scene, screenX, screenY);
+    hitPlane.scale.set(1, 1, 1);
+    return hitResult;
   }
 
   function hitFromPoint(ndcPosition, object) {
@@ -606,31 +614,12 @@ window.addEventListener('load', async () => {
       return null;
     }
     const position = hit.point;
-    return position;
+    return {position};
   }
-
-      getExpandedHit(scene, screenX, screenY) {
-        this.hitPlane.scale.set(1000, 1000, 1000);
-        this.hitPlane.updateMatrixWorld();
-        const hitResult = this.getHit(scene, screenX, screenY);
-        this.hitPlane.scale.set(1, 1, 1);
-        return hitResult;
-    }
 
   function getTouchLocation() {
     const { axes } = inputSource.gamepad;
-    const vector2 = new THREE.Vector2(axes[0], -axes[1]);
-    hitPlane.scale.set(1000, 1000, 1000);
-    hitPlane.updateMatrixWorld();
-    hitPlane.visible = true;
-    let location = positionAndNormalFromPoint(vector2, hitPlane);
-    hitPlane.visible = false;
-    hitPlane.scale.set(1, 1, 1);
-    // hitPlane.updateMatrixWorld();
-
-    if (!location) {
-      return null;
-    }
+    let location = hitPlane_getExpandedHit(scene, axes[0], axes[1]);
     return location;
   }
 
@@ -722,18 +711,23 @@ window.addEventListener('load', async () => {
         const fingers = frame.getHitTestResultsForTransientInput(transientHitTestSource);
 
         if (fingers.length === 1) {
+          try {
             inputSource = event.inputSource;
             const { axes } = inputSource.gamepad;
             const hitPosition = hitPlane_getHit(scene, axes[0], axes[1]);
+
             // box.show = true;
             if (hitPosition != null) {
-                isTranslating = true;
-                lastDragPosition.copy(hitPosition);
+              isTranslating = true;
+              lastDragPosition.copy(hitPosition);
             }
             else {
-                isRotating = true;
-                lastAngle = axes[0] * ROTATION_RATE;
+              isRotating = true;
+              lastAngle = axes[0] * ROTATION_RATE;
             }
+          } catch (error) {
+            console.log('Erro no processamento do selectstart: ' + error);
+          }
         }
         // else if (fingers.length === 2) {
         //     // box.show = true;
@@ -741,6 +735,9 @@ window.addEventListener('load', async () => {
         //     const { separation } = this.fingerPolar(fingers);
         //     this.firstRatio = separation / scene.pivot.scale.x;
         // }
+        else {
+          // document.getElementById("message-div").textContent = "sem ação";
+        }
       })
 
       if (hitTestSourceRequested === false) {
@@ -813,15 +810,15 @@ window.addEventListener('load', async () => {
             planeFound = false;
           }
 
-          if (!mesh_note.visible) {
-            possui_instancia = false;
-            mesh_note.visible = false;
-            hitPlane.visible = false;
-            document.getElementById("prompts-container").style.display = "none";
-            document.getElementById("tracking-prompt").style.display = "block";
-          } else {
-            document.getElementById("tracking-prompt").style.display = "none";
-          }
+          // if (!mesh_note.visible) {
+          //   possui_instancia = false;
+          //   mesh_note.visible = false;
+          //   hitPlane.visible = false;
+          //   document.getElementById("prompts-container").style.display = "none";
+          //   document.getElementById("tracking-prompt").style.display = "block";
+          // } else {
+          //   document.getElementById("tracking-prompt").style.display = "none";
+          // }
         }
       } else if (mesh_note.visible && transientHitTestSource && !rotacionando_direita && !rotacionando_esquerda && !interactionWithUI && isTranslating) {
         const fingers = frame.getHitTestResultsForTransientInput(transientHitTestSource);

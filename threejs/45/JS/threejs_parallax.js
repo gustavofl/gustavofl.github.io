@@ -257,12 +257,13 @@ window.addEventListener('load', async () => {
     scene.add(mesh);
 
     const textureLoader = new THREE.TextureLoader();
-    const transparentTexture = textureLoader.load('../examples/image/tranparencia.png');
+    const transparentTexture = textureLoader.load('../examples/image/reticle.png');
 
     const fator = 1.5;
     hitPlane = new THREE.Mesh(
       new THREE.PlaneGeometry(0.36*fator, 0.24*fator).rotateX(-Math.PI / 2),
-      new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 })
+      new THREE.MeshBasicMaterial({ map: transparentTexture, transparent: true })
+      // new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.5 })
     );
     hitPlane.position.copy(mesh.position);
     hitPlane.quaternion.copy(mesh.quaternion);

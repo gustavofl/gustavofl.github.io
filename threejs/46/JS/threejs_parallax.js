@@ -204,6 +204,9 @@ window.addEventListener('load', async () => {
   let firstRatio = 0;
   const SCALE_SNAP = 0.05;
 
+  let parametersParallax = null;
+  let initialParallaxScale = 1;
+
   function remove_note() {
     const existingMesh = scene.children.find(child => child.userData.isNoteMesh);
     if (existingMesh) {
@@ -413,6 +416,9 @@ window.addEventListener('load', async () => {
       parameters.uniforms['bumpMap'].value = material.bumpMap;
 
       material.needsUpdate = true;
+
+      parametersParallax = parameters;
+      initialParallaxScale = -1.0 * scale;
 
       return material;
     }
@@ -651,7 +657,7 @@ window.addEventListener('load', async () => {
     if (mesh_note) {
       mesh_note.scale.set(goalScale, goalScale, goalScale);
       hitPlane.scale.set(goalScale, goalScale, goalScale);
-      mesh_scale = goalScale;
+      parametersParallax.uniforms['parallaxScale'].value = initialParallaxScale * goalScale; 
     }
   }
 
@@ -790,9 +796,9 @@ window.addEventListener('load', async () => {
           }
         }
         else if (fingers.length === 2) {
-          this.isTranslating = false;
-          this.isRotating = false;
-          this.isTwoFingering = true;
+          isTranslating = false;
+          isRotating = false;
+          isTwoFingering = true;
           const { separation } = fingerPolar(fingers);
           firstRatio = separation / mesh_note.scale.x;
         }

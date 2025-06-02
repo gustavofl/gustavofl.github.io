@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Variant Launch ThreeJS Example</title>
+
+  <script type="importmap">
+      {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.173.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.173.0/examples/jsm/"
+        }
+      }
+    </script>
+
+  <script src="https://launchar.app/sdk/v1?key=OtsijVXoXefORgoG7KM4M8yCFtN8vQHM&redirect=true"></script>
+
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+
+    button, body, #div_overlay {
+      touch-action: manipulation;
+    }
+
+    #threejs_canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #glbSelector {
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 40px;
+      position: absolute;
+      padding: 12px 24px;
+      border: 0.1em solid #000;
+      border-color: rgba(196, 196, 196, 0.67);
+      border-radius: 1em;
+      background: rgb(255, 255, 255);
+      color: rgba(13, 161, 0, 0.74);
+      font: normal 2.5em sans-serif;
+      text-align: center;
+      opacity: 1;
+      outline: none;
+      z-index: 999;
+    }
+
+    @keyframes circle {
+      from { transform: translateX(-50%) rotate(0deg) translateX(50px) rotate(0deg); }
+      to { transform: translateX(-50%) rotate(360deg) translateX(50px) rotate(-360deg); }
+    }
+
+    @keyframes elongate {
+      from { transform: translateX(100px); }
+      to { transform: translateX(-100px); }
+    }
+
+    #loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0);
+      display: none; /* Hidden by default */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      flex-direction: column;
+    }
+
+    .loader {
+      /* border: 16px solid #f3f3f3;
+      border-top: 16px solid #3498db; */
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      /* animation: spin 2s linear infinite; */
+    }
+
+    .loader-container {
+      position: relative;
+      width: 120px;
+      height: 120px;
+    }
+
+    .loader-track {
+      stroke-dasharray: 377; /* Circumference of the circle */
+      stroke-dashoffset: 377;
+      fill: none;
+      stroke: #f3f3f3;
+      stroke-width: 16;
+      r: 52;
+      cx: 60;
+      cy: 60;
+      transform: rotate(-90deg);
+      transform-origin: center;
+    }
+
+    .loader-circle {
+      stroke-dasharray: 377; /* Circumference of the circle */
+      stroke-dashoffset: 377;
+      fill: none;
+      stroke: #3498db;
+      stroke-width: 16;
+      r: 52;
+      cx: 60;
+      cy: 60;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      animation: none; /* Remove the spin animation */
+      transition: stroke-dashoffset 0.3s linear; /* Smooth transition */
+    }
+
+    #loading-percentage {
+      color: rgb(0, 85, 11);
+      font-size: 1.5em;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="loading-overlay">
+    <div class="loader-container">
+      <svg class="loader">
+        <circle class="loader-track" cx="60" cy="60" r="52" stroke-width="8"></circle>
+        <circle class="loader-circle" cx="60" cy="60" r="52" stroke-width="8"></circle>
+      </svg>
+      <div id="loading-percentage">0%</div>
+    </div>
+  </div>
+
+  <div id="threejs_canvas" glb_file="../examples/glb/output.glb"></div>
+  
+  <script type="module" src="JS/threejs_parallax.js"></script>
+</body>
+
+</html>

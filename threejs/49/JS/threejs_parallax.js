@@ -789,76 +789,76 @@ window.addEventListener('load', async () => {
 
         document.getElementById("message-div").textContent = fingers.length;
 
-        if (isTwoFingering) {
-          if (fingers.length < 2) {
-            isTwoFingering = false;
-          }
-          else {
-            const {separation} = fingerPolar(fingers);
-            setScale(separation);
-          }
-        }
-        else if (fingers.length === 2) {
-          isTranslating = false;
-          isRotating = false;
-          isTwoFingering = true;
-          const { separation } = fingerPolar(fingers);
-          firstRatio = separation / mesh_note.scale.x;
-        }
-        else if (isRotating) {
-          const angle = inputSource.gamepad.axes[0] * ROTATION_RATE;
-          mesh_note.rotateY(angle - lastAngle);
-          hitPlane.rotateY(angle - lastAngle);
-          lastAngle = angle;
-        } else if (isTranslating) {
-          try {
-            if (fingers.length == 1) {
-              let finger = fingers[0];
-              let hit = null;
-              let oldPlane = false;
+        // if (isTwoFingering) {
+        //   if (fingers.length < 2) {
+        //     isTwoFingering = false;
+        //   }
+        //   else {
+        //     const {separation} = fingerPolar(fingers);
+        //     setScale(separation);
+        //   }
+        // }
+        // else if (fingers.length === 2) {
+        //   isTranslating = false;
+        //   isRotating = false;
+        //   isTwoFingering = true;
+        //   const { separation } = fingerPolar(fingers);
+        //   firstRatio = separation / mesh_note.scale.x;
+        // }
+        // else if (isRotating) {
+        //   const angle = inputSource.gamepad.axes[0] * ROTATION_RATE;
+        //   mesh_note.rotateY(angle - lastAngle);
+        //   hitPlane.rotateY(angle - lastAngle);
+        //   lastAngle = angle;
+        // } else if (isTranslating) {
+        //   try {
+        //     if (fingers.length == 1) {
+        //       let finger = fingers[0];
+        //       let hit = null;
+        //       let oldPlane = false;
 
-              if (finger.results.length > 0) {
-                const pose = finger.results[0].getPose(referenceSpace);
-                if (pose && mesh_note) {
-                  hit = pose.transform.position;
-                  if (hit) {
-                    oldPlane = false;
-                  }
-                }
-              }
+        //       if (finger.results.length > 0) {
+        //         const pose = finger.results[0].getPose(referenceSpace);
+        //         if (pose && mesh_note) {
+        //           hit = pose.transform.position;
+        //           if (hit) {
+        //             oldPlane = false;
+        //           }
+        //         }
+        //       }
 
-              if (hit == null) {
-                hit = getTouchLocation();
-                if (hit) {
-                  oldPlane = true;
-                }
-              }
+        //       if (hit == null) {
+        //         hit = getTouchLocation();
+        //         if (hit) {
+        //           oldPlane = true;
+        //         }
+        //       }
 
-              if (hit && !lastDragPosition) {
-                lastDragPosition = new THREE.Vector3();
-                lastDragPosition.copy(hit);
-              }
+        //       if (hit && !lastDragPosition) {
+        //         lastDragPosition = new THREE.Vector3();
+        //         lastDragPosition.copy(hit);
+        //       }
 
-              if (hit) {
-                  const diff = new THREE.Vector3();
-                  diff.copy(hit);
-                  diff.sub(lastDragPosition);
+        //       if (hit) {
+        //           const diff = new THREE.Vector3();
+        //           diff.copy(hit);
+        //           diff.sub(lastDragPosition);
 
-                  if (oldPlane) {
-                    diff.y = 0;
-                  }
+        //           if (oldPlane) {
+        //             diff.y = 0;
+        //           }
 
-                  goalPosition.add(diff);
-                  lastDragPosition.copy(hit);
+        //           goalPosition.add(diff);
+        //           lastDragPosition.copy(hit);
 
-                  mesh_note.position.copy(goalPosition);
-                  hitPlane.position.copy(goalPosition);
-              }
-            }
-          } catch (error) {
-            console.log("Error updating note position:" + error);
-          }
-        }
+        //           mesh_note.position.copy(goalPosition);
+        //           hitPlane.position.copy(goalPosition);
+        //       }
+        //     }
+        //   } catch (error) {
+        //     console.log("Error updating note position:" + error);
+        //   }
+        // }
       }
     } else {
       if (rodando_ar === true) {

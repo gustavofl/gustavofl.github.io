@@ -787,7 +787,12 @@ window.addEventListener('load', async () => {
       } else if (mesh_note.visible && transientHitTestSource) {
         const fingers = frame.getHitTestResultsForTransientInput(transientHitTestSource);
 
-        document.getElementById("message-div").textContent = String(fingers.length);
+        if (fingers.length > 0 && fingers[0].results.length > 0) {
+          document.getElementById("message-div").textContent = String(fingers.length);
+        } else {
+          document.getElementById("message-div").textContent = '0';
+        }
+
 
         // if (isTwoFingering) {
         //   if (fingers.length < 2) {

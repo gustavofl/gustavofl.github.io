@@ -569,7 +569,7 @@ window.addEventListener('load', async () => {
       lastDragPosition = null;
       controle_log = false;
 
-      document.getElementById("message-div").textContent = 0;
+      document.getElementById("message-div").textContent = '0';
     });
 
     scene.add(controller);
@@ -787,7 +787,7 @@ window.addEventListener('load', async () => {
       } else if (mesh_note.visible && transientHitTestSource) {
         const fingers = frame.getHitTestResultsForTransientInput(transientHitTestSource);
 
-        document.getElementById("message-div").textContent = fingers.length;
+        document.getElementById("message-div").textContent = String(fingers.length);
 
         // if (isTwoFingering) {
         //   if (fingers.length < 2) {

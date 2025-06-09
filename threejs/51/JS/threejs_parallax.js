@@ -640,7 +640,8 @@ window.addEventListener('load', async () => {
     const dy = pose2.transform.position.y - pose1.transform.position.y;
     const dz = pose2.transform.position.z - pose1.transform.position.z;
   
-    return Math.sqrt(dx * dx + dy * dy + dz * dz);
+    return Math.sqrt(dx * dx + dy * dy + dz * dz) / 10;
+    // return Math.sqrt(dx * dx + dy * dy);
   }
 
   function fingerPolar(fingers) {
@@ -720,7 +721,7 @@ window.addEventListener('load', async () => {
             isTwoFingering = true;
             // const { separation } = fingerPolar(fingers);
             const separation = getFingerSeparationXR(frame, fingers, referenceSpace);
-            if (separation) setScale(separation);
+            // if (separation) setScale(separation);
             firstRatio = separation / mesh_note.scale.x;
         }
         else {
@@ -807,9 +808,14 @@ window.addEventListener('load', async () => {
           }
           else {
             // const {separation} = fingerPolar(fingers);
+            // setScale(separation);
             const separation = getFingerSeparationXR(frame, fingers, referenceSpace);
             if (separation) setScale(separation);
-            setScale(separation);
+            // try {
+            //   if (separation) setScale(separation);
+            // } catch (error) {
+            //   log("Error setting scale: " + error);
+            // }
           }
         }
         else if (fingers.length === 2) {
@@ -818,7 +824,7 @@ window.addEventListener('load', async () => {
           isTwoFingering = true;
           // const { separation } = fingerPolar(fingers);
           const separation = getFingerSeparationXR(frame, fingers, referenceSpace);
-          if (separation) setScale(separation);
+          // if (separation) setScale(separation);
           firstRatio = separation / mesh_note.scale.x;
         }
         else if (isRotating) {

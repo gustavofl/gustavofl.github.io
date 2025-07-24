@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>&lt;model-viewer&gt; template</title>
+  <meta charset="utf-8">
+  <meta name="description" content="&lt;model-viewer&gt; template">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link type="text/css" href="./CSS/styles.css" rel="stylesheet" />
+</head>
+
+<body>
+  <!-- <model-viewer> HTML element -->
+  <model-viewer src="./3D/example.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls shadow-intensity="1">
+    <div class="progress-bar hide" slot="progress-bar">
+      <div class="update-bar"></div>
+    </div>
+    <button slot="ar-button" id="ar-button">
+      Ver no seu espaço
+    </button>
+    <div id="ar-prompt">
+      <img src="./images/ar_hand_prompt.png">
+    </div>
+    <div id="ar-open-close-button">
+      <button onclick="toggleAnimation()">Abrir/Fechar</button>
+    </div>
+  </model-viewer>
+
+  <script type="module" src="./JS/script.js"></script>
+  <!-- Loads <model-viewer> for browsers: -->
+  <script type="module" src="./JS/model-viewer.min.js"></script>
+
+</body>
+
+</html>
